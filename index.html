@@ -64,6 +64,160 @@
             background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
         }
 
+        /* ── PROFILE GLOBE SECTION ── */
+        .profile-globe-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 260px;
+            height: 260px;
+            margin-bottom: 10px;
+        }
+
+        /* Faint globe watermark behind everything */
+        .globe-watermark {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            opacity: 0.18;
+            pointer-events: none;
+            animation: globeSpin 30s linear infinite;
+        }
+
+        @keyframes globeSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Orbit ring */
+        .orbit-ring {
+            position: absolute;
+            inset: 10px;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(255,255,255,0.35);
+            pointer-events: none;
+        }
+
+        /* Circular profile photo — centred, on top */
+        .profile-pic {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center top;
+            border: 4px solid rgba(255,255,255,0.92);
+            box-shadow: 0 0 0 5px rgba(255,255,255,0.22), 0 10px 32px rgba(0,0,0,0.35);
+            z-index: 10;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 0 7px rgba(255,255,255,0.35), 0 14px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Spinning gradient ring around photo */
+        .spin-ring {
+            position: absolute;
+            width: 144px;
+            height: 144px;
+            border-radius: 50%;
+            background: conic-gradient(var(--gold), var(--accent), var(--primary-lt), var(--gold));
+            animation: spinRing 5s linear infinite;
+            z-index: 9;
+        }
+
+        @keyframes spinRing {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Flag pins orbiting the globe */
+        .flag-pin {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            z-index: 20;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+            transition: transform 0.25s ease;
+            cursor: default;
+        }
+
+        .flag-pin:hover { transform: scale(1.18) translateY(-3px); }
+
+        .flag-img {
+            width: 32px;
+            height: 20px;
+            border-radius: 3px;
+            object-fit: cover;
+            border: 1.5px solid rgba(255,255,255,0.8);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .flag-pole {
+            width: 2px;
+            height: 14px;
+            background: rgba(255,255,255,0.75);
+            border-radius: 1px;
+        }
+
+        .flag-label {
+            font-size: 0.58em;
+            font-weight: 700;
+            color: rgba(255,255,255,0.9);
+            letter-spacing: 0.04em;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+            white-space: nowrap;
+        }
+
+        /* Geographic positions on the 260×260 circle:
+           Finland  ~ top-right  (NE Europe)
+           USA      ~ left       (North America)
+           Philippines ~ bottom-right (SE Asia) */
+        .flag-finland     { top: 14px;   right: 28px;  }
+        .flag-usa         { top: 60px;   left: 6px;    }
+        .flag-philippines { bottom: 22px; right: 20px; }
+
+        /* Profile description below globe */
+        .profile-info {
+            margin-bottom: 6px;
+        }
+
+        .profile-name {
+            font-size: 2em;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .profile-tagline {
+            font-size: 1.05em;
+            opacity: 0.88;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .profile-badges {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
+
+        .pbadge {
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.78em;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            backdrop-filter: blur(4px);
+        }
+
         .header h1 {
             font-size: 2.4em;
             font-weight: 800;
@@ -590,8 +744,114 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>💰 Decimal Mastery Game Center 💰</h1>
-            <p>Practice Decimals Through Real-World Money Problems!</p>
+
+            <!-- Globe + Profile Photo -->
+            <div class="profile-globe-wrap">
+
+                <!-- Faint globe SVG watermark -->
+                <svg class="globe-watermark" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="98" fill="none" stroke="white" stroke-width="1.2"/>
+                    <!-- latitude lines -->
+                    <ellipse cx="100" cy="100" rx="98" ry="28" fill="none" stroke="white" stroke-width="0.8"/>
+                    <ellipse cx="100" cy="100" rx="98" ry="60" fill="none" stroke="white" stroke-width="0.8"/>
+                    <line x1="2" y1="100" x2="198" y2="100" stroke="white" stroke-width="0.8"/>
+                    <!-- longitude lines -->
+                    <ellipse cx="100" cy="100" rx="30" ry="98" fill="none" stroke="white" stroke-width="0.8"/>
+                    <ellipse cx="100" cy="100" rx="65" ry="98" fill="none" stroke="white" stroke-width="0.8"/>
+                    <line x1="100" y1="2" x2="100" y2="198" stroke="white" stroke-width="0.8"/>
+                    <!-- simple continents (rough shapes) -->
+                    <!-- North America -->
+                    <path d="M30,55 Q38,45 50,48 Q58,55 55,70 Q48,85 38,80 Q28,70 30,55Z" fill="white" opacity="0.6"/>
+                    <!-- South America -->
+                    <path d="M50,90 Q60,85 65,95 Q68,112 60,125 Q50,130 45,118 Q40,105 50,90Z" fill="white" opacity="0.6"/>
+                    <!-- Europe -->
+                    <path d="M90,45 Q100,38 110,42 Q115,50 108,58 Q98,62 90,55 Q86,50 90,45Z" fill="white" opacity="0.6"/>
+                    <!-- Africa -->
+                    <path d="M95,65 Q108,60 114,72 Q118,90 112,108 Q104,118 96,110 Q88,95 90,78 Q92,68 95,65Z" fill="white" opacity="0.6"/>
+                    <!-- Asia -->
+                    <path d="M112,38 Q135,32 155,40 Q165,52 160,65 Q148,72 130,68 Q115,60 112,50 Q110,44 112,38Z" fill="white" opacity="0.6"/>
+                    <!-- SE Asia / Philippines area -->
+                    <path d="M152,70 Q158,68 162,74 Q160,82 154,80 Q150,76 152,70Z" fill="white" opacity="0.6"/>
+                    <!-- Australia -->
+                    <path d="M148,108 Q162,104 168,114 Q166,126 156,128 Q146,126 142,116 Q142,108 148,108Z" fill="white" opacity="0.6"/>
+                </svg>
+
+                <!-- Orbit ring decoration -->
+                <div class="orbit-ring"></div>
+
+                <!-- Spinning colour ring behind photo -->
+                <div class="spin-ring"></div>
+
+                <!-- Profile photo -->
+                <img src="My pictures02.jpg" alt="Profile Photo" class="profile-pic">
+
+                <!-- Finland flag pin — top-right (NE Europe) -->
+                <div class="flag-pin flag-finland">
+                    <svg class="flag-img" viewBox="0 0 18 11" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="18" height="11" fill="#FFFFFF"/>
+                        <rect y="4" width="18" height="3" fill="#003580"/>
+                        <rect x="4" width="3" height="11" fill="#003580"/>
+                    </svg>
+                    <div class="flag-pole"></div>
+                    <span class="flag-label">🇫🇮 Finland</span>
+                </div>
+
+                <!-- USA flag pin — left (North America) -->
+                <div class="flag-pin flag-usa">
+                    <svg class="flag-img" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="19" height="10" fill="#B22234"/>
+                        <rect y="1.4" width="19" height="1.1" fill="white"/>
+                        <rect y="2.8" width="19" height="1.1" fill="#B22234"/>
+                        <rect y="4.2" width="19" height="1.1" fill="white"/>
+                        <rect y="5.6" width="19" height="1.1" fill="#B22234"/>
+                        <rect y="7.0" width="19" height="1.1" fill="white"/>
+                        <rect y="8.4" width="19" height="1.1" fill="#B22234"/>
+                        <rect width="7.6" height="5.4" fill="#3C3B6E"/>
+                        <circle cx="1.3" cy="1" r="0.5" fill="white"/>
+                        <circle cx="3.0" cy="1" r="0.5" fill="white"/>
+                        <circle cx="4.7" cy="1" r="0.5" fill="white"/>
+                        <circle cx="6.4" cy="1" r="0.5" fill="white"/>
+                        <circle cx="2.1" cy="2.3" r="0.5" fill="white"/>
+                        <circle cx="3.8" cy="2.3" r="0.5" fill="white"/>
+                        <circle cx="5.5" cy="2.3" r="0.5" fill="white"/>
+                        <circle cx="1.3" cy="3.6" r="0.5" fill="white"/>
+                        <circle cx="3.0" cy="3.6" r="0.5" fill="white"/>
+                        <circle cx="4.7" cy="3.6" r="0.5" fill="white"/>
+                        <circle cx="6.4" cy="3.6" r="0.5" fill="white"/>
+                        <circle cx="2.1" cy="4.9" r="0.5" fill="white"/>
+                        <circle cx="3.8" cy="4.9" r="0.5" fill="white"/>
+                        <circle cx="5.5" cy="4.9" r="0.5" fill="white"/>
+                    </svg>
+                    <div class="flag-pole"></div>
+                    <span class="flag-label">🇺🇸 USA</span>
+                </div>
+
+                <!-- Philippines flag pin — bottom-right (SE Asia) -->
+                <div class="flag-pin flag-philippines">
+                    <svg class="flag-img" viewBox="0 0 20 10" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="20" height="10" fill="#0038A8"/>
+                        <rect y="5" width="20" height="5" fill="#CE1126"/>
+                        <polygon points="0,0 8.7,5 0,10" fill="white"/>
+                        <circle cx="3.2" cy="5" r="1.2" fill="#FCD116"/>
+                        <polygon points="3.2,2.5 3.55,3.5 4.6,3.5 3.75,4.1 4.05,5.1 3.2,4.5 2.35,5.1 2.65,4.1 1.8,3.5 2.85,3.5" fill="#FCD116" transform="scale(0.55) translate(2.6,-0.5)"/>
+                    </svg>
+                    <div class="flag-pole"></div>
+                    <span class="flag-label">🇵🇭 Philippines</span>
+                </div>
+
+            </div><!-- /.profile-globe-wrap -->
+
+            <!-- Description -->
+            <div class="profile-info">
+                <div class="profile-name">💰 Decimal Mastery Game Center 💰</div>
+                <div class="profile-tagline">Practice Decimals Through Real-World Money Problems!</div>
+                <div class="profile-badges">
+                    <span class="pbadge">🌍 Global Educator</span>
+                    <span class="pbadge">🎮 Game-Based Learning</span>
+                    <span class="pbadge">📐 Math Specialist</span>
+                </div>
+            </div>
+
         </div>
 
         <div class="progress-dashboard">
