@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decimal Mastery Game Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary:    #274894;
+            --primary-lt: #3B65C8;
+            --accent:     #0EA5A0;
+            --accent-lt:  #14B8B3;
+            --gold:       #F59E0B;
+            --gold-lt:    #FDE68A;
+            --success:    #16A34A;
+            --success-bg: #DCFCE7;
+            --error:      #DC2626;
+            --error-bg:   #FEE2E2;
+            --bg:         #EEF2F9;
+            --surface:    #FFFFFF;
+            --surface-2:  #F4F7FC;
+            --border:     #D1DCF0;
+            --text:       #1E2A3B;
+            --text-muted: #5A6A82;
+            --mono:       'JetBrains Mono', 'Courier New', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 24px 16px;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(44,74,143,0.13);
+            overflow: hidden;
+        }
+
+        /* ── HEADER ── */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-lt) 100%);
+            color: white;
+            padding: 36px 30px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+        }
+
+        .header h1 {
+            font-size: 2.4em;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.88;
+            font-weight: 600;
+        }
+
+        /* ── DASHBOARD ── */
+        .progress-dashboard {
+            background: var(--surface-2);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 14px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .stat-card {
+            background: var(--surface);
+            padding: 18px 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(44,74,143,0.08);
+            border-top: 4px solid var(--accent);
+        }
+
+        .stat-card h3 {
+            color: var(--text-muted);
+            font-size: 0.78em;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .stat-card .value {
+            font-size: 2.2em;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* ── TABS ── */
+        .tabs {
+            display: flex;
+            background: var(--surface-2);
+            overflow-x: auto;
+            border-bottom: 2px solid var(--border);
+            gap: 2px;
+            padding: 0 8px;
+        }
+
+        .tab {
+            padding: 16px 22px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95em;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: color 0.2s, border-color 0.2s;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab:hover { color: var(--primary); }
+
+        .tab.active {
+            background: var(--surface);
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        /* ── CONTENT ── */
+        .tab-content {
+            display: none;
+            padding: 28px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── GAME CARD ── */
+        .game-card {
+            background: var(--surface-2);
+            border-radius: 14px;
+            padding: 26px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary-lt);
+        }
+
+        .game-title {
+            font-size: 1.6em;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .game-description {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 1.05em;
+            line-height: 1.65;
+        }
+
+        /* ── BUTTONS ── */
+        .btn {
+            padding: 13px 26px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-lt) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(44,74,143,0.35);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--gold);
+            color: #1E2A3B;
+        }
+
+        .btn-danger {
+            background: var(--error);
+            color: white;
+        }
+
+        /* ── QUESTION BOX ── */
+        .question-box {
+            background: var(--surface);
+            padding: 28px;
+            border-radius: 14px;
+            margin: 18px 0;
+            box-shadow: 0 3px 12px rgba(44,74,143,0.09);
+            border: 1px solid var(--border);
+        }
+
+        .question-text {
+            font-size: 1.4em;
+            color: var(--text);
+            margin-bottom: 18px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        /* ── INPUTS ── */
+        .answer-input {
+            width: 100%;
+            padding: 14px;
+            font-size: 1.25em;
+            border: 2.5px solid var(--border);
+            border-radius: 9px;
+            margin: 10px 0;
+            font-family: var(--mono);
+            text-align: center;
+            background: var(--surface-2);
+            color: var(--text);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: var(--primary-lt);
+            box-shadow: 0 0 0 3px rgba(59,101,200,0.15);
+            background: var(--surface);
+        }
+
+        /* ── FEEDBACK ── */
+        .feedback {
+            padding: 18px 20px;
+            border-radius: 10px;
+            margin-top: 18px;
+            font-size: 1.1em;
+            font-weight: 700;
+            text-align: center;
+            animation: slideIn 0.25s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback.correct {
+            background: var(--success-bg);
+            color: #14532D;
+            border: 2px solid #4ADE80;
+        }
+
+        .feedback.incorrect {
+            background: var(--error-bg);
+            color: #7F1D1D;
+            border: 2px solid #FCA5A5;
+        }
+
+        /* ── MONEY ── */
+        .money-display {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 18px 0;
+        }
+
+        .money-item {
+            background: var(--surface);
+            padding: 18px;
+            border-radius: 12px;
+            border: 2.5px solid var(--gold);
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 3px 10px rgba(245,158,11,0.12);
+        }
+
+        .money-item .label {
+            font-size: 1em;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .money-item .value {
+            font-size: 1.9em;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: var(--mono);
+        }
+
+        .money-item .description {
+            font-size: 0.88em;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        /* ── DRAG & DROP ── */
+        .draggable-area {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 14px;
+            margin: 18px 0;
+            padding: 18px;
+            background: var(--surface-2);
+            border-radius: 12px;
+            min-height: 140px;
+        }
+
+        .draggable-item {
+            background: var(--gold);
+            padding: 14px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: grab;
+            font-weight: 700;
+            color: var(--text);
+            transition: transform 0.2s, box-shadow 0.2s;
+            user-select: none;
+        }
+
+        .draggable-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px rgba(245,158,11,0.35);
+        }
+
+        .draggable-item:active { cursor: grabbing; }
+
+        .drop-zone {
+            border: 3px dashed var(--primary-lt);
+            border-radius: 12px;
+            padding: 28px;
+            min-height: 180px;
+            background: var(--surface);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.1em;
+            transition: all 0.25s;
+        }
+
+        .drop-zone.drag-over {
+            background: #E0F2FE;
+            border-color: var(--accent);
+        }
+
+        /* ── SHOPPING CART ── */
+        .shopping-cart {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 18px;
+            margin: 18px 0;
+            box-shadow: 0 3px 12px rgba(44,74,143,0.09);
+            border: 1px solid var(--border);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item:last-child { border-bottom: none; }
+
+        .cart-item .name {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .cart-item .price {
+            font-size: 1.2em;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: var(--mono);
+        }
+
+        .cart-total {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 3px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-total .label {
+            font-size: 1.4em;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .cart-total .amount {
+            font-size: 1.9em;
+            font-weight: 800;
+            color: var(--accent);
+            font-family: var(--mono);
+        }
+
+        /* ── BADGES ── */
+        .level-badge {
+            display: inline-block;
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.78em;
+            letter-spacing: 0.04em;
+            margin-left: 8px;
+        }
+
+        .level-beginner     { background: #DCFCE7; color: #14532D; }
+        .level-intermediate { background: #FEF3C7; color: #78350F; }
+        .level-advanced     { background: #E0E7FF; color: #1E1B4B; }
+
+        /* ── HINTS ── */
+        .hint-box {
+            background: #FFFBEB;
+            border-left: 4px solid var(--gold);
+            padding: 14px 16px;
+            margin: 14px 0;
+            border-radius: 8px;
+            font-size: 0.97em;
+            line-height: 1.6;
+        }
+
+        .hint-box strong { color: var(--primary); }
+
+        /* ── WORK SPACE ── */
+        .work-space {
+            background: var(--surface-2);
+            padding: 18px;
+            border-radius: 10px;
+            margin: 18px 0;
+            min-height: 140px;
+            border: 2px dashed var(--border);
+        }
+
+        .work-space-title {
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 0.92em;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .problem-steps {
+            background: var(--surface);
+            padding: 18px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border: 1px solid var(--border);
+        }
+
+        .step {
+            padding: 10px 12px;
+            margin: 8px 0;
+            border-left: 3px solid var(--accent);
+            background: var(--surface-2);
+            border-radius: 0 6px 6px 0;
+            font-size: 0.97em;
+            line-height: 1.55;
+        }
+
+        /* ── CELEBRATION ── */
+        .celebration {
+            text-align: center;
+            padding: 36px;
+            font-size: 2.8em;
+            animation: bounce 0.5s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
+        }
+
+        /* ── PROGRESS BAR ── */
+        .progress-bar {
+            background: var(--border);
+            height: 26px;
+            border-radius: 13px;
+            overflow: hidden;
+            margin: 18px 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.88em;
+        }
+
+        /* ── OPTION CARDS ── */
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin: 18px 0;
+        }
+
+        .option-card {
+            background: var(--surface);
+            padding: 18px;
+            border-radius: 12px;
+            border: 2.5px solid var(--border);
+            cursor: pointer;
+            transition: border-color 0.2s, transform 0.15s, box-shadow 0.15s;
+            text-align: center;
+            font-size: 1.05em;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        .option-card:hover {
+            border-color: var(--primary-lt);
+            transform: scale(1.02);
+            box-shadow: 0 4px 14px rgba(44,74,143,0.14);
+        }
+
+        .option-card.selected {
+            border-color: var(--accent);
+            background: #E0F7F7;
+            color: #0C4A4A;
+        }
+
+        /* ── TIMER ── */
+        .timer {
+            display: inline-block;
+            padding: 8px 18px;
+            background: var(--surface-2);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1.25em;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: var(--mono);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.7em; }
+            .tabs { flex-direction: column; }
+            .grid-options { grid-template-columns: 1fr; }
+            .tab-content { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 Decimal Mastery Game Center 💰</h1>
+            <p>Practice Decimals Through Real-World Money Problems!</p>
+        </div>
+
+        <div class="progress-dashboard">
+            <div class="stat-card">
+                <h3>Total Points</h3>
+                <div class="value" id="totalPoints">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Problems Solved</h3>
+                <div class="value" id="problemsSolved">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Current Streak</h3>
+                <div class="value" id="streak">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Mastery Level</h3>
+                <div class="value" id="masteryLevel">Beginner</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(0)">🎯 Place Value Match</button>
+            <button class="tab" onclick="switchTab(1)">💵 Money Builder</button>
+            <button class="tab" onclick="switchTab(2)">➕ Addition Practice</button>
+            <button class="tab" onclick="switchTab(3)">➖ Subtraction Practice</button>
+            <button class="tab" onclick="switchTab(4)">🛒 Shopping Spree</button>
+            <button class="tab" onclick="switchTab(5)">🏆 Challenge Mode</button>
+            <button class="tab" onclick="switchTab(6)">📝 Assessment</button>
+        </div>
+
+        <!-- TAB 1: PLACE VALUE MATCH -->
+        <div class="tab-content active">
+            <div class="game-card">
+                <div class="game-title">
+                    🎯 Place Value Matching Game
+                    <span class="level-badge level-beginner">Beginner</span>
+                </div>
+                <div class="game-description">
+                    Match each decimal number to its correct place value description. Build your foundation!
+                </div>
+                
+                <div id="placeValueGame">
+                    <div class="question-box">
+                        <div class="question-text" id="pvQuestion">Loading...</div>
+                        <div class="grid-options" id="pvOptions"></div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-primary" onclick="checkPlaceValue()">Check Answer</button>
+                        <button class="btn btn-warning" onclick="newPlaceValueQuestion()">New Question</button>
+                    </div>
+                    
+                    <div id="pvFeedback"></div>
+                </div>
+
+                <div class="hint-box">
+                    <strong>💡 Hint:</strong> Remember: The decimal point separates whole numbers from parts. 
+                    Ones = Dollars, Tenths = Dimes, Hundredths = Pennies!
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: MONEY BUILDER -->
+        <div class="tab-content">
+            <div class="game-card">
+                <div class="game-title">
+                    💵 Money Builder Challenge
+                    <span class="level-badge level-beginner">Beginner</span>
+                </div>
+                <div class="game-description">
+                    Show the decimal amount using dollars, dimes, and pennies. Build it correctly!
+                </div>
+                
+                <div id="moneyBuilderGame">
+                    <div class="question-box">
+                        <div class="question-text" id="mbQuestion">Loading...</div>
+                        
+                        <div class="money-display">
+                            <div class="money-item">
+                                <div class="label">Dollar Bills ($1.00)</div>
+                                <input type="number" id="dollars" class="answer-input" min="0" max="20" value="0" 
+                                       onchange="updateMoneyTotal()">
+                            </div>
+                            <div class="money-item">
+                                <div class="label">Dimes ($0.10)</div>
+                                <input type="number" id="dimes" class="answer-input" min="0" max="10" value="0"
+                                       onchange="updateMoneyTotal()">
+                            </div>
+                            <div class="money-item">
+                                <div class="label">Pennies ($0.01)</div>
+                                <input type="number" id="pennies" class="answer-input" min="0" max="10" value="0"
+                                       onchange="updateMoneyTotal()">
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 1.3em; color: var(--text-muted); margin-bottom: 10px;">Your Total:</div>
+                            <div style="font-size: 2.5em; font-weight: bold; color: var(--primary); font-family: var(--mono);">
+                                $<span id="moneyTotal">0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-primary" onclick="checkMoneyBuilder()">Check Answer</button>
+                        <button class="btn btn-warning" onclick="newMoneyBuilderQuestion()">New Challenge</button>
+                    </div>
+                    
+                    <div id="mbFeedback"></div>
+                </div>
+
+                <div class="hint-box">
+                    <strong>💡 Strategy:</strong> Start with the whole dollars first, then add dimes for tenths, 
+                    then pennies for hundredths. Example: $2.35 = 2 dollars + 3 dimes + 5 pennies
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: ADDITION PRACTICE -->
+        <div class="tab-content">
+            <div class="game-card">
+                <div class="game-title">
+                    ➕ Decimal Addition Mastery
+                    <span class="level-badge level-intermediate">Intermediate</span>
+                </div>
+                <div class="game-description">
+                    Add decimals with regrouping. Remember to line up those decimal points!
+                </div>
+                
+                <div id="additionGame">
+                    <div class="question-box">
+                        <div class="question-text" id="addQuestion">Loading...</div>
+                        
+                        <div class="work-space">
+                            <div class="work-space-title">Show Your Work:</div>
+                            <div class="problem-steps" id="addWorkSpace">
+                                <div style="font-family: var(--mono); font-size: 1.5em; text-align: center; color: #2D3748;">
+                                    <div id="addNum1" style="margin-bottom: 5px;"></div>
+                                    <div id="addNum2" style="border-bottom: 3px solid var(--primary); padding-bottom: 10px;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 1.2em; color: var(--text-muted); margin-bottom: 10px;">Your Answer:</div>
+                            <input type="text" id="addAnswer" class="answer-input" 
+                                   placeholder="Type your answer (e.g., 12.34)" 
+                                   style="max-width: 300px; margin: 0 auto;">
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-primary" onclick="checkAddition()">Check Answer</button>
+                        <button class="btn btn-warning" onclick="newAdditionProblem()">New Problem</button>
+                        <button class="btn btn-success" onclick="showAdditionSteps()">Show Steps</button>
+                    </div>
+                    
+                    <div id="addFeedback"></div>
+                    <div id="addSteps"></div>
+                </div>
+
+                <div class="hint-box">
+                    <strong>💡 Remember:</strong> Line up the decimal points vertically! Add from right to left. 
+                    When you get 10 or more in a place, carry 1 to the next place.
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: SUBTRACTION PRACTICE -->
+        <div class="tab-content">
+            <div class="game-card">
+                <div class="game-title">
+                    ➖ Decimal Subtraction Mastery
+                    <span class="level-badge level-intermediate">Intermediate</span>
+                </div>
+                <div class="game-description">
+                    Subtract decimals with regrouping. Check if you need to borrow!
+                </div>
+                
+                <div id="subtractionGame">
+                    <div class="question-box">
+                        <div class="question-text" id="subQuestion">Loading...</div>
+                        
+                        <div class="work-space">
+                            <div class="work-space-title">Show Your Work:</div>
+                            <div class="problem-steps" id="subWorkSpace">
+                                <div style="font-family: var(--mono); font-size: 1.5em; text-align: center; color: #2D3748;">
+                                    <div id="subNum1" style="margin-bottom: 5px;"></div>
+                                    <div id="subNum2" style="border-bottom: 3px solid var(--primary); padding-bottom: 10px;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 1.2em; color: var(--text-muted); margin-bottom: 10px;">Your Answer:</div>
+                            <input type="text" id="subAnswer" class="answer-input" 
+                                   placeholder="Type your answer (e.g., 4.75)" 
+                                   style="max-width: 300px; margin: 0 auto;">
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-primary" onclick="checkSubtraction()">Check Answer</button>
+                        <button class="btn btn-warning" onclick="newSubtractionProblem()">New Problem</button>
+                        <button class="btn btn-success" onclick="showSubtractionSteps()">Show Steps</button>
+                    </div>
+                    
+                    <div id="subFeedback"></div>
+                    <div id="subSteps"></div>
+                </div>
+
+                <div class="hint-box">
+                    <strong>💡 Remember:</strong> Start from the right (hundredths). Can you subtract? 
+                    If not, borrow from the next place! 1 tenth = 10 hundredths, 1 one = 10 tenths.
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: SHOPPING SPREE -->
+        <div class="tab-content">
+            <div class="game-card">
+                <div class="game-title">
+                    🛒 Shopping Spree Challenge
+                    <span class="level-badge level-advanced">Advanced</span>
+                </div>
+                <div class="game-description">
+                    Solve real-world shopping problems! Add up totals and calculate change.
+                </div>
+                
+                <div id="shoppingGame">
+                    <div class="question-box">
+                        <div class="question-text" id="shopQuestion">Loading...</div>
+                        
+                        <div class="shopping-cart" id="shoppingCart">
+                            <!-- Cart items will be populated here -->
+                        </div>
+
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 1.2em; color: var(--text-muted); margin-bottom: 10px;" id="shopPrompt">
+                                Calculate the answer:
+                            </div>
+                            <input type="text" id="shopAnswer" class="answer-input" 
+                                   placeholder="Type your answer (e.g., 15.50)" 
+                                   style="max-width: 300px; margin: 0 auto;">
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-primary" onclick="checkShopping()">Check Answer</button>
+                        <button class="btn btn-warning" onclick="newShoppingProblem()">New Scenario</button>
+                    </div>
+                    
+                    <div id="shopFeedback"></div>
+                </div>
+
+                <div class="hint-box">
+                    <strong>💡 Real-World Tip:</strong> For totals, add all prices. For change problems, subtract what you spent from what you paid. 
+                    Always check: Does your answer make sense?
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: CHALLENGE MODE -->
+        <div class="tab-content">
+            <div class="game-card">
+                <div class="game-title">
+                    🏆 Ultimate Challenge Mode
+                    <span class="level-badge level-advanced">Advanced</span>
+                </div>
+                <div class="game-description">
+                    Multi-step problems that require addition AND subtraction. Test your mastery!
+                </div>
+                
+                <div id="challengeGame">
+                    <div class="question-box">
+                        <div class="question-text" id="challengeQuestion">Loading...</div>
+                        
+                        <div class="work-space">
+                            <div class="work-space-title">Plan Your Strategy:</div>
+                            <div class="problem-steps">
+                                <div class="step">
+                                    <strong>Step 1:</strong> <span id="challengeStep1">Read carefully and identify what operation(s) you need</span>
+                                </div>
+                                <div class="step">
+                                    <strong>Step 2:</strong> <span id="challengeStep2">Set up your problem(s)</span>
+                                </div>
+                                <div class="step">
+                                    <strong>Step 3:</strong> <span id="challengeStep3">Solve step by step</span>
+                                </div>
+                                <div class="step">
+                                    <strong>Step 4:</strong> <span id="challengeStep4">Check your answer - does it make sense?</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 1.2em; color: var(--text-muted); margin-bottom: 10px;">Final Answer:</div>
+                            <input type="text" id="challengeAnswer" class="answer-input" 
+                                   placeholder="Type your answer (e.g., 23.65)" 
+                                   style="max-width: 300px; margin: 0 auto;">
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-primary" onclick="checkChallenge()">Check Answer</button>
+                        <button class="btn btn-warning" onclick="newChallengeProblem()">New Challenge</button>
+                        <button class="btn btn-success" onclick="showChallengeSolution()">Show Solution</button>
+                    </div>
+                    
+                    <div id="challengeFeedback"></div>
+                    <div id="challengeSolution"></div>
+                </div>
+
+                <div class="hint-box">
+                    <strong>💡 Master Strategy:</strong> Break complex problems into smaller steps. 
+                    Solve one operation at a time. Write down each step. Your work is your roadmap!
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 7: ASSESSMENT -->
+        <div class="tab-content">
+            <div class="game-card">
+                <div class="game-title">
+                    📝 Decimal Formative Assessment
+                    <span class="level-badge level-intermediate">Mixed Levels</span>
+                </div>
+                <div class="game-description">
+                    10-question timed quiz covering place value, addition, subtraction, and money.
+                    Complete all questions to see your performance report!
+                </div>
+
+                <!-- Start Screen -->
+                <div id="assessStartScreen">
+                    <div class="question-box" style="text-align:center;">
+                        <div style="font-size:3em; margin-bottom:20px;">📋</div>
+                        <h2 style="color:#C0392B; margin-bottom:15px;">Ready to be assessed?</h2>
+                        <ul style="text-align:left; max-width:400px; margin:0 auto 25px; color:#4A5568; line-height:2;">
+                            <li>10 questions across all topics</li>
+                            <li>⏱️ 90 seconds per question</li>
+                            <li>Immediate feedback after each answer</li>
+                            <li>Full performance report at the end</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="startAssessment()">Start Assessment</button>
+                    </div>
+                </div>
+
+                <!-- Quiz Screen -->
+                <div id="assessQuizScreen" style="display:none;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+                        <div>
+                            <span style="font-weight:600; color:#4A5568;">Question </span>
+                            <span id="assessQNum" style="font-size:1.3em; font-weight:bold; color:#C0392B;">1</span>
+                            <span style="color:#4A5568;"> / 10</span>
+                        </div>
+                        <div class="timer" id="assessTimer">1:30</div>
+                        <div style="font-weight:600; color:#4A5568;">Score: <span id="assessScore" style="color:#C0392B;">0</span> / <span id="assessMaxScore">0</span></div>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="assessProgress" style="width:0%"></div>
+                    </div>
+
+                    <div class="question-box" style="margin-top:20px;">
+                        <div style="font-size:0.85em; font-weight:600; text-transform:uppercase; color:#718096; margin-bottom:8px;" id="assessTopic">Topic</div>
+                        <div class="question-text" id="assessQuestion">Loading...</div>
+                        <div id="assessMCOptions" style="display:none;">
+                            <div class="grid-options" id="assessOptionsGrid"></div>
+                        </div>
+                        <div id="assessInputArea" style="display:none; text-align:center; margin-top:15px;">
+                            <input type="text" id="assessInput" class="answer-input"
+                                   placeholder="Type your answer"
+                                   style="max-width:280px; margin:0 auto;"
+                                   onkeydown="if(event.key==='Enter') submitAssessAnswer()">
+                        </div>
+                    </div>
+
+                    <div style="text-align:center; margin-top:20px;">
+                        <button class="btn btn-primary" id="assessSubmitBtn" onclick="submitAssessAnswer()">Submit Answer</button>
+                    </div>
+
+                    <div id="assessFeedback" style="margin-top:15px;"></div>
+                </div>
+
+                <!-- Results Screen -->
+                <div id="assessResultsScreen" style="display:none;">
+                    <div class="question-box" style="text-align:center;">
+                        <div style="font-size:3em; margin-bottom:15px;" id="assessEmoji">🎉</div>
+                        <h2 style="color:#C0392B; margin-bottom:10px;" id="assessResultTitle">Assessment Complete!</h2>
+                        <div style="font-size:3em; font-weight:bold; color:#C0392B; margin:20px 0;" id="assessFinalScore"></div>
+                        <div style="font-size:1.1em; color:#4A5568; margin-bottom:25px;" id="assessGrade"></div>
+
+                        <!-- Per-topic breakdown -->
+                        <div id="assessBreakdown" style="text-align:left; max-width:500px; margin:0 auto 25px;"></div>
+
+                        <!-- Question review -->
+                        <details style="text-align:left; max-width:600px; margin:0 auto 25px;">
+                            <summary style="cursor:pointer; font-weight:600; color:#C0392B; padding:10px;">Review All Questions</summary>
+                            <div id="assessReview" style="margin-top:10px;"></div>
+                        </details>
+
+                        <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
+                            <button class="btn btn-primary" onclick="startAssessment()">Retake Assessment</button>
+                            <button class="btn btn-warning" onclick="showAssessStart()">Back to Start</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hint-box" id="assessHintBox">
+                    <strong>💡 Tip:</strong> Read each question carefully. For decimal operations, always line up the decimal point before calculating.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Game State
+        let gameState = {
+            totalPoints: 0,
+            problemsSolved: 0,
+            streak: 0,
+            masteryLevel: 'Beginner',
+            currentTab: 0,
+            placeValue: {
+                currentQuestion: null,
+                selectedAnswer: null
+            },
+            moneyBuilder: {
+                target: 0,
+                currentTotal: 0
+            },
+            addition: {
+                num1: 0,
+                num2: 0,
+                answer: 0
+            },
+            subtraction: {
+                num1: 0,
+                num2: 0,
+                answer: 0
+            },
+            shopping: {
+                items: [],
+                total: 0,
+                paid: 0,
+                questionType: 'total'
+            },
+            challenge: {
+                problemType: '',
+                answer: 0,
+                steps: []
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            newPlaceValueQuestion();
+            newMoneyBuilderQuestion();
+            newAdditionProblem();
+            newSubtractionProblem();
+            newShoppingProblem();
+            newChallengeProblem();
+        });
+
+        // Tab Switching
+        function switchTab(index) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            
+            contents.forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+            
+            gameState.currentTab = index;
+        }
+
+        // Progress Management
+        function updateProgress() {
+            document.getElementById('totalPoints').textContent = gameState.totalPoints;
+            document.getElementById('problemsSolved').textContent = gameState.problemsSolved;
+            document.getElementById('streak').textContent = gameState.streak;
+            document.getElementById('masteryLevel').textContent = gameState.masteryLevel;
+            
+            // Update mastery level based on points
+            if (gameState.totalPoints >= 500) {
+                gameState.masteryLevel = 'Expert';
+            } else if (gameState.totalPoints >= 250) {
+                gameState.masteryLevel = 'Advanced';
+            } else if (gameState.totalPoints >= 100) {
+                gameState.masteryLevel = 'Intermediate';
+            }
+            
+            saveProgress();
+        }
+
+        function addPoints(points) {
+            gameState.totalPoints += points;
+            gameState.problemsSolved++;
+            gameState.streak++;
+            updateProgress();
+        }
+
+        function resetStreak() {
+            gameState.streak = 0;
+            updateProgress();
+        }
+
+        function saveProgress() {
+            localStorage.setItem('decimalMasteryProgress', JSON.stringify(gameState));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('decimalMasteryProgress');
+            if (saved) {
+                const savedState = JSON.parse(saved);
+                gameState.totalPoints = savedState.totalPoints || 0;
+                gameState.problemsSolved = savedState.problemsSolved || 0;
+                gameState.streak = savedState.streak || 0;
+                gameState.masteryLevel = savedState.masteryLevel || 'Beginner';
+                updateProgress();
+            }
+        }
+
+        // PLACE VALUE GAME
+        function newPlaceValueQuestion() {
+            const decimals = [
+                { number: '3.4', description: '3 ones and 4 tenths' },
+                { number: '2.75', description: '2 ones, 7 tenths, 5 hundredths' },
+                { number: '5.06', description: '5 ones, 0 tenths, 6 hundredths' },
+                { number: '1.92', description: '1 one, 9 tenths, 2 hundredths' },
+                { number: '4.3', description: '4 ones and 3 tenths' },
+                { number: '6.08', description: '6 ones, 0 tenths, 8 hundredths' },
+                { number: '7.25', description: '7 ones, 2 tenths, 5 hundredths' },
+                { number: '0.85', description: '0 ones, 8 tenths, 5 hundredths' }
+            ];
+            
+            const question = decimals[Math.floor(Math.random() * decimals.length)];
+            gameState.placeValue.currentQuestion = question;
+            
+            // Generate wrong answers
+            const wrongAnswers = decimals.filter(d => d.number !== question.number)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3);
+            
+            const allAnswers = [question, ...wrongAnswers].sort(() => Math.random() - 0.5);
+            
+            document.getElementById('pvQuestion').textContent = `What is the place value breakdown of ${question.number}?`;
+            
+            const optionsHTML = allAnswers.map((ans, i) => 
+                `<div class="option-card" onclick="selectPlaceValue(${i})" id="pvOption${i}">
+                    ${ans.description}
+                </div>`
+            ).join('');
+            
+            document.getElementById('pvOptions').innerHTML = optionsHTML;
+            document.getElementById('pvFeedback').innerHTML = '';
+            gameState.placeValue.selectedAnswer = null;
+        }
+
+        function selectPlaceValue(index) {
+            document.querySelectorAll('.option-card').forEach((card, i) => {
+                card.classList.toggle('selected', i === index);
+            });
+            gameState.placeValue.selectedAnswer = index;
+        }
+
+        function checkPlaceValue() {
+            if (gameState.placeValue.selectedAnswer === null) {
+                document.getElementById('pvFeedback').innerHTML = 
+                    '<div class="feedback incorrect">Please select an answer first!</div>';
+                return;
+            }
+            
+            const selectedCard = document.getElementById(`pvOption${gameState.placeValue.selectedAnswer}`);
+            const selectedText = selectedCard.textContent.trim();
+            const correctText = gameState.placeValue.currentQuestion.description;
+            
+            if (selectedText === correctText) {
+                document.getElementById('pvFeedback').innerHTML = 
+                    '<div class="feedback correct">🎉 Correct! Great job understanding place values! +10 points</div>';
+                addPoints(10);
+                setTimeout(newPlaceValueQuestion, 2000);
+            } else {
+                document.getElementById('pvFeedback').innerHTML = 
+                    `<div class="feedback incorrect">Not quite. The correct answer is: ${correctText}. Try the next one!</div>`;
+                resetStreak();
+            }
+        }
+
+        // MONEY BUILDER GAME
+        function newMoneyBuilderQuestion() {
+            const dollars = Math.floor(Math.random() * 10) + 1;
+            const dimes = Math.floor(Math.random() * 10);
+            const pennies = Math.floor(Math.random() * 10);
+            
+            const target = dollars + (dimes * 0.1) + (pennies * 0.01);
+            gameState.moneyBuilder.target = Number(target.toFixed(2));
+            
+            document.getElementById('mbQuestion').textContent = 
+                `Build this amount using money: $${gameState.moneyBuilder.target.toFixed(2)}`;
+            
+            document.getElementById('dollars').value = 0;
+            document.getElementById('dimes').value = 0;
+            document.getElementById('pennies').value = 0;
+            updateMoneyTotal();
+            document.getElementById('mbFeedback').innerHTML = '';
+        }
+
+        function updateMoneyTotal() {
+            const dollars = Number(document.getElementById('dollars').value) || 0;
+            const dimes = Number(document.getElementById('dimes').value) || 0;
+            const pennies = Number(document.getElementById('pennies').value) || 0;
+            
+            const total = dollars + (dimes * 0.1) + (pennies * 0.01);
+            gameState.moneyBuilder.currentTotal = Number(total.toFixed(2));
+            document.getElementById('moneyTotal').textContent = total.toFixed(2);
+        }
+
+        function checkMoneyBuilder() {
+            if (gameState.moneyBuilder.currentTotal === gameState.moneyBuilder.target) {
+                document.getElementById('mbFeedback').innerHTML = 
+                    '<div class="feedback correct">💰 Perfect! You built the exact amount! +15 points</div>';
+                addPoints(15);
+                setTimeout(newMoneyBuilderQuestion, 2000);
+            } else {
+                document.getElementById('mbFeedback').innerHTML = 
+                    `<div class="feedback incorrect">Not quite. You have $${gameState.moneyBuilder.currentTotal.toFixed(2)}, but need $${gameState.moneyBuilder.target.toFixed(2)}. Try adjusting!</div>`;
+                resetStreak();
+            }
+        }
+
+        // ADDITION GAME
+        function newAdditionProblem() {
+            const num1 = (Math.random() * 20 + 1).toFixed(2);
+            const num2 = (Math.random() * 15 + 1).toFixed(2);
+            
+            gameState.addition.num1 = Number(num1);
+            gameState.addition.num2 = Number(num2);
+            gameState.addition.answer = Number((gameState.addition.num1 + gameState.addition.num2).toFixed(2));
+            
+            document.getElementById('addQuestion').textContent = 
+                `Add: $${num1} + $${num2}`;
+            
+            document.getElementById('addNum1').textContent = `  ${num1}`;
+            document.getElementById('addNum2').textContent = `+ ${num2}`;
+            
+            document.getElementById('addAnswer').value = '';
+            document.getElementById('addFeedback').innerHTML = '';
+            document.getElementById('addSteps').innerHTML = '';
+        }
+
+        function checkAddition() {
+            const userAnswer = Number(document.getElementById('addAnswer').value);
+            
+            if (isNaN(userAnswer)) {
+                document.getElementById('addFeedback').innerHTML = 
+                    '<div class="feedback incorrect">Please enter a valid number!</div>';
+                return;
+            }
+            
+            if (Math.abs(userAnswer - gameState.addition.answer) < 0.01) {
+                document.getElementById('addFeedback').innerHTML = 
+                    '<div class="feedback correct">✅ Excellent! Your answer is correct! +20 points</div>';
+                addPoints(20);
+                setTimeout(newAdditionProblem, 2000);
+            } else {
+                document.getElementById('addFeedback').innerHTML = 
+                    `<div class="feedback incorrect">Not quite. The correct answer is $${gameState.addition.answer.toFixed(2)}. Review the steps and try another!</div>`;
+                resetStreak();
+            }
+        }
+
+        function showAdditionSteps() {
+            const num1 = gameState.addition.num1;
+            const num2 = gameState.addition.num2;
+            const answer = gameState.addition.answer;
+            
+            const steps = `
+                <div class="problem-steps" style="margin-top: 20px;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">Solution Steps:</h3>
+                    <div class="step"><strong>Step 1:</strong> Line up the decimal points</div>
+                    <div class="step"><strong>Step 2:</strong> Add hundredths: ${(num1 % 0.1).toFixed(2).slice(-1)} + ${(num2 % 0.1).toFixed(2).slice(-1)}</div>
+                    <div class="step"><strong>Step 3:</strong> Add tenths (and any carried over)</div>
+                    <div class="step"><strong>Step 4:</strong> Add ones (and any carried over)</div>
+                    <div class="step"><strong>Final Answer:</strong> $${answer.toFixed(2)}</div>
+                </div>
+            `;
+            
+            document.getElementById('addSteps').innerHTML = steps;
+        }
+
+        // SUBTRACTION GAME
+        function newSubtractionProblem() {
+            const num1 = (Math.random() * 20 + 10).toFixed(2);
+            const num2 = (Math.random() * 10 + 1).toFixed(2);
+            
+            gameState.subtraction.num1 = Number(num1);
+            gameState.subtraction.num2 = Number(num2);
+            gameState.subtraction.answer = Number((gameState.subtraction.num1 - gameState.subtraction.num2).toFixed(2));
+            
+            document.getElementById('subQuestion').textContent = 
+                `Subtract: $${num1} - $${num2}`;
+            
+            document.getElementById('subNum1').textContent = `  ${num1}`;
+            document.getElementById('subNum2').textContent = `- ${num2}`;
+            
+            document.getElementById('subAnswer').value = '';
+            document.getElementById('subFeedback').innerHTML = '';
+            document.getElementById('subSteps').innerHTML = '';
+        }
+
+        function checkSubtraction() {
+            const userAnswer = Number(document.getElementById('subAnswer').value);
+            
+            if (isNaN(userAnswer)) {
+                document.getElementById('subFeedback').innerHTML = 
+                    '<div class="feedback incorrect">Please enter a valid number!</div>';
+                return;
+            }
+            
+            if (Math.abs(userAnswer - gameState.subtraction.answer) < 0.01) {
+                document.getElementById('subFeedback').innerHTML = 
+                    '<div class="feedback correct">✅ Perfect! You subtracted correctly! +20 points</div>';
+                addPoints(20);
+                setTimeout(newSubtractionProblem, 2000);
+            } else {
+                document.getElementById('subFeedback').innerHTML = 
+                    `<div class="feedback incorrect">Not quite. The correct answer is $${gameState.subtraction.answer.toFixed(2)}. Check if you needed to regroup!</div>`;
+                resetStreak();
+            }
+        }
+
+        function showSubtractionSteps() {
+            const num1 = gameState.subtraction.num1;
+            const num2 = gameState.subtraction.num2;
+            const answer = gameState.subtraction.answer;
+            
+            const steps = `
+                <div class="problem-steps" style="margin-top: 20px;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">Solution Steps:</h3>
+                    <div class="step"><strong>Step 1:</strong> Line up the decimal points</div>
+                    <div class="step"><strong>Step 2:</strong> Check hundredths - can you subtract? If not, borrow from tenths</div>
+                    <div class="step"><strong>Step 3:</strong> Subtract hundredths</div>
+                    <div class="step"><strong>Step 4:</strong> Check tenths - can you subtract? If not, borrow from ones</div>
+                    <div class="step"><strong>Step 5:</strong> Subtract tenths and ones</div>
+                    <div class="step"><strong>Final Answer:</strong> $${answer.toFixed(2)}</div>
+                </div>
+            `;
+            
+            document.getElementById('subSteps').innerHTML = steps;
+        }
+
+        // SHOPPING GAME
+        function newShoppingProblem() {
+            const items = [
+                { name: 'Book', price: 12.99 },
+                { name: 'Pen Set', price: 4.50 },
+                { name: 'Notebook', price: 3.25 },
+                { name: 'Backpack', price: 24.75 },
+                { name: 'Lunch Box', price: 8.99 },
+                { name: 'Water Bottle', price: 6.50 },
+                { name: 'Calculator', price: 15.99 },
+                { name: 'Markers', price: 5.75 },
+                { name: 'Eraser Pack', price: 2.25 },
+                { name: 'Ruler', price: 1.50 }
+            ];
+            
+            // Select 2-4 random items
+            const numItems = Math.floor(Math.random() * 3) + 2;
+            const selectedItems = [];
+            const availableItems = [...items];
+            
+            for (let i = 0; i < numItems; i++) {
+                const index = Math.floor(Math.random() * availableItems.length);
+                selectedItems.push(availableItems[index]);
+                availableItems.splice(index, 1);
+            }
+            
+            const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
+            
+            // Randomly choose between total or change problem
+            const questionType = Math.random() > 0.5 ? 'total' : 'change';
+            
+            gameState.shopping.items = selectedItems;
+            gameState.shopping.total = Number(total.toFixed(2));
+            gameState.shopping.questionType = questionType;
+            
+            // Build cart HTML
+            let cartHTML = '';
+            selectedItems.forEach(item => {
+                cartHTML += `
+                    <div class="cart-item">
+                        <div class="name">${item.name}</div>
+                        <div class="price">$${item.price.toFixed(2)}</div>
+                    </div>
+                `;
+            });
+            
+            if (questionType === 'total') {
+                cartHTML += `
+                    <div class="cart-total">
+                        <div class="label">Total:</div>
+                        <div class="amount">???</div>
+                    </div>
+                `;
+                document.getElementById('shopQuestion').textContent = 'Calculate the total cost of all items:';
+                document.getElementById('shopPrompt').textContent = 'What is the total?';
+                gameState.shopping.answer = total;
+            } else {
+                const paid = Math.ceil(total / 5) * 5 + (Math.random() > 0.5 ? 5 : 10);
+                gameState.shopping.paid = paid;
+                const change = paid - total;
+                
+                cartHTML += `
+                    <div class="cart-total">
+                        <div class="label">Total:</div>
+                        <div class="amount">$${total.toFixed(2)}</div>
+                    </div>
+                `;
+                document.getElementById('shopQuestion').textContent = `You bought these items and paid with $${paid.toFixed(2)}. How much change do you get?`;
+                document.getElementById('shopPrompt').textContent = 'What is your change?';
+                gameState.shopping.answer = Number(change.toFixed(2));
+            }
+            
+            document.getElementById('shoppingCart').innerHTML = cartHTML;
+            document.getElementById('shopAnswer').value = '';
+            document.getElementById('shopFeedback').innerHTML = '';
+        }
+
+        function checkShopping() {
+            const userAnswer = Number(document.getElementById('shopAnswer').value);
+            
+            if (isNaN(userAnswer)) {
+                document.getElementById('shopFeedback').innerHTML = 
+                    '<div class="feedback incorrect">Please enter a valid number!</div>';
+                return;
+            }
+            
+            if (Math.abs(userAnswer - gameState.shopping.answer) < 0.01) {
+                document.getElementById('shopFeedback').innerHTML = 
+                    '<div class="feedback correct">🛒 Fantastic! You solved the shopping problem! +30 points</div>';
+                addPoints(30);
+                setTimeout(newShoppingProblem, 2000);
+            } else {
+                document.getElementById('shopFeedback').innerHTML = 
+                    `<div class="feedback incorrect">Not quite. The correct answer is $${gameState.shopping.answer.toFixed(2)}. ${gameState.shopping.questionType === 'total' ? 'Add all the prices' : 'Subtract the total from what you paid'}.</div>`;
+                resetStreak();
+            }
+        }
+
+        // CHALLENGE GAME
+        function newChallengeProblem() {
+            const scenarios = [
+                {
+                    text: 'Maya had $50.00. She bought a book for $12.75, a pen for $3.50, and lunch for $8.25. How much money does she have left?',
+                    answer: 25.50,
+                    steps: ['Add all expenses: $12.75 + $3.50 + $8.25 = $24.50', 'Subtract from starting amount: $50.00 - $24.50 = $25.50']
+                },
+                {
+                    text: 'Carlos earned $35.50 babysitting and $22.75 mowing lawns. He spent $15.99 on a game. How much money does he have now?',
+                    answer: 42.26,
+                    steps: ['Add earnings: $35.50 + $22.75 = $58.25', 'Subtract expense: $58.25 - $15.99 = $42.26']
+                },
+                {
+                    text: 'Sarah bought 3 notebooks for $2.25 each and 2 pens for $1.50 each. She paid with $20.00. How much change did she get?',
+                    answer: 10.25,
+                    steps: ['Calculate notebooks: 3 × $2.25 = $6.75', 'Calculate pens: 2 × $1.50 = $3.00', 'Add total: $6.75 + $3.00 = $9.75', 'Calculate change: $20.00 - $9.75 = $10.25']
+                },
+                {
+                    text: 'Jake had $28.50. He earned $15.75 for helping his neighbor. Then he bought supplies for $12.35 and a snack for $4.50. How much does he have left?',
+                    answer: 27.40,
+                    steps: ['Add earnings: $28.50 + $15.75 = $44.25', 'Add expenses: $12.35 + $4.50 = $16.85', 'Subtract: $44.25 - $16.85 = $27.40']
+                }
+            ];
+            
+            const problem = scenarios[Math.floor(Math.random() * scenarios.length)];
+            
+            gameState.challenge.answer = problem.answer;
+            gameState.challenge.steps = problem.steps;
+            
+            document.getElementById('challengeQuestion').textContent = problem.text;
+            document.getElementById('challengeAnswer').value = '';
+            document.getElementById('challengeFeedback').innerHTML = '';
+            document.getElementById('challengeSolution').innerHTML = '';
+        }
+
+        function checkChallenge() {
+            const userAnswer = Number(document.getElementById('challengeAnswer').value);
+            
+            if (isNaN(userAnswer)) {
+                document.getElementById('challengeFeedback').innerHTML = 
+                    '<div class="feedback incorrect">Please enter a valid number!</div>';
+                return;
+            }
+            
+            if (Math.abs(userAnswer - gameState.challenge.answer) < 0.01) {
+                document.getElementById('challengeFeedback').innerHTML = 
+                    '<div class="feedback correct">🏆 AMAZING! You mastered the challenge! +50 points</div>';
+                addPoints(50);
+                setTimeout(() => {
+                    document.getElementById('challengeFeedback').innerHTML = '<div class="celebration">🎉🎊🏆</div>';
+                }, 1000);
+                setTimeout(newChallengeProblem, 3000);
+            } else {
+                document.getElementById('challengeFeedback').innerHTML = 
+                    `<div class="feedback incorrect">Not quite. The correct answer is $${gameState.challenge.answer.toFixed(2)}. Click "Show Solution" to see the steps!</div>`;
+                resetStreak();
+            }
+        }
+
+        function showChallengeSolution() {
+            let stepsHTML = '<div class="problem-steps" style="margin-top: 20px;"><h3 style="color: var(--primary); margin-bottom: 15px;">Solution:</h3>';
+
+            gameState.challenge.steps.forEach((step, index) => {
+                stepsHTML += `<div class="step"><strong>Step ${index + 1}:</strong> ${step}</div>`;
+            });
+
+            stepsHTML += `<div class="step" style="background: #C6F6D5; border-left-color: var(--success);"><strong>Final Answer:</strong> $${gameState.challenge.answer.toFixed(2)}</div></div>`;
+
+            document.getElementById('challengeSolution').innerHTML = stepsHTML;
+        }
+
+        // ─── ASSESSMENT ───────────────────────────────────────────────────────
+
+        const ASSESS_QUESTION_BANK = [
+            // Place Value (MC)
+            {
+                topic: 'Place Value',
+                type: 'mc',
+                points: 10,
+                question: 'What is the value of the digit 7 in the number 3.75?',
+                options: ['7 ones', '7 tenths', '7 hundredths', '7 thousandths'],
+                answer: '7 tenths',
+                explanation: 'The first digit after the decimal point is in the tenths place, so 7 is worth 7 tenths (0.7).'
+            },
+            {
+                topic: 'Place Value',
+                type: 'mc',
+                points: 10,
+                question: 'Which decimal shows "4 ones, 0 tenths, and 3 hundredths"?',
+                options: ['4.30', '4.03', '0.43', '40.3'],
+                answer: '4.03',
+                explanation: '4 ones = 4, 0 tenths = .0, 3 hundredths = .03 → 4.03'
+            },
+            {
+                topic: 'Place Value',
+                type: 'mc',
+                points: 10,
+                question: 'In $12.56, which digit is in the hundredths place?',
+                options: ['1', '2', '5', '6'],
+                answer: '6',
+                explanation: 'Hundredths is the second place after the decimal point. In 12.56, that is 6.'
+            },
+            // Addition (fill-in)
+            {
+                topic: 'Addition',
+                type: 'input',
+                points: 15,
+                question: 'Calculate: $8.45 + $3.27 = $?',
+                answer: '11.72',
+                explanation: '8.45 + 3.27: hundredths 5+7=12 (write 2, carry 1), tenths 4+2+1=7, ones 8+3=11 → $11.72'
+            },
+            {
+                topic: 'Addition',
+                type: 'input',
+                points: 15,
+                question: 'Calculate: $14.60 + $7.85 = $?',
+                answer: '22.45',
+                explanation: '14.60 + 7.85: hundredths 0+5=5, tenths 6+8=14 (write 4, carry 1), ones 14+7+1=22 → $22.45'
+            },
+            // Subtraction (fill-in)
+            {
+                topic: 'Subtraction',
+                type: 'input',
+                points: 15,
+                question: 'Calculate: $15.00 − $6.38 = $?',
+                answer: '8.62',
+                explanation: '15.00 − 6.38: borrow as needed → $8.62'
+            },
+            {
+                topic: 'Subtraction',
+                type: 'input',
+                points: 15,
+                question: 'Calculate: $23.75 − $9.40 = $?',
+                answer: '14.35',
+                explanation: '23.75 − 9.40: hundredths 5−0=5, tenths 7−4=3, ones 23−9=14 → $14.35'
+            },
+            // Money (MC)
+            {
+                topic: 'Money',
+                type: 'mc',
+                points: 10,
+                question: 'You buy a sandwich for $4.75 and a drink for $1.50. What is the total?',
+                options: ['$5.25', '$6.25', '$6.50', '$5.75'],
+                answer: '$6.25',
+                explanation: '$4.75 + $1.50 = $6.25'
+            },
+            {
+                topic: 'Money',
+                type: 'mc',
+                points: 10,
+                question: 'You pay $20.00 for items totalling $13.65. What is your change?',
+                options: ['$6.35', '$7.35', '$6.45', '$7.45'],
+                answer: '$6.35',
+                explanation: '$20.00 − $13.65 = $6.35'
+            },
+            // Multi-step (fill-in)
+            {
+                topic: 'Multi-step',
+                type: 'input',
+                points: 20,
+                question: 'Emma had $30.00. She bought a book for $8.95 and a pen for $2.50. How much money does she have left? (Enter numbers only, e.g. 18.55)',
+                answer: '18.55',
+                explanation: 'Total spent: $8.95 + $2.50 = $11.45. Change: $30.00 − $11.45 = $18.55'
+            }
+        ];
+
+        let assess = {
+            questions: [],
+            current: 0,
+            responses: [],
+            score: 0,
+            maxScore: 0,
+            timerInterval: null,
+            secondsLeft: 90,
+            selectedMC: null
+        };
+
+        function startAssessment() {
+            // Shuffle and pick 10
+            assess.questions = [...ASSESS_QUESTION_BANK].sort(() => Math.random() - 0.5);
+            assess.current = 0;
+            assess.responses = [];
+            assess.score = 0;
+            assess.maxScore = assess.questions.reduce((s, q) => s + q.points, 0);
+
+            document.getElementById('assessStartScreen').style.display = 'none';
+            document.getElementById('assessResultsScreen').style.display = 'none';
+            document.getElementById('assessQuizScreen').style.display = 'block';
+            document.getElementById('assessHintBox').style.display = 'none';
+
+            loadAssessQuestion();
+        }
+
+        function loadAssessQuestion() {
+            clearInterval(assess.timerInterval);
+            assess.selectedMC = null;
+
+            const q = assess.questions[assess.current];
+            const qNum = assess.current + 1;
+
+            document.getElementById('assessQNum').textContent = qNum;
+            document.getElementById('assessScore').textContent = assess.score;
+            document.getElementById('assessMaxScore').textContent = assess.maxScore;
+            document.getElementById('assessTopic').textContent = q.topic;
+            document.getElementById('assessQuestion').textContent = q.question;
+            document.getElementById('assessFeedback').innerHTML = '';
+            document.getElementById('assessProgress').style.width = ((assess.current / 10) * 100) + '%';
+            document.getElementById('assessSubmitBtn').disabled = false;
+            document.getElementById('assessSubmitBtn').textContent = 'Submit Answer';
+
+            if (q.type === 'mc') {
+                document.getElementById('assessMCOptions').style.display = 'block';
+                document.getElementById('assessInputArea').style.display = 'none';
+                const grid = document.getElementById('assessOptionsGrid');
+                grid.innerHTML = q.options.map((opt, i) =>
+                    `<div class="option-card" id="aOpt${i}" onclick="selectAssessMC(${i}, '${opt.replace(/'/g, "\\'")}')">${opt}</div>`
+                ).join('');
+            } else {
+                document.getElementById('assessMCOptions').style.display = 'none';
+                document.getElementById('assessInputArea').style.display = 'block';
+                const input = document.getElementById('assessInput');
+                input.value = '';
+                setTimeout(() => input.focus(), 100);
+            }
+
+            // Timer
+            assess.secondsLeft = 90;
+            updateAssessTimer();
+            assess.timerInterval = setInterval(() => {
+                assess.secondsLeft--;
+                updateAssessTimer();
+                if (assess.secondsLeft <= 0) {
+                    clearInterval(assess.timerInterval);
+                    autoSubmitAssess();
+                }
+            }, 1000);
+        }
+
+        function updateAssessTimer() {
+            const m = Math.floor(assess.secondsLeft / 60);
+            const s = assess.secondsLeft % 60;
+            const el = document.getElementById('assessTimer');
+            el.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+            el.style.color = assess.secondsLeft <= 15 ? 'var(--error)' : 'var(--primary)';
+        }
+
+        function selectAssessMC(i, val) {
+            document.querySelectorAll('#assessOptionsGrid .option-card').forEach((c, idx) => {
+                c.classList.toggle('selected', idx === i);
+            });
+            assess.selectedMC = val;
+        }
+
+        function autoSubmitAssess() {
+            const q = assess.questions[assess.current];
+            const userAnswer = q.type === 'mc' ? (assess.selectedMC || '') : document.getElementById('assessInput').value.trim();
+            recordAssessResponse(q, userAnswer, true);
+        }
+
+        function submitAssessAnswer() {
+            clearInterval(assess.timerInterval);
+            const q = assess.questions[assess.current];
+            let userAnswer;
+            if (q.type === 'mc') {
+                if (!assess.selectedMC) {
+                    document.getElementById('assessFeedback').innerHTML =
+                        '<div class="feedback incorrect">Please select an answer first!</div>';
+                    assess.timerInterval = setInterval(() => {
+                        assess.secondsLeft--;
+                        updateAssessTimer();
+                        if (assess.secondsLeft <= 0) { clearInterval(assess.timerInterval); autoSubmitAssess(); }
+                    }, 1000);
+                    return;
+                }
+                userAnswer = assess.selectedMC;
+            } else {
+                userAnswer = document.getElementById('assessInput').value.trim();
+                if (!userAnswer) {
+                    document.getElementById('assessFeedback').innerHTML =
+                        '<div class="feedback incorrect">Please enter an answer!</div>';
+                    assess.timerInterval = setInterval(() => {
+                        assess.secondsLeft--;
+                        updateAssessTimer();
+                        if (assess.secondsLeft <= 0) { clearInterval(assess.timerInterval); autoSubmitAssess(); }
+                    }, 1000);
+                    return;
+                }
+            }
+            recordAssessResponse(q, userAnswer, false);
+        }
+
+        function recordAssessResponse(q, userAnswer, timedOut) {
+            let correct = false;
+            if (!timedOut) {
+                if (q.type === 'mc') {
+                    correct = userAnswer === q.answer;
+                } else {
+                    correct = Math.abs(parseFloat(userAnswer) - parseFloat(q.answer)) < 0.005;
+                }
+            }
+
+            if (correct) assess.score += q.points;
+
+            assess.responses.push({ q, userAnswer, correct, timedOut });
+
+            document.getElementById('assessSubmitBtn').disabled = true;
+            document.getElementById('assessScore').textContent = assess.score;
+
+            const fb = document.getElementById('assessFeedback');
+            if (timedOut) {
+                fb.innerHTML = `<div class="feedback incorrect">⏰ Time's up! The answer was: <strong>${q.answer}</strong>. ${q.explanation}</div>`;
+            } else if (correct) {
+                fb.innerHTML = `<div class="feedback correct">✅ Correct! +${q.points} points. ${q.explanation}</div>`;
+            } else {
+                fb.innerHTML = `<div class="feedback incorrect">❌ Not quite. The answer is <strong>${q.answer}</strong>. ${q.explanation}</div>`;
+            }
+
+            document.getElementById('assessSubmitBtn').textContent = assess.current < 9 ? 'Next Question →' : 'See Results';
+            document.getElementById('assessSubmitBtn').disabled = false;
+            document.getElementById('assessSubmitBtn').onclick = advanceAssessment;
+        }
+
+        function advanceAssessment() {
+            assess.current++;
+            if (assess.current >= assess.questions.length) {
+                showAssessResults();
+            } else {
+                document.getElementById('assessSubmitBtn').onclick = submitAssessAnswer;
+                loadAssessQuestion();
+            }
+        }
+
+        function showAssessResults() {
+            clearInterval(assess.timerInterval);
+            document.getElementById('assessQuizScreen').style.display = 'none';
+            document.getElementById('assessResultsScreen').style.display = 'block';
+            document.getElementById('assessHintBox').style.display = 'block';
+
+            const pct = Math.round((assess.score / assess.maxScore) * 100);
+            document.getElementById('assessFinalScore').textContent = `${assess.score} / ${assess.maxScore} pts (${pct}%)`;
+
+            let grade, emoji;
+            if (pct >= 90)      { grade = 'Outstanding! You have mastered decimals!';    emoji = '🏆'; }
+            else if (pct >= 75) { grade = 'Proficient! Strong understanding with minor gaps.'; emoji = '🌟'; }
+            else if (pct >= 60) { grade = 'Developing. Review the topics you missed.';   emoji = '📚'; }
+            else                { grade = 'Needs practice. Revisit the games before retrying.'; emoji = '💪'; }
+
+            document.getElementById('assessGrade').textContent = grade;
+            document.getElementById('assessEmoji').textContent = emoji;
+            document.getElementById('assessResultTitle').textContent =
+                pct >= 75 ? 'Great Work!' : pct >= 60 ? 'Keep Going!' : 'Keep Practicing!';
+
+            // Per-topic breakdown
+            const topics = {};
+            assess.responses.forEach(r => {
+                if (!topics[r.q.topic]) topics[r.q.topic] = { earned: 0, total: 0, count: 0, correct: 0 };
+                topics[r.q.topic].total += r.q.points;
+                topics[r.q.topic].count++;
+                if (r.correct) { topics[r.q.topic].earned += r.q.points; topics[r.q.topic].correct++; }
+            });
+
+            let breakdownHTML = '<h3 style="color:#C0392B; margin-bottom:12px;">Performance by Topic</h3>';
+            for (const [topic, data] of Object.entries(topics)) {
+                const tPct = Math.round((data.earned / data.total) * 100);
+                const barColor = tPct >= 75 ? '#16A34A' : tPct >= 50 ? '#F59E0B' : '#DC2626';
+                breakdownHTML += `
+                    <div style="margin-bottom:12px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                            <span style="font-weight:600;">${topic}</span>
+                            <span style="color:#4A5568;">${data.correct}/${data.count} correct (${tPct}%)</span>
+                        </div>
+                        <div style="background:#E2E8F0; height:12px; border-radius:6px; overflow:hidden;">
+                            <div style="background:${barColor}; width:${tPct}%; height:100%; border-radius:6px; transition:width 0.6s;"></div>
+                        </div>
+                    </div>`;
+            }
+            document.getElementById('assessBreakdown').innerHTML = breakdownHTML;
+
+            // Review
+            let reviewHTML = '';
+            assess.responses.forEach((r, i) => {
+                const icon = r.correct ? '✅' : r.timedOut ? '⏰' : '❌';
+                reviewHTML += `
+                    <div style="background:${r.correct ? '#F0FFF4' : '#FFF5F5'}; border:1px solid ${r.correct ? '#48BB78' : '#FC8181'}; border-radius:8px; padding:12px; margin-bottom:10px;">
+                        <div style="font-weight:600; margin-bottom:4px;">${icon} Q${i + 1} (${r.q.topic}) — ${r.q.points} pts</div>
+                        <div style="color:#4A5568; margin-bottom:4px;">${r.q.question}</div>
+                        <div>Your answer: <strong>${r.timedOut ? '(no answer)' : r.userAnswer}</strong></div>
+                        ${!r.correct ? `<div style="color:#C0392B;">Correct: <strong>${r.q.answer}</strong></div>` : ''}
+                        <div style="color:#718096; font-size:0.9em; margin-top:4px;">${r.q.explanation}</div>
+                    </div>`;
+            });
+            document.getElementById('assessReview').innerHTML = reviewHTML;
+
+            // Award points to main scoreboard
+            addPoints(assess.score);
+        }
+
+        function showAssessStart() {
+            clearInterval(assess.timerInterval);
+            document.getElementById('assessQuizScreen').style.display = 'none';
+            document.getElementById('assessResultsScreen').style.display = 'none';
+            document.getElementById('assessStartScreen').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
