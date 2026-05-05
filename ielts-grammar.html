@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Grammar Practice — EduSuite by Eustaquia T Calope</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);background-attachment:fixed;color:var(--txt);min-height:100vh;overflow-x:hidden}
+nav{display:flex;align-items:center;padding:10px 20px;background:rgba(255,255,255,0.82);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;border-bottom:3px solid var(--yel);gap:6px;flex-wrap:wrap}
+nav .brand{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;margin-right:auto}
+.b-e{color:var(--org)}.b-d{color:var(--grn)}.b-u{color:var(--ppl)}.b-dot{color:var(--yel)}
+nav a{color:var(--txt);text-decoration:none;font-weight:700;font-size:13px;padding:7px 14px;border-radius:12px;transition:.2s}
+nav a:hover{background:rgba(244,132,95,.12)}
+nav a.yt-link{background:red;color:#fff;padding:7px 16px}
+nav a.yt-link:hover{background:#c00}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
+.back-link:hover{text-decoration:underline}
+.hero{text-align:center;padding:1.5rem 1.5rem 1rem}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(26px,5vw,38px);font-weight:700;margin-bottom:4px}
+.hero p{color:var(--sft);font-size:14px;font-weight:600}
+.sbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:0 1.5rem .5rem}
+.stat{background:var(--wht);border-radius:14px;padding:12px 20px;text-align:center;min-width:90px;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.snum{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--grn)}
+.slbl{font-size:10px;color:var(--sft);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+#pg-topics{max-width:900px;margin:0 auto;padding:0 1.5rem 2rem}
+#pg-quiz,#pg-result{display:none;max-width:680px;margin:0 auto;padding:0 1.5rem 2rem}
+.cat{background:var(--wht);border-radius:16px;margin-bottom:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.03);border:1px solid #E0D6CC}
+.cat-hdr{padding:16px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:.15s}
+.cat-hdr:hover{background:#FFF8F0}
+.ci{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ci.p0{background:rgba(244,132,95,.15)}.ci.p1{background:rgba(67,185,122,.15)}.ci.p2{background:rgba(167,139,250,.15)}
+.cn{flex:1;font-family:'Fredoka',sans-serif;font-size:17px;font-weight:700}
+.cm{font-size:12px;color:var(--sft)}
+.ca{font-size:14px;color:var(--sft);transition:.2s}
+.cat.c-open .ca{transform:rotate(180deg)}
+.cat-body{display:none;padding:0 16px 14px}.cat.c-open .cat-body{display:block}
+.t-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.tc{background:#F5F0EB;border:1px solid #E0D6CC;border-radius:12px;padding:16px;cursor:pointer;transition:.15s;display:flex;gap:12px;align-items:center}
+.tc:hover{border-color:var(--grn);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.04);background:#F0FAF4}
+.td{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;color:#fff}
+.td.p0{background:var(--org)}.td.p1{background:var(--grn)}.td.p2{background:var(--ppl)}
+.tc.done .td{background:var(--grn)!important}
+.ti{flex:1}.tn{font-size:14px;font-weight:700;line-height:1.3}.ts{font-size:11px;color:var(--sft);margin-top:2px}
+.tx{font-size:12px;font-weight:700;color:var(--grn);margin-top:2px}
+.qhdr{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;flex-wrap:wrap;gap:8px}
+.qt{font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700}
+.qp{font-size:14px;color:var(--sft);font-weight:700}
+.qbar{height:8px;background:#E0D6CC;border-radius:4px;overflow:hidden;margin-bottom:1rem}
+.qfill{height:8px;background:var(--grn);border-radius:4px;transition:width .4s}
+.qc{background:var(--wht);border:2px solid #E0D6CC;border-radius:16px;padding:24px;margin-bottom:14px;font-size:17px;font-weight:700;line-height:1.55}
+.qc .blank{display:inline-block;min-width:80px;border-bottom:3px solid var(--grn);margin:0 4px;vertical-align:bottom;height:22px}
+.ops{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.opt{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--wht);border:2px solid #E0D6CC;border-radius:12px;cursor:pointer;font-family:inherit;font-size:15px;color:var(--txt);transition:.12s;font-weight:600;width:100%;text-align:left}
+.opt:hover:not(:disabled){border-color:var(--grn);background:#F0FAF4}
+.opt.sel{background:#F0FAF4;border-color:var(--grn)}
+.opt.gd{background:#DCFCE7;border-color:var(--grn);color:#14532D}
+.opt.bd{background:#FEE2E2;border-color:var(--pnk);color:#991B1B}
+.opt:disabled{cursor:default}
+.ol{width:32px;height:32px;border-radius:50%;background:#F5F0EB;border:2px solid #E0D6CC;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;color:var(--sft)}
+.opt.gd .ol{background:var(--grn);border-color:var(--grn);color:#fff}
+.opt.bd .ol{background:var(--pnk);border-color:var(--pnk);color:#fff}
+.fb{display:none;border-radius:12px;padding:14px;margin-bottom:14px;font-weight:600;font-size:14px}
+.fb.show{display:block}.fb.good{background:#DCFCE7;color:#14532D;border:2px solid #86EFAC}
+.fb.bad{background:#FEE2E2;color:#991B1B;border:2px solid #FCA5A5}
+.brow{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.btn-g{background:var(--grn);color:#fff}
+.btn-o{background:var(--org);color:#fff}
+.btn-w{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
+.btn-w:hover{border-color:var(--grn)}
+.rc{background:var(--wht);border-radius:16px;padding:2rem;text-align:center;border:1px solid #E0D6CC;margin-bottom:1rem}
+.re{font-size:48px;margin-bottom:10px}
+.rs{font-family:'Fredoka',sans-serif;font-size:40px;font-weight:700;margin-bottom:6px}
+.rs.ok{color:var(--grn)}.rs.mid{color:var(--org)}.rs.lo{color:var(--pnk)}
+.rp{font-size:18px;color:var(--sft);margin-bottom:8px}
+.rm{font-size:15px;color:var(--sft);margin-bottom:14px;max-width:400px;margin-left:auto;margin-right:auto}
+.rv-box{background:var(--wht);border-radius:16px;border:1px solid #E0D6CC;overflow:hidden;margin-bottom:1rem}
+.rv-hdr{padding:14px 18px;background:#F5F0EB;font-weight:700;font-size:14px;cursor:pointer}
+.rv-body{display:none;padding:8px 14px 14px}
+.rv-hdr.open+.rv-body{display:block}
+.rvi{padding:10px;border-bottom:1px solid #E0D6CC;font-size:13px;line-height:1.5}
+.rvi:last-child{border-bottom:none}
+.rvq{font-weight:700}.rvok{color:var(--grn);font-weight:700}.rvno{color:var(--pnk);font-weight:700;text-decoration:line-through}
+.rva{color:var(--grn)}
+footer{background:#2D2A32;color:rgba(255,255,255,.5);text-align:center;padding:20px 16px;font-size:13px;margin-top:2rem}
+footer .fn{color:var(--org);font-weight:700}
+footer a{color:rgba(255,255,255,.4);text-decoration:none}
+footer a:hover{color:rgba(255,255,255,.7)}
+@media(max-width:600px){nav{padding:8px 12px}nav .brand{font-size:18px}nav a{font-size:11px;padding:5px 10px}.t-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a href="index.html" class="back-link">← Back to EduSuite Home</a>
+<nav>
+  <div class="brand"><span class="b-e">Edu</span><span class="b-d">Suite</span><span class="b-dot">.</span> <span style="font-size:11px;color:var(--sft);font-weight:600;margin-left:6px">📚 Grammar</span></div>
+  <a href="index.html">Home</a> <a href="math-games.html">Math</a> <a href="https://www.youtube.com/@Eusell77" class="yt-link" target="_blank">▶ YouTube</a>
+</nav>
+<header class="hero"><h1>📚 IELTS Grammar Practice</h1><p>25 topics · 125 practice questions · Instant feedback</p></header>
+<div class="sbar"><div class="stat"><div class="snum" id="sd">0</div><div class="slbl">Done</div></div><div class="stat"><div class="snum" id="sa">—</div><div class="slbl">Accuracy</div></div></div>
+<div id="pg-topics"></div><div id="pg-quiz"></div><div id="pg-result"></div>
+<footer><p><span class="fn">Eustaquia T Calope</span> — EduSuite Grammar</p><p style="margin-top:4px"><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="https://www.youtube.com/@Eusell77" target="_blank">YouTube</a></p></footer>
+
+<script>// Generated with clean topic data — 25 topics, 125 questions
+const CATS=[{id:0,name:'Tenses & Verbs',icon:'⏱️'},{id:1,name:'Nouns & Description',icon:'📝'},{id:2,name:'Advanced Grammar',icon:'🏆'}];
+const TOPICS=[{id:0,cat:0,title:'Present Tenses',sub:'Simple vs Continuous',qs:[{q:'She _____ to work by bus every morning.',o:['is going','goes','go','going'],a:1,x:'Present simple for habits/routines.'},{q:'Right now, he _____ a report for the meeting.',o:['writes','write','is writing','has written'],a:2,x:'Present continuous for actions happening right now.'},{q:'Water _____ at 100 degrees Celsius.',o:['is boiling','boils','boil','boiled'],a:1,x:'Scientific facts use present simple.'},{q:'I _____ what you mean — it is perfectly clear.',o:['am understanding','understand','understands','am understand'],a:1,x:'Understand is a state verb — use simple form.'},{q:'These days, more people _____ from home.',o:['work','are working','worked','have worked'],a:0,x:'General trends use present simple.'}]},{id:1,cat:0,title:'Past Tenses',sub:'Simple & Continuous',qs:[{q:'She _____ TV when I arrived.',o:['watched','was watching','watches','has watched'],a:1,x:'Past continuous for action in progress when interrupted.'},{q:'They _____ the project last month.',o:['finish','were finishing','finished','have finished'],a:2,x:'Past simple — completed action at specific past time.'},{q:'While I _____ lunch, my phone rang.',o:['had','was having','have','were having'],a:1,x:'While introduces the continuous background action.'},{q:'He _____ to Paris twice when he was a student.',o:['was going','goes','went','has gone'],a:2,x:'Past simple — completed actions with past time frame.'},{q:'When the alarm _____, everyone was still sleeping.',o:['rang','was ringing','rings','ring'],a:0,x:'Sudden interrupting event = past simple.'}]},{id:2,cat:0,title:'Present Perfect',sub:'has/have + past participle',qs:[{q:'I _____ my keys — I cannot find them!',o:['lost','lose','have lost','had lost'],a:2,x:'Present relevance (keys still missing) = present perfect.'},{q:'She has worked here _____ 2015.',o:['for','since','during','from'],a:1,x:'Since introduces the starting point.'},{q:'They _____ to Australia twice in their lives.',o:['went','have been','had gone','go'],a:1,x:'Life experience with no specific time = present perfect.'},{q:'_____ you ever eaten sushi?',o:['Did','Do','Have','Had'],a:2,x:'Ever asking about life experience requires present perfect.'},{q:'He finished the report an hour _____.',o:['Present perfect','Past simple','both work','future'],a:1,x:'Ago = finished time — past simple required.'}]},{id:3,cat:0,title:'Past Perfect',sub:'had + past participle',qs:[{q:'By the time she arrived, we _____ dinner.',o:['finished','finish','had finished','have finished'],a:2,x:'Action before another past = past perfect.'},{q:'He was exhausted because he _____ all day.',o:['was working','had been working','has worked','worked'],a:1,x:'Duration before past moment = past perfect continuous.'},{q:'I _____ that film before, so I knew the ending.',o:['saw','had seen','have seen','was seeing'],a:1,x:'Experience before another past event = past perfect.'},{q:'They _____ for 20 minutes when the doctor called.',o:['waited','have been waiting','had been waiting','were waiting'],a:2,x:'Duration before past moment = past perfect continuous.'},{q:'After she _____ the letter, she felt much better.',o:['wrote','had written','was writing','has written'],a:1,x:'Writing happened before feeling better = past perfect.'}]},{id:4,cat:0,title:'Future Forms',sub:'will · going to · present',qs:[{q:'The phone is ringing — I _____ it!',o:['am going to answer','answer','will answer','am answering'],a:2,x:'Spontaneous decision = will.'},{q:'They _____ a new branch next year (agreed).',o:['will open','are opening','open','opened'],a:1,x:'Pre-arranged plan = present continuous.'},{q:'Look — he _____ fall off that ladder!',o:['will','is going to','is about to','shall'],a:1,x:'Imminent event based on visible evidence = going to.'},{q:'The conference _____ at 9 a.m. Monday (timetabled).',o:['will start','is going to start','starts','is starting'],a:2,x:'Fixed timetabled events = present simple.'},{q:'I promise I _____ you when I arrive.',o:['am going to call','call','am calling','will call'],a:3,x:'A promise uses will.'}]},{id:5,cat:0,title:'Future Perfect',sub:'will have + past participle',qs:[{q:'By next year, they _____ the new hospital.',o:['build','will build','will have built','are building'],a:2,x:'Completion by a future point = future perfect.'},{q:'In December, I _____ here for ten years.',o:['work','will work','will have been working','am working'],a:2,x:'Duration up to future point = future perfect continuous.'},{q:'By the time guests arrive, we _____ everything.',o:['prepare','prepared','will have prepared','are preparing'],a:2,x:'By the time + completion = future perfect.'},{q:'She told me she _____ the project next week.',o:['will finish','finishes','was going to finish','has finished'],a:2,x:'Future in the past = was going to.'},{q:'He _____ English for 6 years by graduation.',o:['studies','will study','will have studied','has studied'],a:2,x:'By graduation (future point) = future perfect.'}]},{id:6,cat:1,title:'Countable & Uncountable',sub:'Articles & quantifiers',qs:[{q:'She gave me _____ useful advice.',o:['an','a','some','many'],a:2,x:'Advice is uncountable — use some.'},{q:'The scientists conducted _____ research.',o:['a','many','extensive','an'],a:2,x:'Research is uncountable.'},{q:'There are _____ students in the library.',o:['much','a little','a great deal of','few'],a:3,x:'Students is countable — use few.'},{q:'He has _____ experience in management.',o:['many','a','an','little'],a:3,x:'Experience is uncountable.'},{q:'We need _____ new equipment.',o:['a','many','some','few'],a:2,x:'Equipment is uncountable — use some.'}]},{id:7,cat:1,title:'Articles',sub:'a · an · the · zero article',qs:[{q:'I bought _____ phone yesterday. _____ phone is great!',o:['a / The','the / A','a / A','the / The'],a:0,x:'First mention = a; second mention = the.'},{q:'_____ sun rises in the east.',o:['A','An','The','—'],a:2,x:'Sun is unique — always the.'},{q:'_____ pollution is a major problem.',o:['The','A','An','—'],a:3,x:'General statement about uncountable = zero article.'},{q:'She is _____ most talented musician.',o:['a','an','the','—'],a:2,x:'Superlatives always take the.'},{q:'He plays _____ guitar beautifully.',o:['a','the','an','—'],a:1,x:'Musical instruments typically use the.'}]},{id:8,cat:1,title:'Adjectives & Adverbs',sub:'Order · Gradability',qs:[{q:'The results were _____ impossible to predict.',o:['very','absolutely','quite','fairly'],a:1,x:'Impossible is non-gradable — use absolutely.'},{q:'She is a _____ Italian sports car.',o:['red beautiful small','beautiful small red','small red beautiful','red small beautiful'],a:1,x:'Opinion→Size→Colour→Origin.'},{q:'He _____ arrives late (always punctual).',o:['never','always','usually','often'],a:0,x:'Never = 0% frequency.'},{q:'The team performed _____ in the final.',o:['good','well','goodly','best'],a:1,x:'Well is the adverb form.'},{q:'The decision was _____ crucial to success.',o:['very','absolutely','utterly','fairly'],a:0,x:'Crucial is gradable — very is acceptable.'}]},{id:9,cat:1,title:'Comparisons',sub:'Comparative & Superlative',qs:[{q:'Renewable energy is _____ than fossil fuels.',o:['more cheap','cheaper','cheapest','the cheapest'],a:1,x:'Short adjective = -er.'},{q:'The Amazon is _____ river by volume.',o:['the largest','larger','most large','the most large'],a:0,x:'Superlative = the largest.'},{q:'The _____ data, the _____ conclusions.',o:['more / reliable','more / more reliable','most / most reliable','much / reliably'],a:1,x:'Double comparative: the more…the more…'},{q:'Her talk was _____ as good as his.',o:['more','not','far','much'],a:1,x:'Not as good as = less than.'},{q:'This is far _____ than the original.',o:['effective','more effective','most effective','the most effective'],a:1,x:'Far intensifies a comparative.'}]},{id:10,cat:1,title:'Noun Phrases',sub:'Pre- & post-modifiers',qs:[{q:'The proposal _____ by the board needs review.',o:['submitting','submitted','which submitting','to submit'],a:1,x:'Participial post-modifier (passive).'},{q:'This is a _____ decision.',o:['well-informing','well-informed','good informing','informed'],a:1,x:'Compound adjective pre-modifier.'},{q:'The participants _____ in the trial improved.',o:['who participating','they participate','involved','who are participate'],a:2,x:'Participial post-modifier.'},{q:'He made an announcement _____ everyone.',o:['surprising','surprised','that surprised','of surprising'],a:2,x:'Relative clause post-modifier.'},{q:'I have work _____ before the deadline.',o:['doing','done','to do','will do'],a:2,x:'To-infinitive expressing purpose.'}]},{id:11,cat:1,title:'Pronouns',sub:'Reference & cohesion',qs:[{q:'The researchers published findings. _____ showed a clear link.',o:['It','They','This','Those'],a:1,x:'They refers back to findings (plural).'},{q:'Both reports were late; the first _____ arrived Monday.',o:['one','ones','it','them'],a:0,x:'One substitutes for singular noun.'},{q:'Unemployment rose sharply. _____ increase alarmed economists.',o:['A','This','That there','An'],a:1,x:'This + summary noun = cohesive reference.'},{q:'The committee cancelled it, and we agreed to _____ so.',o:['make','do','act','have'],a:1,x:'Do so is the substitution form for verbs.'},{q:'_____ are the three causes: pollution, deforestation, overfishing.',o:['This','These','Those','It'],a:1,x:'These points forward (cataphoric).'}]},{id:12,cat:1,title:'Subject-Verb Agreement',sub:'Each · neither · everybody',qs:[{q:'The data _____ clear: the experiment worked.',o:['shows that it is','shows they are','show they are','show it is'],a:0,x:'Data is traditionally plural in formal English.'},{q:'I prefer the red dress to the blue _____.',o:['dress','one','ones','it'],a:1,x:'One substitutes for a singular countable noun.'},{q:'Each of the students _____ completed their work.',o:['have','has','are','were'],a:1,x:'Each is singular — requires has.'},{q:'Neither the teacher nor the students _____ happy.',o:['was','were','is','has'],a:1,x:'Verb agrees with nearest subject (students = were).'},{q:'Everybody _____ their own learning style.',o:['have','has','are','were'],a:1,x:'Everybody is singular — takes has.'}]},{id:13,cat:2,title:'Relative Clauses',sub:'who · which · that · whose',qs:[{q:'The scientist _____ won the Nobel gave a lecture.',o:['which','who','whom','whose'],a:1,x:'Who for people in defining clause.'},{q:'The Amazon, _____ covers Brazil, is under threat.',o:['that','who','which','where'],a:2,x:'Non-defining about a thing = which.'},{q:'The documents _____ yesterday must be signed.',o:['arriving','arrived','which arriving','that arrived'],a:3,x:'Defining clause with that.'},{q:'This is the city _____ I was born.',o:['which','that','where','when'],a:2,x:'Where refers to a place.'},{q:'The report _____ last month has been cited.',o:['published','which published','that publishing','it published'],a:0,x:'Reduced relative (passive).'}]},{id:14,cat:2,title:'Passive Voice',sub:'All tenses',qs:[{q:'The new policy _____ last week.',o:['announced','was announced','has announced','is announced'],a:1,x:'Past simple passive.'},{q:'New treatments _____ since the 1990s.',o:['develop','were developed','have been developed','are developed'],a:2,x:'Present perfect passive.'},{q:'The results _____ at the conference next month.',o:['will present','are presented','will be presented','are presenting'],a:2,x:'Future passive.'},{q:'This document _____ before the deadline.',o:['must complete','must be completed','must completed','must completing'],a:1,x:'Modal passive.'},{q:'The bridge _____ by a famous architect in 1920.',o:['was designed','designed','has been designed','is designed'],a:0,x:'Past simple passive with by-agent.'}]},{id:15,cat:2,title:'Modal Verbs',sub:'Obligation · Deduction',qs:[{q:'You _____ use your phone during the exam.',o:['must not','do not have to','should not','need not'],a:0,x:'Must not = prohibition.'},{q:'She _____ be the new manager — everyone is congratulating.',o:['must','should','might','cannot'],a:0,x:'Must = logical deduction.'},{q:'He looks pale. He _____ be feeling well.',o:['must not','cannot','should not','could not'],a:1,x:'Cannot = certainty it is NOT the case.'},{q:'I _____ attend — it is optional.',o:['must not','should not','do not have to','cannot'],a:2,x:'Do not have to = no obligation.'},{q:'They _____ the wrong train — they arrived late.',o:['must take','must have taken','should take','might take'],a:1,x:'Past deduction = must have + pp.'}]},{id:16,cat:2,title:'Conditionals',sub:'Types 0, 1, 2, 3 & Mixed',qs:[{q:'If you _____ the mixture, it changes colour.',o:['heat','will heat','heated','would heat'],a:0,x:'Type 0: if + present, present — general truth.'},{q:'If she _____ harder, she would get better results.',o:['works','will work','worked','had worked'],a:2,x:'Type 2: if + past simple, would + base.'},{q:'If they _____ the warning, the accident would have been prevented.',o:['heard','have heard','had heard','would hear'],a:2,x:'Type 3: if + past perfect.'},{q:'She would be a doctor now if she _____ medicine.',o:['studies','studied','had studied','would study'],a:2,x:'Mixed: past condition → present result.'},{q:'_____ you require assistance, contact us.',o:['Had','Were','Should','If'],a:2,x:'Inverted formal: Should you = If you should.'}]},{id:17,cat:2,title:'Reported Speech',sub:'Backshift · say vs tell',qs:[{q:'I am studying. → She said she _____ medicine.',o:['is studying','was studying','studied','had studied'],a:1,x:'Present cont. → Past cont.'},{q:'He _____ me the meeting was cancelled.',o:['said','told','asked','spoke'],a:1,x:'Tell takes an object: told me.'},{q:'Have you seen my keys? → He asked if I _____ his keys.',o:['saw','have seen','had seen','was seeing'],a:2,x:'Present perfect → Past perfect.'},{q:'She asked _____ I wanted to join.',o:['that','if','what','whether I or'],a:1,x:'Yes/no reported question = if.'},{q:'He admitted _____ the deadline.',o:['to miss','miss','missing','that he misses'],a:2,x:'Admit + gerund.'}]},{id:18,cat:2,title:'Gerunds & Infinitives',sub:'Meaning changes',qs:[{q:'I remember _____ her at the conference.',o:['to meet','meet','meeting','met'],a:2,x:'Remember + gerund = past memory.'},{q:'Do not forget _____ the form.',o:['signing','signed','to sign','sign'],a:2,x:'Forget + infinitive = future task.'},{q:'She is good at _____ situations.',o:['handle','to handle','handled','handling'],a:3,x:'After preposition = gerund.'},{q:'He tried _____ the problem differently.',o:['to approach','approaching','approach','approached'],a:0,x:'Try + infinitive = make an effort.'},{q:'I regret _____ you that your application failed.',o:['telling','to tell','told','tell'],a:1,x:'Regret + infinitive (formal).'}]},{id:19,cat:2,title:'Wishes & Regrets',sub:'wish · if only · would',qs:[{q:'I wish I _____ to the gym more (reality: I do not).',o:['go','went','have gone','would go'],a:1,x:'Wish + past simple for unreal present.'},{q:'She wishes she _____ him the truth (past regret).',o:['told','tells','had told','would tell'],a:2,x:'Wish + past perfect for past regret.'},{q:'I wish my neighbour _____ play loud music.',o:['does not','will not','would not','did not'],a:2,x:'Wish + would(not) for behaviour change.'},{q:'If only he _____ here right now!',o:['is','was','were','had been'],a:2,x:'If only + past (were in formal) for present wish.'},{q:'He _____ he had taken the other job.',o:['hopes','wishes','wants','expects'],a:1,x:'Wishes + past perfect = regret about past decision.'}]},{id:20,cat:2,title:'Linking Words',sub:'Addition · Contrast · Cause',qs:[{q:'_____ the bad weather, the event was a success.',o:['Although','Despite','However','Because'],a:1,x:'Despite + noun phrase.'},{q:'The company expanded; _____, it faced challenges.',o:['despite','although','however','because'],a:2,x:'However connects contrasting sentences.'},{q:'Sales fell _____ a drop in confidence.',o:['due to','although','however','furthermore'],a:0,x:'Due to + noun phrase.'},{q:'The drug was effective; _____, it had side effects.',o:['moreover','therefore','nevertheless','due to'],a:2,x:'Nevertheless = concession.'},{q:'Not only did costs rise, _____ quality declined.',o:['and','but also','however','also'],a:1,x:'Not only … but also.'}]},{id:21,cat:2,title:'Emphasis & Inversion',sub:'Cleft · Negative inversion',qs:[{q:'_____ was the increase that alarmed scientists.',o:['What','It','That','There'],a:1,x:'It-cleft.'},{q:'What the researchers discovered _____ that stress affects.',o:['are','were','was','is'],a:2,x:'What-cleft singular = was.'},{q:'Never _____ such rapid growth.',o:['we have seen','have we seen','we saw','did we saw'],a:1,x:'Negative inversion: auxiliary + subject.'},{q:'Rarely _____ a policy produce such results.',o:['can','does','do','has'],a:1,x:'Rarely + does + subject.'},{q:'No sooner _____ the results published than controversy began.',o:['had','were','was','did'],a:0,x:'No sooner had + subject + pp.'}]},{id:22,cat:2,title:'Concession & Contrast',sub:'although · despite · whereas',qs:[{q:'_____ progress has been made, challenges remain.',o:['Despite','However','Although','Whereas'],a:2,x:'Although + clause.'},{q:'The north thrived; _____, the south declined.',o:['although','despite','by contrast','whereas'],a:2,x:'By contrast = new sentence.'},{q:'The plan succeeded _____ numerous setbacks.',o:['although','despite','however','whereas'],a:1,x:'Despite + noun phrase.'},{q:'Urban populations increased, _____ rural declined.',o:['however','despite','nevertheless','whereas'],a:3,x:'Whereas draws direct contrast.'},{q:'The treatment is effective. _____, it has side effects.',o:['Despite','Although','Nevertheless','Whereas'],a:2,x:'Nevertheless = despite that.'}]},{id:23,cat:2,title:'Academic Style',sub:'Formal language · Nominalisation',qs:[{q:'The team decided → best nominalised:',o:['decided to investigate','made a decision to investigate','their investigation decision','the teams investigation'],a:1,x:'Nominalisation converts verb to noun phrase.'},{q:'Which is most academic?',o:['Lots of people think it is bad.','Many consider it a significant issue.','It is a huge thing.','Everyone says it is bad.'],a:1,x:'Formal vocabulary + measured tone.'},{q:'The results _____ further research is needed.',o:['show','tells','suggest','says'],a:2,x:'Suggest = hedging verb.'},{q:'We found temps rose → academic version:',o:['We got rising temps.','Findings indicate a rise.','Temps got higher.','We saw it was hotter.'],a:1,x:'Nominalisation + formal verb.'},{q:'Best hedging for IELTS Task 2:',o:['It is certain all must act.','It appears cooperation may be needed.','I am 100% sure.','Everyone knows this.'],a:1,x:'It appears … may = appropriate hedging.'}]},{id:24,cat:2,title:'Punctuation',sub:'Commas · Semicolons · Colons',qs:[{q:'The experiment failed _____ it provided valuable data.',o:[';','.',',','but'],a:0,x:'Semicolon connects two related clauses.'},{q:'_____ a common mistake among learners. (it is)',o:['Its','It\'s','Its\'','Its\'s'],a:1,x:'It\'s = it is. Its = possessive.'},{q:'A colon introduces _____ .',o:['a list, explanation, or quote','a question only','a definition only','a conjunction'],a:0,x:'Colon introduces list, explanation, or quotation.'},{q:'_____ students completed the assignment.',o:['The students','The students,','The students, who','The students;'],a:0,x:'No comma between subject and verb.'},{q:'He was tired _____ he continued working.',o:[', but','; however,','. but',', however'],a:1,x:'Semicolon before however between two clauses.'}]}];
+
+let gs,curT=-1,curQ=0,score=0,ans=false,sel=-1,resps=[];
+try{gs=JSON.parse(localStorage.getItem('grammar_gs')||'{}');}catch(e){gs={};}
+function save(){localStorage.setItem('grammar_gs',JSON.stringify(gs));}
+function rT(){
+ let dc=0,at=0,an=0;
+ document.getElementById('pg-topics').innerHTML=CATS.map((c,ci)=>{
+  let tt=TOPICS.filter(t=>t.cat===ci),op=gs['_o'+ci]===undefined?true:gs['_o'+ci];
+  return `<div class="cat ${op?'c-open':''}"><div class="cat-hdr" onclick="tC(${ci})">
+   <div class="ci p${ci}">${c.icon}</div><div class="cn">${c.name}</div>
+   <div class="cm">${tt.length} topics</div><div class="ca">▼</div></div>
+   <div class="cat-body"><div class="t-grid">${tt.map(t=>{
+    let d=gs[t.id],dn=!!d;if(dn){dc++;at+=d.score/d.total;an++;}
+    return `<div class="tc${dn?' done':''}" onclick="sQ(${t.id})"><div class="td p${ci}">${dn?'✓':t.id+1}</div><div class="ti"><div class="tn">${t.title}</div><div class="ts">${t.sub}</div>${dn?`<div class="tx">${d.score}/${d.total} — ${Math.round(d.score/d.total*100)}%</div>`:''}</div></div>`;
+   }).join('')}</div></div></div>`;
+ }).join('');
+ document.getElementById('sd').textContent=dc;
+ document.getElementById('sa').textContent=an?Math.round(at/an*100)+'%':'—';
+}
+function tC(ci){gs['_o'+ci]=!gs['_o'+ci];save();rT();}
+function sQ(id){
+ curT=id;curQ=0;score=0;ans=false;sel=-1;resps=[];
+ document.getElementById('pg-topics').style.display='none';
+ document.getElementById('pg-result').style.display='none';
+ document.getElementById('pg-quiz').style.display='block';
+ rQ();
+}
+function rQ(){
+ let t=TOPICS[curT],q=t.qs[curQ],tot=t.qs.length,L='ABCDEFGH';
+ ans=false;sel=-1;
+ document.getElementById('pg-quiz').innerHTML=`<div class="qhdr"><div class="qt">${t.title}</div><div class="qp" id="qp">Q ${curQ+1} / ${tot} · Score: ${score}</div></div>
+  <div class="qbar"><div class="qfill" style="width:${curQ/tot*100}%"></div></div>
+  <div class="qc">${q.q.replace(/___+/g,'<span class="blank"></span>')}</div>
+  <div class="ops">${q.o.map((o,i)=>`<div class="opt" id="opt${i}" onclick="pick(${i})"><span class="ol">${L[i]}</span>${o}</span></div>`).join('')}</div>
+  <div class="fb" id="fb"></div>
+  <div class="brow"><button class="btn btn-o" id="bs" onclick="submit()" disabled>Submit Answer</button>
+   <button class="btn btn-w" id="bn" style="display:none" onclick="adv()">Next →</button>
+   <button class="btn btn-w" onclick="gT()">← Back</button></div>`;
+}
+function pick(i){if(ans)return;sel=i;document.querySelectorAll('.opt').forEach((o,j)=>o.classList.toggle('sel',j===i));document.getElementById('bs').disabled=false;}
+function submit(){
+ if(sel<0||ans)return;ans=true;
+ let q=TOPICS[curT].qs[curQ],ok=sel===q.a;
+ if(ok)score++;
+ document.getElementById('qp').textContent='Q '+(curQ+1)+' / '+TOPICS[curT].qs.length+' · Score: '+score;
+ resps.push({u:sel,c:ok});
+ document.querySelectorAll('.opt').forEach((o,i)=>{o.onclick=null;o.style.cursor='default';if(i===q.a)o.classList.add('gd');if(i===sel&&!ok)o.classList.add('bd');});
+ let fb='',el=document.getElementById('fb');
+ if(ok){fb='✅ Correct! '+q.x;el.className='fb show good';}else{fb='❌ Answer: <strong>'+q.o[q.a]+'</strong>. '+q.x;el.className='fb show bad';}
+ el.innerHTML=fb;
+ document.getElementById('bs').style.display='none';
+ document.getElementById('bn').style.display='inline-flex';
+ document.getElementById('bn').textContent=curQ>=TOPICS[curT].qs.length-1?'See Results →':'Next →';
+}
+function adv(){curQ++;if(curQ>=TOPICS[curT].qs.length)showRes();else rQ();}
+function showRes(){
+ document.getElementById('pg-quiz').style.display='none';
+ document.getElementById('pg-result').style.display='block';
+ let t=TOPICS[curT],tot=t.qs.length,pct=Math.round(score/tot*100);
+ gs[curT]={score,total:tot,answers:resps};save();
+ let em,pmsg,cl=pct>=80?'ok':pct>=50?'mid':'lo';
+ if(pct>=80){em='🎉';pmsg='Excellent! Strong grasp of this topic.'}else if(pct>=50){em='💪';pmsg='Good effort! Review the missed items and try again.'}else{em='📖';pmsg='Keep studying! This topic needs more practice.'}
+ let rv='';if(resps.length){rv='<div class="rv-box"><div class="rv-hdr" onclick="this.classList.toggle(\'open\')">📋 Review ▼</div><div class="rv-body">'+resps.map((r,i)=>{let q=t.qs[i];return'<div class="rvi"><span class="rvq">Q'+(i+1)+':</span> '+q.q.replace(/___+/g,'____')+'<br>'+(r.c?'<span class="rvok">✓ '+q.o[r.u]+'</span>':'<span class="rvno">✗ '+q.o[r.u]+'</span> → <span class="rva">'+q.o[q.a]+'</span>')+'<br><small style="color:var(--sft)">'+q.x+'</small></div>';}).join('')+'</div></div>';}
+ document.getElementById('pg-result').innerHTML=`<div class="rc"><div class="re">${em}</div><div class="rs ${cl}">${score}/${tot}</div><div class="rp">${pct}% correct</div><div class="rm">${pmsg}</div></div>${rv}<div class="brow" style="justify-content:center;flex-wrap:wrap;gap:10px"><button class="btn btn-o" onclick="sQ(${curT})">🔄 Retry</button><button class="btn btn-g" onclick="gT()">📚 All Topics</button></div>`;
+}
+function gT(){document.getElementById('pg-quiz').style.display='none';document.getElementById('pg-result').style.display='none';document.getElementById('pg-topics').style.display='block';rT();window.scrollTo(0,0);}
+document.addEventListener('DOMContentLoaded',rT);
+</script>
+</body>
+</html>
