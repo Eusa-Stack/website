@@ -8,6 +8,88 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
+        /* ── SITE-WIDE NAV ── */
+        .site-nav {
+            display: flex;
+            align-items: center;
+            background: #0F172A;
+            padding: 0 16px;
+            gap: 0;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+        }
+        .site-nav-brand {
+            font-size: 12px;
+            font-weight: 800;
+            color: rgba(255,255,255,0.45);
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            padding: 14px 14px 14px 4px;
+            white-space: nowrap;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            margin-right: 4px;
+        }
+        .site-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 0 16px;
+            height: 48px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.55);
+            position: relative;
+            transition: color 0.2s;
+            white-space: nowrap;
+            letter-spacing: 0.02em;
+        }
+        .site-nav-link:hover { color: rgba(255,255,255,0.9); }
+        .site-nav-link.active { color: #fff; }
+        .site-nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 12px; right: 12px;
+            height: 3px;
+            border-radius: 3px 3px 0 0;
+            background: var(--primary, #7C3AED);
+            animation: navUnderline 0.3s ease;
+        }
+        @keyframes navUnderline {
+            from { transform: scaleX(0); opacity: 0; }
+            to   { transform: scaleX(1); opacity: 1; }
+        }
+        .site-nav-link .nav-icon { font-size: 16px; }
+        .site-nav-link .nav-badge {
+            background: #7C3AED;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 10px;
+            letter-spacing: 0.04em;
+        }
+        .site-nav-link.ielts-link .nav-badge { background: #1A7A6A; }
+        .site-nav-sep { flex: 1; }
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 20px;
+            background: rgba(124,58,237,0.07);
+            border-bottom: 1px solid rgba(124,58,237,0.12);
+            font-size: 12px;
+            font-weight: 600;
+            color: #6B7280;
+        }
+        .breadcrumb a { color: #7C3AED; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb-sep { color: #C4B5FD; }
+        .breadcrumb-current { color: #1E1B4B; font-weight: 700; }
+
         :root {
             --primary:    #5B21B6;
             --primary-lt: #7C3AED;
@@ -742,6 +824,27 @@
     </style>
 </head>
 <body>
+    <!-- SITE-WIDE NAV -->
+    <nav class="site-nav">
+        <div class="site-nav-brand">📖 EduSuite</div>
+        <a class="site-nav-link active" href="index.html">
+            <span class="nav-icon">🎮</span> Math Games
+            <span class="nav-badge">ACTIVE</span>
+        </a>
+        <a class="site-nav-link ielts-link" href="ielts.html">
+            <span class="nav-icon">📚</span> IELTS Grammar
+            <span class="nav-badge" style="background:#1A7A6A">25 Units</span>
+        </a>
+    </nav>
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <span>🏠</span>
+        <span class="breadcrumb-sep">›</span>
+        <a href="index.html">EduSuite</a>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">💰 Decimal Mastery Game Center</span>
+    </div>
+
     <div class="container">
         <div class="header">
 
@@ -872,6 +975,20 @@
                 <div class="value" id="masteryLevel">Beginner</div>
             </div>
         </div>
+
+        <!-- IELTS Grammar Studio Launch Card -->
+        <a href="ielts.html" id="ielts-card" style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:linear-gradient(135deg,#1B3A6B 0%,#1A5A8A 55%,#1A7A6A 100%);text-decoration:none;transition:filter 0.2s;border-bottom:3px solid rgba(255,255,255,0.15)" onmouseover="this.style.filter='brightness(1.12)'" onmouseout="this.style.filter='brightness(1)'">
+            <div style="flex:1">
+                <div style="color:rgba(255,255,255,0.65);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;margin-bottom:5px">📖 Grammar Module · Tap to Continue</div>
+                <div style="color:#fff;font-size:17px;font-weight:800;letter-spacing:-0.3px;margin-bottom:8px">📚 IELTS Grammar Mastery Studio</div>
+                <!-- live progress bar filled by JS -->
+                <div style="background:rgba(255,255,255,0.2);border-radius:4px;height:6px;max-width:340px;margin-bottom:5px">
+                    <div id="ielts-prog-bar" style="height:6px;border-radius:4px;background:#F0A500;width:0%;transition:width 0.6s"></div>
+                </div>
+                <div id="ielts-prog-label" style="color:rgba(255,255,255,0.8);font-size:12px;font-weight:600">Loading progress…</div>
+            </div>
+            <div style="color:rgba(255,255,255,0.9);font-size:28px;font-weight:800;margin-left:20px;flex-shrink:0">→</div>
+        </a>
 
         <div class="tabs">
             <button class="tab active" onclick="switchTab(0)">🎯 Place Value Match</button>
@@ -1270,6 +1387,33 @@
     </div>
 
     <script>
+        // ── IELTS cross-site progress widget ──
+        (function() {
+            function updateIELTSCard() {
+                try {
+                    const gs = JSON.parse(localStorage.getItem('ielts_gs') || '{}');
+                    const scores = gs.scores || {};
+                    const done = Object.values(scores).filter(s => s.done).length;
+                    const total = 25;
+                    const xp = gs.xp || 0;
+                    const pct = Math.round(done / total * 100);
+                    const bar = document.getElementById('ielts-prog-bar');
+                    const lbl = document.getElementById('ielts-prog-label');
+                    if (bar) bar.style.width = pct + '%';
+                    if (lbl) {
+                        if (done === 0) {
+                            lbl.textContent = '25 Units · Visual Lessons · Quizzes · XP System — Start now!';
+                        } else {
+                            const accs = Object.values(scores).filter(s=>s.done).map(s=>s.score/s.total);
+                            const acc = accs.length ? Math.round(accs.reduce((a,b)=>a+b,0)/accs.length*100) : 0;
+                            lbl.textContent = done + ' / ' + total + ' units done · ' + acc + '% accuracy · ' + xp + ' XP earned';
+                        }
+                    }
+                } catch(e) {}
+            }
+            document.addEventListener('DOMContentLoaded', updateIELTSCard);
+        })();
+
         // Game State
         let gameState = {
             totalPoints: 0,
