@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Train — EduSuite Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
+.back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
+.hero{text-align:center;padding:1.5rem 1.5rem .3rem}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(24px,5vw,34px);font-weight:700}
+.hero p{color:var(--sft);font-size:14px;font-weight:600}
+.stats{display:flex;justify-content:center;gap:16px;margin-bottom:.5rem}
+.stat{background:var(--wht);border-radius:14px;padding:10px 20px;text-align:center}
+.snum{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--grn)}
+.slbl{font-size:10px;color:var(--sft);font-weight:700;text-transform:uppercase}
+.game-wrap{max-width:750px;margin:0 auto;padding:0 1rem 2rem;text-align:center}
+.info{color:var(--sft);font-size:14px;font-weight:700;margin-bottom:.8rem}
+.slots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:.8rem}
+.slot{min-width:90px;min-height:60px;border:2px dashed var(--ppl);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--sft);font-weight:600;cursor:pointer;padding:4px 6px;transition:.15s;flex-direction:column;flex:1}
+.slot.filled{border-style:solid;border-color:var(--grn);background:#F0FAF4;cursor:pointer}
+.slot.filled:hover{border-color:var(--pnk);background:#FEE2E2}
+.pool{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:.8rem;padding:10px;background:var(--wht);border-radius:14px;border:2px dashed #E0D6CC;min-height:50px}
+.event{background:#F0FAF4;border:2px solid var(--grn);border-radius:12px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;transition:.12s}
+.event:hover{border-color:var(--ppl);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:.8rem}
+.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.btn-grn{background:var(--grn);color:#fff}.btn-org{background:var(--org);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
+.msg{padding:.8rem;font-size:18px;font-weight:700;min-height:3rem;text-align:center}
+.ev-emoji{font-size:28px;display:block;text-align:center}
+</style>
+</head>
+<body>
+<a href="subjects.html" class="back-link">← All Games</a>
+<header class="hero"><h1>🏛️ Time Train</h1><p>Click events in chronological order — 4 rounds, 3 eras!</p></header>
+<div class="stats"><div class="stat"><div class="snum" id="rnd">1/4</div><div class="slbl">Round</div></div><div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Score</div></div></div>
+<div class="game-wrap">
+<div class="info" id="topic">Loading...</div>
+<div class="slots" id="slots"></div>
+<div class="pool" id="pool"></div>
+<div class="msg" id="msg"></div>
+<div class="brow"><button class="btn btn-grn" id="chkBtn" onclick="checkOrder()" style="display:none">✅ Check</button>
+<button class="btn btn-org" onclick="newGame()">🔄 New Game</button><a href="subjects.html" class="btn btn-wht">← Back</a></div>
+</div>
+
+<script>
+// 3 eras with 8+ events each
+const ERAS=[
+  {name:'Ancient World',emoji:'🏛️',color:'#F4845F',events:[
+    {year:-2600,label:'Pyramids Built',emoji:'🔺',fact:'Egyptians built the Great Pyramid of Giza'},
+    {year:-500,label:'Democracy in Athens',emoji:'🏛️',fact:'Greeks invented democracy!'},
+    {year:-753,label:'Rome Founded',emoji:'🏰',fact:'According to legend, by Romulus and Remus'},
+    {year:-336,label:'Alexander the Great',emoji:'👑',fact:'Conquered from Greece to India'},
+    {year:-221,label:'Great Wall Started',emoji:'🧱',fact:'China united under Qin dynasty'},
+    {year:476,label:'Rome Fell',emoji:'💥',fact:'The Western Roman Empire collapsed'},
+    {year:570,label:'Prophet Muhammad Born',emoji:'🕌',fact:'Founder of Islam, born in Mecca'},
+    {year:800,label:'Charlemagne Crowned',emoji:'👑',fact:'First Holy Roman Emperor'}
+  ]},
+  {name:'Age of Discovery',emoji:'⛵',color:'#43B97A',events:[
+    {year:1215,label:'Magna Carta',emoji:'📜',fact:'English liberties first written'},
+    {year:1347,label:'Black Death',emoji:'☠️',fact:'Killed 30-60% of Europe\'s population'},
+    {year:1440,label:'Printing Press',emoji:'📖',fact:'Gutenberg made books affordable!'},
+    {year:1492,label:'Columbus to Americas',emoji:'⛵',fact:'European exploration began'},
+    {year:1519,label:'Magellan Voyage',emoji:'🌍',fact:'First to sail around the world'},
+    {year:1600,label:'East India Company',emoji:'🏴',fact:'British trading empire begins'},
+    {year:1687,label:'Newton\'s Principia',emoji:'🍎',fact:'Laws of motion and gravity published'},
+    {year:1776,label:'US Declaration',emoji:'🇺🇸',fact:'Independence from Britain!'}
+  ]},
+  {name:'Modern Era',emoji:'🚀',color:'#A78BFA',events:[
+    {year:1789,label:'French Revolution',emoji:'🇫🇷',fact:'Liberty, equality, fraternity!'},
+    {year:1865,label:'End of US Slavery',emoji:'✊',fact:'13th Amendment abolished slavery'},
+    {year:1903,label:'First Flight',emoji:'✈️',fact:'Wright brothers at Kitty Hawk'},
+    {year:1914,label:'WWI Begins',emoji:'⚔️',fact:'The Great War started in Europe'},
+    {year:1945,label:'WWII Ends',emoji:'🕊️',fact:'Peace at last after 6 years of war'},
+    {year:1969,label:'Moon Landing',emoji:'🌙',fact:'One small step for man!'},
+    {year:1989,label:'Berlin Wall Falls',emoji:'🧱',fact:'Germany reunited, Cold War ending'},
+    {year:2001,label:'Wikipedia Launches',emoji:'📖',fact:'The free encyclopedia was born'}
+  ]}
+];
+
+let game={era:0,round:0,score:0,events:[],ordered:[],slots:[],maxRounds:4};
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function newGame(){game.score=0;game.era=0;game.round=0;startEra();}
+
+function startEra(){
+  game.round=0;
+  const era=ERAS[game.era];
+  const pool=shuffle([...era.events]).slice(0,4);
+  game.events=pool;
+  game.ordered=[...pool].sort((a,b)=>a.year-b.year);
+  game.slots=new Array(4).fill(null);
+  game.round=1;
+  renderEra();
+}
+
+function renderEra(){
+  const era=ERAS[game.era];
+  const shuffled=shuffle([...game.events]);
+  window.pool=shuffled;
+  
+  document.getElementById('rnd').textContent=game.round+'/'+game.maxRounds;
+  document.getElementById('scr').textContent=game.score;
+  document.getElementById('topic').innerHTML=`<span style="color:${era.color}">${era.emoji} ${era.name}</span> — Round ${game.round}/${game.maxRounds}`;
+  document.getElementById('msg').innerHTML='';
+  document.getElementById('chkBtn').style.display='none';
+  
+  const emojis=['①','②','③','④'];
+  document.getElementById('slots').innerHTML=game.slots.map((s,i)=>`<div class="slot ${s?'filled':''}" onclick="removeSlot(${i})">${s?`<span class="ev-emoji">${s.emoji}</span><span>${s.label}</span>`:emojis[i]}</div>`).join('');
+  
+  const taken=game.slots.filter(s=>s!==null).map(s=>s.year).join('|');
+  const avail=window.pool.filter(e=>!taken.includes(String(e.year)));
+  document.getElementById('pool').innerHTML=avail.length?avail.map((e,i)=>`<div class="event" data-yr="${e.year}" onclick="placeEvent(${i})"><span class="ev-emoji">${e.emoji}</span>${e.label}</div>`).join(''):'<div style="color:var(--grn);font-weight:700;padding:.5rem">All placed! Click Check ❯</div>';
+  
+  if(game.slots.every(s=>s!==null))document.getElementById('chkBtn').style.display='inline-flex';
+}
+
+function placeEvent(idx){
+  const taken=game.slots.filter(s=>s!==null).map(s=>s.year).join('|');
+  const available=window.pool.filter(e=>!taken.includes(String(e.year)));
+  if(idx>=available.length)return;
+  const slot=game.slots.indexOf(null);
+  if(slot===-1)return;
+  game.slots[slot]=available[idx];
+  window.pool=window.pool;renderEra();
+}
+
+function removeSlot(idx){if(!game.slots[idx])return;game.slots[idx]=null;renderEra();}
+
+function checkOrder(){
+  let correct=0;
+  game.slots.forEach((s,i)=>{if(s&&s.year===game.ordered[i].year)correct++;});
+  if(correct===4){
+    game.score+=25;
+    document.getElementById('scr').textContent=game.score;
+    document.getElementById('msg').innerHTML='🎉 Correct! +25 pts';
+    game.round++;
+    if(game.round>game.maxRounds){
+      game.era++;
+      if(game.era>=ERAS.length){endGame();return;}
+      document.getElementById('msg').innerHTML='🌟 New era unlocked! '+ERAS[game.era].name;
+      setTimeout(startEra,1200);
+      return;
+    }
+    // New random events for next round
+    const era=ERAS[game.era];
+    game.events=shuffle([...era.events]).slice(0,4);
+    game.ordered=[...game.events].sort((a,b)=>a.year-b.year);
+    game.slots=new Array(4).fill(null);
+    setTimeout(renderEra,1200);
+  }else{
+    document.getElementById('msg').innerHTML='🔄 '+correct+'/4 correct. Tap wrong ones!';
+    document.querySelectorAll('.slot.filled').forEach((el,i)=>{
+      if(game.slots[i]&&game.slots[i].year!==game.ordered[i].year){
+        el.style.borderColor='var(--pnk)';el.style.background='#FEE2E2';
+      }
+    });
+  }
+}
+
+function endGame(){
+  const pct=Math.round(game.score/300*100);
+  const em=pct>=80?'🏆':pct>=50?'🌟':'💪';
+  document.querySelector('.game-wrap').innerHTML=`<div style="text-align:center;padding:2rem"><div style="font-size:64px">${em}</div><div style="font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700">${game.score}/300</div><div style="color:var(--sft);margin-bottom:1.5rem">Through 3 eras of history!</div><div class="brow"><button class="btn btn-org" onclick="location.reload()">🔄 Play Again</button><a href="subjects.html" class="btn btn-wht">← Back</a></div></div>`;
+}
+
+newGame();
+</script>
+</body>
+</html>

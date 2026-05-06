@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gravity Drop — EduSuite Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
+.back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
+.hero{text-align:center;padding:1.5rem 1.5rem .3rem}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(24px,5vw,34px);font-weight:700}
+.hero p{color:var(--sft);font-size:14px;font-weight:600}
+.stats{display:flex;justify-content:center;gap:16px;margin-bottom:.5rem;flex-wrap:wrap}
+.stat{background:var(--wht);border-radius:14px;padding:10px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.snum{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--org)}
+.slbl{font-size:10px;color:var(--sft);font-weight:700;text-transform:uppercase}
+.game-wrap{max-width:700px;margin:0 auto;padding:0 1rem 2rem;text-align:center}
+.planet-badge{display:inline-flex;align-items:center;gap:6px;background:var(--wht);border-radius:14px;padding:6px 16px;font-weight:800;font-size:18px;border:2px solid #E0D6CC;margin-bottom:.5rem}
+.drop-arena{padding:0;position:relative;height:280px;border-radius:20px;overflow:hidden;margin-bottom:.5rem;border:3px solid #E0D6CC}
+.drop-sky{position:absolute;inset:0}
+.drop-ground{position:absolute;bottom:0;left:0;right:0;height:14px;background:#A3D9A5;border-top:2px solid #6BBF6E}
+.drop-obj{position:absolute;font-size:50px;transition:top .3s ease-out;z-index:2;filter:drop-shadow(0 4px 6px rgba(0,0,0,.1))}
+.drop-obj.obj-left{left:20%}
+.drop-obj.obj-right{left:60%}
+.obj-label{font-size:10px;font-weight:800;color:var(--txt);text-align:center;margin-top:-6px}
+.choice-area{display:flex;gap:10px;justify-content:center;margin-bottom:.8rem}
+.ch{flex:1;max-width:180px;padding:16px 12px;border-radius:16px;border:3px solid #E0D6CC;cursor:pointer;background:var(--wht);transition:.15s;text-align:center}
+.ch:hover{border-color:var(--org);transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.ch.correct{background:#DCFCE7;border-color:var(--grn)}.ch.wrong{background:#FEE2E2;border-color:var(--pnk);animation:sh .3s}
+@keyframes sh{0%,100%{opacity:1}50%{opacity:.5}}
+.ch-emoji{font-size:36px;display:block}.ch-name{font-weight:800;font-size:14px;margin-top:4px}
+.ch-hint{font-size:10px;color:var(--sft);margin-top:2px}
+.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:.8rem}
+.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.btn-org{background:var(--org);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
+.msg{padding:.5rem;font-size:17px;font-weight:700;min-height:3rem;text-align:center}
+.fact-box{background:#F0FAF4;border-radius:12px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--grn);border:2px solid var(--grn);max-width:450px;margin:0 auto}
+.score-pop{position:absolute;font-size:28px;font-weight:800;animation:popScore .6s ease-out forwards;pointer-events:none;z-index:10}
+@keyframes popScore{0%{opacity:1;transform:translate(-50%,0) scale(.5)}50%{opacity:1;transform:translate(-50%,-30px) scale(1.3)}100%{opacity:0;transform:translate(-50%,-60px) scale(1)}}
+</style>
+</head>
+<body>
+<a href="subjects.html" class="back-link">← All Games</a>
+<header class="hero"><h1>⚡ Gravity Drop</h1><p>Which hits the ground first? Test your gravity smarts!</p></header>
+<div class="stats"><div class="stat"><div class="snum" id="qnum">1/10</div><div class="slbl">Question</div></div><div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Score</div></div><div class="stat"><div class="snum" id="strk">0🔥</div><div class="slbl">Streak</div></div></div>
+<div class="game-wrap">
+<div class="planet-badge" id="planetBadge">🪐 Planet</div>
+<div class="drop-arena" id="arena"><div class="drop-sky" id="sky"></div><div class="drop-ground"></div><div class="drop-obj obj-left" id="objL" style="top:20px;"><div style="text-align:center"><span id="emojiL"></span><div class="obj-label" id="nameL"></div></div></div><div class="drop-obj obj-right" id="objR" style="top:20px;"><div style="text-align:center"><span id="emojiR"></span><div class="obj-label" id="nameR"></div></div></div></div>
+<div class="choice-area"><div class="ch" id="chL" onclick="pick('L')"><span class="ch-emoji" id="cheL"></span><div class="ch-name" id="chnL"></div><div class="ch-hint">Falls first!</div></div><div class="ch" id="chBoth" onclick="pick('B')"><span class="ch-emoji">🤝</span><div class="ch-name">Same time!</div><div class="ch-hint">They tie!</div></div><div class="ch" id="chR" onclick="pick('R')"><span class="ch-emoji" id="cheR"></span><div class="ch-name" id="chnR"></div><div class="ch-hint">Falls first!</div></div></div>
+<div class="msg" id="msg">👆 Which object hits the ground first?</div>
+<div class="fact-box" id="factBox" style="display:none"></div>
+<div class="brow"><button class="btn btn-org" onclick="nextRound()">➡️ Next</button><a href="subjects.html" class="btn btn-wht">← Back</a></div>
+</div>
+
+<script>
+// Objects: name, emoji, mass (kg), airDrag (0=none, 1=high)
+const OBJECTS=[
+{name:'Bowling Ball',emoji:'🎳',mass:7,drag:.01},
+{name:'Feather',emoji:'🪶',mass:.005,drag:.9},
+{name:'Apple',emoji:'🍎',mass:.15,drag:.1},
+{name:'Rock',emoji:'🪨',mass:2,drag:.02},
+{name:'Tennis Ball',emoji:'🎾',mass:.058,drag:.15},
+{name:'Hammer',emoji:'🔨',mass:1,drag:.03},
+{name:'Ping Pong',emoji:'🏓',mass:.0027,drag:.3},
+{name:'Watermelon',emoji:'🍉',mass:5,drag:.08},
+{name:'Paper',emoji:'📄',mass:.004,drag:.95},
+{name:'Basketball',emoji:'🏀',mass:.6,drag:.12}
+];
+const PLANETS=[
+{name:'🌍 Earth',g:9.8,hasAir:true,emoji:'🌍'},
+{name:'🌙 Moon',g:1.6,hasAir:false,emoji:'🌙'},
+{name:'🔴 Mars',g:3.7,hasAir:true,emoji:'🔴'}
+];
+// Pre-calculated puzzles
+const PUZZLES=[
+{l:'🎳',r:'🪶',p:0,v:true, sol:'same',fact:'Without air, ALL objects fall at the same speed! In vacuum, a bowling ball and feather fall together.'},
+{l:'🍎',r:'🎾',p:0,v:true, sol:'same',fact:'Same mass doesn\'t matter — gravity accelerates everything equally in a vacuum.'},
+{l:'🔨',r:'🪶',p:1,v:true, sol:'same',fact:'Apollo 15 proved this on the Moon! A hammer and feather hit the ground together.'},
+{l:'🪨',r:'🍉',p:2,v:true, sol:'same',fact:'On Mars with no air, heavy and light objects fall at exactly the same speed.'},
+{l:'🪶',r:'🎾',p:0,v:false, sol:'R',fact:'On Earth, air resistance slows the feather! The tennis ball wins because it cuts through air better.'},
+{l:'📄',r:'🍎',p:0,v:false, sol:'R',fact:'Paper has lots of air drag. The apple is heavy and compact — it slices through air!'},
+{l:'🏓',r:'🪨',p:0,v:false, sol:'R',fact:'Ping pong balls are light and air slows them down. The heavy rock wins on Earth!'},
+{l:'🎾',r:'🏀',p:0,v:false, sol:'R',fact:'They weigh about the same, but the basketball is heavier — it pushes through air faster.'},
+{l:'🪶',r:'📄',p:0,v:false, sol:'same',fact:'Both are very light with high air drag. They\'d flutter down at about the same time!'},
+{l:'🍎',r:'🔨',p:0,v:false, sol:'same',fact:'Both are dense objects. Air affects them similarly — they hit nearly together!'},
+{l:'🎳',r:'🍉',p:0,v:false, sol:'same',fact:'Both heavy and dense — air drag barely matters. They fall side by side!'},
+{l:'🪨',r:'🪶',p:1,v:true, sol:'same',fact:'Moon has no atmosphere! No air = no drag. Both fall at exactly 1.6 m/s².'},
+{l:'🔨',r:'🏓',p:2,v:false, sol:'L',fact:'Mars has thin air, but the hammer is so much denser. It punches through the thin atmosphere.'},
+{l:'🍎',r:'🪶',p:2,v:false, sol:'L',fact:'Mars air is thin (1% of Earth) but still there. The feather flutters, apple drops straight.'},
+{l:'🎳',r:'🏓',p:2,v:false, sol:'L',fact:'Bowling ball vs ping pong on Mars — the thin atmosphere barely touches the heavy ball.'},
+];
+let puzzle=[],game={done:0,score:0,streak:0,locked:false,planet:null,objL:null,objR:null,vacuum:false};
+let currentPuzzle=null;
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function objByE(e){return OBJECTS.find(o=>o.emoji===e);}
+
+function newGame(){
+  game={done:0,score:0,streak:0,locked:false};
+  puzzle=shuffle([...PUZZLES]).slice(0,10);
+  nextRound();
+}
+
+function nextRound(){
+  if(game.done>=10){endGame();return;}
+  game.locked=false;const p=puzzle[game.done];currentPuzzle=p;
+  game.planet=PLANETS[p.p];game.objL=objByE(p.l);game.objR=objByE(p.r);game.vacuum=p.v;
+  // Update UI
+  document.getElementById('qnum').textContent=(game.done+1)+'/10';
+  document.getElementById('scr').textContent=game.score;
+  document.getElementById('strk').textContent=game.streak+'🔥';
+  document.getElementById('planetBadge').innerHTML=`${game.planet.emoji} ${game.planet.name}`+(game.vacuum?' <span style="color:var(--ppl);font-size:12px">(Vacuum Chamber 🔬)</span>':'');
+  // Set objects
+  document.getElementById('emojiL').textContent=game.objL.emoji;document.getElementById('nameL').textContent=game.objL.name;
+  document.getElementById('emojiR').textContent=game.objR.emoji;document.getElementById('nameR').textContent=game.objR.name;
+  document.getElementById('cheL').textContent=game.objL.emoji;document.getElementById('chnL').textContent=game.objL.name;
+  document.getElementById('cheR').textContent=game.objR.emoji;document.getElementById('chnR').textContent=game.objR.name;
+  // Sky color
+  const sky=document.getElementById('sky');
+  const skyColors={0:'linear-gradient(180deg,#87CEEB 0%,#B8E4F0 100%)',1:'linear-gradient(180deg,#1a1a2e 0%,#2d2d44 100%)',2:'linear-gradient(180deg,#E8A87C 0%,#F0C69B 100%)'};
+  sky.style.background=skyColors[game.p.p];
+  // Reset positions
+  document.getElementById('objL').style.top='20px';document.getElementById('objR').style.top='20px';
+  document.getElementById('objL').style.transition='none';document.getElementById('objR').style.transition='none';
+  // Reset choices
+  document.querySelectorAll('.ch').forEach(c=>c.classList.remove('correct','wrong'));
+  document.getElementById('factBox').style.display='none';
+  document.getElementById('msg').innerHTML='👆 Which object hits the ground first?';
+}
+
+function pick(side){
+  if(game.locked)return;game.locked=true;
+  const correct=currentPuzzle.sol;
+  const isCorrect=(side===correct)||(side==='B'&&correct==='same');
+  // Highlight choices
+  document.getElementById('chL').classList.add('correct','wrong');
+  document.getElementById('chR').classList.add('correct','wrong');
+  document.getElementById('chBoth').classList.add('correct','wrong');
+  if(correct==='same')document.getElementById('chBoth').classList.remove('wrong');
+  else document.getElementById('ch'+correct).classList.remove('wrong');
+  if(isCorrect){
+    game.score++;game.streak++;document.getElementById('msg').innerHTML='✅ Correct! '+currentPuzzle.fact;
+  }else{
+    game.streak=0;document.getElementById('msg').innerHTML='❌ Not quite! '+currentPuzzle.fact;
+  }
+  document.getElementById('scr').textContent=game.score;document.getElementById('strk').textContent=game.streak+'🔥';
+  // Animate the fall
+  animateFall();
+  document.getElementById('factBox').style.display='block';
+  document.getElementById('factBox').textContent='💡 '+currentPuzzle.fact;
+}
+
+function animateFall(){
+  const objL=document.getElementById('objL'),objR=document.getElementById('objR');
+  objL.style.transition='none';objR.style.transition='none';objL.style.top='20px';objR.style.top='20px';
+  objL.getBoundingClientRect();
+  const groundY=230;
+  // Calculate fall times
+  const g=game.planet.g;
+  const tL=Math.sqrt(2*3/g)*(game.vacuum?1:1+game.objL.drag*5);
+  const tR=Math.sqrt(2*3/g)*(game.vacuum?1:1+game.objR.drag*5);
+  const maxT=Math.max(tL,tR);
+  const duration=Math.min(Math.max(maxT*800,600),2000);
+  objL.style.transition='top '+tL/tR*duration+'ms ease-in';objR.style.transition='top '+duration+'ms ease-in';
+  setTimeout(()=>{objL.style.top=groundY+'px';objR.style.top=groundY+'px';},50);
+  setTimeout(()=>{game.done++;},duration+400);
+}
+
+function endGame(){
+  const pct=Math.round(game.score/10*100),em=pct>=80?'🏆':pct>=50?'🌟':'💪';
+  document.querySelector('.game-wrap').innerHTML=`<div style="text-align:center;padding:2rem"><div style="font-size:64px">${em}</div><div style="font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700">${game.score}/10</div><div style="color:var(--sft);margin-bottom:1.5rem">Gravity master!</div><div class="brow"><button class="btn btn-org" onclick="location.reload()">🔄 Play Again</button><a href="subjects.html" class="btn btn-wht">← Back</a></div></div>`;}
+newGame();
+</script>
+</body>
+</html>

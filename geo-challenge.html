@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geo Challenge — EduSuite Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
+.back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
+.hero{text-align:center;padding:1.5rem 1.5rem .3rem}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(24px,5vw,34px);font-weight:700}
+.hero p{color:var(--sft);font-size:14px;font-weight:600}
+.stats{display:flex;justify-content:center;gap:16px;margin-bottom:.5rem}
+.stat{background:var(--wht);border-radius:14px;padding:10px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.snum{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--ppl)}
+.slbl{font-size:10px;color:var(--sft);font-weight:700;text-transform:uppercase}
+.game-wrap{max-width:750px;margin:0 auto;padding:0 1rem 2rem;text-align:center}
+.q-area{background:var(--wht);border-radius:16px;padding:1rem 1.5rem;margin-bottom:.5rem;border:3px solid #E0D6CC}
+.qt{font-family:'Fredoka',sans-serif;font-size:clamp(20px,4vw,30px);font-weight:700;margin-bottom:2px}
+.qsub{font-size:13px;color:var(--sft);font-weight:600}
+.map-wrap{border-radius:16px;overflow:hidden;border:3px solid #B3D9F2;margin-bottom:.5rem;background:#E8F4FD;position:relative}
+.map-svg{width:100%;display:block}
+.land{fill:#B3D9F2;stroke:#6BA3C7;stroke-width:1.2;cursor:pointer;transition:.2s}
+.land:hover{fill:#94D3EC;stroke-width:2}
+.land.correct{fill:#86EFAC!important;stroke:var(--grn)!important;stroke-width:2.5}
+.land.wrong{fill:#FCA5A5!important;stroke:var(--pnk)!important;animation:sh .3s}
+@keyframes sh{0%,100%{opacity:1}50%{opacity:.5}}
+.land-label{fill:#4A7A9A;font-size:11px;font-family:'Nunito',sans-serif;font-weight:700;text-anchor:middle;pointer-events:none;text-shadow:0 0 6px rgba(255,255,255,.8)}
+.ocean-label{fill:#8BB8D0;font-size:11px;font-family:'Nunito',sans-serif;font-weight:600;font-style:italic;text-anchor:middle;pointer-events:none}
+.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:.8rem}
+.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.btn-org{background:var(--org);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
+.msg{padding:.4rem;font-size:17px;font-weight:700;min-height:2.5rem;text-align:center}
+</style>
+</head>
+<body>
+<a href="subjects.html" class="back-link">← All Games</a>
+<header class="hero"><h1>🌍 Geo Challenge</h1><p>Find continents, countries & landmarks — click the map!</p></header>
+<div class="stats"><div class="stat"><div class="snum" id="qnum">0/15</div><div class="slbl">Question</div></div><div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Score</div></div></div>
+<div class="game-wrap">
+<div class="q-area"><div class="qt" id="question">Loading...</div><div class="qsub" id="qsub"></div></div>
+<div class="map-wrap"><svg class="map-svg" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ocean background -->
+  <rect width="800" height="450" fill="#D4EDFA"/>
+  <!-- North America -->
+  <path class="land" id="na" d="M60,60 L90,50 L115,45 L135,38 L155,40 L165,30 L185,35 L195,25 L210,30 L220,40 L210,55 L225,65 L235,55 L250,65 L240,80 L255,95 L240,110 L235,125 L220,140 L215,130 L200,140 L195,155 L185,170 L190,180 L205,195 L200,210 L185,200 L170,190 L155,195 L140,185 L125,195 L110,185 L100,170 L85,160 L70,155 L55,140 L45,120 L40,100Z"/>
+  <!-- South America -->
+  <path class="land" id="sa" d="M195,215 L210,210 L225,220 L230,240 L220,260 L210,270 L200,285 L195,300 L185,315 L180,330 L170,340 L160,350 L155,340 L165,315 L175,295 L180,275 L185,250 L190,230Z"/>
+  <!-- Europe -->
+  <path class="land" id="eu" d="M385,55 L400,45 L415,38 L430,35 L445,40 L455,35 L465,42 L470,55 L455,65 L465,75 L475,70 L485,80 L480,90 L470,100 L460,95 L445,100 L435,110 L425,105 L415,115 L405,108 L390,100 L380,90 L370,80Z"/>
+  <!-- Africa -->
+  <path class="land" id="af" d="M370,110 L385,105 L400,120 L415,115 L425,130 L435,130 L440,150 L435,170 L425,190 L415,210 L405,230 L395,250 L385,265 L375,270 L365,260 L355,240 L350,215 L355,190 L360,170 L365,150 L360,130Z"/>
+  <!-- Asia -->
+  <path class="land" id="as" d="M460,38 L485,30 L510,25 L540,28 L565,30 L590,35 L610,45 L625,55 L640,50 L655,60 L670,55 L685,65 L695,70 L700,85 L705,90 L695,100 L680,110 L670,115 L655,125 L645,130 L635,140 L620,145 L605,150 L595,140 L580,145 L565,135 L550,140 L530,145 L510,150 L500,140 L485,135 L470,130 L465,120 L475,110 L480,100 L470,90 L465,75 L460,65 L455,55Z"/>
+  <!-- Southeast Asia islands -->
+  <path class="land" id="sea" d="M640,150 L655,145 L660,155 L650,165 L635,170 L625,165Z M680,155 L695,148 L705,155 L700,170 L690,180 L675,175 L670,160Z M670,185 L685,180 L700,188 L705,195 L695,205 L680,210 L670,200Z M650,195 L660,188 L670,195 L665,205 L655,210 L645,200Z"/>
+  <!-- Australia -->
+  <path class="land" id="au" d="M610,285 L630,275 L650,270 L670,275 L685,285 L690,300 L680,315 L660,325 L640,328 L620,320 L605,310Z"/>
+  <!-- Antarctica -->
+  <path class="land" id="an" d="M40,420 L120,410 L200,405 L280,408 L360,412 L440,410 L520,408 L600,405 L680,410 L740,415 L760,420 L740,430 L680,435 L600,438 L520,435 L440,432 L360,435 L280,438 L200,435 L120,432 L40,430Z"/>
+  <!-- Greenland -->
+  <path class="land" id="gl" d="M225,15 L245,8 L260,10 L270,18 L265,30 L255,38 L240,40 L225,35 L218,25Z"/>
+  <!-- Japan -->
+  <path class="land" id="jp" d="M715,80 L720,70 L725,75 L728,85 L725,100 L720,110 L715,100Z"/>
+  <!-- UK -->
+  <path class="land" id="uk" d="M365,50 L375,42 L385,45 L380,55 L375,65 L365,60Z"/>
+  <!-- Madagascar -->
+  <path class="land" id="mg" d="M450,250 L455,240 L458,250 L453,260Z"/>
+
+  <!-- Labels -->
+  <text x="145" y="100" class="land-label">North America</text>
+  <text x="220" y="280" class="land-label">South America</text>
+  <text x="425" y="72" class="land-label">Europe</text>
+  <text x="405" y="200" class="land-label">Africa</text>
+  <text x="570" y="90" class="land-label">Asia</text>
+  <text x="660" y="300" class="land-label">Australia</text>
+  <text x="400" y="420" class="land-label" style="fill:#8BB8D0;font-size:10px">Antarctica</text>
+  <!-- Ocean labels -->
+  <text x="280" y="160" class="ocean-label">Atlantic</text>
+  <text x="600" y="220" class="ocean-label">Pacific</text>
+  <text x="450" y="255" class="ocean-label">Indian Ocean</text>
+</svg></div>
+<div class="msg" id="msg">Click the correct area on the map!</div>
+<div class="brow"><button class="btn btn-org" onclick="newGame()">🔄 New Game</button><a href="subjects.html" class="btn btn-wht">← Back</a></div>
+</div>
+
+<script>
+const QUESTIONS=[
+// Continents
+{q:'Where is North America?',ans:'na',hint:'Northern hemisphere, between Atlantic & Pacific'},
+{q:'Where is South America?',ans:'sa',hint:'Tropical continent below North America'},
+{q:'Where is Africa?',ans:'af',hint:'Home to the Sahara Desert'},
+{q:'Where is Asia?',ans:'as',hint:'The largest continent'},
+{q:'Where is Europe?',ans:'eu',hint:'Small continent west of Asia'},
+{q:'Where is Australia?',ans:'au',hint:'The smallest continent, an island!'},
+{q:'Where is Antarctica?',ans:'an',hint:'The frozen continent at the bottom'},
+// Cities on map
+{q:'The Amazon Rainforest is in...',ans:'sa',hint:'Lungs of the Earth'},
+{q:'The Sahara Desert is in...',ans:'af',hint:'The largest hot desert'},
+{q:'The Himalayan Mountains are in...',ans:'as',hint:'Mount Everest lives here!'},
+{q:'The Rocky Mountains are in...',ans:'na',hint:'Stretching from Canada to the US'},
+{q:'The Great Barrier Reef is near...',ans:'au',hint:'Coral paradise!'},
+{q:'The Alps are in...',ans:'eu',hint:'Famous mountains with skiing'},
+{q:'Tokyo is in...',ans:'as',hint:'Land of the rising sun'},
+{q:'London is in...',ans:'eu',hint:'Home of Big Ben'},
+// Landmarks
+{q:'Madagascar island',ans:'mg',hint:'Off the east coast of Africa'},
+{q:'Greenland — the icy island',ans:'gl',hint:'Largest island, north of Atlantic'},
+{q:'Where is Japan?',ans:'jp',hint:'Island nation east of Asia'},
+{q:'The United Kingdom (UK)',ans:'uk',hint:'Island nation west of Europe'},
+{q:'New York City is in...',ans:'na',hint:'The Big Apple!'},
+];
+let game={qs:[],q:0,score:0,locked:false};
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function newGame(){game.qs=shuffle([...QUESTIONS]).slice(0,15);game.q=0;game.score=0;game.locked=false;document.querySelectorAll('.land').forEach(c=>c.classList.remove('correct','wrong'));nextQ();}
+function nextQ(){if(game.q>=15){endGame();return;}const q=game.qs[game.q];document.getElementById('qnum').textContent=(game.q+1)+'/15';document.getElementById('scr').textContent=game.score;document.getElementById('question').innerHTML='📍 '+q.q;document.getElementById('qsub').textContent=q.hint||'';document.getElementById('msg').innerHTML='';document.querySelectorAll('.land').forEach(c=>{c.classList.remove('correct','wrong');c.style.pointerEvents='auto';});game.locked=false;}
+document.querySelectorAll('.land').forEach(c=>{c.addEventListener('click',function(){if(game.locked||!game.qs.length)return;game.locked=true;document.querySelectorAll('.land').forEach(x=>x.style.pointerEvents='none');const correct=this.id===game.qs[game.q].ans;this.classList.add(correct?'correct':'wrong');if(!correct){const r=document.getElementById(game.qs[game.q].ans);if(r)r.classList.add('correct');document.getElementById('msg').innerHTML='❌ That\'s not it! Correct area shown in green.';}else{game.score++;document.getElementById('scr').textContent=game.score;document.getElementById('msg').innerHTML='✅ Correct! Well done!';}game.q++;setTimeout(nextQ,1400);});});
+function endGame(){const pct=Math.round(game.score/15*100),em=pct>=80?'🏆':pct>=50?'🌟':'💪';document.querySelector('.game-wrap').innerHTML=`<div style="text-align:center;padding:2rem"><div style="font-size:64px">${em}</div><div style="font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700">${game.score}/15</div><div style="color:var(--sft);margin-bottom:1.5rem">Geography explorer!</div><div class="brow"><button class="btn btn-org" onclick="location.reload()">🔄 Play Again</button><a href="subjects.html" class="btn btn-wht">← Back</a></div></div>`;}
+newGame();
+</script>
+</body>
+</html>

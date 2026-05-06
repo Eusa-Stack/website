@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flag Match — EduSuite Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
+.back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
+.hero{text-align:center;padding:1.5rem 1.5rem .3rem}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(24px,5vw,34px);font-weight:700}
+.hero p{color:var(--sft);font-size:14px;font-weight:600}
+.stats{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:.8rem}
+.stat{background:var(--wht);border-radius:14px;padding:10px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.snum{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--org)}
+.slbl{font-size:10px;color:var(--sft);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.diff{display:flex;gap:6px;justify-content:center;margin-bottom:.5rem}
+.db{padding:8px 16px;border-radius:10px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;border:2px solid #E0D6CC;cursor:pointer;background:var(--wht);transition:.15s}
+.db:hover{border-color:var(--org)}.db.act{border-color:var(--org);background:#FFF0E8;color:var(--org)}
+.game-wrap{max-width:700px;margin:0 auto;padding:0 1.5rem 2rem}
+.board{display:grid;gap:10px;margin:0 auto}
+.board.easy{grid-template-columns:repeat(4,1fr);max-width:480px}
+.board.medium{grid-template-columns:repeat(4,1fr);max-width:520px}
+.board.hard{grid-template-columns:repeat(5,1fr);max-width:620px}
+.card{aspect-ratio:1;border-radius:14px;cursor:pointer;transition:.2s;position:relative;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,.06)}
+.card-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:14px;position:absolute;inset:0;backface-visibility:hidden;transition:.3s}
+.card-front{background:linear-gradient(135deg,var(--org),var(--yel));z-index:2;color:#fff;font-size:22px;font-weight:800}
+.card-back{background:var(--wht);border:2px solid #E0D6CC;z-index:1;transform:rotateY(180deg);padding:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.card-back .flag-svg{width:80%;display:flex;align-items:center;justify-content:center}
+.card-back .flag-svg svg{width:100%;height:auto}
+.card-name{font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;color:var(--txt);line-height:1.1;text-align:center}
+.card.flip .card-front{z-index:1;transform:rotateY(180deg)}
+.card.flip .card-back{z-index:2;transform:rotateY(0)}
+.card.matched .card-back{border-color:var(--grn);background:#F0FAF4}
+.card.matched{opacity:.65}
+.fact-pop{text-align:center;font-size:14px;font-weight:600;min-height:2rem;padding:.5rem;color:var(--grn)}
+.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:.8rem}
+.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.btn-org{background:var(--org);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
+</style>
+</head>
+<body>
+<a href="subjects.html" class="back-link">← All Games</a>
+<header class="hero"><h1>🌍 Flag Match</h1><p>Match flags to countries — 3 difficulty levels!</p></header>
+<div class="diff"><button class="db act" onclick="newGame(0)">👶 Easy (6 pairs)</button><button class="db" onclick="newGame(1)">🥷 Medium (8 pairs)</button><button class="db" onclick="newGame(2)">🔥 Hard (10 pairs)</button></div>
+<div class="stats"><div class="stat"><div class="snum" id="pairs">0/6</div><div class="slbl">Matched</div></div><div class="stat"><div class="snum" id="turns">0</div><div class="slbl">Turns</div></div></div>
+<div class="game-wrap"><div class="board" id="board"></div><div class="fact-pop" id="msg"></div>
+<div class="brow"><button class="btn btn-org" onclick="newGame(-1)">🔄 New Game</button><a href="subjects.html" class="btn btn-wht">← Back</a></div></div>
+
+<script>
+const FLAGS=[
+{name:'Finland',code:'fi',continent:'Europe',capital:'Helsinki',fact:'Land of a thousand lakes!',svg:'<svg viewBox="0 0 18 11"><rect width="18" height="11" fill="#fff"/><rect y="4" width="18" height="3" fill="#003580"/><rect x="4" width="3" height="11" fill="#003580"/></svg>'},
+{name:'USA',code:'us',continent:'N.America',capital:'Washington DC',fact:'50 states, 1 nation!',svg:'<svg viewBox="0 0 19 10"><rect width="19" height="10" fill="#B22234"/><rect y="1.5" width="19" height="1" fill="#fff"/><rect y="2.8" width="19" height="1" fill="#B22234"/><rect y="4.2" width="19" height="1" fill="#fff"/><rect y="5.6" width="19" height="1" fill="#B22234"/><rect y="7" width="19" height="1" fill="#fff"/><rect y="8.4" width="19" height="1" fill="#B22234"/><rect width="7.6" height="5.4" fill="#3C3B6E"/></svg>'},
+{name:'Japan',code:'jp',continent:'Asia',capital:'Tokyo',fact:'The land of the rising sun!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="12" fill="#fff"/><circle cx="9" cy="6" r="3.5" fill="#BC002D"/></svg>'},
+{name:'Germany',code:'de',continent:'Europe',capital:'Berlin',fact:'Home to over 2000 castles!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="4" fill="#000"/><rect y="4" width="18" height="4" fill="#DD0000"/><rect y="8" width="18" height="4" fill="#FFCE00"/></svg>'},
+{name:'France',code:'fr',continent:'Europe',capital:'Paris',fact:'The Eiffel Tower was built in 1889!',svg:'<svg viewBox="0 0 18 12"><rect width="6" height="12" fill="#0055A4"/><rect x="6" width="6" height="12" fill="#fff"/><rect x="12" width="6" height="12" fill="#EF4135"/></svg>'},
+{name:'UK',code:'gb',continent:'Europe',capital:'London',fact:'The Queen guarded by ravens at the Tower!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="12" fill="#012169"/><path d="M0 0v12h18V0h-2l-7 5-7-5H0zm0 0v12l9-7 9 7V0l-9 7L0 0z" fill="#fff"/><path d="M0 5v2h18V5H0zM7 0v12h4V0H7z" fill="#fff"/><path d="M0 2v1l18 10h1v-1L1 2H0zm0 10V9l4-3h1L0 12zM18 0h-1L0 10H0v1l18-10V0zm0 3l-4 3h-1L18 0v3z" fill="#C8102E"/></svg>'},
+{name:'China',code:'cn',continent:'Asia',capital:'Beijing',fact:'The Great Wall is over 21,000 km!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="12" fill="#DE2910"/><polygon points="3,2 3.6,3.8 5.5,3.8 4,4.8 4.5,6.5 3,5.5 1.5,6.5 2,4.8 0.5,3.8 2.4,3.8" fill="#FFDE00"/></svg>'},
+{name:'Brazil',code:'br',continent:'S.America',capital:'Brasília',fact:'The Amazon rainforest is mostly in Brazil!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="12" fill="#009739"/><polygon points="9,1 17,6 9,11 1,6" fill="#FFE000"/><circle cx="9" cy="6" r="3" fill="#002776"/><polygon points="9,4 9.4,5.2 10.7,5.2 9.7,6 10,7.2 9,6.3 8,7.2 8.3,6 7.3,5.2 8.6,5.2" fill="#fff"/></svg>'},
+{name:'Australia',code:'au',continent:'Oceania',capital:'Canberra',fact:'Home to kangaroos and koalas!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="12" fill="#00008B"/><circle cx="13.5" cy="2" r="1" fill="#fff"/><circle cx="16" cy="4" r="1" fill="#fff"/><circle cx="15" cy="9" r="1" fill="#fff"/><circle cx="11" cy="6" r="1" fill="#fff"/><polygon points="9,0 6.5,3 9,6 6.5,8 9,10" fill="#fff" opacity=".5"/><rect y="5" width="7.5" height="2" fill="#fff"/><rect x="3" width="2" height="12" fill="#fff"/><rect x="2" y="0" width="2" height="12" fill="#C8102E"/><rect y="5" width="7.5" height="1.5" fill="#C8102E"/></svg>'},
+{name:'Canada',code:'ca',continent:'N.America',capital:'Ottawa',fact:'The maple leaf represents Canada!',svg:'<svg viewBox="0 0 18 12"><rect width="4" height="12" fill="#D80621"/><rect x="4" width="10" height="12" fill="#fff"/><rect x="14" width="4" height="12" fill="#D80621"/><path d="M9,1.5 L10,3.5 L12,3.5 L10.5,5 L11.5,7 L9,5.5 L6.5,7 L7.5,5 L6,3.5 L8,3.5 Z" fill="#D80621"/></svg>'},
+{name:'India',code:'in',continent:'Asia',capital:'New Delhi',fact:'The second most populous country!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="4" fill="#FF9933"/><rect y="4" width="18" height="4" fill="#fff"/><rect y="8" width="18" height="4" fill="#138808"/><circle cx="9" cy="6" r="1.5" fill="#000080"/></svg>'},
+{name:'Sweden',code:'se',continent:'Europe',capital:'Stockholm',fact:'Sweden has ABBA, IKEA, and meatballs!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="12" fill="#005BAA"/><rect y="4" width="18" height="4" fill="#FECC00"/><rect x="5" width="3" height="12" fill="#FECC00"/></svg>'},
+{name:'Italy',code:'it',continent:'Europe',capital:'Rome',fact:'Pizza and pasta were born here!',svg:'<svg viewBox="0 0 18 12"><rect width="6" height="12" fill="#009246"/><rect x="6" width="6" height="12" fill="#fff"/><rect x="12" width="6" height="12" fill="#CE2B37"/></svg>'},
+{name:'Spain',code:'es',continent:'Europe',capital:'Madrid',fact:'Flamenco and paella come from Spain!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="12" fill="#C60B1E"/><rect y="2" width="18" height="8" fill="#FFC400"/><rect y="4" width="18" height="4" fill="#C60B1E"/></svg>'},
+{name:'Russia',code:'ru',continent:'Europe',capital:'Moscow',fact:'The largest country in the world!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="4" fill="#fff"/><rect y="4" width="18" height="4" fill="#0039A6"/><rect y="8" width="18" height="4" fill="#D52B1E"/></svg>'},
+{name:'South Korea',code:'kr',continent:'Asia',capital:'Seoul',fact:'K-pop and kimchi made in Korea!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="12" fill="#fff"/><circle cx="9" cy="6" r="3.5" fill="#E60026"/><path d="M4,2 L8,6 L4,10 M14,2 L10,6 L14,10" stroke="#003478" stroke-width=".8" fill="none"/><path d="M4,10 L8,6 L4,2 M14,10 L10,6 L14,2" stroke="#000" stroke-width=".8" fill="none"/></svg>'},
+{name:'Mexico',code:'mx',continent:'N.America',capital:'Mexico City',fact:'Tacos, mariachi, and ancient pyramids!',svg:'<svg viewBox="0 0 18 12"><rect width="6" height="12" fill="#006847"/><rect x="6" width="6" height="12" fill="#fff"/><rect x="12" width="6" height="12" fill="#CE1126"/><circle cx="9" cy="6" r="2" fill="#CE1126"/><path d="M7,4 L9,6 L7,8 M11,4 L9,6 L11,8" stroke="#C69214" stroke-width=".8" fill="none"/></svg>'},
+{name:'Argentina',code:'ar',continent:'S.America',capital:'Buenos Aires',fact:'Tango and the best steaks in the world!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="4" fill="#74ACDF"/><rect y="4" width="18" height="4" fill="#fff"/><rect y="8" width="18" height="4" fill="#74ACDF"/><circle cx="9" cy="5.5" r="2" fill="#F6B40E"/></svg>'},
+{name:'Egypt',code:'eg',continent:'Africa',capital:'Cairo',fact:'Home to the ancient pyramids!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="4" fill="#CE1126"/><rect y="4" width="18" height="4" fill="#fff"/><rect y="8" width="18" height="4" fill="#000"/><polygon points="9,5 10.5,7 9,6.5 7.5,7" fill="#C60C30"/></svg>'},
+{name:'South Africa',code:'za',continent:'Africa',capital:'Pretoria',fact:'The Rainbow Nation!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="4" fill="#E03C31"/><rect y="4" width="18" height="4" fill="#fff"/><rect y="8" width="18" height="4" fill="#007749"/><polygon points="0,0 8,6 4,12 18,4" fill="#FFB81C"/><polygon points="0,1 7,6 3,11 17,4" fill="#007749"/><polygon points="0,0 5,4 2,8 14,2" fill="#000"/></svg>'},
+{name:'Netherlands',code:'nl',continent:'Europe',capital:'Amsterdam',fact:'Tulips, windmills, and canals!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="4" fill="#AE1C28"/><rect y="4" width="18" height="4" fill="#fff"/><rect y="8" width="18" height="4" fill="#21468B"/></svg>'},
+{name:'Switzerland',code:'ch',continent:'Europe',capital:'Bern',fact:'Famous for chocolate and mountains!',svg:'<svg viewBox="0 0 12 12"><rect width="12" height="12" fill="#FF0000"/><rect x="5" y="2" width="2" height="8" fill="#fff"/><rect x="2" y="5" width="8" height="2" fill="#fff"/></svg>'},
+{name:'Nigeria',code:'ng',continent:'Africa',capital:'Abuja',fact:'The most populous country in Africa!',svg:'<svg viewBox="0 0 18 12"><rect width="6" height="12" fill="#008753"/><rect x="6" width="6" height="12" fill="#fff"/><rect x="12" width="6" height="12" fill="#008753"/></svg>'},
+{name:'Turkey',code:'tr',continent:'Asia',capital:'Ankara',fact:'The bridge between Europe and Asia!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="12" fill="#E30A17"/><circle cx="7" cy="6" r="2" fill="#fff"/><polygon points="9,4.5 10,5.8 11.5,6 10,6.2 9,7.5 8,6.2 6.5,6 8,5.8" fill="#fff"/></svg>'},
+{name:'Greece',code:'gr',continent:'Europe',capital:'Athens',fact:'The birthplace of democracy!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="1.3" fill="#0D5EAF"/><rect y="1.3" width="18" height="1.3" fill="#fff"/><rect y="2.6" width="18" height="1.3" fill="#0D5EAF"/><rect y="4" width="18" height="1.3" fill="#fff"/><rect y="5.3" width="18" height="1.3" fill="#0D5EAF"/><rect y="6.6" width="18" height="1.3" fill="#fff"/><rect y="8" width="18" height="1.3" fill="#0D5EAF"/><rect y="9.3" width="18" height="1.3" fill="#fff"/><rect y="10.6" width="18" height="1.3" fill="#0D5EAF"/><rect x="0" y="0" width="5" height="5.3" fill="#0D5EAF"/><rect y="1.3" width="5" height="1.3" fill="#fff"/><rect y="2.6" width="5" height="1.3" fill="#0D5EAF"/><rect y="4" width="5" height="1.3" fill="#fff"/></svg>'},
+{name:'Thailand',code:'th',continent:'Asia',capital:'Bangkok',fact:'The Land of Smiles!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="2" fill="#A51931"/><rect y="2" width="18" height="2" fill="#fff"/><rect y="4" width="18" height="4" fill="#241D4F"/><rect y="8" width="18" height="2" fill="#fff"/><rect y="10" width="18" height="2" fill="#A51931"/></svg>'},
+{name:'Kenya',code:'ke',continent:'Africa',capital:'Nairobi',fact:'Home to the Maasai and safaris!',svg:'<svg viewBox="0 0 18 12"><rect width="18" height="4" fill="#000"/><rect y="4" width="18" height="4" fill="#BB1E10"/><rect y="8" width="18" height="4" fill="#006600"/><rect y="3.5" width="18" height=".6" fill="#fff"/><rect y="8.5" width="18" height=".6" fill="#fff"/><circle cx="9" cy="6" r="2.5" fill="#fff"/><ellipse cx="9" cy="6" rx="1.8" ry="1.5" fill="#000"/><ellipse cx="9" cy="5.5" rx=".6" ry=".5" fill="#fff"/></svg>'}
+];
+
+const MODES=[{pairs:6,cols:'easy'},{pairs:8,cols:'medium'},{pairs:10,cols:'hard'}];
+let cards=[],flipped=[],matched=[],turns=0,lock=false,sel=6,lastMatched='';
+
+function newGame(mode){
+  if(mode<0)mode=parseInt(document.querySelector('.db.act')?.textContent.includes('Easy')?0:document.querySelector('.db.act')?.textContent.includes('Medium')?1:2);
+  document.querySelectorAll('.db').forEach((b,i)=>b.classList.toggle('act',i===mode));
+  const m=MODES[mode];sel=m.pairs;
+  const pool=[...FLAGS].sort(()=>Math.random()-.5).slice(0,m.pairs);
+  cards=[...pool.map(f=>({...f,id:f.code})),...pool.map(f=>({...f,id:f.code}))].sort(()=>Math.random()-.5);
+  flipped=[];matched=[];turns=0;lock=false;lastMatched='';
+  document.getElementById('board').className='board '+m.cols;
+  render();
+}
+
+function render(){
+  document.getElementById('board').innerHTML=cards.map((c,i)=>`<div class="card ${matched.includes(i)?'matched':''}${flipped.includes(i)?' flip':''}" onclick="clickCard(${i})"><div class="card-inner card-front">🌍</div><div class="card-inner card-back"><div class="flag-svg">${c.svg}</div><div class="card-name">${c.name}</div></div></div>`).join('');
+  document.getElementById('pairs').textContent=matched.length/2+'/'+sel;
+  document.getElementById('turns').textContent=turns;
+  if(matched.length===cards.length)document.getElementById('msg').innerHTML='🎉 All matched! You found '+sel+' countries!';
+}
+
+function clickCard(i){
+  if(lock||matched.includes(i)||flipped.includes(i))return;if(flipped.length===2)return;
+  flipped.push(i);render();
+  if(flipped.length===2){turns++;lock=true;
+    setTimeout(()=>{
+      const a=cards[flipped[0]],b=cards[flipped[1]];
+      if(a.code===b.code&&flipped[0]!==flipped[1]){
+        matched.push(...flipped);
+        document.getElementById('msg').innerHTML='✅ '+a.name+' — '+a.fact;
+      }else{lastMatched='';document.getElementById('msg').innerHTML='❌ Try again!';}
+      flipped=[];lock=false;render();
+    },800);
+  }
+}
+newGame(0);
+</script>
+</body>
+</html>
