@@ -32,65 +32,44 @@ body {
   position: relative;
 }
 
-/* ── CANVAS ── */
-#bg-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* ── DECORATIVE BUBBLES ── */
 .bub { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
-.b1 { width: 300px; height: 300px; background: rgba(244,132,95,0.12); top: -80px; left: -60px; }
-.b2 { width: 200px; height: 200px; background: rgba(167,139,250,0.12); top: 40%; right: -50px; }
-.b3 { width: 250px; height: 250px; background: rgba(67,185,122,0.10); bottom: 10%; left: 5%; }
-.b4 { width: 180px; height: 180px; background: rgba(247,201,72,0.12); bottom: 40%; right: 15%; }
+.b1 { width: 300px; height: 300px; background: rgba(244,132,95,0.10); top: -80px; left: -60px; }
+.b2 { width: 200px; height: 200px; background: rgba(167,139,250,0.10); top: 40%; right: -50px; }
+.b3 { width: 250px; height: 250px; background: rgba(67,185,122,0.08); bottom: 10%; left: 5%; }
 
 /* ── NAV ── */
 nav {
-  display: flex;
-  align-items: center;
+  display: flex; align-items: center;
   padding: 12px 24px;
   background: rgba(255,255,255,0.80);
   backdrop-filter: blur(12px);
-  position: sticky; top: 0;
-  z-index: 100;
+  position: sticky; top: 0; z-index: 100;
   border-bottom: 3px solid var(--yellow);
 }
 nav .brand {
   font-family: 'Fredoka', sans-serif;
   font-size: 28px; font-weight: 700;
-  margin-right: auto;
-  letter-spacing: -0.5px;
+  margin-right: auto; letter-spacing: -0.5px;
 }
 .brand-e { color: var(--orange); }
 .brand-d { color: var(--green); }
 .brand-u { color: var(--purple); }
 .brand-dot { color: var(--yellow); }
 nav a {
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 14px;
-  padding: 8px 16px;
-  border-radius: 14px;
-  margin-left: 4px;
-  transition: 0.2s;
+  color: var(--text); text-decoration: none;
+  font-weight: 700; font-size: 14px;
+  padding: 8px 16px; border-radius: 14px;
+  margin-left: 4px; transition: 0.2s;
   position: relative; z-index: 101;
 }
 nav a:hover { background: rgba(244,132,95,0.12); }
-a.nav-yt {
-  background: #FF0000; color: #fff;
-  padding: 8px 18px;
-}
+a.nav-yt { background: #FF0000; color: #fff; padding: 8px 18px; }
 a.nav-yt:hover { background: #CC0000; }
 
 /* ── HERO ── */
 .hero {
   text-align: center;
-  padding: 2.5rem 1.5rem 1.5rem;
+  padding: 2.5rem 1.5rem 2rem;
   position: relative; z-index: 10;
 }
 .hero-avatar {
@@ -105,10 +84,8 @@ a.nav-yt:hover { background: #CC0000; }
 .hero-avatar:hover { transform: scale(1.08) rotate(-3deg); }
 .hero h1 {
   font-family: 'Fredoka', sans-serif;
-  font-size: clamp(32px, 6vw, 50px);
-  font-weight: 700;
-  line-height: 1.1;
-  margin-bottom: 6px;
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 700; line-height: 1.1; margin-bottom: 6px;
 }
 .hero h1 .highlight {
   background: linear-gradient(135deg, var(--orange), var(--pink), var(--purple));
@@ -117,34 +94,15 @@ a.nav-yt:hover { background: #CC0000; }
   background-clip: text;
 }
 .hero-role {
-  font-size: 17px;
-  color: var(--soft);
-  font-weight: 600;
-  margin-bottom: 18px;
+  font-size: 17px; color: var(--soft);
+  font-weight: 600; margin-bottom: 28px;
 }
-.tags {
-  display: flex; gap: 8px;
-  justify-content: center; flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-.tag {
-  padding: 7px 18px;
-  border-radius: 20px;
-  font-size: 13px; font-weight: 700;
-  border: 2px solid;
-}
-.tag-math   { background: #FFF0E8; color: var(--orange); border-color: rgba(244,132,95,0.3); }
-.tag-ielts  { background: #F0FAF4; color: var(--green);  border-color: rgba(67,185,122,0.3); }
-.tag-yt     { background: #FFE8E8; color: #CC0000; border-color: rgba(204,0,0,0.2); }
-.tag-global { background: #EEF2FF; color: #4F46E5; border-color: rgba(79,70,229,0.2); }
-
 .cta-row {
   display: flex; gap: 12px;
   justify-content: center; flex-wrap: wrap;
 }
 .btn {
-  padding: 15px 30px;
-  border-radius: 16px;
+  padding: 15px 30px; border-radius: 16px;
   font-family: 'Nunito', sans-serif;
   font-size: 15px; font-weight: 800;
   border: none; text-decoration: none;
@@ -155,126 +113,79 @@ a.nav-yt:hover { background: #CC0000; }
 .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
 .btn-orange { background: var(--orange); color: #fff; }
 .btn-green  { background: var(--green);  color: #fff; }
+.btn-purple { background: var(--purple); color: #fff; }
 .btn-white  { background: var(--white); color: var(--text); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-
-/* ── YOUTUBE ── */
-.yt-wrap {
-  max-width: 750px;
-  margin: 0 auto 1.5rem;
-  padding: 0 1.5rem;
-  position: relative; z-index: 10;
-}
-.yt-card {
-  background: linear-gradient(135deg, #FF0000, #CC0000);
-  border-radius: 18px;
-  padding: 20px 24px;
-  display: flex; align-items: center; gap: 16px;
-  color: #fff; text-decoration: none;
-  transition: 0.2s; flex-wrap: wrap;
-}
-.yt-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(255,0,0,0.25); }
-.yt-play {
-  width: 50px; height: 50px;
-  background: #fff; color: #FF0000;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; flex-shrink: 0;
-}
-.yt-info { flex: 1; min-width: 180px; }
-.yt-label  { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.75; margin-bottom: 3px; }
-.yt-name   { font-family: 'Fredoka', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 2px; }
-.yt-desc   { font-size: 13px; opacity: 0.85; }
-.yt-arrow  { font-size: 24px; flex-shrink: 0; }
 
 /* ── SECTION ── */
 .section {
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 1050px; margin: 0 auto;
   padding: 2rem 1.5rem 3rem;
   position: relative; z-index: 10;
 }
 .sec-title {
   font-family: 'Fredoka', sans-serif;
   font-size: clamp(28px, 4vw, 38px);
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 6px;
+  font-weight: 700; text-align: center; margin-bottom: 6px;
 }
 .sec-sub {
-  text-align: center;
-  color: var(--soft);
-  font-size: 16px; font-weight: 600;
-  margin-bottom: 2rem;
+  text-align: center; color: var(--soft);
+  font-size: 16px; font-weight: 600; margin-bottom: 2rem;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-}
+/* ── 3-COLUMN GRID ── */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
 
-/* ── MODULE CARDS ── */
-.card {
+/* ── PATH CARD (compact, no bullet lists) ── */
+.path-card {
   background: var(--white);
-  border-radius: 22px;
-  overflow: hidden;
+  border-radius: 22px; overflow: hidden;
   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  transition: 0.3s;
-  border: 3px solid transparent;
+  transition: 0.3s; border: 3px solid transparent;
+  text-align: center; padding: 0 0 20px;
+  display: flex; flex-direction: column;
 }
-.card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.10); }
-.card.c-math:hover  { border-color: var(--orange); }
-.card.c-ielts:hover { border-color: var(--green); }
-.card-top {
-  padding: 24px 22px 14px;
-  text-align: center;
+.path-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.10); }
+.path-card.pc-math:hover   { border-color: var(--orange); }
+.path-card.pc-games:hover  { border-color: var(--purple); }
+.path-card.pc-ielts:hover  { border-color: var(--green); }
+
+.pc-top { padding: 32px 24px 16px; }
+.pc-top.pc-bg-math   { background: linear-gradient(135deg, #FFF0E8, #FFE0D0); }
+.pc-top.pc-bg-games  { background: linear-gradient(135deg, #F0E8FF, #E0D8FF); }
+.pc-top.pc-bg-ielts  { background: linear-gradient(135deg, #F0FAF4, #D8F0E4); }
+.pc-icon { font-size: 48px; display: block; margin-bottom: 8px; }
+.pc-title { font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 700; }
+.pc-sub { font-size: 13px; color: var(--soft); font-weight: 600; margin-top: 4px; }
+
+.pc-stats {
+  display: flex; gap: 12px; justify-content: center;
+  padding: 14px 24px 6px; flex-wrap: wrap;
 }
-.card-top.c-t-math  { background: linear-gradient(135deg, #FFF0E8, #FFE0D0); }
-.card-top.c-t-ielts { background: linear-gradient(135deg, #F0FAF4, #D8F0E4); }
-.card-icon { font-size: 44px; display: block; margin-bottom: 6px; }
-.card-top h3 {
-  font-family: 'Fredoka', sans-serif;
-  font-size: 21px; font-weight: 700;
+.pc-stat {
+  text-align: center; min-width: 60px;
 }
-.card-top .card-sub {
-  font-size: 13px; color: var(--soft); font-weight: 600;
+.pc-stat-num { font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700; }
+.pc-stat-num.c-orange { color: var(--orange); }
+.pc-stat-num.c-purple { color: var(--purple); }
+.pc-stat-num.c-green  { color: var(--green); }
+.pc-stat-lbl { font-size: 10px; color: var(--soft); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.pc-desc {
+  font-size: 14px; color: var(--soft); font-weight: 600;
+  padding: 4px 24px 14px; line-height: 1.5; flex: 1;
 }
-.card-body { padding: 18px 22px 14px; }
-.card-ul {
-  list-style: none;
-  display: flex; flex-direction: column; gap: 8px;
-  margin-bottom: 14px;
-}
-.card-ul li {
-  font-size: 14px; font-weight: 600;
-  display: flex; align-items: center; gap: 8px;
-}
-.fd {
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; flex-shrink: 0;
-}
-.fd-math  { background: rgba(244,132,95,0.15);  color: var(--orange); }
-.fd-ielts { background: rgba(67,185,122,0.15);   color: var(--green); }
-.card-foot {
-  border-top: 1px solid #F0F0F0;
-  padding: 14px 22px;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.card-meta { font-size: 13px; color: var(--soft); font-weight: 600; }
-.card-meta strong { color: var(--text); }
-.btn-card {
-  padding: 10px 22px;
-  border-radius: 14px;
+.pc-btn {
+  display: inline-block; margin: 0 auto;
+  padding: 12px 28px; border-radius: 14px;
   font-family: 'Nunito', sans-serif;
   font-size: 14px; font-weight: 800;
-  border: none; text-decoration: none;
-  transition: 0.2s; color: #fff;
+  border: none; text-decoration: none; color: #fff;
+  transition: 0.2s;
 }
-.btn-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
-.btn-card.bc-math  { background: var(--orange); }
-.btn-card.bc-ielts { background: var(--green);  }
+.pc-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+.pc-btn.bc-math  { background: var(--orange); }
+.pc-btn.bc-games { background: var(--purple); }
+.pc-btn.bc-ielts { background: var(--green); }
 
 /* ── ABOUT ── */
 .about {
@@ -285,22 +196,19 @@ a.nav-yt:hover { background: #CC0000; }
   position: relative; z-index: 10;
 }
 .about-inner {
-  max-width: 750px;
-  margin: 0 auto;
+  max-width: 750px; margin: 0 auto;
   display: flex; align-items: center; gap: 24px;
   flex-wrap: wrap; justify-content: center;
 }
 .about-img {
-  width: 80px; height: 80px;
-  border-radius: 50%;
+  width: 80px; height: 80px; border-radius: 50%;
   object-fit: cover; object-position: center top;
   border: 4px solid var(--yellow);
 }
 .about-txt { flex: 1; min-width: 250px; }
 .about-txt h3 {
   font-family: 'Fredoka', sans-serif;
-  font-size: 20px; font-weight: 700;
-  margin-bottom: 6px;
+  font-size: 20px; font-weight: 700; margin-bottom: 6px;
 }
 .about-txt p {
   font-size: 14px; color: var(--soft); line-height: 1.7;
@@ -309,33 +217,26 @@ a.nav-yt:hover { background: #CC0000; }
 /* ── PREMIUM ── */
 .premium {
   background: linear-gradient(135deg, #2D2A32, #1A1A2E, #2D2A32);
-  color: #fff;
-  text-align: center;
+  color: #fff; text-align: center;
   padding: 3rem 1.5rem;
   position: relative; z-index: 10;
 }
 .premium .pbadge {
   display: inline-block;
-  background: var(--yellow);
-  color: var(--text);
-  padding: 4px 16px;
-  border-radius: 20px;
+  background: var(--yellow); color: var(--text);
+  padding: 4px 16px; border-radius: 20px;
   font-size: 12px; font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  text-transform: uppercase; letter-spacing: 0.06em;
   margin-bottom: 10px;
 }
 .premium h2 {
   font-family: 'Fredoka', sans-serif;
   font-size: clamp(26px, 4vw, 34px);
-  font-weight: 700;
-  margin-bottom: 10px;
+  font-weight: 700; margin-bottom: 10px;
 }
 .premium p {
-  opacity: 0.85;
-  font-size: 16px;
-  max-width: 520px;
-  margin: 0 auto 22px;
+  opacity: 0.85; font-size: 16px;
+  max-width: 520px; margin: 0 auto 22px;
 }
 .premium .hl { color: var(--yellow); font-weight: 800; }
 
@@ -343,10 +244,8 @@ a.nav-yt:hover { background: #CC0000; }
 footer {
   background: #2D2A32;
   color: rgba(255,255,255,0.5);
-  text-align: center;
-  padding: 24px 16px;
-  font-size: 13px;
-  position: relative; z-index: 10;
+  text-align: center; padding: 24px 16px;
+  font-size: 13px; position: relative; z-index: 10;
 }
 footer .ft-name { color: var(--orange); font-weight: 700; }
 footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
@@ -357,17 +256,14 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   nav .brand { font-size: 20px; }
   nav a { font-size: 12px; padding: 6px 10px; }
   .grid { grid-template-columns: 1fr; }
-  .yt-card { flex-direction: column; text-align: center; }
 }
 </style>
 </head>
 <body>
 
-<canvas id="bg-canvas"></canvas>
 <div class="bub b1"></div>
 <div class="bub b2"></div>
 <div class="bub b3"></div>
-<div class="bub b4"></div>
 
 <nav>
   <div class="brand">
@@ -383,99 +279,62 @@ footer a:hover { color: rgba(255,255,255,0.7); }
 <header class="hero">
   <img src="teacher-photo.jpg" alt="Eustaquia T Calope" class="hero-avatar">
   <h1>I'm <span class="highlight">Eustaquia T Calope</span></h1>
-  <p class="hero-role">Your Global Teacher — Math, Grammar &amp; Real-World Skills</p>
-  <div class="tags">
-    <span class="tag tag-math">💰 Decimal Math</span>
-    <span class="tag tag-ielts">📚 IELTS Grammar</span>
-    <span class="tag tag-yt">▶ Video Lessons</span>
-    <span class="tag tag-global">🌍 Global Classroom</span>
-  </div>
+  <p class="hero-role">Your Global Teacher — helping students learn through play</p>
   <div class="cta-row">
-    <a href="math-games.html" class="btn btn-orange">🎮 Play Math Games</a>
-    <a href="ielts-grammar.html" class="btn btn-green">📖 Study Grammar</a>
-    <a href="https://www.youtube.com/@Eusell77" class="btn btn-white" target="_blank">▶ YouTube</a>
+    <a href="math-games.html" class="btn btn-orange">💰 Math Games</a>
+    <a href="subjects.html" class="btn btn-purple">🎮 Learning Games</a>
+    <a href="ielts-grammar.html" class="btn btn-green">📚 Grammar</a>
   </div>
 </header>
 
-<div class="yt-wrap">
-  <a href="https://www.youtube.com/@Eusell77" class="yt-card" target="_blank">
-    <div class="yt-play">▶</div>
-    <div class="yt-info">
-      <div class="yt-label">📺 YouTube — New Videos Coming!</div>
-      <div class="yt-name">EuStack Vitality</div>
-      <div class="yt-desc">Global Educator with Real-Life Wisdom</div>
-    </div>
-    <div class="yt-arrow">→</div>
-  </a>
-</div>
-
 <section class="section">
   <h2 class="sec-title">✨ Pick Your Path</h2>
-  <p class="sec-sub">Fun learning tools made by a real teacher, for real students</p>
+  <p class="sec-sub">Three ways to learn — all free, all made by a real teacher</p>
 
   <div class="grid">
-    <div class="card c-math">
-      <div class="card-top c-t-math">
-        <span class="card-icon">💰</span>
-        <h3>Decimal Math Games</h3>
-        <div class="card-sub">Real-World Money Problems</div>
+    <!-- Math -->
+    <div class="path-card pc-math">
+      <div class="pc-top pc-bg-math">
+        <span class="pc-icon">💰</span>
+        <div class="pc-title">Decimal Math</div>
+        <div class="pc-sub">Money &amp; Real-World Problems</div>
       </div>
-      <div class="card-body">
-        <ul class="card-ul">
-          <li><span class="fd fd-math">🎯</span> Place Value Matching</li>
-          <li><span class="fd fd-math">💵</span> Money Builder Challenge</li>
-          <li><span class="fd fd-math">➕</span> Addition &amp; Subtraction</li>
-          <li><span class="fd fd-math">🛒</span> Shopping Spree</li>
-          <li><span class="fd fd-math">🏆</span> Challenge + Assessment</li>
-        </ul>
+      <div class="pc-stats">
+        <div class="pc-stat"><div class="pc-stat-num c-orange">7</div><div class="pc-stat-lbl">Games</div></div>
+        <div class="pc-stat"><div class="pc-stat-num c-orange">All</div><div class="pc-stat-lbl">Levels</div></div>
       </div>
-      <div class="card-foot">
-        <div class="card-meta"><strong>7</strong> games · all levels</div>
-        <a href="math-games.html" class="btn-card bc-math">Play Now →</a>
-      </div>
+      <div class="pc-desc">Place value, addition, subtraction, shopping — learn decimals through real money situations.</div>
+      <a href="math-games.html" class="pc-btn bc-math">Play Now →</a>
     </div>
 
-    <!-- NEW: Learning Games card -->
-    <div class="card" style="border-color:rgba(167,139,250,0.3)">
-      <div class="card-top" style="background:linear-gradient(135deg,#F0E8FF,#E0D8FF)">
-        <span class="card-icon">🎮</span>
-        <h3>Learning Games</h3>
-        <div class="card-sub">9 Games · 8 Subjects</div>
+    <!-- Games -->
+    <div class="path-card pc-games">
+      <div class="pc-top pc-bg-games">
+        <span class="pc-icon">🎮</span>
+        <div class="pc-title">Learning Games</div>
+        <div class="pc-sub">8 Subjects · Interactive Fun</div>
       </div>
-      <div class="card-body">
-        <ul class="card-ul">
-          <li><span class="fd" style="background:rgba(167,139,250,0.15);color:var(--purple)">🌍</span> Geography · Flag Match + Geo</li>
-          <li><span class="fd" style="background:rgba(167,139,250,0.15);color:var(--purple)">🔢</span> Math · Number Ninja</li>
-          <li><span class="fd" style="background:rgba(167,139,250,0.15);color:var(--purple)">🌿</span> Biology · Animal Sort</li>
-          <li><span class="fd" style="background:rgba(167,139,250,0.15);color:var(--purple)">⚡</span> Physics · Gravity + Force • Lab</li>
-          <li><span class="fd" style="background:rgba(167,139,250,0.15);color:var(--purple)">🧪</span> Chemistry · Element Mix + Balance</li>
-        </ul>
+      <div class="pc-stats">
+        <div class="pc-stat"><div class="pc-stat-num c-purple">9</div><div class="pc-stat-lbl">Games</div></div>
+        <div class="pc-stat"><div class="pc-stat-num c-purple">8</div><div class="pc-stat-lbl">Subjects</div></div>
       </div>
-      <div class="card-foot">
-        <div class="card-meta"><strong>9</strong> games · 8 subjects</div>
-        <a href="subjects.html" class="btn-card" style="background:var(--purple)">Browse Games →</a>
-      </div>
+      <div class="pc-desc">Geography, history, biology, physics, chemistry — and more. Pick a subject and start playing!</div>
+      <a href="subjects.html" class="pc-btn bc-games">Browse Games →</a>
     </div>
 
-    <div class="card c-ielts">
-      <div class="card-top c-t-ielts">
-        <span class="card-icon">📚</span>
-        <h3>IELTS Grammar Studio</h3>
-        <div class="card-sub">25 Units · Visual Lessons</div>
+    <!-- IELTS -->
+    <div class="path-card pc-ielts">
+      <div class="pc-top pc-bg-ielts">
+        <span class="pc-icon">📚</span>
+        <div class="pc-title">IELTS Grammar</div>
+        <div class="pc-sub">Visual Lessons · Quizzes</div>
       </div>
-      <div class="card-body">
-        <ul class="card-ul">
-          <li><span class="fd fd-ielts">⏱️</span> Tenses Mastery</li>
-          <li><span class="fd fd-ielts">📝</span> Nouns &amp; Description</li>
-          <li><span class="fd fd-ielts">🏆</span> Advanced Grammar</li>
-          <li><span class="fd fd-ielts">✅</span> Interactive Quizzes</li>
-          <li><span class="fd fd-ielts">📈</span> XP &amp; Progress</li>
-        </ul>
+      <div class="pc-stats">
+        <div class="pc-stat"><div class="pc-stat-num c-green">25</div><div class="pc-stat-lbl">Units</div></div>
+        <div class="pc-stat"><div class="pc-stat-num c-green">3</div><div class="pc-stat-lbl">Phases</div></div>
       </div>
-      <div class="card-foot">
-        <div class="card-meta"><strong>25</strong> units · 3 phases</div>
-        <a href="ielts-grammar.html" class="btn-card bc-ielts">Start Learning →</a>
-      </div>
+      <div class="pc-desc">25-unit grammar mastery system with visual slides, interactive drills, and gamified quizzes.</div>
+      <a href="ielts-grammar.html" class="pc-btn bc-ielts">Start Learning →</a>
     </div>
   </div>
 </section>
@@ -498,131 +357,15 @@ footer a:hover { color: rgba(255,255,255,0.7); }
     <span class="hl">ad-free experience</span> · certificates &amp; reports
   </p>
   <a href="#" class="btn btn-orange">Browse Premium Store →</a>
-  <p style="margin-top:12px;font-size:13px;opacity:0.55;">
-    🎁 All interactive games &amp; quizzes stay free forever
-  </p>
 </div>
 
 <footer>
-  <p><span class="ft-name">Eustaquia T Calope</span> — EduSuite</p>
-  <p style="margin-top:6px;">
-    <a href="#">Privacy</a> · <a href="#">Terms</a> · 
+  <p>© <span class="ft-name">Eustaquia T Calope</span> — EduSuite Learning</p>
+  <p style="margin-top:4px">
+    <a href="#">Privacy</a> · <a href="#">Terms</a> ·
     <a href="https://www.youtube.com/@Eusell77" target="_blank">YouTube</a>
   </p>
 </footer>
-
-<script>
-(function(){
-  const c = document.getElementById('bg-canvas');
-  const ctx = c.getContext('2d');
-  let W, H;
-  function resize() {
-    W = c.width = window.innerWidth;
-    H = c.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  let mx = -9999, my = -9999;
-  document.addEventListener('mousemove', function(e) {
-    mx = e.clientX; my = e.clientY;
-  });
-  document.addEventListener('mouseleave', function() {
-    mx = -9999; my = -9999;
-  });
-
-  // ── BIG SYMBOL SET ──
-  const SYMS = [
-    '0','1','2','3','4','5','6','7','8','9',
-    '+','−','×','÷','=','%','$','¢','€',
-    'A','B','C','D','E','F','G',
-    'α','β','π','∑','√','∞',
-    '⭐','🌟','✏️','📚','🎓','💡','🔢','🎯',
-    '🌸','🌈','🎈','🎉','🦋','🍎','🌟',
-    '♠','♥','♦','♣','♪','♫','⚡','🔥',
-    '?','!','&','@','#','~','^'
-  ];
-
-  const particles = [];
-  const COUNT = 120;
-
-  // Colour palettes
-  const PALETTES = [
-    {h: 20, s: 75, l: 58},  // orange
-    {h: 340, s: 70, l: 58}, // pink
-    {h: 260, s: 65, l: 62}, // purple
-    {h: 150, s: 55, l: 45}, // green
-    {h: 45, s: 85, l: 55},  // gold
-    {h: 210, s: 70, l: 55}, // blue
-  ];
-
-  for (let i = 0; i < COUNT; i++) {
-    const pal = PALETTES[Math.floor(Math.random() * PALETTES.length)];
-    particles.push({
-      x: Math.random() * (W + 300) - 150,
-      y: Math.random() * (H + 300) - 150,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5 - 0.15,
-      size: 20 + Math.random() * 30,
-      sym: SYMS[Math.floor(Math.random() * SYMS.length)],
-      alpha: 0.12 + Math.random() * 0.18,
-      rot: Math.random() * Math.PI * 2,
-      rotSpd: (Math.random() - 0.5) * 0.01,
-      hue: pal.h,
-      sat: pal.s,
-      light: pal.l,
-      // Some symbols oscillate up/down slightly
-      osc: Math.random() * Math.PI * 2,
-      oscSpd: 0.005 + Math.random() * 0.01,
-      oscAmp: 3 + Math.random() * 8,
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-
-    for (const p of particles) {
-      p.x += p.vx;
-      p.y += p.vy + Math.sin(p.osc) * 0.2;
-      p.rot += p.rotSpd;
-      p.osc += p.oscSpd;
-
-      // Mouse repel
-      const dx = p.x - mx;
-      const dy = p.y - my;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 200) {
-        const force = (200 - dist) / 200;
-        const repel = force * 0.7;
-        p.x += (dx / dist || 1) * repel * 2.5;
-        p.y += (dy / dist || 1) * repel * 2.5;
-      }
-
-      // Wrap
-      const pad = 150;
-      if (p.x < -pad) p.x = W + pad;
-      if (p.x > W + pad) p.x = -pad;
-      if (p.y < -pad) p.y = H + pad;
-      if (p.y > H + pad) p.y = -pad;
-
-      // Draw
-      ctx.save();
-      ctx.translate(p.x, p.y + Math.sin(p.osc) * p.oscAmp);
-      ctx.rotate(p.rot);
-      ctx.font = `${p.size}px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = `hsla(${p.hue},${p.sat}%,${p.light}%,${p.alpha})`;
-      ctx.fillText(p.sym, 0, 0);
-      ctx.restore();
-    }
-
-    requestAnimationFrame(draw);
-  }
-
-  draw();
-})();
-</script>
 
 </body>
 </html>
