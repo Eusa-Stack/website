@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decimal Math Games — EduSuite by Eustaquia T Calope</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #F4845F;
+  --yellow: #F7C948;
+  --green:  #43B97A;
+  --pink:   #E85D75;
+  --purple: #A78BFA;
+  --blue:   #60A5FA;
+  --white:  #FFFFFF;
+  --text:   #2D2A32;
+  --soft:   #6B6A75;
+  --mono:   'JetBrains Mono', 'Courier New', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #FFF0E6 0%, #FFF5C2 25%, #FDE6F0 50%, #E6F5FF 75%, #F0E8FF 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* ── STATS DASHBOARD ── */
+.dashboard {
+  display: flex; gap: 12px;
+  justify-content: center; flex-wrap: wrap;
+  padding: 0 1.5rem 1rem;
+}
+.d-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 14px 22px;
+  text-align: center;
+  min-width: 130px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+.d-card:hover { border-color: var(--yellow); transform: translateY(-2px); }
+.d-num {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 26px; font-weight: 700;
+  color: var(--orange);
+}
+.d-lbl { font-size: 11px; color: var(--soft); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.d-lvl {
+  display: inline-block;
+  font-size: 11px; font-weight: 800;
+  padding: 2px 10px; border-radius: 10px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.d-lvl.beginner  { background: #DCFCE7; color: #14532D; }
+.d-lvl.intermediate { background: #FEF3C7; color: #78350F; }
+.d-lvl.advanced  { background: #EDE9FE; color: #4C1D95; }
+.d-lvl.expert    { background: #FEE2E2; color: #991B1B; }
+
+/* ── GAME PICKER ── */
+.picker {
+  display: flex; gap: 8px;
+  justify-content: center; flex-wrap: wrap;
+  padding: 0 1.5rem 1.5rem;
+}
+.g-btn {
+  padding: 12px 20px;
+  border-radius: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 800;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: 0.2s;
+  background: var(--white);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.g-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+.g-btn.active { border-color: var(--orange); background: #FFF0E8; }
+.g-btn .g-level {
+  display: inline-block;
+  font-size: 9px; font-weight: 800;
+  padding: 1px 8px; border-radius: 8px;
+  text-transform: uppercase;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.g-level.l-easy { background: #DCFCE7; color: #14532D; }
+.g-level.l-med  { background: #FEF3C7; color: #78350F; }
+.g-level.l-hard { background: #EDE9FE; color: #4C1D95; }
+
+/* ── GAME AREA ── */
+.game-area {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem;
+}
+.game-panel {
+  display: none;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  animation: fadeUp 0.3s ease;
+}
+.game-panel.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.game-panel h2 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 22px; font-weight: 700;
+  margin-bottom: 4px;
+}
+.game-panel .g-desc {
+  color: var(--soft); font-size: 14px;
+  margin-bottom: 18px;
+}
+.game-panel .g-badge {
+  display: inline-block;
+  font-size: 10px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 3px 10px; border-radius: 10px;
+  margin-bottom: 10px;
+}
+.g-badge.easy { background: #DCFCE7; color: #14532D; }
+.g-badge.med  { background: #FEF3C7; color: #78350F; }
+.g-badge.hard { background: #EDE9FE; color: #4C1D95; }
+
+/* ── QUESTION BOX ── */
+.q-box {
+  background: #FFF8F0;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 2px solid rgba(247,201,72,0.25);
+}
+.q-text {
+  font-size: 18px; font-weight: 700;
+  margin-bottom: 14px; line-height: 1.5;
+}
+.q-input {
+  width: 100%;
+  padding: 14px;
+  font-size: 20px;
+  border: 3px solid #E0D6CC;
+  border-radius: 12px;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  background: var(--white);
+  transition: 0.2s;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.q-input:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 4px rgba(244,132,95,0.12); }
+
+/* ── OPTIONS GRID (MC) ── */
+.opt-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.opt-card {
+  background: var(--white);
+  border: 3px solid #E0D6CC;
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  transition: 0.15s;
+}
+.opt-card:hover { border-color: var(--orange); box-shadow: 0 4px 12px rgba(244,132,95,0.1); }
+.opt-card.sel { border-color: var(--green); background: #F0FAF4; }
+
+/* ── MONEY DISPLAY ── */
+.m-row {
+  display: flex; gap: 14px;
+  justify-content: center; flex-wrap: wrap;
+  margin: 16px 0;
+}
+.m-item {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  min-width: 140px;
+  border: 3px solid var(--yellow);
+}
+.m-item .m-lbl { font-size: 13px; font-weight: 700; color: var(--soft); margin-bottom: 8px; }
+.m-item input {
+  width: 80px; padding: 10px;
+  font-size: 22px; font-weight: 800;
+  text-align: center;
+  border: 2px solid #E0D6CC;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+}
+.m-item input:focus { outline: none; border-color: var(--orange); }
+
+/* ── WORK SPACE ── */
+.work-box {
+  background: #FFF8F0;
+  border: 2px dashed rgba(244,132,95,0.3);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.work-nums {
+  font-family: 'Nunito', sans-serif;
+  font-size: 24px; font-weight: 800;
+  text-align: center;
+  color: var(--text);
+}
+.work-nums .line { border-bottom: 3px solid var(--orange); padding-bottom: 8px; margin-bottom: 4px; }
+
+/* ── CART ── */
+.cart-box {
+  background: #FFF8F0;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.cart-item {
+  display: flex; justify-content: space-between;
+  padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.cart-item:last-child { border-bottom: none; }
+.cart-total {
+  display: flex; justify-content: space-between;
+  padding: 12px 10px 4px;
+  border-top: 3px solid var(--orange);
+  margin-top: 8px;
+  font-weight: 800; font-size: 18px;
+}
+
+/* ── BUTTONS ── */
+.btn-row {
+  display: flex; gap: 10px;
+  justify-content: center; flex-wrap: wrap;
+  margin: 14px 0;
+}
+.btn {
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 800;
+  border: none; cursor: pointer;
+  transition: 0.2s;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+.btn-orange { background: var(--orange); color: #fff; }
+.btn-green  { background: var(--green);  color: #fff; }
+.btn-yellow { background: var(--yellow); color: var(--text); }
+.btn-outline { background: transparent; color: var(--text); border: 2px solid #E0D6CC; }
+.btn-outline:hover { border-color: var(--orange); background: rgba(244,132,95,0.06); }
+
+/* ── FEEDBACK ── */
+.fb {
+  padding: 14px; border-radius: 12px;
+  margin-top: 12px;
+  font-weight: 700; text-align: center;
+  font-size: 15px;
+}
+.fb.good { background: #DCFCE7; color: #14532D; border: 2px solid #86EFAC; }
+.fb.bad  { background: #FEE2E2; color: #991B1B; border: 2px solid #FCA5A5; }
+
+/* ── STEPS ── */
+.steps-box {
+  margin-top: 14px;
+}
+.step {
+  padding: 10px 14px;
+  margin: 6px 0;
+  border-left: 4px solid var(--orange);
+  background: #FFF8F0;
+  border-radius: 0 10px 10px 0;
+  font-size: 14px;
+}
+
+/* ── ASSESSMENT ── */
+.assess-header {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 8px;
+  margin-bottom: 16px;
+}
+.assess-timer {
+  display: inline-block;
+  padding: 6px 16px;
+  background: #FFF0E8; border-radius: 10px;
+  font-weight: 800; font-size: 20px;
+  color: var(--orange);
+  font-family: 'Nunito', sans-serif;
+}
+.prog-track {
+  height: 10px; background: #E0D6CC; border-radius: 5px;
+  overflow: hidden; margin-bottom: 16px;
+}
+.prog-fill {
+  height: 10px; background: linear-gradient(90deg, var(--orange), var(--yellow));
+  border-radius: 5px; transition: width 0.4s;
+}
+
+/* ── RESULTS ── */
+.result-box {
+  text-align: center;
+  padding: 20px;
+}
+.result-box .emoji { font-size: 48px; margin-bottom: 10px; }
+.result-box .score {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 36px; font-weight: 700;
+  color: var(--orange);
+  margin-bottom: 6px;
+}
+.result-box .grade { font-size: 18px; color: var(--soft); margin-bottom: 16px; }
+.breakdown { text-align: left; max-width: 450px; margin: 0 auto 16px; }
+.breakdown-item {
+  display: flex; justify-content: space-between;
+  padding: 8px 12px; border-radius: 8px;
+  margin: 4px 0; font-weight: 600;
+  font-size: 14px;
+}
+.breakdown-item.b-good { background: #DCFCE7; }
+.breakdown-item.b-bad  { background: #FEE2E2; }
+
+details summary {
+  cursor: pointer; font-weight: 700;
+  color: var(--orange); padding: 8px;
+  font-size: 14px;
+}
+.review-item {
+  padding: 10px; border-bottom: 1px solid #E0D6CC;
+  font-size: 14px;
+}
+.review-item .r-q { font-weight: 600; }
+.review-item .r-a { color: var(--green); font-weight: 700; }
+.review-item .r-w { color: #E85D75; font-weight: 700; text-decoration: line-through; }
+
+/* ── HINT ── */
+.hint {
+  background: #FFFBEB;
+  border-left: 4px solid var(--yellow);
+  padding: 12px 16px;
+  margin: 14px 0;
+  border-radius: 8px;
+  font-size: 14px; line-height: 1.6;
+}
+.hint strong { color: var(--orange); }
+
+/* ── BACK LINK ── */
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--orange); font-weight: 700; font-size: 14px;
+  text-decoration: none; padding: 8px 0 0 1.5rem;
+}
+.back-link:hover { text-decoration: underline; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  nav .brand { font-size: 18px; }
+  nav a { font-size: 11px; padding: 5px 10px; }
+  .opt-grid { grid-template-columns: 1fr; }
+  .game-panel { padding: 16px; }
+  .d-card { min-width: 80px; padding: 10px 14px; }
+  .d-num { font-size: 20px; }
+  .m-item { min-width: 100px; padding: 12px; }
+}
+
+/* ── TINY SELECT QUIZ START ── */
+.start-box { text-align: center; padding: 20px; }
+.start-box .big-icon { font-size: 48px; margin-bottom: 12px; }
+.start-box ul { text-align: left; max-width: 380px; margin: 0 auto 20px; line-height: 2.2; font-size: 14px; list-style: none; }
+.start-box ul li::before { content: '✅ '; }
+</style>
+</head>
+<body>
+
+<a href="index.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--orange);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem;position:relative;z-index:10">← Back to Home</a>
+
+<nav>
+  <div class="brand">
+    <span class="brand-e">Edu</span><span class="brand-d">Suite</span><span class="brand-dot">.</span>
+    <span style="font-size:11px;color:var(--soft);font-weight:600;margin-left:6px">💰 Math Games</span>
+  </div>
+  <a href="index.html">Home</a>
+  <a href="subjects.html">Games</a>
+  <a href="ielts-grammar.html">Grammar</a>
+</nav>
+
+<header class="hero">
+  <h1>💰 <span class="hl">Decimal Math Games</span></h1>
+  <p>Practice decimals through real-world money problems — made fun!</p>
+</header>
+
+<!-- Stats Dashboard -->
+<div class="dashboard">
+  <div class="d-card"><div class="d-num" id="totalPoints">0</div><div class="d-lbl">Total Points</div></div>
+  <div class="d-card"><div class="d-num" id="problemsSolved">0</div><div class="d-lbl">Solved</div></div>
+  <div class="d-card"><div class="d-num" id="streak">0</div><div class="d-lbl">Streak</div></div>
+  <div class="d-card"><div class="d-num" id="masteryLevel">Beginner</div><div class="d-lvl" id="masteryBadge">Beginner</div><div class="d-lbl">Mastery</div></div>
+</div>
+
+<!-- Game Picker -->
+<div class="picker">
+  <button class="g-btn active" onclick="switchGame(0)">🎯 Place Value <span class="g-level l-easy">Easy</span></button>
+  <button class="g-btn" onclick="switchGame(1)">💵 Money Builder <span class="g-level l-easy">Easy</span></button>
+  <button class="g-btn" onclick="switchGame(2)">➕ Addition <span class="g-level l-med">Medium</span></button>
+  <button class="g-btn" onclick="switchGame(3)">➖ Subtraction <span class="g-level l-med">Medium</span></button>
+  <button class="g-btn" onclick="switchGame(4)">🛒 Shopping <span class="g-level l-hard">Hard</span></button>
+  <button class="g-btn" onclick="switchGame(5)">🏆 Challenge <span class="g-level l-hard">Hard</span></button>
+  <button class="g-btn" onclick="switchGame(6)">📝 Assessment <span class="g-level l-med">Mixed</span></button>
+</div>
+
+<div class="game-area">
+
+<!-- GAME 0: PLACE VALUE -->
+<div class="game-panel active" id="game0">
+  <h2>🎯 Place Value Matching</h2>
+  <div class="g-badge easy">Beginner</div>
+  <div class="g-desc">Match each decimal number to its correct place value description. Build your foundation!</div>
+  <div class="q-box">
+    <div class="q-text" id="pvQuestion">Loading...</div>
+    <div class="opt-grid" id="pvOptions"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-orange" onclick="checkPlaceValue()">Check Answer</button>
+    <button class="btn btn-yellow" onclick="newPlaceValueQuestion()">New Question</button>
+  </div>
+  <div class="fb" id="pvFeedback"></div>
+  <div class="hint"><strong>💡 Hint:</strong> The decimal point separates whole numbers from parts. Ones = Dollars, Tenths = Dimes, Hundredths = Pennies!</div>
+</div>
+
+<!-- GAME 1: MONEY BUILDER -->
+<div class="game-panel" id="game1">
+  <h2>💵 Money Builder Challenge</h2>
+  <div class="g-badge easy">Beginner</div>
+  <div class="g-desc">Show the decimal amount using dollars, dimes, and pennies.</div>
+  <div class="q-box">
+    <div class="q-text" id="mbQuestion">Loading...</div>
+    <div class="m-row">
+      <div class="m-item"><div class="m-lbl">💰 Dollars ($1)</div><input type="number" id="dollars" min="0" max="20" value="0" onchange="updateMoneyTotal()"></div>
+      <div class="m-item"><div class="m-lbl">🪙 Dimes ($0.10)</div><input type="number" id="dimes" min="0" max="10" value="0" onchange="updateMoneyTotal()"></div>
+      <div class="m-item"><div class="m-lbl">🪙 Pennies ($0.01)</div><input type="number" id="pennies" min="0" max="10" value="0" onchange="updateMoneyTotal()"></div>
+    </div>
+    <div style="text-align:center;font-size:14px;color:var(--soft);font-weight:600;">Your Total: <span style="font-size:28px;font-weight:800;color:var(--orange);">$<span id="moneyTotal">0.00</span></span></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-orange" onclick="checkMoneyBuilder()">Check Answer</button>
+    <button class="btn btn-yellow" onclick="newMoneyBuilderQuestion()">New Challenge</button>
+  </div>
+  <div class="fb" id="mbFeedback"></div>
+  <div class="hint"><strong>💡 Strategy:</strong> Start with whole dollars first, then dimes (tenths), then pennies (hundredths). Example: $2.35 = 2 dollars + 3 dimes + 5 pennies</div>
+</div>
+
+<!-- GAME 2: ADDITION -->
+<div class="game-panel" id="game2">
+  <h2>➕ Decimal Addition</h2>
+  <div class="g-badge med">Intermediate</div>
+  <div class="g-desc">Add decimals with regrouping. Line up those decimal points!</div>
+  <div class="q-box">
+    <div class="q-text" id="addQuestion">Loading...</div>
+    <div class="work-box">
+      <div class="work-nums">
+        <div id="addNum1"></div>
+        <div class="line" id="addNum2"></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin:14px 0;"><input type="text" id="addAnswer" class="q-input" placeholder="Type answer (e.g. 12.34)"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-orange" onclick="checkAddition()">Check</button>
+    <button class="btn btn-yellow" onclick="newAdditionProblem()">New Problem</button>
+    <button class="btn btn-outline" onclick="showAdditionSteps()">Show Steps</button>
+  </div>
+  <div class="fb" id="addFeedback"></div>
+  <div class="steps-box" id="addSteps"></div>
+  <div class="hint"><strong>💡 Remember:</strong> Line up decimals! Add right to left. 10+ in a place = carry 1.</div>
+</div>
+
+<!-- GAME 3: SUBTRACTION -->
+<div class="game-panel" id="game3">
+  <h2>➖ Decimal Subtraction</h2>
+  <div class="g-badge med">Intermediate</div>
+  <div class="g-desc">Subtract decimals with regrouping. Check if you need to borrow!</div>
+  <div class="q-box">
+    <div class="q-text" id="subQuestion">Loading...</div>
+    <div class="work-box">
+      <div class="work-nums">
+        <div id="subNum1"></div>
+        <div class="line" id="subNum2"></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin:14px 0;"><input type="text" id="subAnswer" class="q-input" placeholder="Type answer (e.g. 4.75)"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-orange" onclick="checkSubtraction()">Check</button>
+    <button class="btn btn-yellow" onclick="newSubtractionProblem()">New Problem</button>
+    <button class="btn btn-outline" onclick="showSubtractionSteps()">Show Steps</button>
+  </div>
+  <div class="fb" id="subFeedback"></div>
+  <div class="steps-box" id="subSteps"></div>
+  <div class="hint"><strong>💡 Remember:</strong> Start from hundredths. Can't subtract? Borrow! 1 tenth = 10 hundredths.</div>
+</div>
+
+<!-- GAME 4: SHOPPING -->
+<div class="game-panel" id="game4">
+  <h2>🛒 Shopping Spree</h2>
+  <div class="g-badge hard">Advanced</div>
+  <div class="g-desc">Solve real-world shopping problems — add totals, calculate change!</div>
+  <div class="q-box">
+    <div class="q-text" id="shopQuestion">Loading...</div>
+    <div class="cart-box" id="shoppingCart"></div>
+    <div style="text-align:center;margin:14px 0;">
+      <div id="shopPrompt" style="font-size:16px;font-weight:700;margin-bottom:8px;color:var(--soft);">Calculate the answer:</div>
+      <input type="text" id="shopAnswer" class="q-input" placeholder="Type answer (e.g. 15.50)">
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-orange" onclick="checkShopping()">Check Answer</button>
+    <button class="btn btn-yellow" onclick="newShoppingProblem()">New Scenario</button>
+  </div>
+  <div class="fb" id="shopFeedback"></div>
+  <div class="hint"><strong>💡 Real-World Tip:</strong> Add all prices for totals. Subtract from what you paid for change. Does your answer make sense?</div>
+</div>
+
+<!-- GAME 5: CHALLENGE -->
+<div class="game-panel" id="game5">
+  <h2>🏆 Challenge Mode</h2>
+  <div class="g-badge hard">Advanced</div>
+  <div class="g-desc">Multi-step problems requiring addition AND subtraction. Test your mastery!</div>
+  <div class="q-box">
+    <div class="q-text" id="challengeQuestion">Loading...</div>
+    <div class="work-box">
+      <div id="challengeSteps">
+        <div class="step"><strong>Step 1:</strong> <span id="challengeStep1">Read and identify operations</span></div>
+        <div class="step"><strong>Step 2:</strong> <span id="challengeStep2">Set up your problem</span></div>
+        <div class="step"><strong>Step 3:</strong> <span id="challengeStep3">Solve step by step</span></div>
+        <div class="step"><strong>Step 4:</strong> <span id="challengeStep4">Check your answer</span></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin:14px 0;"><input type="text" id="challengeAnswer" class="q-input" placeholder="Type answer (e.g. 23.65)"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-orange" onclick="checkChallenge()">Check Answer</button>
+    <button class="btn btn-yellow" onclick="newChallengeProblem()">New Challenge</button>
+    <button class="btn btn-outline" onclick="showChallengeSolution()">Show Solution</button>
+  </div>
+  <div class="fb" id="challengeFeedback"></div>
+  <div class="steps-box" id="challengeSolution"></div>
+  <div class="hint"><strong>💡 Master Strategy:</strong> Break complex problems into smaller steps. Solve one at a time!</div>
+</div>
+
+<!-- GAME 6: ASSESSMENT -->
+<div class="game-panel" id="game6">
+  <h2>📝 Assessment Quiz</h2>
+  <div class="g-badge med">Mixed Levels</div>
+  <div class="g-desc">10 questions covering all topics with a 90-second timer per question.</div>
+
+  <div id="assessStartScreen">
+    <div class="start-box">
+      <div class="big-icon">📋</div>
+      <h3 style="color:var(--orange);margin-bottom:12px;">Ready for Assessment?</h3>
+      <ul>
+        <li>10 questions across all topics</li>
+        <li>90 seconds per question</li>
+        <li>Immediate feedback</li>
+        <li>Full performance report</li>
+      </ul>
+      <button class="btn btn-orange" onclick="startAssessment()">Start Assessment</button>
+    </div>
+  </div>
+
+  <div id="assessQuizScreen" style="display:none;">
+    <div class="assess-header">
+      <div>Question <span id="assessQNum" style="font-size:20px;font-weight:800;color:var(--orange);">1</span> / 10</div>
+      <div class="assess-timer" id="assessTimer">1:30</div>
+      <div style="font-weight:700;">Score: <span id="assessScore" style="color:var(--orange);">0</span> / <span id="assessMaxScore">0</span></div>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="assessProgress" style="width:0%"></div></div>
+    <div class="q-box">
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;color:var(--soft);margin-bottom:6px;" id="assessTopic">Topic</div>
+      <div class="q-text" id="assessQuestion">Loading...</div>
+      <div id="assessMCOptions" style="display:none;"><div class="opt-grid" id="assessOptionsGrid"></div></div>
+      <div id="assessInputArea" style="display:none;text-align:center;margin-top:10px;">
+        <input type="text" id="assessInput" class="q-input" placeholder="Type your answer" onkeydown="if(event.key==='Enter')submitAssessAnswer()">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-orange" id="assessSubmitBtn" onclick="submitAssessAnswer()">Submit Answer</button>
+    </div>
+    <div class="fb" id="assessFeedback"></div>
+  </div>
+
+  <div id="assessResultsScreen" style="display:none;">
+    <div class="result-box">
+      <div class="emoji" id="assessEmoji">🎉</div>
+      <h3 id="assessResultTitle" style="margin-bottom:8px;">Assessment Complete!</h3>
+      <div class="score" id="assessFinalScore"></div>
+      <div class="grade" id="assessGrade"></div>
+      <div class="breakdown" id="assessBreakdown"></div>
+      <details><summary>Review All Questions</summary><div id="assessReview" style="margin-top:10px;"></div></details>
+      <div class="btn-row">
+        <button class="btn btn-orange" onclick="startAssessment()">Retake</button>
+        <button class="btn btn-outline" onclick="showAssessStart()">Back to Start</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hint" id="assessHintBox" style="margin-top:14px;"><strong>💡 Tip:</strong> Read carefully, line up decimal points before calculating!</div>
+</div>
+
+</div><!-- /.game-area -->
+
+<script>
+// ── GAME STATE ──
+let gs = {
+  totalPoints: 0, problemsSolved: 0, streak: 0, masteryLevel: 'Beginner', currentGame: 0,
+  pv: { currentQuestion: null, selected: null },
+  mb: { target: 0, currentTotal: 0 },
+  add: { n1: 0, n2: 0, ans: 0 },
+  sub: { n1: 0, n2: 0, ans: 0 },
+  shop: { items: [], total: 0, paid: 0, qType: 'total' },
+  chal: { ans: 0, steps: [] }
+};
+
+let assess = { questions: [], current: 0, responses: [], score: 0, maxScore: 0, timer: null, secs: 90, selMC: null };
+
+// ── SAVE / LOAD ──
+function save() { localStorage.setItem('decimalMasteryProgress', JSON.stringify(gs)); }
+function load() {
+  const d = localStorage.getItem('decimalMasteryProgress');
+  if (d) {
+    const s = JSON.parse(d);
+    gs.totalPoints = s.totalPoints || 0;
+    gs.problemsSolved = s.problemsSolved || 0;
+    gs.streak = s.streak || 0;
+    gs.masteryLevel = s.masteryLevel || 'Beginner';
+  }
+  updateDashboard();
+}
+
+function updateDashboard() {
+  document.getElementById('totalPoints').textContent = gs.totalPoints;
+  document.getElementById('problemsSolved').textContent = gs.problemsSolved;
+  document.getElementById('streak').textContent = gs.streak;
+  document.getElementById('masteryLevel').textContent = gs.masteryLevel;
+  const b = document.getElementById('masteryBadge');
+  b.textContent = gs.masteryLevel;
+  b.className = 'd-lvl ' + gs.masteryLevel.toLowerCase();
+}
+function addPts(n) {
+  gs.totalPoints += n; gs.problemsSolved++; gs.streak++;
+  if (gs.totalPoints >= 500) gs.masteryLevel = 'Expert';
+  else if (gs.totalPoints >= 250) gs.masteryLevel = 'Advanced';
+  else if (gs.totalPoints >= 100) gs.masteryLevel = 'Intermediate';
+  updateDashboard(); save();
+}
+function resetStreak() { gs.streak = 0; updateDashboard(); save(); }
+
+// ── TAB SWITCH ──
+function switchGame(i) {
+  document.querySelectorAll('.g-btn').forEach((b, idx) => b.classList.toggle('active', idx === i));
+  document.querySelectorAll('.game-panel').forEach((p, idx) => p.classList.toggle('active', idx === i));
+  gs.currentGame = i;
+}
+
+// ── PLACE VALUE ──
+const PV_DECIMALS = [
+  { n:'3.4', d:'3 ones and 4 tenths' }, { n:'2.75', d:'2 ones, 7 tenths, 5 hundredths' },
+  { n:'5.06', d:'5 ones, 0 tenths, 6 hundredths' }, { n:'1.92', d:'1 one, 9 tenths, 2 hundredths' },
+  { n:'4.3', d:'4 ones and 3 tenths' }, { n:'6.08', d:'6 ones, 0 tenths, 8 hundredths' },
+  { n:'7.25', d:'7 ones, 2 tenths, 5 hundredths' }, { n:'0.85', d:'0 ones, 8 tenths, 5 hundredths' }
+];
+function newPlaceValueQuestion() {
+  const q = PV_DECIMALS[Math.floor(Math.random() * PV_DECIMALS.length)];
+  gs.pv.currentQuestion = q;
+  const wrong = PV_DECIMALS.filter(d => d.n !== q.n).sort(() => Math.random() - 0.5).slice(0, 3);
+  const all = [q, ...wrong].sort(() => Math.random() - 0.5);
+  document.getElementById('pvQuestion').textContent = `What is the place value breakdown of ${q.n}?`;
+  document.getElementById('pvOptions').innerHTML = all.map((a, i) =>
+    `<div class="opt-card" onclick="selectPV(${i})" id="pvOpt${i}">${a.d}</div>`
+  ).join('');
+  document.getElementById('pvFeedback').innerHTML = '';
+  document.getElementById('pvFeedback').className = 'fb';
+  gs.pv.selected = null;
+}
+function selectPV(i) {
+  document.querySelectorAll('#pvOptions .opt-card').forEach((c, idx) => c.classList.toggle('sel', idx === i));
+  gs.pv.selected = i;
+}
+function checkPlaceValue() {
+  if (gs.pv.selected === null) { showFB('pvFeedback', 'Please select an answer first!', 0); return; }
+  const txt = document.getElementById('pvOpt' + gs.pv.selected).textContent.trim();
+  if (txt === gs.pv.currentQuestion.d) {
+    showFB('pvFeedback', '🎉 Correct! +10 points', 1); addPts(10); setTimeout(newPlaceValueQuestion, 1500);
+  } else {
+    showFB('pvFeedback', 'Not quite. Correct: ' + gs.pv.currentQuestion.d, -1); resetStreak();
+  }
+}
+
+// ── MONEY BUILDER ──
+function newMoneyBuilderQuestion() {
+  const d = Math.floor(Math.random() * 10) + 1, di = Math.floor(Math.random() * 10), p = Math.floor(Math.random() * 10);
+  gs.mb.target = Number((d + di * 0.1 + p * 0.01).toFixed(2));
+  document.getElementById('mbQuestion').textContent = `Build this amount: $${gs.mb.target.toFixed(2)}`;
+  document.getElementById('dollars').value = 0; document.getElementById('dimes').value = 0; document.getElementById('pennies').value = 0;
+  updateMoneyTotal(); document.getElementById('mbFeedback').innerHTML = ''; document.getElementById('mbFeedback').className = 'fb';
+}
+function updateMoneyTotal() {
+  const d = Number(document.getElementById('dollars').value) || 0, di = Number(document.getElementById('dimes').value) || 0, p = Number(document.getElementById('pennies').value) || 0;
+  gs.mb.currentTotal = Number((d + di * 0.1 + p * 0.01).toFixed(2));
+  document.getElementById('moneyTotal').textContent = gs.mb.currentTotal.toFixed(2);
+}
+function checkMoneyBuilder() {
+  if (gs.mb.currentTotal === gs.mb.target) {
+    showFB('mbFeedback', '💰 Perfect! +15 points', 1); addPts(15); setTimeout(newMoneyBuilderQuestion, 1500);
+  } else {
+    showFB('mbFeedback', `You have $${gs.mb.currentTotal.toFixed(2)}, need $${gs.mb.target.toFixed(2)}.`, -1); resetStreak();
+  }
+}
+
+// ── ADDITION ──
+function newAdditionProblem() {
+  const n1 = (Math.random() * 20 + 1).toFixed(2), n2 = (Math.random() * 15 + 1).toFixed(2);
+  gs.add.n1 = Number(n1); gs.add.n2 = Number(n2); gs.add.ans = Number((gs.add.n1 + gs.add.n2).toFixed(2));
+  document.getElementById('addQuestion').textContent = `Add: $${n1} + $${n2}`;
+  document.getElementById('addNum1').textContent = '  ' + n1; document.getElementById('addNum2').textContent = '+ ' + n2;
+  document.getElementById('addAnswer').value = ''; document.getElementById('addFeedback').innerHTML = ''; document.getElementById('addFeedback').className = 'fb';
+  document.getElementById('addSteps').innerHTML = '';
+}
+function checkAddition() {
+  const ua = Number(document.getElementById('addAnswer').value);
+  if (isNaN(ua)) { showFB('addFeedback', 'Enter a number!', 0); return; }
+  if (Math.abs(ua - gs.add.ans) < 0.01) {
+    showFB('addFeedback', '✅ Excellent! +20 points', 1); addPts(20); setTimeout(newAdditionProblem, 1500);
+  } else {
+    showFB('addFeedback', 'Correct: $' + gs.add.ans.toFixed(2), -1); resetStreak();
+  }
+}
+function showAdditionSteps() {
+  document.getElementById('addSteps').innerHTML =
+    '<div class="step"><strong>Step 1:</strong> Line up decimals</div>' +
+    '<div class="step"><strong>Step 2:</strong> Add hundredths, tenths, ones</div>' +
+    '<div class="step"><strong>Final Answer:</strong> $' + gs.add.ans.toFixed(2) + '</div>';
+}
+
+// ── SUBTRACTION ──
+function newSubtractionProblem() {
+  const n1 = (Math.random() * 20 + 10).toFixed(2), n2 = (Math.random() * 10 + 1).toFixed(2);
+  gs.sub.n1 = Number(n1); gs.sub.n2 = Number(n2); gs.sub.ans = Number((gs.sub.n1 - gs.sub.n2).toFixed(2));
+  document.getElementById('subQuestion').textContent = `Subtract: $${n1} - $${n2}`;
+  document.getElementById('subNum1').textContent = '  ' + n1; document.getElementById('subNum2').textContent = '- ' + n2;
+  document.getElementById('subAnswer').value = ''; document.getElementById('subFeedback').innerHTML = ''; document.getElementById('subFeedback').className = 'fb';
+  document.getElementById('subSteps').innerHTML = '';
+}
+function checkSubtraction() {
+  const ua = Number(document.getElementById('subAnswer').value);
+  if (isNaN(ua)) { showFB('subFeedback', 'Enter a number!', 0); return; }
+  if (Math.abs(ua - gs.sub.ans) < 0.01) {
+    showFB('subFeedback', '✅ Perfect! +20 points', 1); addPts(20); setTimeout(newSubtractionProblem, 1500);
+  } else {
+    showFB('subFeedback', 'Correct: $' + gs.sub.ans.toFixed(2), -1); resetStreak();
+  }
+}
+function showSubtractionSteps() {
+  document.getElementById('subSteps').innerHTML =
+    '<div class="step"><strong>Step 1:</strong> Line up decimals</div>' +
+    '<div class="step"><strong>Step 2:</strong> Borrow if needed, subtract</div>' +
+    '<div class="step"><strong>Final Answer:</strong> $' + gs.sub.ans.toFixed(2) + '</div>';
+}
+
+// ── SHOPPING ──
+const SHOP_ITEMS = [
+  { name:'Book', price:12.99 }, { name:'Pen Set', price:4.50 }, { name:'Notebook', price:3.25 },
+  { name:'Backpack', price:24.75 }, { name:'Lunch Box', price:8.99 }, { name:'Water Bottle', price:6.50 },
+  { name:'Calculator', price:15.99 }, { name:'Markers', price:5.75 }, { name:'Eraser Pack', price:2.25 }, { name:'Ruler', price:1.50 }
+];
+function newShoppingProblem() {
+  const num = Math.floor(Math.random() * 3) + 2;
+  const sel = [...SHOP_ITEMS].sort(() => Math.random() - 0.5).slice(0, num);
+  const total = Number(sel.reduce((s, i) => s + i.price, 0).toFixed(2));
+  const qType = Math.random() > 0.5 ? 'total' : 'change';
+  gs.shop.items = sel; gs.shop.total = total; gs.shop.qType = qType;
+  let html = sel.map(i => `<div class="cart-item"><span>${i.name}</span><span>$${i.price.toFixed(2)}</span></div>`).join('');
+  if (qType === 'total') {
+    html += `<div class="cart-total"><span>Total:</span><span>???</span></div>`;
+    document.getElementById('shopQuestion').textContent = 'Calculate the total cost:';
+    document.getElementById('shopPrompt').textContent = 'What is the total?';
+    gs.shop.answer = total;
+  } else {
+    const paid = Math.ceil(total / 5) * 5 + (Math.random() > 0.5 ? 5 : 10);
+    gs.shop.paid = paid;
+    html += `<div class="cart-total"><span>Total:</span><span>$${total.toFixed(2)}</span></div>`;
+    document.getElementById('shopQuestion').textContent = `You paid $${paid}. How much change?`;
+    document.getElementById('shopPrompt').textContent = 'What is your change?';
+    gs.shop.answer = Number((paid - total).toFixed(2));
+  }
+  document.getElementById('shoppingCart').innerHTML = html;
+  document.getElementById('shopAnswer').value = ''; document.getElementById('shopFeedback').innerHTML = ''; document.getElementById('shopFeedback').className = 'fb';
+}
+function checkShopping() {
+  const ua = Number(document.getElementById('shopAnswer').value);
+  if (isNaN(ua)) { showFB('shopFeedback', 'Enter a number!', 0); return; }
+  if (Math.abs(ua - gs.shop.answer) < 0.01) {
+    showFB('shopFeedback', '🛒 Fantastic! +30 points', 1); addPts(30); setTimeout(newShoppingProblem, 1500);
+  } else {
+    showFB('shopFeedback', 'Correct: $' + gs.shop.answer.toFixed(2), -1); resetStreak();
+  }
+}
+
+// ── CHALLENGE ──
+const CHALLENGES = [
+  { text:'Maya had $50.00. She bought a book for $12.75, pen $3.50, lunch $8.25. How much left?', ans:25.50, steps:['Add expenses: $12.75+$3.50+$8.25=$24.50','Subtract: $50.00-$24.50=$25.50'] },
+  { text:'Carlos earned $35.50 + $22.75. He spent $15.99 on a game. How much left?', ans:42.26, steps:['Add earnings: $35.50+$22.75=$58.25','Subtract: $58.25-$15.99=$42.26'] },
+  { text:'Sarah bought 3 notebooks × $2.25 + 2 pens × $1.50. Paid $20. Change?', ans:10.25, steps:['Notebooks: 3×$2.25=$6.75','Pens: 2×$1.50=$3.00','Total: $6.75+$3.00=$9.75','Change: $20.00-$9.75=$10.25'] },
+  { text:'Jake had $28.50 + earned $15.75. Spent $12.35 + $4.50. How much left?', ans:27.40, steps:['Add: $28.50+$15.75=$44.25','Expenses: $12.35+$4.50=$16.85','Left: $44.25-$16.85=$27.40'] }
+];
+function newChallengeProblem() {
+  const p = CHALLENGES[Math.floor(Math.random() * CHALLENGES.length)];
+  gs.chal.ans = p.ans; gs.chal.steps = p.steps;
+  document.getElementById('challengeQuestion').textContent = p.text;
+  document.getElementById('challengeAnswer').value = ''; document.getElementById('challengeFeedback').innerHTML = ''; document.getElementById('challengeFeedback').className = 'fb';
+  document.getElementById('challengeSolution').innerHTML = '';
+}
+function checkChallenge() {
+  const ua = Number(document.getElementById('challengeAnswer').value);
+  if (isNaN(ua)) { showFB('challengeFeedback', 'Enter a number!', 0); return; }
+  if (Math.abs(ua - gs.chal.ans) < 0.01) {
+    showFB('challengeFeedback', '🏆 AMAZING! +50 points', 1); addPts(50); setTimeout(newChallengeProblem, 2000);
+  } else {
+    showFB('challengeFeedback', 'Correct: $' + gs.chal.ans.toFixed(2), -1); resetStreak();
+  }
+}
+function showChallengeSolution() {
+  document.getElementById('challengeSolution').innerHTML =
+    gs.chal.steps.map((s, i) => `<div class="step"><strong>Step ${i+1}:</strong> ${s}</div>`).join('') +
+    `<div class="step" style="background:#DCFCE7;border-color:var(--green);"><strong>Answer:</strong> $${gs.chal.ans.toFixed(2)}</div>`;
+}
+
+// ── ASSESSMENT ──
+const ASSESS_BANK = [
+  {topic:'Place Value', type:'mc', pts:10, q:'What is the value of the digit 7 in 3.75?', o:['7 ones','7 tenths','7 hundredths','7 thousandths'], a:'7 tenths', x:'First digit after decimal = tenths'},
+  {topic:'Place Value', type:'mc', pts:10, q:'Which shows "4 ones, 0 tenths, 3 hundredths"?', o:['4.30','4.03','0.43','40.3'], a:'4.03', x:'4 + 0.0 + 0.03 = 4.03'},
+  {topic:'Place Value', type:'mc', pts:10, q:'In $12.56, which digit is hundredths?', o:['1','2','5','6'], a:'6', x:'Hundredths = 2nd digit after decimal'},
+  {topic:'Addition', type:'input', pts:15, q:'$8.45 + $3.27 = $?', a:'11.72', x:'8.45+3.27: 5+7=12 (carry), 4+2+1=7, 8+3=11 → 11.72'},
+  {topic:'Addition', type:'input', pts:15, q:'$14.60 + $7.85 = $?', a:'22.45', x:'14.60+7.85: 0+5=5, 6+8=14(carry), 14+7+1=22 → 22.45'},
+  {topic:'Subtraction', type:'input', pts:15, q:'$15.00 − $6.38 = $?', a:'8.62', x:'Borrow from 5 → 4.9.10 - 6.38 = 8.62'},
+  {topic:'Subtraction', type:'input', pts:15, q:'$23.75 − $9.40 = $?', a:'14.35', x:'23.75 - 9.40 = 14.35'},
+  {topic:'Money', type:'mc', pts:10, q:'Sandwich $4.75 + drink $1.50 = ?', o:['$5.25','$6.25','$6.50','$5.75'], a:'$6.25', x:'$4.75 + $1.50 = $6.25'},
+  {topic:'Money', type:'mc', pts:10, q:'Pay $20 for $13.65 items. Change?', o:['$6.35','$7.35','$6.45','$7.45'], a:'$6.35', x:'$20.00 − $13.65 = $6.35'},
+  {topic:'Multi-step', type:'input', pts:20, q:'Emma had $30. Bought $8.95 book + $2.50 pen. How much left?', a:'18.55', x:'Total: $8.95+$2.50=$11.45. Left: $30.00−$11.45=$18.55'}
+];
+
+function startAssessment() {
+  assess.questions = [...ASSESS_BANK].sort(() => Math.random() - 0.5);
+  assess.current = 0; assess.responses = []; assess.score = 0;
+  assess.maxScore = assess.questions.reduce((s, q) => s + q.pts, 0);
+  document.getElementById('assessStartScreen').style.display = 'none';
+  document.getElementById('assessResultsScreen').style.display = 'none';
+  document.getElementById('assessQuizScreen').style.display = 'block';
+  document.getElementById('assessHintBox').style.display = 'none';
+  loadAssessQ();
+}
+function showAssessStart() {
+  document.getElementById('assessStartScreen').style.display = 'block';
+  document.getElementById('assessQuizScreen').style.display = 'none';
+  document.getElementById('assessResultsScreen').style.display = 'none';
+  document.getElementById('assessHintBox').style.display = 'block';
+}
+
+function loadAssessQ() {
+  clearInterval(assess.timer); assess.selMC = null;
+  const q = assess.questions[assess.current];
+  const n = assess.current + 1;
+  document.getElementById('assessQNum').textContent = n;
+  document.getElementById('assessScore').textContent = assess.score;
+  document.getElementById('assessMaxScore').textContent = assess.maxScore;
+  document.getElementById('assessTopic').textContent = q.topic;
+  document.getElementById('assessQuestion').textContent = q.q;
+  document.getElementById('assessFeedback').innerHTML = '';
+  document.getElementById('assessFeedback').className = 'fb';
+  document.getElementById('assessProgress').style.width = ((assess.current / 10) * 100) + '%';
+  document.getElementById('assessSubmitBtn').disabled = false;
+  document.getElementById('assessSubmitBtn').textContent = 'Submit Answer';
+  if (q.type === 'mc') {
+    document.getElementById('assessMCOptions').style.display = 'block';
+    document.getElementById('assessInputArea').style.display = 'none';
+    document.getElementById('assessOptionsGrid').innerHTML = q.o.map((opt, i) =>
+      `<div class="opt-card" id="aOpt${i}" onclick="selAssessMC(${i},'${opt.replace(/'/g,"\\'")}')">${opt}</div>`
+    ).join('');
+  } else {
+    document.getElementById('assessMCOptions').style.display = 'none';
+    document.getElementById('assessInputArea').style.display = 'block';
+    document.getElementById('assessInput').value = '';
+    setTimeout(() => document.getElementById('assessInput').focus(), 100);
+  }
+  assess.secs = 90; updateTimer();
+  assess.timer = setInterval(() => { assess.secs--; updateTimer(); if (assess.secs <= 0) { clearInterval(assess.timer); autoSubmitAssess(); } }, 1000);
+}
+function updateTimer() {
+  const m = Math.floor(assess.secs / 60), s = assess.secs % 60;
+  const el = document.getElementById('assessTimer');
+  el.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+  el.style.color = assess.secs <= 15 ? '#E85D75' : '#F4845F';
+}
+function selAssessMC(i, val) {
+  document.querySelectorAll('#assessOptionsGrid .opt-card').forEach((c, idx) => c.classList.toggle('sel', idx === i));
+  assess.selMC = val;
+}
+function autoSubmitAssess() {
+  const q = assess.questions[assess.current];
+  const ua = q.type === 'mc' ? (assess.selMC || '') : document.getElementById('assessInput').value.trim();
+  recordAssess(q, ua, true);
+}
+function submitAssessAnswer() {
+  clearInterval(assess.timer);
+  const q = assess.questions[assess.current];
+  let ua;
+  if (q.type === 'mc') {
+    if (!assess.selMC) { showFB('assessFeedback','Select an answer!',0); restartTimer(); return; }
+    ua = assess.selMC;
+  } else {
+    ua = document.getElementById('assessInput').value.trim();
+    if (!ua) { showFB('assessFeedback','Enter an answer!',0); restartTimer(); return; }
+  }
+  recordAssess(q, ua, false);
+}
+function restartTimer() {
+  assess.timer = setInterval(() => { assess.secs--; updateTimer(); if (assess.secs <= 0) { clearInterval(assess.timer); autoSubmitAssess(); } }, 1000);
+}
+function recordAssess(q, ua, timedOut) {
+  let correct = false;
+  if (!timedOut) {
+    if (q.type === 'mc') correct = ua === q.a;
+    else correct = Math.abs(parseFloat(ua) - parseFloat(q.a)) < 0.005;
+  }
+  if (correct) assess.score += q.pts;
+  assess.responses.push({ q, ua, correct, timedOut });
+  document.getElementById('assessSubmitBtn').disabled = true;
+  document.getElementById('assessScore').textContent = assess.score;
+  const fb = document.getElementById('assessFeedback');
+  if (timedOut) {
+    fb.innerHTML = `<div class="fb bad">⏰ Time's up! Answer: <strong>${q.a}</strong>. ${q.x}</div>`;
+    fb.className = 'fb';
+  } else if (correct) {
+    fb.innerHTML = `<div class="fb good">✅ Correct! +${q.pts}pts. ${q.x}</div>`;
+    fb.className = 'fb';
+  } else {
+    fb.innerHTML = `<div class="fb bad">❌ Answer: <strong>${q.a}</strong>. ${q.x}</div>`;
+    fb.className = 'fb';
+  }
+  document.getElementById('assessSubmitBtn').textContent = assess.current < 9 ? 'Next →' : 'Results';
+  document.getElementById('assessSubmitBtn').disabled = false;
+  document.getElementById('assessSubmitBtn').onclick = advanceAssess;
+}
+function advanceAssess() {
+  assess.current++;
+  if (assess.current >= assess.questions.length) showAssessResults();
+  else { document.getElementById('assessSubmitBtn').onclick = submitAssessAnswer; loadAssessQ(); }
+}
+function showAssessResults() {
+  clearInterval(assess.timer);
+  document.getElementById('assessQuizScreen').style.display = 'none';
+  document.getElementById('assessResultsScreen').style.display = 'block';
+  document.getElementById('assessHintBox').style.display = 'block';
+  const pct = Math.round((assess.score / assess.maxScore) * 100);
+  document.getElementById('assessFinalScore').textContent = `${assess.score} / ${assess.maxScore} pts (${pct}%)`;
+  let grade, emoji;
+  if (pct >= 90) { grade = 'Outstanding!'; emoji = '🏆'; }
+  else if (pct >= 70) { grade = 'Great job! Keep practicing!'; emoji = '🌟'; }
+  else if (pct >= 50) { grade = 'Good effort! Review the topics you missed.'; emoji = '💪'; }
+  else { grade = 'Keep practicing! Try again after reviewing.'; emoji = '📖'; }
+  document.getElementById('assessEmoji').textContent = emoji;
+  document.getElementById('assessResultTitle').textContent = 'Assessment Complete!';
+  document.getElementById('assessGrade').textContent = grade;
+  // Breakdown by topic
+  const topics = {};
+  assess.responses.forEach(r => {
+    const t = r.q.topic;
+    if (!topics[t]) topics[t] = { correct: 0, total: 0 };
+    topics[t].total++; if (r.correct) topics[t].correct++;
+  });
+  document.getElementById('assessBreakdown').innerHTML =
+    Object.entries(topics).map(([t, d]) =>
+      `<div class="breakdown-item ${d.correct === d.total ? 'b-good' : 'b-bad'}"><span>${t}</span><span>${d.correct}/${d.total}</span></div>`
+    ).join('');
+  // Review
+  document.getElementById('assessReview').innerHTML =
+    assess.responses.map((r, i) =>
+      `<div class="review-item"><span class="r-q">Q${i+1}: ${r.q.q}</span><br>` +
+      (r.correct ? `<span class="r-a">✓ ${r.ua}</span>` : `<span class="r-w">✗ ${r.ua}</span> — Answer: <span class="r-a">${r.q.a}</span>`) +
+      `</div>`
+    ).join('');
+}
+
+// ── HELPERS ──
+function showFB(id, msg, type) {
+  const el = document.getElementById(id);
+  el.innerHTML = msg;
+  el.className = 'fb ' + (type > 0 ? 'good' : type < 0 ? 'bad' : '');
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', function() {
+  load();
+  newPlaceValueQuestion();
+  newMoneyBuilderQuestion();
+  newAdditionProblem();
+  newSubtractionProblem();
+  newShoppingProblem();
+  newChallengeProblem();
+});
+</script>
+
+</body>
+</html>

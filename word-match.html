@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Match Jr — EduSuite Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
+.back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
+.hero{text-align:center;padding:1.5rem 1.5rem .3rem}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(24px,5vw,34px);font-weight:700}
+.hero p{color:var(--sft);font-size:14px;font-weight:600}
+.stats{display:flex;justify-content:center;gap:16px;margin-bottom:1rem}
+.stat{background:var(--wht);border-radius:14px;padding:10px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.snum{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--org)}
+.slbl{font-size:10px;color:var(--sft);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.game-wrap{max-width:650px;margin:0 auto;padding:0 1rem 2rem;text-align:center}
+.cat-pick{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:.8rem}
+.cb{padding:8px 16px;border-radius:10px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;border:2px solid #E0D6CC;cursor:pointer;background:var(--wht);transition:.15s}
+.cb:hover{border-color:var(--org)}.cb.act{border-color:var(--org);background:#FFF0E8;color:var(--org)}
+.word-box{padding:1.5rem;background:var(--wht);border-radius:16px;border:3px solid #E0D6CC;margin-bottom:1rem}
+.target-word{font-family:'Fredoka',sans-serif;font-size:clamp(32px,6vw,48px);font-weight:700;color:var(--ppl);margin-bottom:.2rem}
+.pics{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:400px;margin:0 auto}
+.pic{background:var(--wht);border:3px solid #E0D6CC;border-radius:16px;padding:1.5rem .5rem;cursor:pointer;transition:.15s}
+.pic:hover{border-color:var(--ppl);transform:scale(1.03)}
+.pic.correct{background:#DCFCE7;border-color:var(--grn)}.pic.wrong{background:#FEE2E2;border-color:var(--pnk);animation:sh .3s}
+@keyframes sh{0%,100%{opacity:1}50%{opacity:.5}}
+.pic:disabled{cursor:default;opacity:.5;transform:none}
+.pic-emoji{font-size:56px;display:block}
+.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.btn-org{background:var(--org);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
+.msg{font-size:16px;font-weight:700;min-height:2.5rem;padding:.5rem}
+</style>
+</head>
+<body>
+<a href="subjects.html" class="back-link">← All Games</a>
+<header class="hero"><h1>💬 Word Match Jr</h1><p>Choose a category, read the word, tap the picture!</p></header>
+<div class="cat-pick"><button class="cb act" onclick="pickCat(0)">🍎 Food</button><button class="cb" onclick="pickCat(1)">🐶 Animals</button><button class="cb" onclick="pickCat(2)">🚗 Vehicles</button><button class="cb" onclick="pickCat(3)">🌸 Nature</button><button class="cb" onclick="pickCat(4)">🎨 Objects</button></div>
+<div class="stats"><div class="stat"><div class="snum" id="qnum">0/10</div><div class="slbl">Done</div></div><div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Score</div></div><div class="stat"><div class="snum" id="strk">0</div><div class="slbl">Streak</div></div></div>
+<div class="game-wrap">
+<div class="word-box"><div class="target-word" id="tgt">apple</div></div>
+<div class="pics" id="pics"></div>
+<div class="msg" id="msg"></div>
+<div class="brow"><button class="btn btn-org" onclick="newRound()">🔄 New Word</button><a href="subjects.html" class="btn btn-wht">← Back</a></div>
+</div>
+
+<script>
+const ALL_WORDS=[
+[['🍎','apple'],['🍌','banana'],['🍊','orange'],['🍇','grapes'],['🍓','strawberry'],['🍉','watermelon'],['🍋','lemon'],['🍑','peach'],['🍒','cherry'],['🍐','pear'],['🥝','kiwi'],['🍍','pineapple'],['🥭','mango'],['🫐','blueberry'],['🥕','carrot'],['🍞','bread'],['🧀','cheese'],['🍕','pizza'],['🍔','burger'],['🍪','cookie']],
+[['🐶','dog'],['🐱','cat'],['🐰','rabbit'],['🐻','bear'],['🐸','frog'],['🐴','horse'],['🐷','pig'],['🐔','chicken'],['🦊','fox'],['🐺','wolf'],['🦁','lion'],['🐘','elephant'],['🐒','monkey'],['🐄','cow'],['🐑','sheep'],['🦅','eagle'],['🐧','penguin'],['🦉','owl'],['🐍','snake'],['🐢','turtle']],
+[['🚗','car'],['✈️','airplane'],['🚲','bicycle'],['🚢','ship'],['🚌','bus'],['🚁','helicopter'],['🚜','tractor'],['⛵','sailboat'],['🛴','scooter'],['🚂','train'],['🚀','rocket'],['🚓','police car'],['🛻','truck'],['🛩️','jet'],['🏍️','motorcycle'],['🚒','fire truck'],['🚇','subway'],['⛴️','ferry'],['🚤','speedboat'],['🛸','UFO']],
+[['🌸','flower'],['🌳','tree'],['🍄','mushroom'],['🌻','sunflower'],['🌵','cactus'],['🌴','palm'],['🌿','leaf'],['🍀','clover'],['🌺','hibiscus'],['🌲','pine'],['🌹','rose'],['🌷','tulip'],['🌊','wave'],['🌙','moon'],['⭐','star'],['☀️','sun'],['☁️','cloud'],['🌈','rainbow'],['⚡','lightning'],['❄️','snow']],
+[['⚽','ball'],['📚','book'],['🎵','music'],['🎨','paint'],['✏️','pencil'],['💻','computer'],['🎂','cake'],['👟','shoe'],['🧸','teddy'],['🎈','balloon'],['🖍️','crayon'],['📱','phone'],['🎹','piano'],['⌚','watch'],['🔑','key'],['🎁','gift'],['✂️','scissors'],['🖼️','picture'],['🔔','bell'],['💡','lamp']]
+];
+let game={cat:0,round:0,score:0,streak:0,correctEmoji:'',words:[]};
+
+function pickCat(c){document.querySelectorAll('.cb').forEach((b,i)=>b.classList.toggle('act',i===c));game.cat=c;game.score=0;game.streak=0;game.round=0;game.words=shuffle([...ALL_WORDS[c]]).slice(0,20);newRound();}
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function newRound(){
+  if(game.round>=10){endGame();return;}
+  game.round++;const pool=[...game.words];
+  const wordIdx=Math.floor(Math.random()*pool.length);
+  game.correctEmoji=pool[wordIdx][0];const word=pool[wordIdx][1];
+  const wrongs=pool.filter((_,i)=>i!==wordIdx).sort(()=>Math.random()-.5).slice(0,3);
+  const choices=shuffle([pool[wordIdx],...wrongs]);
+  document.getElementById('qnum').textContent=game.round+'/10';document.getElementById('scr').textContent=game.score;document.getElementById('strk').textContent=game.streak;
+  document.getElementById('tgt').textContent=word;document.getElementById('msg').innerHTML='';
+  document.getElementById('pics').innerHTML=choices.map(c=>`<button class="pic" onclick="picClick(this)"><span class="pic-emoji">${c[0]}</span></button>`).join('');
+}
+function picClick(el){
+  if(document.querySelector('.pic.correct')||document.querySelector('.pic.wrong'))return;
+  document.querySelectorAll('.pic').forEach(b=>b.disabled=true);
+  const emoji=el.querySelector('.pic-emoji').textContent,correct=emoji===game.correctEmoji;
+  if(correct){el.classList.add('correct');game.score++;game.streak++;document.getElementById('msg').innerHTML='✅ Correct!'+(game.streak>2?' 🔥 '+game.streak+' streak!':'');}
+  else{el.classList.add('wrong');game.streak=0;document.getElementById('msg').innerHTML='❌ That\'s not it!';}
+  document.getElementById('scr').textContent=game.score;document.getElementById('strk').textContent=game.streak;
+  setTimeout(newRound,800);
+}
+function endGame(){
+  const pct=Math.round(game.score/10*100),em=pct>=80?'🏆':pct>=50?'🌟':'💪';
+  document.querySelector('.word-box').innerHTML=`<div style="font-size:48px;margin-bottom:.5rem">${em}</div><div style="font-family:'Fredoka',sans-serif;font-size:28px;font-weight:700">${game.score}/10</div><div style="color:var(--sft)">${pct}% correct</div>`;
+  document.getElementById('pics').innerHTML='';
+}
+pickCat(0);
+</script>
+</body>
+</html>

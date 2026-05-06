@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Force Lab — EduSuite Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
+.back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
+.hero{text-align:center;padding:1.5rem 1.5rem .3rem}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(24px,5vw,34px);font-weight:700}
+.hero p{color:var(--sft);font-size:14px;font-weight:600}
+.game-wrap{max-width:750px;margin:0 auto;padding:0 1rem 2rem;text-align:center}
+canvas{width:100%;height:300px;border-radius:16px;display:block;margin-bottom:.5rem;border:3px solid #E0D6CC;background:#F0FAF4}
+.controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:.5rem 0}
+.sg{background:var(--wht);border-radius:14px;padding:8px 14px;border:2px solid #E0D6CC;min-width:100px;flex:1;text-align:center}
+.sg-label{font-size:10px;color:var(--sft);font-weight:700;text-transform:uppercase;margin-bottom:3px}
+.sg-value{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;color:var(--org)}
+input[type=range]{width:100%;accent-color:var(--org)}
+.info-box{background:var(--wht);border-radius:14px;padding:10px;margin:.3rem 0;border:2px solid #E0D6CC;display:flex;justify-content:space-around;flex-wrap:wrap;gap:6px;font-size:13px;font-weight:600;color:var(--sft)}
+.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:.5rem}
+.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.btn-org{background:var(--org);color:#fff}.btn-grn{background:var(--grn);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
+.msg{padding:.3rem;font-size:16px;font-weight:700;text-align:center;min-height:2rem}
+</style>
+</head>
+<body>
+<a href="subjects.html" class="back-link">← All Games</a>
+<header class="hero"><h1>🔬 Force Lab</h1><p>Mass · Ramp Angle · Friction · Force — predict the block!</p></header>
+<div class="game-wrap">
+<canvas id="cv" width="750" height="300"></canvas>
+<div class="controls">
+  <div class="sg"><div class="sg-label">⚖️ Mass</div><div class="sg-value" id="massV">5 kg</div><input type="range" id="massS" min="1" max="20" value="5" oninput="update()"></div>
+  <div class="sg"><div class="sg-label">📐 Angle</div><div class="sg-value" id="angleV">20°</div><input type="range" id="angleS" min="0" max="60" value="20" oninput="update()"></div>
+  <div class="sg"><div class="sg-label">🧊 Friction</div><div class="sg-value" id="fricV">Low</div><input type="range" id="fricS" min="1" max="100" value="20" oninput="update()"></div>
+  <div class="sg"><div class="sg-label">💪 Force</div><div class="sg-value" id="forceV">50 N</div><input type="range" id="forceS" min="5" max="200" value="50" oninput="update()"></div>
+</div>
+<div class="info-box"><span>Net: <strong id="net">—</strong></span><span>Accel: <strong id="acc">—</strong></span><span>Speed: <strong id="spd">0 m/s</strong></span><span>Status: <strong id="stat">Ready</strong></span></div>
+<div class="msg" id="msg">Drag sliders, then click Push!</div>
+<div class="brow"><button class="btn btn-org" id="pushB" onclick="push()">💪 Push!</button><button class="btn btn-wht" onclick="resetS()">🔄 Reset</button><a href="subjects.html" class="btn btn-wht">← Back</a></div>
+</div>
+
+<script>
+const C=document.getElementById('cv'),ctx=C.getContext('2d');
+const FRIC_NAMES=['Zero','Tiny','Low','Med','High','Extreme'];
+let mass=5,angle=20,fric=0.2,force=50,blockX=80,blockY=200,blockV=0,sim=null,running=false;
+
+function update(){
+  mass=+document.getElementById('massS').value;angle=+document.getElementById('angleS').value;fric=.01+document.getElementById('fricS').value/100*.5;force=+document.getElementById('forceS').value;
+  document.getElementById('massV').textContent=mass+' kg';document.getElementById('angleV').textContent=angle+'°';document.getElementById('fricV').textContent=FRIC_NAMES[Math.round(fric*10)||0];document.getElementById('forceV').textContent=force+' N';
+  if(running)return;
+  const rad=angle*Math.PI/180,fN=mass*9.81*Math.cos(rad),fF=fric*fN,fPush=Math.sin(rad)*mass*9.81,netF=force-fF-fPush,a=Math.max(0,netF/mass);
+  document.getElementById('net').textContent=netF.toFixed(1)+' N';document.getElementById('acc').textContent=a.toFixed(2)+' m/s²';document.getElementById('stat').textContent=netF>0?'Will move!':'Stuck';
+  drawScene();
+}
+
+function push(){
+  if(running)return;running=true;document.getElementById('pushB').disabled=true;
+  blockV=0;blockX=80;const rad=angle*Math.PI/180,fN=mass*9.81*Math.cos(rad),fF=fric*fN,fPush=Math.sin(rad)*mass*9.81,netF=force-fF-fPush,a=Math.max(0,netF/mass);
+  if(netF<=0){document.getElementById('msg').innerHTML='🧱 Stuck! More force or less friction!';running=false;document.getElementById('pushB').disabled=false;drawScene();return;}
+  sim=setInterval(()=>{blockV+=a*.016;blockX+=blockV*.016*80;if(blockX>680){blockX=680;blockV=0;clearInterval(sim);sim=null;running=false;document.getElementById('pushB').disabled=false;document.getElementById('msg').innerHTML='🎯 End of ramp!';}document.getElementById('spd').textContent=blockV.toFixed(2)+' m/s';document.getElementById('stat').textContent='Moving!';drawScene();},16);
+  document.getElementById('msg').innerHTML='💨 '+netF.toFixed(1)+'N net, '+a.toFixed(2)+' m/s²';
+}
+
+function drawScene(){ctx.clearRect(0,0,750,300);
+  const wx=30,wy=200,ww=720,wh=10,rad=angle*Math.PI/180;const dx=Math.cos(rad)*ww,dy=Math.sin(rad)*ww;
+  ctx.fillStyle='#86EFAC';ctx.beginPath();ctx.moveTo(wx,wy+wh);ctx.lineTo(wx+dx,wy+wh-dy);ctx.lineTo(wx+dx,wy+wh-dy+30);ctx.lineTo(wx,wy+wh+30);ctx.fill();
+  ctx.fillStyle='#6CCB8A';ctx.beginPath();ctx.moveTo(wx,wy+wh);ctx.lineTo(wx+dx,wy+wh-dy);ctx.strokeStyle='#6CCB8A';ctx.lineWidth=3;ctx.stroke();ctx.lineWidth=1;
+  const bx=blockX,by=wy+wh-(blockX/ww*dy+1)-65,bw=60+(blockX/ww*20);
+  ctx.fillStyle='#F4845F';ctx.shadowColor='rgba(0,0,0,.08)';ctx.shadowBlur=6;ctx.beginPath();ctx.roundRect(bx,by,bw,40,8);ctx.fill();ctx.shadowBlur=0;
+  ctx.fillStyle='#E06A4E';ctx.beginPath();ctx.roundRect(bx+4,by+4,bw-8,32,6);ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='bold 14px Nunito';ctx.textAlign='center';ctx.fillText(mass+'kg',bx+bw/2,by+22);
+  if(!running){ctx.fillStyle='#E85D75';ctx.font='20px sans-serif';ctx.fillText('→',bx+bw+15,by+22);}
+}
+function resetS(){if(sim){clearInterval(sim);sim=null;}running=false;blockV=0;blockX=80;document.getElementById('pushB').disabled=false;document.getElementById('spd').textContent='0 m/s';document.getElementById('stat').textContent='Ready';document.getElementById('msg').innerHTML='Drag sliders, then click Push!';update();drawScene();}
+update();drawScene();
+</script>
+</body>
+</html>

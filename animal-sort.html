@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animal Sort — EduSuite Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
+.back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
+.hero{text-align:center;padding:1.5rem 1.5rem .3rem}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(24px,5vw,34px);font-weight:700}
+.hero p{color:var(--sft);font-size:14px;font-weight:600}
+.stats{display:flex;justify-content:center;gap:16px;margin-bottom:.5rem}
+.stat{background:var(--wht);border-radius:14px;padding:10px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.snum{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--grn)}
+.slbl{font-size:10px;color:var(--sft);font-weight:700;text-transform:uppercase}
+.game-wrap{max-width:750px;margin:0 auto;padding:0 1rem 2rem;text-align:center}
+.cats{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:.8rem;max-width:100%}
+.cat-box{background:var(--wht);border:3px solid #E0D6CC;border-radius:16px;padding:10px 10px;min-width:105px;flex:1;text-align:center;min-height:90px;cursor:pointer;transition:.15s}
+.cat-box:hover{border-color:var(--ppl);box-shadow:0 4px 14px rgba(167,139,250,.15)}
+.cat-box.active{border-color:var(--ppl);border-width:3px;box-shadow:0 0 0 4px rgba(167,139,250,.2);background:#F5F0FF}
+.cat-title{font-family:'Fredoka',sans-serif;font-size:13px;font-weight:700;margin-bottom:4px}
+.cat-slot{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;min-height:30px;padding:2px}
+.animal-chip{font-size:26px;cursor:pointer;transition:.12s;padding:2px;border-radius:6px}
+.animal-chip:hover{transform:scale(1.2);background:rgba(0,0,0,.05)}
+.animal-chip.wrong{background:#FEE2E2!important;border-radius:6px}
+.animal-chip.correct{background:#DCFCE7!important;border-radius:6px}
+.pool-area{background:var(--wht);border:2px dashed #E0D6CC;border-radius:16px;padding:.8rem;margin-bottom:.8rem;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:60px;align-items:center}
+.pool-item{font-size:30px;cursor:pointer;transition:.12s;padding:6px 10px;border-radius:10px;border:2px solid transparent}
+.pool-item:hover{background:#F0FAF4;border-color:var(--grn);transform:scale(1.12)}
+.pool-item.selected{background:#F5F0FF;border-color:var(--ppl);box-shadow:0 0 0 4px rgba(167,139,250,.2);transform:scale(1.1);animation:bounce .6s infinite alternate}
+@keyframes bounce{0%{transform:scale(1.1)}100%{transform:scale(1.2)}}
+.instruction{font-size:13px;color:var(--sft);font-weight:700;margin-bottom:.5rem;min-height:1.2rem}
+.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:.5rem}
+.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.btn-grn{background:var(--grn);color:#fff}.btn-org{background:var(--org);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
+.msg{padding:.4rem;font-size:16px;font-weight:700;min-height:2.5rem;text-align:center}
+</style>
+</head>
+<body>
+<a href="subjects.html" class="back-link">← All Games</a>
+<header class="hero"><h1>🌿 Animal Sort</h1><p>Pick an animal, then click its correct home!</p></header>
+<div class="stats"><div class="stat"><div class="snum" id="qnum">1/6</div><div class="slbl">Round</div></div><div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Score</div></div></div>
+<div class="game-wrap">
+<div class="instruction" id="instr">👆 <b>Step 1:</b> Click an animal below</div>
+<div class="cats" id="cats"></div>
+<div class="pool-area" id="pool"></div>
+<div class="msg" id="msg"></div>
+<div class="brow"><button class="btn btn-grn" id="chk" onclick="checkSort()" style="display:none">✅ Check</button>
+<button class="btn btn-org" onclick="newGame()">🔄 New Game</button><a href="subjects.html" class="btn btn-wht">← Back</a></div>
+</div>
+
+<script>
+const ALL_CATS=[
+  {name:'🐾 Mammals',color:'var(--org)',animals:['🐶 Dog','🐱 Cat','🐘 Elephant','🐬 Dolphin','🐻 Bear','🦁 Lion','🐒 Monkey','🐄 Cow','🐎 Horse','🐑 Sheep']},
+  {name:'🦅 Birds',color:'var(--grn)',animals:['🦅 Eagle','🐔 Chicken','🦉 Owl','🐧 Penguin','🦜 Parrot','🕊️ Dove','🦚 Peacock','🦩 Flamingo','🐦 Sparrow','🦢 Swan']},
+  {name:'🦎 Reptiles',color:'var(--yel)',animals:['🐍 Snake','🦎 Lizard','🐊 Crocodile','🐢 Turtle','🦖 T-Rex','🐸 Frog','🐲 Dragon','🦕 Brontosaurus','🐉 Wyrm','🦂 Scorpion']},
+  {name:'🐟 Ocean',color:'var(--ppl)',animals:['🐠 Fish','🦈 Shark','🐙 Octopus','🦑 Squid','🐋 Whale','🦀 Crab','🐡 Pufferfish','🐳 Blue Whale','🐚 Shell','🦞 Lobster']},
+  {name:'🐛 Insects',color:'var(--pnk)',animals:['🦋 Butterfly','🐝 Bee','🐞 Ladybug','🐜 Ant','🦗 Cricket','🐌 Snail','🕷️ Spider','🦟 Mosquito','🐛 Caterpillar','🪲 Beetle']}
+];
+let game={rounds:[],round:0,score:0,slots:{},pool:[],currentCats:[],selected:null};
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function newGame(){game.score=0;game.round=0;game.selected=null;game.rounds=shuffle([...ALL_CATS]);newRound();}
+function newRound(){
+  if(game.round>=6){endGame();return;}
+  game.currentCats=game.rounds.slice(0,3);game.currentCats.forEach((c,i)=>c._idx=i);
+  game.pool=[];game.currentCats.forEach(cat=>{const picks=shuffle([...cat.animals]).slice(0,3);picks.forEach(a=>{const parts=a.split(' '),emoji=parts[0],name=parts.slice(1).join(' ');game.pool.push({emoji,name,catName:cat.name});});});
+  shuffle(game.pool);game.slots={};game.currentCats.forEach((_,i)=>game.slots[i]=[]);game.round++;game.selected=null;
+  document.getElementById('instr').innerHTML='👆 <b>Step 1:</b> Click an animal below';render();
+}
+
+function render(){
+  document.getElementById('qnum').textContent=game.round+'/6';document.getElementById('scr').textContent=game.score;
+  const placed=Object.values(game.slots).flat();
+  const placedKeys=placed.map(a=>a.emoji+'|'+a.catName);
+  
+  // Category boxes
+  document.getElementById('cats').innerHTML=game.currentCats.map(cat=>`<div class="cat-box${game.selected!==null?'':' active'}" onclick="placeInCat(${cat._idx})" id="cat${cat._idx}"><div class="cat-title" style="color:${cat.color}">${cat.name}</div><div class="cat-slot">${(game.slots[cat._idx]||[]).map(a=>`<span class="animal-chip" onclick="event.stopPropagation();removeSlot(this,'${a.catName}')" data-key="${a.emoji}|${a.catName}">${a.emoji}</span>`).join('')}</div></div>`).join('');
+  
+  // Pool
+  const avail=game.pool.filter(a=>!placedKeys.includes(a.emoji+'|'+a.catName));
+  document.getElementById('pool').innerHTML=avail.length?avail.map(a=>`<span class="pool-item${game.selected&&game.selected.emoji===a.emoji&&game.selected.catName===a.catName?' selected':''}" onclick="selectAnimal('${a.emoji}','${a.catName}','${a.name.replace(/'/g,"\\'")}')">${a.emoji}<span style="font-size:10px;font-weight:600;display:block;color:var(--sft)">${a.name}</span></span>`).join(''):'<span style="color:var(--sft);font-weight:700">All sorted! Click Check ✅</span>';
+  
+  document.getElementById('chk').style.display=placedKeys.length===game.pool.length?'inline-flex':'none';
+}
+
+function selectAnimal(emoji,catName,name){
+  const placed=Object.values(game.slots).flat();
+  const placedKeys=placed.map(a=>a.emoji+'|'+a.catName);
+  if(placedKeys.includes(emoji+'|'+catName))return;
+  game.selected={emoji,catName,name};
+  document.getElementById('instr').innerHTML='👉 <b>Step 2:</b> Now click the correct category for <b>'+name+'</b> ' + emoji;
+  document.querySelectorAll('.cat-box').forEach(b=>b.classList.add('active'));
+  render();
+}
+
+function placeInCat(catIdx){
+  if(!game.selected)return;
+  const cat=game.currentCats[catIdx];
+  game.slots[catIdx].push({...game.selected});
+  game.selected=null;
+  document.getElementById('instr').innerHTML='👆 <b>Step 1:</b> Click an animal below';
+  document.querySelectorAll('.cat-box').forEach(b=>b.classList.remove('active'));
+  render();
+}
+
+function removeSlot(el,catName){
+  const key=el.getAttribute('data-key');
+  const cat=game.currentCats.find(c=>c.name===catName);
+  if(!cat)return;
+  const idx=game.slots[cat._idx].findIndex(a=>(a.emoji+'|'+a.catName)===key);
+  if(idx<0)return;game.slots[cat._idx].splice(idx,1);
+  document.getElementById('chk').style.display='none';
+  document.getElementById('instr').innerHTML='👆 <b>Step 1:</b> Click an animal below';
+  document.querySelectorAll('.cat-box').forEach(b=>b.classList.remove('active'));
+  game.selected=null;render();
+}
+
+function checkSort(){
+  let correct=0,total=0;
+  game.currentCats.forEach(cat=>{
+    (game.slots[cat._idx]||[]).forEach(a=>{total++;if(a.catName===cat.name)correct++;});
+  });
+  if(correct===total&&total>0){
+    game.score+=20;document.getElementById('scr').textContent=game.score;
+    document.getElementById('msg').innerHTML='🎉 All correct! +20 pts';
+    setTimeout(newRound,1200);
+  }else{
+    // Highlight wrong ones
+    document.querySelectorAll('.cat-slot .animal-chip').forEach(el=>{
+      const key=el.getAttribute('data-key');
+      const parts=key.split('|'),emoji=parts[0],catName=parts.slice(1).join('|');
+      let found=false;game.currentCats.forEach(cat=>{(game.slots[cat._idx]||[]).forEach(a=>{if(a.emoji+'|'+a.catName===key&&a.catName!==cat.name)found=true;});});
+      el.classList.toggle('wrong',found);
+      el.classList.toggle('correct',!found);
+    });
+    document.getElementById('msg').innerHTML='🔄 '+correct+'/'+total+' correct. Tap wrong ones to move them!';
+  }
+}
+
+function endGame(){
+  const pct=Math.round(game.score/120*100),em=pct>=80?'🌟':pct>=50?'🏆':'📖';
+  document.querySelector('.game-wrap').innerHTML=`<div style="text-align:center;padding:2rem"><div style="font-size:64px">${em}</div><div style="font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700">${game.score}/120</div><div style="color:var(--sft);margin-bottom:1.5rem">Animal expert!</div><div class="brow"><button class="btn btn-org" onclick="location.reload()">🔄 Play Again</button><a href="subjects.html" class="btn btn-wht">← Back</a></div></div>`;}
+newGame();
+</script>
+</body>
+</html>

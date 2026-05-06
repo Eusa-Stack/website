@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Element Mix — EduSuite Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
+.back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
+.hero{text-align:center;padding:1.5rem 1.5rem .5rem}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(24px,5vw,34px);font-weight:700;margin-bottom:4px}
+.hero p{color:var(--sft);font-size:14px;font-weight:600}
+.stats{display:flex;justify-content:center;gap:16px;margin-bottom:.5rem}
+.stat{background:var(--wht);border-radius:14px;padding:10px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.snum{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--ppl)}
+.slbl{font-size:10px;color:var(--sft);font-weight:700;text-transform:uppercase}
+.game-wrap{max-width:650px;margin:0 auto;padding:0 1rem 2rem;text-align:center}
+.q-box{background:var(--wht);border-radius:16px;padding:1.5rem;border:3px solid #E0D6CC;margin-bottom:1rem}
+.q-text{font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px}
+.q-hint{font-size:13px;color:var(--sft);margin-bottom:.8rem}
+.shelf{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:.8rem;padding:.5rem;background:#F5F0EB;border-radius:14px;min-height:80px}
+.element{background:var(--wht);border:3px solid #E0D6CC;border-radius:14px;padding:10px 16px;cursor:pointer;transition:.12s;text-align:center;min-width:85px;position:relative}
+.element:hover{border-color:var(--ppl);transform:scale(1.05);box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.element.selected{border-color:var(--ppl);background:#EEF2FF;box-shadow:0 0 0 3px rgba(167,139,250,.2)}
+.element:disabled{cursor:default;opacity:.4;transform:none}
+.element:disabled:hover{box-shadow:none}
+.el-icon{font-size:32px;display:block;margin-bottom:4px}
+.el-symbol{font-size:15px;font-weight:800;font-family:'Fredoka',sans-serif}
+.el-name{font-size:10px;color:var(--sft);margin-top:2px}
+.mixer{background:linear-gradient(135deg,#1A1A2E,#2D2A32);color:#fff;border-radius:16px;padding:1rem;margin-bottom:.8rem;display:flex;align-items:center;justify-content:center;gap:10px;min-height:60px;flex-wrap:wrap}
+.mixer-slot{width:70px;height:70px;border:2px dashed rgba(255,255,255,.3);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:12px;color:rgba(255,255,255,.4)}
+.mixer-slot.filled{border-style:solid;border-color:var(--yel);background:rgba(247,201,72,.1);color:#fff}
+.mixer-arrow{font-size:28px;color:var(--yel);flex-shrink:0}
+.result-area{padding:.5rem;min-height:2.5rem;font-weight:700;font-size:16px;text-align:center}
+.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:.8rem}
+.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.btn-ppl{background:var(--ppl);color:#fff}.btn-grn{background:var(--grn);color:#fff}.btn-org{background:var(--org);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
+.success{color:var(--grn)}.fail{color:var(--pnk)}
+.level-pick{text-align:center;padding:2rem}
+.level-pick h2{font-family:'Fredoka',sans-serif;font-size:26px;font-weight:700;margin-bottom:1.2rem}
+.lvl-card{background:var(--wht);border-radius:16px;padding:1.5rem;margin-bottom:1rem;cursor:pointer;border:3px solid transparent;transition:.2s;max-width:350px;margin:0 auto 1rem}
+.lvl-card:hover{border-color:var(--org);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.lc-icon{font-size:36px;display:block;margin-bottom:6px}
+.lc-name{font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700}
+.lc-desc{font-size:13px;color:var(--sft);margin-top:4px}
+.reaction-show{font-size:22px;font-weight:800;margin:.5rem 0;animation:pop .3s}
+@keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.2)}100%{transform:scale(1)}}
+</style>
+</head>
+<body>
+<a href="subjects.html" class="back-link">← All Games</a>
+<header class="hero"><h1>🧪 Element Mix</h1><p>Pick the right elements from the shelf to create compounds!</p></header>
+
+<div id="levelScreen" class="level-pick">
+  <h2>🔬 Choose Your Lab</h2>
+  <div class="lvl-card" onclick="startGame(0)"><span class="lc-icon">👶</span><div class="lc-name">Junior Lab</div><div class="lc-desc">4 elements on shelf · Pick 2 to make the target compound · Ages 5–9</div></div>
+  <div class="lvl-card" onclick="startGame(1)"><span class="lc-icon">🥼</span><div class="lc-name">Senior Lab</div><div class="lc-desc">6 elements on shelf · More wrong options · Ages 10–15</div></div>
+</div>
+
+<div id="gameScreen" style="display:none">
+<div class="stats"><div class="stat"><div class="snum" id="qnum">1/10</div><div class="slbl">Round</div></div><div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Score</div></div><div class="stat"><div class="snum" id="strk">0</div><div class="slbl">Streak</div></div></div>
+<div class="game-wrap">
+<div class="q-box">
+  <div class="q-text" id="mission">Make: Water</div>
+  <div class="q-hint" id="hint">Pick exactly 2 elements from the shelf</div>
+</div>
+<div class="mixer"><div class="mixer-slot" id="slot1">Pick 1st</div><div class="mixer-arrow">+</div><div class="mixer-slot" id="slot2">Pick 2nd</div><div class="mixer-arrow">=</div><div class="result-area" id="result" style="flex:1">?</div></div>
+<div class="shelf" id="shelf"></div>
+<div class="brow"><button class="btn btn-ppl" id="mixBtn" onclick="doMix()" disabled>⚗️ Mix!</button><button class="btn btn-org" onclick="resetGame()">🔄 Restart</button><a href="subjects.html" class="btn btn-wht">← Back</a></div>
+</div>
+
+<script>
+// Element database
+const ELEMENTS=[
+  {sym:'H',name:'Hydrogen',e:'💨',type:'gas'},
+  {sym:'O',name:'Oxygen',e:'💨',type:'gas'},
+  {sym:'N',name:'Nitrogen',e:'💨',type:'gas'},
+  {sym:'C',name:'Carbon',e:'⚫',type:'solid'},
+  {sym:'Na',name:'Sodium',e:'🧂',type:'metal'},
+  {sym:'Cl',name:'Chlorine',e:'☁️',type:'gas'},
+  {sym:'Ca',name:'Calcium',e:'🪨',type:'metal'},
+  {sym:'Fe',name:'Iron',e:'🔩',type:'metal'},
+  {sym:'Si',name:'Silicon',e:'💎',type:'solid'},
+  {sym:'Mg',name:'Magnesium',e:'🔆',type:'metal'}
+];
+
+// Reaction database: [element1, element2] → compound
+const REACTIONS=[
+  {a:'H',b:'O',name:'Water',formula:'H₂O',e:'💧',desc:'2H₂ + O₂ → 2H₂O\nUsed for drinking, cleaning, and life!'},
+  {a:'Na',b:'Cl',name:'Table Salt',formula:'NaCl',e:'🧂',desc:'2Na + Cl₂ → 2NaCl\nEveryday table salt!'},
+  {a:'C',b:'O',name:'Carbon Dioxide',formula:'CO₂',e:'💨',desc:'C + O₂ → CO₂\nWe breathe it out, plants breathe it in!'},
+  {a:'Fe',b:'O',name:'Rust',formula:'Fe₂O₃',e:'🟫',desc:'4Fe + 3O₂ → 2Fe₂O₃\nIron reacts with oxygen and water!'},
+  {a:'H',b:'N',name:'Ammonia',formula:'NH₃',e:'🧪',desc:'N₂ + 3H₂ → 2NH₃\nUsed in fertilizers and cleaning!'},
+  {a:'Ca',b:'O',name:'Quicklime',formula:'CaO',e:'🪨',desc:'2Ca + O₂ → 2CaO\nUsed in cement and construction!'},
+  {a:'Si',b:'O',name:'Quartz',formula:'SiO₂',e:'💎',desc:'Si + O₂ → SiO₂\nThe main part of sand and glass!'},
+  {a:'Mg',b:'O',name:'Magnesia',formula:'MgO',e:'🔆',desc:'2Mg + O₂ → 2MgO\nUsed in medicine (milk of magnesia)!'},
+  {a:'H',b:'Cl',name:'Hydrochloric Acid',formula:'HCl',e:'🧪',desc:'H₂ + Cl₂ → 2HCl\nYour stomach uses this to digest food!'},
+  {a:'Na',b:'O',name:'Sodium Oxide',formula:'Na₂O',e:'🧂',desc:'4Na + O₂ → 2Na₂O\nReacts with water to form sodium hydroxide!'},
+  {a:'C',b:'Si',name:'Silicon Carbide',formula:'SiC',e:'💎',desc:'Si + C → SiC\nAlmost as hard as diamond!'},
+  {a:'Fe',b:'C',name:'Steel',formula:'Fe₃C',e:'🔩',desc:'3Fe + C → Fe₃C\nCarbon makes iron into strong steel!'}
+];
+
+let game={mode:0,round:0,score:0,streak:0,sel1:null,sel2:null,target:null,shelf:[]};
+
+function startGame(m){
+  game.mode=m;game.round=0;game.score=0;game.streak=0;
+  document.getElementById('levelScreen').style.display='none';
+  document.getElementById('gameScreen').style.display='block';
+  newRound();
+}
+
+function resetGame(){
+  document.getElementById('gameScreen').style.display='none';
+  document.getElementById('levelScreen').style.display='block';
+}
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function newRound(){
+  if(game.round>=10){endGame();return;}
+  game.round++;game.sel1=null;game.sel2=null;
+  
+  // Pick a random reaction as the target
+  const rx=shuffle([...REACTIONS])[0];
+  game.target=rx;
+  
+  // Get the correct two elements
+  const elA=ELEMENTS.find(e=>e.sym===rx.a);
+  const elB=ELEMENTS.find(e=>e.sym===rx.b);
+  
+  // Pick wrong elements for the shelf
+  const usedSyms=new Set([rx.a,rx.b]);
+  const wrongs=ELEMENTS.filter(e=>!usedSyms.has(e.sym));
+  const numWrongs=game.mode===0?2:4; // Junior: 2 wrongs, Senior: 4 wrongs
+  const pickedWrongs=shuffle([...wrongs]).slice(0,numWrongs);
+  
+  // Full shelf: correct elements + wrong elements
+  game.shelf=shuffle([elA,elB,...pickedWrongs]);
+  
+  document.getElementById('qnum').textContent=game.round+'/10';
+  document.getElementById('scr').textContent=game.score;
+  document.getElementById('strk').textContent=game.streak;
+  document.getElementById('mission').textContent='🧪 Make some ' + rx.name + '!';
+  document.getElementById('hint').innerHTML='📝 Formula: <strong>'+rx.formula+'</strong> — pick the 2 elements from the shelf';
+  document.getElementById('result').innerHTML='?';
+  document.getElementById('mixBtn').disabled=true;
+  
+  document.getElementById('slot1').innerHTML='Pick 1st';
+  document.getElementById('slot1').className='mixer-slot';
+  document.getElementById('slot2').innerHTML='Pick 2nd';
+  document.getElementById('slot2').className='mixer-slot';
+  
+  renderShelf();
+}
+
+function renderShelf(){
+  document.getElementById('shelf').innerHTML=game.shelf.map((el,i)=>`<div class="element" id="e${i}" onclick="pickEl(${i})"><span class="el-icon">${el.e}</span><span class="el-symbol">${el.sym}</span><div class="el-name">${el.name}</div></div>`).join('');
+}
+
+function pickEl(idx){
+  const el=game.shelf[idx];
+  const elDiv=document.getElementById('e'+idx);
+  
+  // Deselect if already selected
+  if(game.sel1===idx){
+    game.sel1=null;elDiv.classList.remove('selected');
+    document.getElementById('slot1').innerHTML='Pick 1st';document.getElementById('slot1').className='mixer-slot';
+    document.getElementById('mixBtn').disabled=true;return;
+  }
+  if(game.sel2===idx){
+    game.sel2=null;elDiv.classList.remove('selected');
+    document.getElementById('slot2').innerHTML='Pick 2nd';document.getElementById('slot2').className='mixer-slot';
+    document.getElementById('mixBtn').disabled=true;return;
+  }
+  
+  // Pick first or second
+  if(game.sel1===null){
+    game.sel1=idx;elDiv.classList.add('selected');
+    document.getElementById('slot1').innerHTML=`<span class="el-icon">${el.e}</span><span style="font-size:13px">${el.sym}</span>`;
+    document.getElementById('slot1').className='mixer-slot filled';
+  }else if(game.sel2===null){
+    game.sel2=idx;elDiv.classList.add('selected');
+    document.getElementById('slot2').innerHTML=`<span class="el-icon">${el.e}</span><span style="font-size:13px">${el.sym}</span>`;
+    document.getElementById('slot2').className='mixer-slot filled';
+    document.getElementById('mixBtn').disabled=false;
+  }
+}
+
+function doMix(){
+  if(game.sel1===null||game.sel2===null)return;
+  const a=game.shelf[game.sel1];
+  const b=game.shelf[game.sel2];
+  const tx=game.target;
+  
+  // Disable all elements during reveal
+  document.querySelectorAll('.element').forEach(e=>e.disabled=true);
+  document.getElementById('mixBtn').disabled=true;
+  
+  // Check: both elements correct (order doesn't matter)
+  const correct=(a.sym===tx.a&&b.sym===tx.b)||(a.sym===tx.b&&b.sym===tx.a);
+  
+  if(correct){
+    game.score+=10;game.streak++;
+    document.getElementById('scr').textContent=game.score;
+    document.getElementById('strk').textContent=game.streak;
+    document.getElementById('result').innerHTML=`<div class="reaction-show">${tx.e} ${tx.name}!</div><div style="font-size:13px;color:var(--grn);white-space:pre-line">${tx.desc}</div>`;
+    document.getElementById('result').className='result-area success';
+    // Highlight both as correct
+    document.getElementById('e'+game.sel1).style.borderColor='var(--grn)';
+    document.getElementById('e'+game.sel2).style.borderColor='var(--grn)';
+    document.getElementById('e'+game.sel1).style.background='#F0FAF4';
+    document.getElementById('e'+game.sel2).style.background='#F0FAF4';
+  }else{
+    game.streak=0;
+    document.getElementById('strk').textContent=game.streak;
+    document.getElementById('result').innerHTML=`<div class="reaction-show">❌ No reaction!</div><div style="font-size:13px;color:var(--pnk)">${a.sym} + ${b.sym} → Nothing useful<br>Try different elements!</div>`;
+    document.getElementById('result').className='result-area fail';
+    document.getElementById('e'+game.sel1).style.borderColor='var(--pnk)';
+    document.getElementById('e'+game.sel2).style.borderColor='var(--pnk)';
+    document.getElementById('e'+game.sel1).style.background='#FEE2E2';
+    document.getElementById('e'+game.sel2).style.background='#FEE2E2';
+  }
+  
+  setTimeout(newRound,2000);
+}
+
+function endGame(){
+  const pct=Math.round(game.score/100*100);
+  const em=pct>=80?'🧪':pct>=50?'🔬':'👨‍🔬';
+  document.querySelector('.game-wrap').innerHTML=`<div style="text-align:center;padding:2rem"><div style="font-size:64px">${em}</div><div style="font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700">${game.score}/100</div><div style="color:var(--sft);margin-bottom:1.5rem">${pct}% correct</div><div class="brow"><button class="btn btn-org" onclick="location.reload()">🔄 Play Again</button><a href="subjects.html" class="btn btn-wht">← Back</a></div></div>`;
+}
+
+startGame(0);
+</script>
+</body>
+</html>

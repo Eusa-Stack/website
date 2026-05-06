@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number Ninja — EduSuite Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
+.back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
+.hero{text-align:center;padding:1.5rem 1.5rem .3rem}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(24px,5vw,34px);font-weight:700}
+.hero p{color:var(--sft);font-size:14px;font-weight:600}
+.stats{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:1rem}
+.stat{background:var(--wht);border-radius:14px;padding:10px 20px;text-align:center;min-width:90px}
+.snum{font-family:'Fredoka',sans-serif;font-size:28px;font-weight:700;color:var(--org)}
+.slbl{font-size:10px;color:var(--sft);font-weight:700;text-transform:uppercase}
+.game-wrap{max-width:600px;margin:0 auto;padding:0 1rem 2rem;text-align:center}
+.arena{background:var(--wht);border-radius:20px;padding:2rem 1.5rem;margin-bottom:1rem;border:3px solid #E0D6CC}
+.q{font-size:clamp(28px,6vw,42px);font-weight:800;margin-bottom:.6rem;font-family:'Fredoka',sans-serif}
+.ops{color:var(--sft);font-weight:700;font-size:16px}
+.timer{width:100%;height:10px;background:#E0D6CC;border-radius:5px;overflow:hidden;margin-bottom:1rem}
+.tf{height:10px;background:var(--grn);border-radius:5px;transition:width .1s}.tf.danger{background:var(--pnk)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:400px;margin:0 auto}
+.c{background:var(--wht);border:3px solid #E0D6CC;border-radius:14px;padding:18px;font-size:24px;font-weight:800;font-family:'Fredoka',sans-serif;cursor:pointer;transition:.1s;color:var(--txt)}
+.c:hover{border-color:var(--org);transform:scale(1.03)}
+.c.correct{background:#DCFCE7;border-color:var(--grn);color:#14532D}
+.c.wrong{background:#FEE2E2;border-color:var(--pnk);color:#991B1B;animation:sh .3s}
+@keyframes sh{0%,100%{opacity:1}50%{opacity:.5}}
+.c:disabled{cursor:default;opacity:.6;transform:none}
+.combo-badge{background:linear-gradient(135deg,var(--yel),var(--org));color:var(--txt);padding:6px 16px;border-radius:20px;font-weight:800;font-size:15px;display:inline-block;animation:pop .3s}
+@keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.2)}100%{transform:scale(1)}}
+.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.btn-org{background:var(--org);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
+.msg{font-size:16px;font-weight:700;min-height:2.5rem;padding:.5rem}
+.mode{padding:2rem 1rem;text-align:center}
+.mode h2{font-family:'Fredoka',sans-serif;font-size:26px;font-weight:700;margin-bottom:1.2rem}
+.mode-card{background:var(--wht);border-radius:16px;padding:1.5rem;margin-bottom:1rem;cursor:pointer;border:3px solid transparent;transition:.2s;max-width:350px;margin:0 auto 1rem}
+.mode-card:hover{border-color:var(--org);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.mc-icon{font-size:36px;display:block;margin-bottom:6px}
+.mc-name{font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700}
+.mc-desc{font-size:13px;color:var(--sft);margin-top:4px}
+</style>
+</head>
+<body>
+<a href="subjects.html" class="back-link">← All Games</a>
+<header class="hero"><h1>🗡️ Number Ninja</h1><p>Speed math with COMBO scoring — chain correct answers!</p></header>
+
+<div id="startScreen" class="mode">
+  <h2>⚔️ Choose Your Dojo</h2>
+  <div class="mode-card" onclick="startGame(0)"><span class="mc-icon">👶</span><div class="mc-name">Easy Dojo</div><div class="mc-desc">+ and − · 10s · combo ×2 at 5 streak</div></div>
+  <div class="mode-card" onclick="startGame(1)"><span class="mc-icon">🥷</span><div class="mc-name">Medium Dojo</div><div class="mc-desc">× and ÷ · 8s · combo ×2 at 4 streak</div></div>
+  <div class="mode-card" onclick="startGame(2)"><span class="mc-icon">🔥</span><div class="mc-name">Hard Dojo</div><div class="mc-desc">Everything! · 6s · combo ×3 at 3 streak!</div></div>
+</div>
+
+<div id="gameScreen" style="display:none">
+<div class="stats"><div class="stat"><div class="snum" id="qnum">0</div><div class="slbl">Question</div></div><div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Score</div></div><div class="stat"><div class="snum" id="strk">0</div><div class="slbl">Streak</div></div></div>
+<div class="game-wrap"><div class="arena" id="arena"></div><div class="msg" id="msg"></div></div>
+
+<script>
+const MODES=[
+  {name:'Easy',maxQ:10,ops:['+','-'],maxNum:20,time:10,comboReq:5,comboMult:2},
+  {name:'Medium',maxQ:12,ops:['×','÷'],maxNum:12,time:8,comboReq:4,comboMult:2},
+  {name:'Hard',maxQ:15,ops:['+','-','×','÷'],maxNum:20,time:6,comboReq:3,comboMult:3}
+];
+let game={mode:0,q:0,score:0,streak:0,timer:null,secs:0,ans:0,active:false};
+
+function startGame(m){
+  game.mode=m;game.q=0;game.score=0;game.streak=0;game.active=true;
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('gameScreen').style.display='block';
+  makeQ();
+}
+function r(max){return Math.floor(Math.random()*max+1);}
+
+function makeQ(){
+  if(game.q>=MODES[game.mode].maxQ){gameOver();return;}
+  const m=MODES[game.mode];game.q++;
+  let a,b,op,ans;const opIdx=Math.floor(Math.random()*m.ops.length);
+  op=m.ops[opIdx];
+  if(op==='+'){a=r(m.maxNum);b=r(m.maxNum);ans=a+b;}
+  else if(op==='-'){a=r(m.maxNum)+Math.floor(m.maxNum/2);b=r(m.maxNum);ans=a-b;}
+  else if(op==='×'){a=r(Math.floor(m.maxNum/2))+1;b=r(Math.floor(m.maxNum/4))+1;ans=a*b;}
+  else{b=Math.max(r(Math.floor(m.maxNum/4)),2);ans=r(Math.floor(m.maxNum/2));a=b*ans;}
+  game.ans=ans;
+  let choices=[ans];
+  for(let tries=0;choices.length<4&&tries<50;tries++){let c=ans+r(10)-5;if(c>0&&!choices.includes(c)&&c!==ans)choices.push(c);}
+  while(choices.length<4)choices.push(ans+choices.length);
+  choices.sort(()=>Math.random()-.5);
+  
+  const comboOn=m.comboReq&&game.streak>=m.comboReq;
+  document.getElementById('qnum').textContent=game.q+'/'+m.maxQ;
+  document.getElementById('scr').textContent=game.score+(comboOn?' 🔥':'');document.getElementById('strk').textContent=game.streak;
+  document.getElementById('arena').innerHTML=`<div class="q">${a} <span class="ops">${op}</span> ${b} = ?${comboOn?' <span class="combo-badge">🔥 COMBO ×'+m.comboMult+'!</span>':''}</div><div class="timer"><div class="tf" id="tf" style="width:100%"></div></div><div class="choices">${choices.map((c,i)=>`<button class="c" id="c${i}" onclick="pick(${i})">${c}</button>`).join('')}</div>`;
+  document.getElementById('msg').innerHTML='';
+  
+  game.secs=m.time+0.1;
+  if(game.timer)clearInterval(game.timer);
+  game.timer=setInterval(()=>{game.secs-=.1;const el=document.getElementById('tf'),pct=Math.max(0,game.secs/m.time*100);if(el){el.style.width=pct+'%';el.className='tf'+(pct<30?' danger':'');}if(game.secs<=0){clearInterval(game.timer);document.querySelectorAll('.c').forEach(b=>b.disabled=true);game.streak=0;document.getElementById('strk').textContent=0;document.getElementById('msg').innerHTML='⏰ Time\'s up! Answer: '+game.ans;setTimeout(makeQ,1000);}},100);
+}
+
+function pick(i){
+  if(!game.active)return;if(game.timer)clearInterval(game.timer);
+  document.querySelectorAll('.c').forEach(b=>b.disabled=true);
+  const val=parseInt(document.getElementById('c'+i).textContent),correct=val===game.ans;
+  document.getElementById('c'+i).classList.add(correct?'correct':'wrong');
+  const m=MODES[game.mode];
+  if(correct){game.streak++;const pts=(m.comboReq&&game.streak>=m.comboReq)?m.comboMult:1;game.score+=pts;document.getElementById('msg').innerHTML='✅ Correct!'+((pts>1)?' +'+pts+'pts (COMBO!)':'')+(game.streak>2?' 🔥 '+game.streak+' streak!':'');}
+  else{game.streak=0;document.getElementById('msg').innerHTML='❌ Answer: '+game.ans;}
+  document.getElementById('scr').textContent=game.score;document.getElementById('strk').textContent=game.streak;
+  setTimeout(makeQ,800);
+}
+
+function gameOver(){
+  game.active=false;const pct=Math.round(game.score/MODES[game.mode].maxQ*100),emoji=pct>=80?'🏆':pct>=50?'🌟':'💪';
+  document.getElementById('arena').innerHTML=`<div style="font-size:48px;margin-bottom:.5rem">${emoji}</div><div style="font-family:'Fredoka',sans-serif;font-size:28px;font-weight:700">${game.score}/${MODES[game.mode].maxQ}</div><div style="color:var(--sft);font-size:16px">${pct}% correct · Bonus from combos!</div><div class="brow" style="margin-top:1.5rem"><button class="btn btn-org" onclick="startGame(${game.mode})">🔄 Retry</button><button class="btn btn-wht" onclick="backToMenu()">← Menu</button></div>`;
+}
+function backToMenu(){if(game.timer)clearInterval(game.timer);document.getElementById('gameScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
+</script>
+</body>
+</html>

@@ -1,2262 +1,628 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decimal Mastery Game Center</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-    <style>
-        /* ── SITE-WIDE NAV ── */
-        .site-nav {
-            display: flex;
-            align-items: center;
-            background: #0F172A;
-            padding: 0 16px;
-            gap: 0;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-        }
-        .site-nav-brand {
-            font-size: 12px;
-            font-weight: 800;
-            color: rgba(255,255,255,0.45);
-            text-transform: uppercase;
-            letter-spacing: 0.09em;
-            padding: 14px 14px 14px 4px;
-            white-space: nowrap;
-            border-right: 1px solid rgba(255,255,255,0.1);
-            margin-right: 4px;
-        }
-        .site-nav-link {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            padding: 0 16px;
-            height: 48px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 700;
-            color: rgba(255,255,255,0.55);
-            position: relative;
-            transition: color 0.2s;
-            white-space: nowrap;
-            letter-spacing: 0.02em;
-        }
-        .site-nav-link:hover { color: rgba(255,255,255,0.9); }
-        .site-nav-link.active { color: #fff; }
-        .site-nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 12px; right: 12px;
-            height: 3px;
-            border-radius: 3px 3px 0 0;
-            background: var(--primary, #7C3AED);
-            animation: navUnderline 0.3s ease;
-        }
-        @keyframes navUnderline {
-            from { transform: scaleX(0); opacity: 0; }
-            to   { transform: scaleX(1); opacity: 1; }
-        }
-        .site-nav-link .nav-icon { font-size: 16px; }
-        .site-nav-link .nav-badge {
-            background: #7C3AED;
-            color: #fff;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 2px 7px;
-            border-radius: 10px;
-            letter-spacing: 0.04em;
-        }
-        .site-nav-link.ielts-link .nav-badge { background: #1A7A6A; }
-        .site-nav-sep { flex: 1; }
-        /* Breadcrumb */
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 20px;
-            background: rgba(124,58,237,0.07);
-            border-bottom: 1px solid rgba(124,58,237,0.12);
-            font-size: 12px;
-            font-weight: 600;
-            color: #6B7280;
-        }
-        .breadcrumb a { color: #7C3AED; text-decoration: none; }
-        .breadcrumb a:hover { text-decoration: underline; }
-        .breadcrumb-sep { color: #C4B5FD; }
-        .breadcrumb-current { color: #1E1B4B; font-weight: 700; }
-
-        :root {
-            --primary:    #5B21B6;
-            --primary-lt: #7C3AED;
-            --accent:     #0EA5A0;
-            --accent-lt:  #14B8B3;
-            --gold:       #F59E0B;
-            --gold-lt:    #FDE68A;
-            --success:    #16A34A;
-            --success-bg: #DCFCE7;
-            --error:      #DC2626;
-            --error-bg:   #FEE2E2;
-            --bg:         #F5F3FF;
-            --surface:    #FFFFFF;
-            --surface-2:  #EDE9FE;
-            --border:     #C4B5FD;
-            --text:       #1E1B4B;
-            --text-muted: #6D6A8A;
-            --mono:       'JetBrains Mono', 'Courier New', monospace;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Nunito', 'Segoe UI', sans-serif;
-            background: var(--bg);
-            min-height: 100vh;
-            padding: 24px 16px;
-            color: var(--text);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: var(--surface);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(91,33,182,0.13);
-            overflow: hidden;
-        }
-
-        /* ── HEADER ── */
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-lt) 100%);
-            color: white;
-            padding: 36px 30px 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: -1px; left: 0; right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
-        }
-
-        /* ── PROFILE GLOBE SECTION ── */
-        .profile-globe-wrap {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 260px;
-            height: 260px;
-            margin-bottom: 10px;
-        }
-
-        /* Faint globe watermark behind everything */
-        .globe-watermark {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            opacity: 0.18;
-            pointer-events: none;
-            animation: globeSpin 30s linear infinite;
-        }
-
-        @keyframes globeSpin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Orbit ring */
-        .orbit-ring {
-            position: absolute;
-            inset: 10px;
-            border-radius: 50%;
-            border: 1.5px dashed rgba(255,255,255,0.35);
-            pointer-events: none;
-        }
-
-        /* Circular profile photo — centred, on top */
-        .profile-pic {
-            position: relative;
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            object-position: center top;
-            border: 4px solid rgba(255,255,255,0.92);
-            box-shadow: 0 0 0 5px rgba(255,255,255,0.22), 0 10px 32px rgba(0,0,0,0.35);
-            z-index: 10;
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
-        }
-
-        .profile-pic:hover {
-            transform: scale(1.06);
-            box-shadow: 0 0 0 7px rgba(255,255,255,0.35), 0 14px 40px rgba(0,0,0,0.4);
-        }
-
-        /* Spinning gradient ring around photo */
-        .spin-ring {
-            position: absolute;
-            width: 144px;
-            height: 144px;
-            border-radius: 50%;
-            background: conic-gradient(var(--gold), var(--accent), var(--primary-lt), var(--gold));
-            animation: spinRing 5s linear infinite;
-            z-index: 9;
-        }
-
-        @keyframes spinRing {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Flag pins orbiting the globe */
-        .flag-pin {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            z-index: 20;
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
-            transition: transform 0.25s ease;
-            cursor: default;
-        }
-
-        .flag-pin:hover { transform: scale(1.18) translateY(-3px); }
-
-        .flag-img {
-            width: 32px;
-            height: 20px;
-            border-radius: 3px;
-            object-fit: cover;
-            border: 1.5px solid rgba(255,255,255,0.8);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-        }
-
-        .flag-pole {
-            width: 2px;
-            height: 14px;
-            background: rgba(255,255,255,0.75);
-            border-radius: 1px;
-        }
-
-        .flag-label {
-            font-size: 0.58em;
-            font-weight: 700;
-            color: rgba(255,255,255,0.9);
-            letter-spacing: 0.04em;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.7);
-            white-space: nowrap;
-        }
-
-        /* Geographic positions on the 260×260 circle:
-           Finland  ~ top-right  (NE Europe)
-           USA      ~ left       (North America)
-           Philippines ~ bottom-right (SE Asia) */
-        .flag-finland     { top: 14px;   right: 28px;  }
-        .flag-usa         { top: 60px;   left: 6px;    }
-        .flag-philippines { bottom: 22px; right: 20px; }
-
-        /* Profile description below globe */
-        .profile-info {
-            margin-bottom: 6px;
-        }
-
-        .profile-name {
-            font-size: 2em;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
-        }
-
-        .profile-tagline {
-            font-size: 1.05em;
-            opacity: 0.88;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .profile-badges {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 4px;
-        }
-
-        .pbadge {
-            background: rgba(255,255,255,0.18);
-            border: 1px solid rgba(255,255,255,0.35);
-            border-radius: 20px;
-            padding: 4px 12px;
-            font-size: 0.78em;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            backdrop-filter: blur(4px);
-        }
-
-        .header h1 {
-            font-size: 2.4em;
-            font-weight: 800;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.88;
-            font-weight: 600;
-        }
-
-        /* ── DASHBOARD ── */
-        .progress-dashboard {
-            background: var(--surface-2);
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 14px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .stat-card {
-            background: var(--surface);
-            padding: 18px 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 2px 6px rgba(91,33,182,0.08);
-            border-top: 4px solid var(--accent);
-        }
-
-        .stat-card h3 {
-            color: var(--text-muted);
-            font-size: 0.78em;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .stat-card .value {
-            font-size: 2.2em;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        /* ── TABS ── */
-        .tabs {
-            display: flex;
-            background: var(--surface-2);
-            overflow-x: auto;
-            border-bottom: 2px solid var(--border);
-            gap: 2px;
-            padding: 0 8px;
-        }
-
-        .tab {
-            padding: 16px 22px;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            font-family: 'Nunito', sans-serif;
-            font-size: 0.95em;
-            font-weight: 700;
-            color: var(--text-muted);
-            transition: color 0.2s, border-color 0.2s;
-            white-space: nowrap;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
-        }
-
-        .tab:hover { color: var(--primary); }
-
-        .tab.active {
-            background: var(--surface);
-            color: var(--primary);
-            border-bottom: 3px solid var(--accent);
-        }
-
-        /* ── CONTENT ── */
-        .tab-content {
-            display: none;
-            padding: 28px;
-            animation: fadeIn 0.25s ease;
-        }
-
-        .tab-content.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ── GAME CARD ── */
-        .game-card {
-            background: var(--surface-2);
-            border-radius: 14px;
-            padding: 26px;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--primary-lt);
-        }
-
-        .game-title {
-            font-size: 1.6em;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .game-description {
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            font-size: 1.05em;
-            line-height: 1.65;
-        }
-
-        /* ── BUTTONS ── */
-        .btn {
-            padding: 13px 26px;
-            font-family: 'Nunito', sans-serif;
-            font-size: 1em;
-            font-weight: 700;
-            border: none;
-            border-radius: 9px;
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-lt) 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(91,33,182,0.35);
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-warning {
-            background: var(--gold);
-            color: #1E2A3B;
-        }
-
-        .btn-danger {
-            background: var(--error);
-            color: white;
-        }
-
-        /* ── QUESTION BOX ── */
-        .question-box {
-            background: var(--surface);
-            padding: 28px;
-            border-radius: 14px;
-            margin: 18px 0;
-            box-shadow: 0 3px 12px rgba(91,33,182,0.09);
-            border: 1px solid var(--border);
-        }
-
-        .question-text {
-            font-size: 1.4em;
-            color: var(--text);
-            margin-bottom: 18px;
-            font-weight: 700;
-            line-height: 1.5;
-        }
-
-        /* ── INPUTS ── */
-        .answer-input {
-            width: 100%;
-            padding: 14px;
-            font-size: 1.25em;
-            border: 2.5px solid var(--border);
-            border-radius: 9px;
-            margin: 10px 0;
-            font-family: var(--mono);
-            text-align: center;
-            background: var(--surface-2);
-            color: var(--text);
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .answer-input:focus {
-            outline: none;
-            border-color: var(--primary-lt);
-            box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
-            background: var(--surface);
-        }
-
-        /* ── FEEDBACK ── */
-        .feedback {
-            padding: 18px 20px;
-            border-radius: 10px;
-            margin-top: 18px;
-            font-size: 1.1em;
-            font-weight: 700;
-            text-align: center;
-            animation: slideIn 0.25s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .feedback.correct {
-            background: var(--success-bg);
-            color: #14532D;
-            border: 2px solid #4ADE80;
-        }
-
-        .feedback.incorrect {
-            background: var(--error-bg);
-            color: #7F1D1D;
-            border: 2px solid #FCA5A5;
-        }
-
-        /* ── MONEY ── */
-        .money-display {
-            display: flex;
-            gap: 18px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 18px 0;
-        }
-
-        .money-item {
-            background: var(--surface);
-            padding: 18px;
-            border-radius: 12px;
-            border: 2.5px solid var(--gold);
-            text-align: center;
-            min-width: 150px;
-            box-shadow: 0 3px 10px rgba(245,158,11,0.12);
-        }
-
-        .money-item .label {
-            font-size: 1em;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 10px;
-        }
-
-        .money-item .value {
-            font-size: 1.9em;
-            font-weight: 800;
-            color: var(--primary);
-            font-family: var(--mono);
-        }
-
-        .money-item .description {
-            font-size: 0.88em;
-            color: var(--text-muted);
-            margin-top: 5px;
-        }
-
-        /* ── DRAG & DROP ── */
-        .draggable-area {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 14px;
-            margin: 18px 0;
-            padding: 18px;
-            background: var(--surface-2);
-            border-radius: 12px;
-            min-height: 140px;
-        }
-
-        .draggable-item {
-            background: var(--gold);
-            padding: 14px;
-            border-radius: 8px;
-            text-align: center;
-            cursor: grab;
-            font-weight: 700;
-            color: var(--text);
-            transition: transform 0.2s, box-shadow 0.2s;
-            user-select: none;
-        }
-
-        .draggable-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 14px rgba(245,158,11,0.35);
-        }
-
-        .draggable-item:active { cursor: grabbing; }
-
-        .drop-zone {
-            border: 3px dashed var(--primary-lt);
-            border-radius: 12px;
-            padding: 28px;
-            min-height: 180px;
-            background: var(--surface);
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 1.1em;
-            transition: all 0.25s;
-        }
-
-        .drop-zone.drag-over {
-            background: #EDE9FE;
-            border-color: var(--accent);
-        }
-
-        /* ── SHOPPING CART ── */
-        .shopping-cart {
-            background: var(--surface);
-            border-radius: 12px;
-            padding: 18px;
-            margin: 18px 0;
-            box-shadow: 0 3px 12px rgba(91,33,182,0.09);
-            border: 1px solid var(--border);
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 13px 10px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .cart-item:last-child { border-bottom: none; }
-
-        .cart-item .name {
-            font-size: 1.1em;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .cart-item .price {
-            font-size: 1.2em;
-            font-weight: 800;
-            color: var(--primary);
-            font-family: var(--mono);
-        }
-
-        .cart-total {
-            margin-top: 18px;
-            padding-top: 18px;
-            border-top: 3px solid var(--primary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cart-total .label {
-            font-size: 1.4em;
-            font-weight: 800;
-            color: var(--text);
-        }
-
-        .cart-total .amount {
-            font-size: 1.9em;
-            font-weight: 800;
-            color: var(--accent);
-            font-family: var(--mono);
-        }
-
-        /* ── BADGES ── */
-        .level-badge {
-            display: inline-block;
-            padding: 5px 13px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.78em;
-            letter-spacing: 0.04em;
-            margin-left: 8px;
-        }
-
-        .level-beginner     { background: #DCFCE7; color: #14532D; }
-        .level-intermediate { background: #FEF3C7; color: #78350F; }
-        .level-advanced     { background: #EDE9FE; color: #4C1D95; }
-
-        /* ── HINTS ── */
-        .hint-box {
-            background: #FFFBEB;
-            border-left: 4px solid var(--gold);
-            padding: 14px 16px;
-            margin: 14px 0;
-            border-radius: 8px;
-            font-size: 0.97em;
-            line-height: 1.6;
-        }
-
-        .hint-box strong { color: var(--primary); }
-
-        /* ── WORK SPACE ── */
-        .work-space {
-            background: var(--surface-2);
-            padding: 18px;
-            border-radius: 10px;
-            margin: 18px 0;
-            min-height: 140px;
-            border: 2px dashed var(--border);
-        }
-
-        .work-space-title {
-            color: var(--text-muted);
-            font-weight: 700;
-            margin-bottom: 10px;
-            font-size: 0.92em;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .problem-steps {
-            background: var(--surface);
-            padding: 18px;
-            border-radius: 10px;
-            margin: 10px 0;
-            border: 1px solid var(--border);
-        }
-
-        .step {
-            padding: 10px 12px;
-            margin: 8px 0;
-            border-left: 3px solid var(--accent);
-            background: var(--surface-2);
-            border-radius: 0 6px 6px 0;
-            font-size: 0.97em;
-            line-height: 1.55;
-        }
-
-        /* ── CELEBRATION ── */
-        .celebration {
-            text-align: center;
-            padding: 36px;
-            font-size: 2.8em;
-            animation: bounce 0.5s;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-18px); }
-        }
-
-        /* ── PROGRESS BAR ── */
-        .progress-bar {
-            background: var(--border);
-            height: 26px;
-            border-radius: 13px;
-            overflow: hidden;
-            margin: 18px 0;
-        }
-
-        .progress-fill {
-            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
-            height: 100%;
-            transition: width 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 0.88em;
-        }
-
-        /* ── OPTION CARDS ── */
-        .grid-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            margin: 18px 0;
-        }
-
-        .option-card {
-            background: var(--surface);
-            padding: 18px;
-            border-radius: 12px;
-            border: 2.5px solid var(--border);
-            cursor: pointer;
-            transition: border-color 0.2s, transform 0.15s, box-shadow 0.15s;
-            text-align: center;
-            font-size: 1.05em;
-            font-weight: 700;
-            color: var(--text);
-            line-height: 1.4;
-        }
-
-        .option-card:hover {
-            border-color: var(--primary-lt);
-            transform: scale(1.02);
-            box-shadow: 0 4px 14px rgba(91,33,182,0.14);
-        }
-
-        .option-card.selected {
-            border-color: var(--accent);
-            background: #E0F7F7;
-            color: #0C4A4A;
-        }
-
-        /* ── TIMER ── */
-        .timer {
-            display: inline-block;
-            padding: 8px 18px;
-            background: var(--surface-2);
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 1.25em;
-            font-weight: 800;
-            color: var(--primary);
-            font-family: var(--mono);
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            .header h1 { font-size: 1.7em; }
-            .tabs { flex-direction: column; }
-            .grid-options { grid-template-columns: 1fr; }
-            .tab-content { padding: 18px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduSuite — Learn with Eustaquia T Calope</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  --orange: #F4845F;
+  --yellow: #F7C948;
+  --green:  #43B97A;
+  --pink:   #E85D75;
+  --purple: #A78BFA;
+  --blue:   #60A5FA;
+  --white:  #FFFFFF;
+  --text:   #2D2A32;
+  --soft:   #6B6A75;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #FFF0E6 0%, #FFF5C2 25%, #FDE6F0 50%, #E6F5FF 75%, #F0E8FF 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ── CANVAS ── */
+#bg-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── DECORATIVE BUBBLES ── */
+.bub { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+.b1 { width: 300px; height: 300px; background: rgba(244,132,95,0.12); top: -80px; left: -60px; }
+.b2 { width: 200px; height: 200px; background: rgba(167,139,250,0.12); top: 40%; right: -50px; }
+.b3 { width: 250px; height: 250px; background: rgba(67,185,122,0.10); bottom: 10%; left: 5%; }
+.b4 { width: 180px; height: 180px; background: rgba(247,201,72,0.12); bottom: 40%; right: 15%; }
+
+/* ── NAV ── */
+nav {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  background: rgba(255,255,255,0.80);
+  backdrop-filter: blur(12px);
+  position: sticky; top: 0;
+  z-index: 100;
+  border-bottom: 3px solid var(--yellow);
+}
+nav .brand {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 28px; font-weight: 700;
+  margin-right: auto;
+  letter-spacing: -0.5px;
+}
+.brand-e { color: var(--orange); }
+.brand-d { color: var(--green); }
+.brand-u { color: var(--purple); }
+.brand-dot { color: var(--yellow); }
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 14px;
+  margin-left: 4px;
+  transition: 0.2s;
+  position: relative; z-index: 101;
+}
+nav a:hover { background: rgba(244,132,95,0.12); }
+a.nav-yt {
+  background: #FF0000; color: #fff;
+  padding: 8px 18px;
+}
+a.nav-yt:hover { background: #CC0000; }
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 2.5rem 1.5rem 1.5rem;
+  position: relative; z-index: 10;
+}
+.hero-avatar {
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  object-fit: cover; object-position: center top;
+  border: 5px solid var(--white);
+  box-shadow: 0 0 0 7px rgba(244,132,95,0.15), 0 12px 40px rgba(244,132,95,0.25);
+  margin-bottom: 16px;
+  transition: 0.3s;
+}
+.hero-avatar:hover { transform: scale(1.08) rotate(-3deg); }
+.hero h1 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(32px, 6vw, 50px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--orange), var(--pink), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-role {
+  font-size: 17px;
+  color: var(--soft);
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.tags {
+  display: flex; gap: 8px;
+  justify-content: center; flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.tag {
+  padding: 7px 18px;
+  border-radius: 20px;
+  font-size: 13px; font-weight: 700;
+  border: 2px solid;
+}
+.tag-math   { background: #FFF0E8; color: var(--orange); border-color: rgba(244,132,95,0.3); }
+.tag-ielts  { background: #F0FAF4; color: var(--green);  border-color: rgba(67,185,122,0.3); }
+.tag-yt     { background: #FFE8E8; color: #CC0000; border-color: rgba(204,0,0,0.2); }
+.tag-global { background: #EEF2FF; color: #4F46E5; border-color: rgba(79,70,229,0.2); }
+
+.cta-row {
+  display: flex; gap: 12px;
+  justify-content: center; flex-wrap: wrap;
+}
+.btn {
+  padding: 15px 30px;
+  border-radius: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px; font-weight: 800;
+  border: none; text-decoration: none;
+  transition: 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; z-index: 10;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.btn-orange { background: var(--orange); color: #fff; }
+.btn-green  { background: var(--green);  color: #fff; }
+.btn-white  { background: var(--white); color: var(--text); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+/* ── YOUTUBE ── */
+.yt-wrap {
+  max-width: 750px;
+  margin: 0 auto 1.5rem;
+  padding: 0 1.5rem;
+  position: relative; z-index: 10;
+}
+.yt-card {
+  background: linear-gradient(135deg, #FF0000, #CC0000);
+  border-radius: 18px;
+  padding: 20px 24px;
+  display: flex; align-items: center; gap: 16px;
+  color: #fff; text-decoration: none;
+  transition: 0.2s; flex-wrap: wrap;
+}
+.yt-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(255,0,0,0.25); }
+.yt-play {
+  width: 50px; height: 50px;
+  background: #fff; color: #FF0000;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.yt-info { flex: 1; min-width: 180px; }
+.yt-label  { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.75; margin-bottom: 3px; }
+.yt-name   { font-family: 'Fredoka', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 2px; }
+.yt-desc   { font-size: 13px; opacity: 0.85; }
+.yt-arrow  { font-size: 24px; flex-shrink: 0; }
+
+/* ── SECTION ── */
+.section {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  position: relative; z-index: 10;
+}
+.sec-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 6px;
+}
+.sec-sub {
+  text-align: center;
+  color: var(--soft);
+  font-size: 16px; font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* ── MODULE CARDS ── */
+.card {
+  background: var(--white);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  transition: 0.3s;
+  border: 3px solid transparent;
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.10); }
+.card.c-math:hover  { border-color: var(--orange); }
+.card.c-ielts:hover { border-color: var(--green); }
+.card-top {
+  padding: 24px 22px 14px;
+  text-align: center;
+}
+.card-top.c-t-math  { background: linear-gradient(135deg, #FFF0E8, #FFE0D0); }
+.card-top.c-t-ielts { background: linear-gradient(135deg, #F0FAF4, #D8F0E4); }
+.card-icon { font-size: 44px; display: block; margin-bottom: 6px; }
+.card-top h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 21px; font-weight: 700;
+}
+.card-top .card-sub {
+  font-size: 13px; color: var(--soft); font-weight: 600;
+}
+.card-body { padding: 18px 22px 14px; }
+.card-ul {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 8px;
+  margin-bottom: 14px;
+}
+.card-ul li {
+  font-size: 14px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+}
+.fd {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0;
+}
+.fd-math  { background: rgba(244,132,95,0.15);  color: var(--orange); }
+.fd-ielts { background: rgba(67,185,122,0.15);   color: var(--green); }
+.card-foot {
+  border-top: 1px solid #F0F0F0;
+  padding: 14px 22px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.card-meta { font-size: 13px; color: var(--soft); font-weight: 600; }
+.card-meta strong { color: var(--text); }
+.btn-card {
+  padding: 10px 22px;
+  border-radius: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 800;
+  border: none; text-decoration: none;
+  transition: 0.2s; color: #fff;
+}
+.btn-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+.btn-card.bc-math  { background: var(--orange); }
+.btn-card.bc-ielts { background: var(--green);  }
+
+/* ── ABOUT ── */
+.about {
+  background: rgba(255,255,255,0.85);
+  border-top: 4px solid var(--yellow);
+  border-bottom: 4px solid var(--yellow);
+  padding: 2rem 1.5rem;
+  position: relative; z-index: 10;
+}
+.about-inner {
+  max-width: 750px;
+  margin: 0 auto;
+  display: flex; align-items: center; gap: 24px;
+  flex-wrap: wrap; justify-content: center;
+}
+.about-img {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  object-fit: cover; object-position: center top;
+  border: 4px solid var(--yellow);
+}
+.about-txt { flex: 1; min-width: 250px; }
+.about-txt h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 20px; font-weight: 700;
+  margin-bottom: 6px;
+}
+.about-txt p {
+  font-size: 14px; color: var(--soft); line-height: 1.7;
+}
+
+/* ── PREMIUM ── */
+.premium {
+  background: linear-gradient(135deg, #2D2A32, #1A1A2E, #2D2A32);
+  color: #fff;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  position: relative; z-index: 10;
+}
+.premium .pbadge {
+  display: inline-block;
+  background: var(--yellow);
+  color: var(--text);
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 12px; font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+.premium h2 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(26px, 4vw, 34px);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.premium p {
+  opacity: 0.85;
+  font-size: 16px;
+  max-width: 520px;
+  margin: 0 auto 22px;
+}
+.premium .hl { color: var(--yellow); font-weight: 800; }
+
+/* ── FOOTER ── */
+footer {
+  background: #2D2A32;
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 24px 16px;
+  font-size: 13px;
+  position: relative; z-index: 10;
+}
+footer .ft-name { color: var(--orange); font-weight: 700; }
+footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+footer a:hover { color: rgba(255,255,255,0.7); }
+
+@media (max-width: 600px) {
+  nav { padding: 8px 12px; }
+  nav .brand { font-size: 20px; }
+  nav a { font-size: 12px; padding: 6px 10px; }
+  .grid { grid-template-columns: 1fr; }
+  .yt-card { flex-direction: column; text-align: center; }
+}
+</style>
 </head>
 <body>
-    <!-- SITE-WIDE NAV -->
-    <nav class="site-nav">
-        <div class="site-nav-brand">📖 EduSuite</div>
-        <a class="site-nav-link active" href="index.html">
-            <span class="nav-icon">🎮</span> Math Games
-            <span class="nav-badge">ACTIVE</span>
-        </a>
-        <a class="site-nav-link ielts-link" href="ielts.html">
-            <span class="nav-icon">📚</span> IELTS Grammar
-            <span class="nav-badge" style="background:#1A7A6A">25 Units</span>
-        </a>
-    </nav>
-    <!-- BREADCRUMB -->
-    <div class="breadcrumb">
-        <span>🏠</span>
-        <span class="breadcrumb-sep">›</span>
-        <a href="index.html">EduSuite</a>
-        <span class="breadcrumb-sep">›</span>
-        <span class="breadcrumb-current">💰 Decimal Mastery Game Center</span>
+
+<canvas id="bg-canvas"></canvas>
+<div class="bub b1"></div>
+<div class="bub b2"></div>
+<div class="bub b3"></div>
+<div class="bub b4"></div>
+
+<nav>
+  <div class="brand">
+    <span class="brand-e">Edu</span><span class="brand-d">Suite</span><span class="brand-dot">.</span>
+  </div>
+  <a href="#">Home</a>
+  <a href="math-games.html">Math</a>
+  <a href="subjects.html">Games</a>
+  <a href="ielts-grammar.html">Grammar</a>
+  <a href="https://www.youtube.com/@Eusell77" class="nav-yt" target="_blank">▶ YouTube</a>
+</nav>
+
+<header class="hero">
+  <img src="teacher-photo.jpg" alt="Eustaquia T Calope" class="hero-avatar">
+  <h1>I'm <span class="highlight">Eustaquia T Calope</span></h1>
+  <p class="hero-role">Your Global Teacher — Math, Grammar &amp; Real-World Skills</p>
+  <div class="tags">
+    <span class="tag tag-math">💰 Decimal Math</span>
+    <span class="tag tag-ielts">📚 IELTS Grammar</span>
+    <span class="tag tag-yt">▶ Video Lessons</span>
+    <span class="tag tag-global">🌍 Global Classroom</span>
+  </div>
+  <div class="cta-row">
+    <a href="math-games.html" class="btn btn-orange">🎮 Play Math Games</a>
+    <a href="ielts-grammar.html" class="btn btn-green">📖 Study Grammar</a>
+    <a href="https://www.youtube.com/@Eusell77" class="btn btn-white" target="_blank">▶ YouTube</a>
+  </div>
+</header>
+
+<div class="yt-wrap">
+  <a href="https://www.youtube.com/@Eusell77" class="yt-card" target="_blank">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-label">📺 YouTube — New Videos Coming!</div>
+      <div class="yt-name">EuStack Vitality</div>
+      <div class="yt-desc">Global Educator with Real-Life Wisdom</div>
+    </div>
+    <div class="yt-arrow">→</div>
+  </a>
+</div>
+
+<section class="section">
+  <h2 class="sec-title">✨ Pick Your Path</h2>
+  <p class="sec-sub">Fun learning tools made by a real teacher, for real students</p>
+
+  <div class="grid">
+    <div class="card c-math">
+      <div class="card-top c-t-math">
+        <span class="card-icon">💰</span>
+        <h3>Decimal Math Games</h3>
+        <div class="card-sub">Real-World Money Problems</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-ul">
+          <li><span class="fd fd-math">🎯</span> Place Value Matching</li>
+          <li><span class="fd fd-math">💵</span> Money Builder Challenge</li>
+          <li><span class="fd fd-math">➕</span> Addition &amp; Subtraction</li>
+          <li><span class="fd fd-math">🛒</span> Shopping Spree</li>
+          <li><span class="fd fd-math">🏆</span> Challenge + Assessment</li>
+        </ul>
+      </div>
+      <div class="card-foot">
+        <div class="card-meta"><strong>7</strong> games · all levels</div>
+        <a href="math-games.html" class="btn-card bc-math">Play Now →</a>
+      </div>
     </div>
 
-    <div class="container">
-        <div class="header">
-
-            <!-- Globe + Profile Photo -->
-            <div class="profile-globe-wrap">
-
-                <!-- Faint globe SVG watermark -->
-                <svg class="globe-watermark" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="100" cy="100" r="98" fill="none" stroke="white" stroke-width="1.2"/>
-                    <!-- latitude lines -->
-                    <ellipse cx="100" cy="100" rx="98" ry="28" fill="none" stroke="white" stroke-width="0.8"/>
-                    <ellipse cx="100" cy="100" rx="98" ry="60" fill="none" stroke="white" stroke-width="0.8"/>
-                    <line x1="2" y1="100" x2="198" y2="100" stroke="white" stroke-width="0.8"/>
-                    <!-- longitude lines -->
-                    <ellipse cx="100" cy="100" rx="30" ry="98" fill="none" stroke="white" stroke-width="0.8"/>
-                    <ellipse cx="100" cy="100" rx="65" ry="98" fill="none" stroke="white" stroke-width="0.8"/>
-                    <line x1="100" y1="2" x2="100" y2="198" stroke="white" stroke-width="0.8"/>
-                    <!-- simple continents (rough shapes) -->
-                    <!-- North America -->
-                    <path d="M30,55 Q38,45 50,48 Q58,55 55,70 Q48,85 38,80 Q28,70 30,55Z" fill="white" opacity="0.6"/>
-                    <!-- South America -->
-                    <path d="M50,90 Q60,85 65,95 Q68,112 60,125 Q50,130 45,118 Q40,105 50,90Z" fill="white" opacity="0.6"/>
-                    <!-- Europe -->
-                    <path d="M90,45 Q100,38 110,42 Q115,50 108,58 Q98,62 90,55 Q86,50 90,45Z" fill="white" opacity="0.6"/>
-                    <!-- Africa -->
-                    <path d="M95,65 Q108,60 114,72 Q118,90 112,108 Q104,118 96,110 Q88,95 90,78 Q92,68 95,65Z" fill="white" opacity="0.6"/>
-                    <!-- Asia -->
-                    <path d="M112,38 Q135,32 155,40 Q165,52 160,65 Q148,72 130,68 Q115,60 112,50 Q110,44 112,38Z" fill="white" opacity="0.6"/>
-                    <!-- SE Asia / Philippines area -->
-                    <path d="M152,70 Q158,68 162,74 Q160,82 154,80 Q150,76 152,70Z" fill="white" opacity="0.6"/>
-                    <!-- Australia -->
-                    <path d="M148,108 Q162,104 168,114 Q166,126 156,128 Q146,126 142,116 Q142,108 148,108Z" fill="white" opacity="0.6"/>
-                </svg>
-
-                <!-- Orbit ring decoration -->
-                <div class="orbit-ring"></div>
-
-                <!-- Spinning colour ring behind photo -->
-                <div class="spin-ring"></div>
-
-                <!-- Profile photo -->
-                <img src="My pictures02.jpg" alt="Profile Photo" class="profile-pic">
-
-                <!-- Finland flag pin — top-right (NE Europe) -->
-                <div class="flag-pin flag-finland">
-                    <svg class="flag-img" viewBox="0 0 18 11" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="18" height="11" fill="#FFFFFF"/>
-                        <rect y="4" width="18" height="3" fill="#003580"/>
-                        <rect x="4" width="3" height="11" fill="#003580"/>
-                    </svg>
-                    <div class="flag-pole"></div>
-                    <span class="flag-label">🇫🇮 Finland</span>
-                </div>
-
-                <!-- USA flag pin — left (North America) -->
-                <div class="flag-pin flag-usa">
-                    <svg class="flag-img" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="19" height="10" fill="#B22234"/>
-                        <rect y="1.4" width="19" height="1.1" fill="white"/>
-                        <rect y="2.8" width="19" height="1.1" fill="#B22234"/>
-                        <rect y="4.2" width="19" height="1.1" fill="white"/>
-                        <rect y="5.6" width="19" height="1.1" fill="#B22234"/>
-                        <rect y="7.0" width="19" height="1.1" fill="white"/>
-                        <rect y="8.4" width="19" height="1.1" fill="#B22234"/>
-                        <rect width="7.6" height="5.4" fill="#3C3B6E"/>
-                        <circle cx="1.3" cy="1" r="0.5" fill="white"/>
-                        <circle cx="3.0" cy="1" r="0.5" fill="white"/>
-                        <circle cx="4.7" cy="1" r="0.5" fill="white"/>
-                        <circle cx="6.4" cy="1" r="0.5" fill="white"/>
-                        <circle cx="2.1" cy="2.3" r="0.5" fill="white"/>
-                        <circle cx="3.8" cy="2.3" r="0.5" fill="white"/>
-                        <circle cx="5.5" cy="2.3" r="0.5" fill="white"/>
-                        <circle cx="1.3" cy="3.6" r="0.5" fill="white"/>
-                        <circle cx="3.0" cy="3.6" r="0.5" fill="white"/>
-                        <circle cx="4.7" cy="3.6" r="0.5" fill="white"/>
-                        <circle cx="6.4" cy="3.6" r="0.5" fill="white"/>
-                        <circle cx="2.1" cy="4.9" r="0.5" fill="white"/>
-                        <circle cx="3.8" cy="4.9" r="0.5" fill="white"/>
-                        <circle cx="5.5" cy="4.9" r="0.5" fill="white"/>
-                    </svg>
-                    <div class="flag-pole"></div>
-                    <span class="flag-label">🇺🇸 USA</span>
-                </div>
-
-                <!-- Philippines flag pin — bottom-right (SE Asia) -->
-                <div class="flag-pin flag-philippines">
-                    <svg class="flag-img" viewBox="0 0 20 10" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="20" height="10" fill="#0038A8"/>
-                        <rect y="5" width="20" height="5" fill="#CE1126"/>
-                        <polygon points="0,0 8.7,5 0,10" fill="white"/>
-                        <circle cx="3.2" cy="5" r="1.2" fill="#FCD116"/>
-                        <polygon points="3.2,2.5 3.55,3.5 4.6,3.5 3.75,4.1 4.05,5.1 3.2,4.5 2.35,5.1 2.65,4.1 1.8,3.5 2.85,3.5" fill="#FCD116" transform="scale(0.55) translate(2.6,-0.5)"/>
-                    </svg>
-                    <div class="flag-pole"></div>
-                    <span class="flag-label">🇵🇭 Philippines</span>
-                </div>
-
-            </div><!-- /.profile-globe-wrap -->
-
-            <!-- Description -->
-            <div class="profile-info">
-                <div class="profile-name">💰 Decimal Mastery Game Center 💰</div>
-                <div class="profile-tagline">Practice Decimals Through Real-World Money Problems!</div>
-                <div class="profile-badges">
-                    <span class="pbadge">🌍 Global Educator</span>
-                    <span class="pbadge">🎮 Game-Based Learning</span>
-                    <span class="pbadge">📐 Math Specialist</span>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="progress-dashboard">
-            <div class="stat-card">
-                <h3>Total Points</h3>
-                <div class="value" id="totalPoints">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>Problems Solved</h3>
-                <div class="value" id="problemsSolved">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>Current Streak</h3>
-                <div class="value" id="streak">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>Mastery Level</h3>
-                <div class="value" id="masteryLevel">Beginner</div>
-            </div>
-        </div>
-
-        <!-- IELTS Grammar Studio Launch Card -->
-        <a href="ielts.html" id="ielts-card" style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:linear-gradient(135deg,#1B3A6B 0%,#1A5A8A 55%,#1A7A6A 100%);text-decoration:none;transition:filter 0.2s;border-bottom:3px solid rgba(255,255,255,0.15)" onmouseover="this.style.filter='brightness(1.12)'" onmouseout="this.style.filter='brightness(1)'">
-            <div style="flex:1">
-                <div style="color:rgba(255,255,255,0.65);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;margin-bottom:5px">📖 Grammar Module · Tap to Continue</div>
-                <div style="color:#fff;font-size:17px;font-weight:800;letter-spacing:-0.3px;margin-bottom:8px">📚 IELTS Grammar Mastery Studio</div>
-                <!-- live progress bar filled by JS -->
-                <div style="background:rgba(255,255,255,0.2);border-radius:4px;height:6px;max-width:340px;margin-bottom:5px">
-                    <div id="ielts-prog-bar" style="height:6px;border-radius:4px;background:#F0A500;width:0%;transition:width 0.6s"></div>
-                </div>
-                <div id="ielts-prog-label" style="color:rgba(255,255,255,0.8);font-size:12px;font-weight:600">Loading progress…</div>
-            </div>
-            <div style="color:rgba(255,255,255,0.9);font-size:28px;font-weight:800;margin-left:20px;flex-shrink:0">→</div>
-        </a>
-
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab(0)">🎯 Place Value Match</button>
-            <button class="tab" onclick="switchTab(1)">💵 Money Builder</button>
-            <button class="tab" onclick="switchTab(2)">➕ Addition Practice</button>
-            <button class="tab" onclick="switchTab(3)">➖ Subtraction Practice</button>
-            <button class="tab" onclick="switchTab(4)">🛒 Shopping Spree</button>
-            <button class="tab" onclick="switchTab(5)">🏆 Challenge Mode</button>
-            <button class="tab" onclick="switchTab(6)">📝 Assessment</button>
-        </div>
-
-        <!-- TAB 1: PLACE VALUE MATCH -->
-        <div class="tab-content active">
-            <div class="game-card">
-                <div class="game-title">
-                    🎯 Place Value Matching Game
-                    <span class="level-badge level-beginner">Beginner</span>
-                </div>
-                <div class="game-description">
-                    Match each decimal number to its correct place value description. Build your foundation!
-                </div>
-                
-                <div id="placeValueGame">
-                    <div class="question-box">
-                        <div class="question-text" id="pvQuestion">Loading...</div>
-                        <div class="grid-options" id="pvOptions"></div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 20px;">
-                        <button class="btn btn-primary" onclick="checkPlaceValue()">Check Answer</button>
-                        <button class="btn btn-warning" onclick="newPlaceValueQuestion()">New Question</button>
-                    </div>
-                    
-                    <div id="pvFeedback"></div>
-                </div>
-
-                <div class="hint-box">
-                    <strong>💡 Hint:</strong> Remember: The decimal point separates whole numbers from parts. 
-                    Ones = Dollars, Tenths = Dimes, Hundredths = Pennies!
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 2: MONEY BUILDER -->
-        <div class="tab-content">
-            <div class="game-card">
-                <div class="game-title">
-                    💵 Money Builder Challenge
-                    <span class="level-badge level-beginner">Beginner</span>
-                </div>
-                <div class="game-description">
-                    Show the decimal amount using dollars, dimes, and pennies. Build it correctly!
-                </div>
-                
-                <div id="moneyBuilderGame">
-                    <div class="question-box">
-                        <div class="question-text" id="mbQuestion">Loading...</div>
-                        
-                        <div class="money-display">
-                            <div class="money-item">
-                                <div class="label">Dollar Bills ($1.00)</div>
-                                <input type="number" id="dollars" class="answer-input" min="0" max="20" value="0" 
-                                       onchange="updateMoneyTotal()">
-                            </div>
-                            <div class="money-item">
-                                <div class="label">Dimes ($0.10)</div>
-                                <input type="number" id="dimes" class="answer-input" min="0" max="10" value="0"
-                                       onchange="updateMoneyTotal()">
-                            </div>
-                            <div class="money-item">
-                                <div class="label">Pennies ($0.01)</div>
-                                <input type="number" id="pennies" class="answer-input" min="0" max="10" value="0"
-                                       onchange="updateMoneyTotal()">
-                            </div>
-                        </div>
-
-                        <div style="text-align: center; margin: 20px 0;">
-                            <div style="font-size: 1.3em; color: var(--text-muted); margin-bottom: 10px;">Your Total:</div>
-                            <div style="font-size: 2.5em; font-weight: bold; color: var(--primary); font-family: var(--mono);">
-                                $<span id="moneyTotal">0.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 20px;">
-                        <button class="btn btn-primary" onclick="checkMoneyBuilder()">Check Answer</button>
-                        <button class="btn btn-warning" onclick="newMoneyBuilderQuestion()">New Challenge</button>
-                    </div>
-                    
-                    <div id="mbFeedback"></div>
-                </div>
-
-                <div class="hint-box">
-                    <strong>💡 Strategy:</strong> Start with the whole dollars first, then add dimes for tenths, 
-                    then pennies for hundredths. Example: $2.35 = 2 dollars + 3 dimes + 5 pennies
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 3: ADDITION PRACTICE -->
-        <div class="tab-content">
-            <div class="game-card">
-                <div class="game-title">
-                    ➕ Decimal Addition Mastery
-                    <span class="level-badge level-intermediate">Intermediate</span>
-                </div>
-                <div class="game-description">
-                    Add decimals with regrouping. Remember to line up those decimal points!
-                </div>
-                
-                <div id="additionGame">
-                    <div class="question-box">
-                        <div class="question-text" id="addQuestion">Loading...</div>
-                        
-                        <div class="work-space">
-                            <div class="work-space-title">Show Your Work:</div>
-                            <div class="problem-steps" id="addWorkSpace">
-                                <div style="font-family: var(--mono); font-size: 1.5em; text-align: center; color: #2D3748;">
-                                    <div id="addNum1" style="margin-bottom: 5px;"></div>
-                                    <div id="addNum2" style="border-bottom: 3px solid var(--primary); padding-bottom: 10px;"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div style="text-align: center; margin: 20px 0;">
-                            <div style="font-size: 1.2em; color: var(--text-muted); margin-bottom: 10px;">Your Answer:</div>
-                            <input type="text" id="addAnswer" class="answer-input" 
-                                   placeholder="Type your answer (e.g., 12.34)" 
-                                   style="max-width: 300px; margin: 0 auto;">
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 20px;">
-                        <button class="btn btn-primary" onclick="checkAddition()">Check Answer</button>
-                        <button class="btn btn-warning" onclick="newAdditionProblem()">New Problem</button>
-                        <button class="btn btn-success" onclick="showAdditionSteps()">Show Steps</button>
-                    </div>
-                    
-                    <div id="addFeedback"></div>
-                    <div id="addSteps"></div>
-                </div>
-
-                <div class="hint-box">
-                    <strong>💡 Remember:</strong> Line up the decimal points vertically! Add from right to left. 
-                    When you get 10 or more in a place, carry 1 to the next place.
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 4: SUBTRACTION PRACTICE -->
-        <div class="tab-content">
-            <div class="game-card">
-                <div class="game-title">
-                    ➖ Decimal Subtraction Mastery
-                    <span class="level-badge level-intermediate">Intermediate</span>
-                </div>
-                <div class="game-description">
-                    Subtract decimals with regrouping. Check if you need to borrow!
-                </div>
-                
-                <div id="subtractionGame">
-                    <div class="question-box">
-                        <div class="question-text" id="subQuestion">Loading...</div>
-                        
-                        <div class="work-space">
-                            <div class="work-space-title">Show Your Work:</div>
-                            <div class="problem-steps" id="subWorkSpace">
-                                <div style="font-family: var(--mono); font-size: 1.5em; text-align: center; color: #2D3748;">
-                                    <div id="subNum1" style="margin-bottom: 5px;"></div>
-                                    <div id="subNum2" style="border-bottom: 3px solid var(--primary); padding-bottom: 10px;"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div style="text-align: center; margin: 20px 0;">
-                            <div style="font-size: 1.2em; color: var(--text-muted); margin-bottom: 10px;">Your Answer:</div>
-                            <input type="text" id="subAnswer" class="answer-input" 
-                                   placeholder="Type your answer (e.g., 4.75)" 
-                                   style="max-width: 300px; margin: 0 auto;">
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 20px;">
-                        <button class="btn btn-primary" onclick="checkSubtraction()">Check Answer</button>
-                        <button class="btn btn-warning" onclick="newSubtractionProblem()">New Problem</button>
-                        <button class="btn btn-success" onclick="showSubtractionSteps()">Show Steps</button>
-                    </div>
-                    
-                    <div id="subFeedback"></div>
-                    <div id="subSteps"></div>
-                </div>
-
-                <div class="hint-box">
-                    <strong>💡 Remember:</strong> Start from the right (hundredths). Can you subtract? 
-                    If not, borrow from the next place! 1 tenth = 10 hundredths, 1 one = 10 tenths.
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 5: SHOPPING SPREE -->
-        <div class="tab-content">
-            <div class="game-card">
-                <div class="game-title">
-                    🛒 Shopping Spree Challenge
-                    <span class="level-badge level-advanced">Advanced</span>
-                </div>
-                <div class="game-description">
-                    Solve real-world shopping problems! Add up totals and calculate change.
-                </div>
-                
-                <div id="shoppingGame">
-                    <div class="question-box">
-                        <div class="question-text" id="shopQuestion">Loading...</div>
-                        
-                        <div class="shopping-cart" id="shoppingCart">
-                            <!-- Cart items will be populated here -->
-                        </div>
-
-                        <div style="text-align: center; margin: 20px 0;">
-                            <div style="font-size: 1.2em; color: var(--text-muted); margin-bottom: 10px;" id="shopPrompt">
-                                Calculate the answer:
-                            </div>
-                            <input type="text" id="shopAnswer" class="answer-input" 
-                                   placeholder="Type your answer (e.g., 15.50)" 
-                                   style="max-width: 300px; margin: 0 auto;">
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 20px;">
-                        <button class="btn btn-primary" onclick="checkShopping()">Check Answer</button>
-                        <button class="btn btn-warning" onclick="newShoppingProblem()">New Scenario</button>
-                    </div>
-                    
-                    <div id="shopFeedback"></div>
-                </div>
-
-                <div class="hint-box">
-                    <strong>💡 Real-World Tip:</strong> For totals, add all prices. For change problems, subtract what you spent from what you paid. 
-                    Always check: Does your answer make sense?
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 6: CHALLENGE MODE -->
-        <div class="tab-content">
-            <div class="game-card">
-                <div class="game-title">
-                    🏆 Ultimate Challenge Mode
-                    <span class="level-badge level-advanced">Advanced</span>
-                </div>
-                <div class="game-description">
-                    Multi-step problems that require addition AND subtraction. Test your mastery!
-                </div>
-                
-                <div id="challengeGame">
-                    <div class="question-box">
-                        <div class="question-text" id="challengeQuestion">Loading...</div>
-                        
-                        <div class="work-space">
-                            <div class="work-space-title">Plan Your Strategy:</div>
-                            <div class="problem-steps">
-                                <div class="step">
-                                    <strong>Step 1:</strong> <span id="challengeStep1">Read carefully and identify what operation(s) you need</span>
-                                </div>
-                                <div class="step">
-                                    <strong>Step 2:</strong> <span id="challengeStep2">Set up your problem(s)</span>
-                                </div>
-                                <div class="step">
-                                    <strong>Step 3:</strong> <span id="challengeStep3">Solve step by step</span>
-                                </div>
-                                <div class="step">
-                                    <strong>Step 4:</strong> <span id="challengeStep4">Check your answer - does it make sense?</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div style="text-align: center; margin: 20px 0;">
-                            <div style="font-size: 1.2em; color: var(--text-muted); margin-bottom: 10px;">Final Answer:</div>
-                            <input type="text" id="challengeAnswer" class="answer-input" 
-                                   placeholder="Type your answer (e.g., 23.65)" 
-                                   style="max-width: 300px; margin: 0 auto;">
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 20px;">
-                        <button class="btn btn-primary" onclick="checkChallenge()">Check Answer</button>
-                        <button class="btn btn-warning" onclick="newChallengeProblem()">New Challenge</button>
-                        <button class="btn btn-success" onclick="showChallengeSolution()">Show Solution</button>
-                    </div>
-                    
-                    <div id="challengeFeedback"></div>
-                    <div id="challengeSolution"></div>
-                </div>
-
-                <div class="hint-box">
-                    <strong>💡 Master Strategy:</strong> Break complex problems into smaller steps. 
-                    Solve one operation at a time. Write down each step. Your work is your roadmap!
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 7: ASSESSMENT -->
-        <div class="tab-content">
-            <div class="game-card">
-                <div class="game-title">
-                    📝 Decimal Formative Assessment
-                    <span class="level-badge level-intermediate">Mixed Levels</span>
-                </div>
-                <div class="game-description">
-                    10-question timed quiz covering place value, addition, subtraction, and money.
-                    Complete all questions to see your performance report!
-                </div>
-
-                <!-- Start Screen -->
-                <div id="assessStartScreen">
-                    <div class="question-box" style="text-align:center;">
-                        <div style="font-size:3em; margin-bottom:20px;">📋</div>
-                        <h2 style="color:#C0392B; margin-bottom:15px;">Ready to be assessed?</h2>
-                        <ul style="text-align:left; max-width:400px; margin:0 auto 25px; color:#4A5568; line-height:2;">
-                            <li>10 questions across all topics</li>
-                            <li>⏱️ 90 seconds per question</li>
-                            <li>Immediate feedback after each answer</li>
-                            <li>Full performance report at the end</li>
-                        </ul>
-                        <button class="btn btn-primary" onclick="startAssessment()">Start Assessment</button>
-                    </div>
-                </div>
-
-                <!-- Quiz Screen -->
-                <div id="assessQuizScreen" style="display:none;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
-                        <div>
-                            <span style="font-weight:600; color:#4A5568;">Question </span>
-                            <span id="assessQNum" style="font-size:1.3em; font-weight:bold; color:#C0392B;">1</span>
-                            <span style="color:#4A5568;"> / 10</span>
-                        </div>
-                        <div class="timer" id="assessTimer">1:30</div>
-                        <div style="font-weight:600; color:#4A5568;">Score: <span id="assessScore" style="color:#C0392B;">0</span> / <span id="assessMaxScore">0</span></div>
-                    </div>
-
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="assessProgress" style="width:0%"></div>
-                    </div>
-
-                    <div class="question-box" style="margin-top:20px;">
-                        <div style="font-size:0.85em; font-weight:600; text-transform:uppercase; color:#718096; margin-bottom:8px;" id="assessTopic">Topic</div>
-                        <div class="question-text" id="assessQuestion">Loading...</div>
-                        <div id="assessMCOptions" style="display:none;">
-                            <div class="grid-options" id="assessOptionsGrid"></div>
-                        </div>
-                        <div id="assessInputArea" style="display:none; text-align:center; margin-top:15px;">
-                            <input type="text" id="assessInput" class="answer-input"
-                                   placeholder="Type your answer"
-                                   style="max-width:280px; margin:0 auto;"
-                                   onkeydown="if(event.key==='Enter') submitAssessAnswer()">
-                        </div>
-                    </div>
-
-                    <div style="text-align:center; margin-top:20px;">
-                        <button class="btn btn-primary" id="assessSubmitBtn" onclick="submitAssessAnswer()">Submit Answer</button>
-                    </div>
-
-                    <div id="assessFeedback" style="margin-top:15px;"></div>
-                </div>
-
-                <!-- Results Screen -->
-                <div id="assessResultsScreen" style="display:none;">
-                    <div class="question-box" style="text-align:center;">
-                        <div style="font-size:3em; margin-bottom:15px;" id="assessEmoji">🎉</div>
-                        <h2 style="color:#C0392B; margin-bottom:10px;" id="assessResultTitle">Assessment Complete!</h2>
-                        <div style="font-size:3em; font-weight:bold; color:#C0392B; margin:20px 0;" id="assessFinalScore"></div>
-                        <div style="font-size:1.1em; color:#4A5568; margin-bottom:25px;" id="assessGrade"></div>
-
-                        <!-- Per-topic breakdown -->
-                        <div id="assessBreakdown" style="text-align:left; max-width:500px; margin:0 auto 25px;"></div>
-
-                        <!-- Question review -->
-                        <details style="text-align:left; max-width:600px; margin:0 auto 25px;">
-                            <summary style="cursor:pointer; font-weight:600; color:#C0392B; padding:10px;">Review All Questions</summary>
-                            <div id="assessReview" style="margin-top:10px;"></div>
-                        </details>
-
-                        <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
-                            <button class="btn btn-primary" onclick="startAssessment()">Retake Assessment</button>
-                            <button class="btn btn-warning" onclick="showAssessStart()">Back to Start</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="hint-box" id="assessHintBox">
-                    <strong>💡 Tip:</strong> Read each question carefully. For decimal operations, always line up the decimal point before calculating.
-                </div>
-            </div>
-        </div>
-
+    <!-- NEW: Learning Games card -->
+    <div class="card" style="border-color:rgba(167,139,250,0.3)">
+      <div class="card-top" style="background:linear-gradient(135deg,#F0E8FF,#E0D8FF)">
+        <span class="card-icon">🎮</span>
+        <h3>Learning Games</h3>
+        <div class="card-sub">9 Games · 8 Subjects</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-ul">
+          <li><span class="fd" style="background:rgba(167,139,250,0.15);color:var(--purple)">🌍</span> Geography · Flag Match + Geo</li>
+          <li><span class="fd" style="background:rgba(167,139,250,0.15);color:var(--purple)">🔢</span> Math · Number Ninja</li>
+          <li><span class="fd" style="background:rgba(167,139,250,0.15);color:var(--purple)">🌿</span> Biology · Animal Sort</li>
+          <li><span class="fd" style="background:rgba(167,139,250,0.15);color:var(--purple)">⚡</span> Physics · Gravity + Force • Lab</li>
+          <li><span class="fd" style="background:rgba(167,139,250,0.15);color:var(--purple)">🧪</span> Chemistry · Element Mix + Balance</li>
+        </ul>
+      </div>
+      <div class="card-foot">
+        <div class="card-meta"><strong>9</strong> games · 8 subjects</div>
+        <a href="subjects.html" class="btn-card" style="background:var(--purple)">Browse Games →</a>
+      </div>
     </div>
 
-    <script>
-        // ── IELTS cross-site progress widget ──
-        (function() {
-            function updateIELTSCard() {
-                try {
-                    const gs = JSON.parse(localStorage.getItem('ielts_gs') || '{}');
-                    const scores = gs.scores || {};
-                    const done = Object.values(scores).filter(s => s.done).length;
-                    const total = 25;
-                    const xp = gs.xp || 0;
-                    const pct = Math.round(done / total * 100);
-                    const bar = document.getElementById('ielts-prog-bar');
-                    const lbl = document.getElementById('ielts-prog-label');
-                    if (bar) bar.style.width = pct + '%';
-                    if (lbl) {
-                        if (done === 0) {
-                            lbl.textContent = '25 Units · Visual Lessons · Quizzes · XP System — Start now!';
-                        } else {
-                            const accs = Object.values(scores).filter(s=>s.done).map(s=>s.score/s.total);
-                            const acc = accs.length ? Math.round(accs.reduce((a,b)=>a+b,0)/accs.length*100) : 0;
-                            lbl.textContent = done + ' / ' + total + ' units done · ' + acc + '% accuracy · ' + xp + ' XP earned';
-                        }
-                    }
-                } catch(e) {}
-            }
-            document.addEventListener('DOMContentLoaded', updateIELTSCard);
-        })();
+    <div class="card c-ielts">
+      <div class="card-top c-t-ielts">
+        <span class="card-icon">📚</span>
+        <h3>IELTS Grammar Studio</h3>
+        <div class="card-sub">25 Units · Visual Lessons</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-ul">
+          <li><span class="fd fd-ielts">⏱️</span> Tenses Mastery</li>
+          <li><span class="fd fd-ielts">📝</span> Nouns &amp; Description</li>
+          <li><span class="fd fd-ielts">🏆</span> Advanced Grammar</li>
+          <li><span class="fd fd-ielts">✅</span> Interactive Quizzes</li>
+          <li><span class="fd fd-ielts">📈</span> XP &amp; Progress</li>
+        </ul>
+      </div>
+      <div class="card-foot">
+        <div class="card-meta"><strong>25</strong> units · 3 phases</div>
+        <a href="ielts-grammar.html" class="btn-card bc-ielts">Start Learning →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // Game State
-        let gameState = {
-            totalPoints: 0,
-            problemsSolved: 0,
-            streak: 0,
-            masteryLevel: 'Beginner',
-            currentTab: 0,
-            placeValue: {
-                currentQuestion: null,
-                selectedAnswer: null
-            },
-            moneyBuilder: {
-                target: 0,
-                currentTotal: 0
-            },
-            addition: {
-                num1: 0,
-                num2: 0,
-                answer: 0
-            },
-            subtraction: {
-                num1: 0,
-                num2: 0,
-                answer: 0
-            },
-            shopping: {
-                items: [],
-                total: 0,
-                paid: 0,
-                questionType: 'total'
-            },
-            challenge: {
-                problemType: '',
-                answer: 0,
-                steps: []
-            }
-        };
+<div class="about">
+  <div class="about-inner">
+    <img src="teacher-photo.jpg" alt="" class="about-img">
+    <div class="about-txt">
+      <h3>👩‍🏫 Made by a Teacher, for Real Classrooms</h3>
+      <p>Hi, I'm Eustaquia! I created EduSuite because my students needed better practice — not boring worksheets. These tools have been tested in real classrooms with real results. <strong>Interactive games are free for everyone</strong>, plus premium resources for teachers and students who want more.</p>
+    </div>
+  </div>
+</div>
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProgress();
-            newPlaceValueQuestion();
-            newMoneyBuilderQuestion();
-            newAdditionProblem();
-            newSubtractionProblem();
-            newShoppingProblem();
-            newChallengeProblem();
-        });
+<div class="premium">
+  <div class="pbadge">✨ PREMIUM</div>
+  <h2>Level Up Your Learning</h2>
+  <p>
+    <span class="hl">100+ printable packs</span> · full IELTS courses ·
+    <span class="hl">ad-free experience</span> · certificates &amp; reports
+  </p>
+  <a href="#" class="btn btn-orange">Browse Premium Store →</a>
+  <p style="margin-top:12px;font-size:13px;opacity:0.55;">
+    🎁 All interactive games &amp; quizzes stay free forever
+  </p>
+</div>
 
-        // Tab Switching
-        function switchTab(index) {
-            const tabs = document.querySelectorAll('.tab');
-            const contents = document.querySelectorAll('.tab-content');
-            
-            tabs.forEach((tab, i) => {
-                tab.classList.toggle('active', i === index);
-            });
-            
-            contents.forEach((content, i) => {
-                content.classList.toggle('active', i === index);
-            });
-            
-            gameState.currentTab = index;
-        }
+<footer>
+  <p><span class="ft-name">Eustaquia T Calope</span> — EduSuite</p>
+  <p style="margin-top:6px;">
+    <a href="#">Privacy</a> · <a href="#">Terms</a> · 
+    <a href="https://www.youtube.com/@Eusell77" target="_blank">YouTube</a>
+  </p>
+</footer>
 
-        // Progress Management
-        function updateProgress() {
-            document.getElementById('totalPoints').textContent = gameState.totalPoints;
-            document.getElementById('problemsSolved').textContent = gameState.problemsSolved;
-            document.getElementById('streak').textContent = gameState.streak;
-            document.getElementById('masteryLevel').textContent = gameState.masteryLevel;
-            
-            // Update mastery level based on points
-            if (gameState.totalPoints >= 500) {
-                gameState.masteryLevel = 'Expert';
-            } else if (gameState.totalPoints >= 250) {
-                gameState.masteryLevel = 'Advanced';
-            } else if (gameState.totalPoints >= 100) {
-                gameState.masteryLevel = 'Intermediate';
-            }
-            
-            saveProgress();
-        }
+<script>
+(function(){
+  const c = document.getElementById('bg-canvas');
+  const ctx = c.getContext('2d');
+  let W, H;
+  function resize() {
+    W = c.width = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
 
-        function addPoints(points) {
-            gameState.totalPoints += points;
-            gameState.problemsSolved++;
-            gameState.streak++;
-            updateProgress();
-        }
+  let mx = -9999, my = -9999;
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX; my = e.clientY;
+  });
+  document.addEventListener('mouseleave', function() {
+    mx = -9999; my = -9999;
+  });
 
-        function resetStreak() {
-            gameState.streak = 0;
-            updateProgress();
-        }
+  // ── BIG SYMBOL SET ──
+  const SYMS = [
+    '0','1','2','3','4','5','6','7','8','9',
+    '+','−','×','÷','=','%','$','¢','€',
+    'A','B','C','D','E','F','G',
+    'α','β','π','∑','√','∞',
+    '⭐','🌟','✏️','📚','🎓','💡','🔢','🎯',
+    '🌸','🌈','🎈','🎉','🦋','🍎','🌟',
+    '♠','♥','♦','♣','♪','♫','⚡','🔥',
+    '?','!','&','@','#','~','^'
+  ];
 
-        function saveProgress() {
-            localStorage.setItem('decimalMasteryProgress', JSON.stringify(gameState));
-        }
+  const particles = [];
+  const COUNT = 120;
 
-        function loadProgress() {
-            const saved = localStorage.getItem('decimalMasteryProgress');
-            if (saved) {
-                const savedState = JSON.parse(saved);
-                gameState.totalPoints = savedState.totalPoints || 0;
-                gameState.problemsSolved = savedState.problemsSolved || 0;
-                gameState.streak = savedState.streak || 0;
-                gameState.masteryLevel = savedState.masteryLevel || 'Beginner';
-                updateProgress();
-            }
-        }
+  // Colour palettes
+  const PALETTES = [
+    {h: 20, s: 75, l: 58},  // orange
+    {h: 340, s: 70, l: 58}, // pink
+    {h: 260, s: 65, l: 62}, // purple
+    {h: 150, s: 55, l: 45}, // green
+    {h: 45, s: 85, l: 55},  // gold
+    {h: 210, s: 70, l: 55}, // blue
+  ];
 
-        // PLACE VALUE GAME
-        function newPlaceValueQuestion() {
-            const decimals = [
-                { number: '3.4', description: '3 ones and 4 tenths' },
-                { number: '2.75', description: '2 ones, 7 tenths, 5 hundredths' },
-                { number: '5.06', description: '5 ones, 0 tenths, 6 hundredths' },
-                { number: '1.92', description: '1 one, 9 tenths, 2 hundredths' },
-                { number: '4.3', description: '4 ones and 3 tenths' },
-                { number: '6.08', description: '6 ones, 0 tenths, 8 hundredths' },
-                { number: '7.25', description: '7 ones, 2 tenths, 5 hundredths' },
-                { number: '0.85', description: '0 ones, 8 tenths, 5 hundredths' }
-            ];
-            
-            const question = decimals[Math.floor(Math.random() * decimals.length)];
-            gameState.placeValue.currentQuestion = question;
-            
-            // Generate wrong answers
-            const wrongAnswers = decimals.filter(d => d.number !== question.number)
-                .sort(() => Math.random() - 0.5)
-                .slice(0, 3);
-            
-            const allAnswers = [question, ...wrongAnswers].sort(() => Math.random() - 0.5);
-            
-            document.getElementById('pvQuestion').textContent = `What is the place value breakdown of ${question.number}?`;
-            
-            const optionsHTML = allAnswers.map((ans, i) => 
-                `<div class="option-card" onclick="selectPlaceValue(${i})" id="pvOption${i}">
-                    ${ans.description}
-                </div>`
-            ).join('');
-            
-            document.getElementById('pvOptions').innerHTML = optionsHTML;
-            document.getElementById('pvFeedback').innerHTML = '';
-            gameState.placeValue.selectedAnswer = null;
-        }
+  for (let i = 0; i < COUNT; i++) {
+    const pal = PALETTES[Math.floor(Math.random() * PALETTES.length)];
+    particles.push({
+      x: Math.random() * (W + 300) - 150,
+      y: Math.random() * (H + 300) - 150,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5 - 0.15,
+      size: 20 + Math.random() * 30,
+      sym: SYMS[Math.floor(Math.random() * SYMS.length)],
+      alpha: 0.12 + Math.random() * 0.18,
+      rot: Math.random() * Math.PI * 2,
+      rotSpd: (Math.random() - 0.5) * 0.01,
+      hue: pal.h,
+      sat: pal.s,
+      light: pal.l,
+      // Some symbols oscillate up/down slightly
+      osc: Math.random() * Math.PI * 2,
+      oscSpd: 0.005 + Math.random() * 0.01,
+      oscAmp: 3 + Math.random() * 8,
+    });
+  }
 
-        function selectPlaceValue(index) {
-            document.querySelectorAll('.option-card').forEach((card, i) => {
-                card.classList.toggle('selected', i === index);
-            });
-            gameState.placeValue.selectedAnswer = index;
-        }
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
 
-        function checkPlaceValue() {
-            if (gameState.placeValue.selectedAnswer === null) {
-                document.getElementById('pvFeedback').innerHTML = 
-                    '<div class="feedback incorrect">Please select an answer first!</div>';
-                return;
-            }
-            
-            const selectedCard = document.getElementById(`pvOption${gameState.placeValue.selectedAnswer}`);
-            const selectedText = selectedCard.textContent.trim();
-            const correctText = gameState.placeValue.currentQuestion.description;
-            
-            if (selectedText === correctText) {
-                document.getElementById('pvFeedback').innerHTML = 
-                    '<div class="feedback correct">🎉 Correct! Great job understanding place values! +10 points</div>';
-                addPoints(10);
-                setTimeout(newPlaceValueQuestion, 2000);
-            } else {
-                document.getElementById('pvFeedback').innerHTML = 
-                    `<div class="feedback incorrect">Not quite. The correct answer is: ${correctText}. Try the next one!</div>`;
-                resetStreak();
-            }
-        }
+    for (const p of particles) {
+      p.x += p.vx;
+      p.y += p.vy + Math.sin(p.osc) * 0.2;
+      p.rot += p.rotSpd;
+      p.osc += p.oscSpd;
 
-        // MONEY BUILDER GAME
-        function newMoneyBuilderQuestion() {
-            const dollars = Math.floor(Math.random() * 10) + 1;
-            const dimes = Math.floor(Math.random() * 10);
-            const pennies = Math.floor(Math.random() * 10);
-            
-            const target = dollars + (dimes * 0.1) + (pennies * 0.01);
-            gameState.moneyBuilder.target = Number(target.toFixed(2));
-            
-            document.getElementById('mbQuestion').textContent = 
-                `Build this amount using money: $${gameState.moneyBuilder.target.toFixed(2)}`;
-            
-            document.getElementById('dollars').value = 0;
-            document.getElementById('dimes').value = 0;
-            document.getElementById('pennies').value = 0;
-            updateMoneyTotal();
-            document.getElementById('mbFeedback').innerHTML = '';
-        }
+      // Mouse repel
+      const dx = p.x - mx;
+      const dy = p.y - my;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 200) {
+        const force = (200 - dist) / 200;
+        const repel = force * 0.7;
+        p.x += (dx / dist || 1) * repel * 2.5;
+        p.y += (dy / dist || 1) * repel * 2.5;
+      }
 
-        function updateMoneyTotal() {
-            const dollars = Number(document.getElementById('dollars').value) || 0;
-            const dimes = Number(document.getElementById('dimes').value) || 0;
-            const pennies = Number(document.getElementById('pennies').value) || 0;
-            
-            const total = dollars + (dimes * 0.1) + (pennies * 0.01);
-            gameState.moneyBuilder.currentTotal = Number(total.toFixed(2));
-            document.getElementById('moneyTotal').textContent = total.toFixed(2);
-        }
+      // Wrap
+      const pad = 150;
+      if (p.x < -pad) p.x = W + pad;
+      if (p.x > W + pad) p.x = -pad;
+      if (p.y < -pad) p.y = H + pad;
+      if (p.y > H + pad) p.y = -pad;
 
-        function checkMoneyBuilder() {
-            if (gameState.moneyBuilder.currentTotal === gameState.moneyBuilder.target) {
-                document.getElementById('mbFeedback').innerHTML = 
-                    '<div class="feedback correct">💰 Perfect! You built the exact amount! +15 points</div>';
-                addPoints(15);
-                setTimeout(newMoneyBuilderQuestion, 2000);
-            } else {
-                document.getElementById('mbFeedback').innerHTML = 
-                    `<div class="feedback incorrect">Not quite. You have $${gameState.moneyBuilder.currentTotal.toFixed(2)}, but need $${gameState.moneyBuilder.target.toFixed(2)}. Try adjusting!</div>`;
-                resetStreak();
-            }
-        }
+      // Draw
+      ctx.save();
+      ctx.translate(p.x, p.y + Math.sin(p.osc) * p.oscAmp);
+      ctx.rotate(p.rot);
+      ctx.font = `${p.size}px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = `hsla(${p.hue},${p.sat}%,${p.light}%,${p.alpha})`;
+      ctx.fillText(p.sym, 0, 0);
+      ctx.restore();
+    }
 
-        // ADDITION GAME
-        function newAdditionProblem() {
-            const num1 = (Math.random() * 20 + 1).toFixed(2);
-            const num2 = (Math.random() * 15 + 1).toFixed(2);
-            
-            gameState.addition.num1 = Number(num1);
-            gameState.addition.num2 = Number(num2);
-            gameState.addition.answer = Number((gameState.addition.num1 + gameState.addition.num2).toFixed(2));
-            
-            document.getElementById('addQuestion').textContent = 
-                `Add: $${num1} + $${num2}`;
-            
-            document.getElementById('addNum1').textContent = `  ${num1}`;
-            document.getElementById('addNum2').textContent = `+ ${num2}`;
-            
-            document.getElementById('addAnswer').value = '';
-            document.getElementById('addFeedback').innerHTML = '';
-            document.getElementById('addSteps').innerHTML = '';
-        }
+    requestAnimationFrame(draw);
+  }
 
-        function checkAddition() {
-            const userAnswer = Number(document.getElementById('addAnswer').value);
-            
-            if (isNaN(userAnswer)) {
-                document.getElementById('addFeedback').innerHTML = 
-                    '<div class="feedback incorrect">Please enter a valid number!</div>';
-                return;
-            }
-            
-            if (Math.abs(userAnswer - gameState.addition.answer) < 0.01) {
-                document.getElementById('addFeedback').innerHTML = 
-                    '<div class="feedback correct">✅ Excellent! Your answer is correct! +20 points</div>';
-                addPoints(20);
-                setTimeout(newAdditionProblem, 2000);
-            } else {
-                document.getElementById('addFeedback').innerHTML = 
-                    `<div class="feedback incorrect">Not quite. The correct answer is $${gameState.addition.answer.toFixed(2)}. Review the steps and try another!</div>`;
-                resetStreak();
-            }
-        }
+  draw();
+})();
+</script>
 
-        function showAdditionSteps() {
-            const num1 = gameState.addition.num1;
-            const num2 = gameState.addition.num2;
-            const answer = gameState.addition.answer;
-            
-            const steps = `
-                <div class="problem-steps" style="margin-top: 20px;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">Solution Steps:</h3>
-                    <div class="step"><strong>Step 1:</strong> Line up the decimal points</div>
-                    <div class="step"><strong>Step 2:</strong> Add hundredths: ${(num1 % 0.1).toFixed(2).slice(-1)} + ${(num2 % 0.1).toFixed(2).slice(-1)}</div>
-                    <div class="step"><strong>Step 3:</strong> Add tenths (and any carried over)</div>
-                    <div class="step"><strong>Step 4:</strong> Add ones (and any carried over)</div>
-                    <div class="step"><strong>Final Answer:</strong> $${answer.toFixed(2)}</div>
-                </div>
-            `;
-            
-            document.getElementById('addSteps').innerHTML = steps;
-        }
-
-        // SUBTRACTION GAME
-        function newSubtractionProblem() {
-            const num1 = (Math.random() * 20 + 10).toFixed(2);
-            const num2 = (Math.random() * 10 + 1).toFixed(2);
-            
-            gameState.subtraction.num1 = Number(num1);
-            gameState.subtraction.num2 = Number(num2);
-            gameState.subtraction.answer = Number((gameState.subtraction.num1 - gameState.subtraction.num2).toFixed(2));
-            
-            document.getElementById('subQuestion').textContent = 
-                `Subtract: $${num1} - $${num2}`;
-            
-            document.getElementById('subNum1').textContent = `  ${num1}`;
-            document.getElementById('subNum2').textContent = `- ${num2}`;
-            
-            document.getElementById('subAnswer').value = '';
-            document.getElementById('subFeedback').innerHTML = '';
-            document.getElementById('subSteps').innerHTML = '';
-        }
-
-        function checkSubtraction() {
-            const userAnswer = Number(document.getElementById('subAnswer').value);
-            
-            if (isNaN(userAnswer)) {
-                document.getElementById('subFeedback').innerHTML = 
-                    '<div class="feedback incorrect">Please enter a valid number!</div>';
-                return;
-            }
-            
-            if (Math.abs(userAnswer - gameState.subtraction.answer) < 0.01) {
-                document.getElementById('subFeedback').innerHTML = 
-                    '<div class="feedback correct">✅ Perfect! You subtracted correctly! +20 points</div>';
-                addPoints(20);
-                setTimeout(newSubtractionProblem, 2000);
-            } else {
-                document.getElementById('subFeedback').innerHTML = 
-                    `<div class="feedback incorrect">Not quite. The correct answer is $${gameState.subtraction.answer.toFixed(2)}. Check if you needed to regroup!</div>`;
-                resetStreak();
-            }
-        }
-
-        function showSubtractionSteps() {
-            const num1 = gameState.subtraction.num1;
-            const num2 = gameState.subtraction.num2;
-            const answer = gameState.subtraction.answer;
-            
-            const steps = `
-                <div class="problem-steps" style="margin-top: 20px;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">Solution Steps:</h3>
-                    <div class="step"><strong>Step 1:</strong> Line up the decimal points</div>
-                    <div class="step"><strong>Step 2:</strong> Check hundredths - can you subtract? If not, borrow from tenths</div>
-                    <div class="step"><strong>Step 3:</strong> Subtract hundredths</div>
-                    <div class="step"><strong>Step 4:</strong> Check tenths - can you subtract? If not, borrow from ones</div>
-                    <div class="step"><strong>Step 5:</strong> Subtract tenths and ones</div>
-                    <div class="step"><strong>Final Answer:</strong> $${answer.toFixed(2)}</div>
-                </div>
-            `;
-            
-            document.getElementById('subSteps').innerHTML = steps;
-        }
-
-        // SHOPPING GAME
-        function newShoppingProblem() {
-            const items = [
-                { name: 'Book', price: 12.99 },
-                { name: 'Pen Set', price: 4.50 },
-                { name: 'Notebook', price: 3.25 },
-                { name: 'Backpack', price: 24.75 },
-                { name: 'Lunch Box', price: 8.99 },
-                { name: 'Water Bottle', price: 6.50 },
-                { name: 'Calculator', price: 15.99 },
-                { name: 'Markers', price: 5.75 },
-                { name: 'Eraser Pack', price: 2.25 },
-                { name: 'Ruler', price: 1.50 }
-            ];
-            
-            // Select 2-4 random items
-            const numItems = Math.floor(Math.random() * 3) + 2;
-            const selectedItems = [];
-            const availableItems = [...items];
-            
-            for (let i = 0; i < numItems; i++) {
-                const index = Math.floor(Math.random() * availableItems.length);
-                selectedItems.push(availableItems[index]);
-                availableItems.splice(index, 1);
-            }
-            
-            const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
-            
-            // Randomly choose between total or change problem
-            const questionType = Math.random() > 0.5 ? 'total' : 'change';
-            
-            gameState.shopping.items = selectedItems;
-            gameState.shopping.total = Number(total.toFixed(2));
-            gameState.shopping.questionType = questionType;
-            
-            // Build cart HTML
-            let cartHTML = '';
-            selectedItems.forEach(item => {
-                cartHTML += `
-                    <div class="cart-item">
-                        <div class="name">${item.name}</div>
-                        <div class="price">$${item.price.toFixed(2)}</div>
-                    </div>
-                `;
-            });
-            
-            if (questionType === 'total') {
-                cartHTML += `
-                    <div class="cart-total">
-                        <div class="label">Total:</div>
-                        <div class="amount">???</div>
-                    </div>
-                `;
-                document.getElementById('shopQuestion').textContent = 'Calculate the total cost of all items:';
-                document.getElementById('shopPrompt').textContent = 'What is the total?';
-                gameState.shopping.answer = total;
-            } else {
-                const paid = Math.ceil(total / 5) * 5 + (Math.random() > 0.5 ? 5 : 10);
-                gameState.shopping.paid = paid;
-                const change = paid - total;
-                
-                cartHTML += `
-                    <div class="cart-total">
-                        <div class="label">Total:</div>
-                        <div class="amount">$${total.toFixed(2)}</div>
-                    </div>
-                `;
-                document.getElementById('shopQuestion').textContent = `You bought these items and paid with $${paid.toFixed(2)}. How much change do you get?`;
-                document.getElementById('shopPrompt').textContent = 'What is your change?';
-                gameState.shopping.answer = Number(change.toFixed(2));
-            }
-            
-            document.getElementById('shoppingCart').innerHTML = cartHTML;
-            document.getElementById('shopAnswer').value = '';
-            document.getElementById('shopFeedback').innerHTML = '';
-        }
-
-        function checkShopping() {
-            const userAnswer = Number(document.getElementById('shopAnswer').value);
-            
-            if (isNaN(userAnswer)) {
-                document.getElementById('shopFeedback').innerHTML = 
-                    '<div class="feedback incorrect">Please enter a valid number!</div>';
-                return;
-            }
-            
-            if (Math.abs(userAnswer - gameState.shopping.answer) < 0.01) {
-                document.getElementById('shopFeedback').innerHTML = 
-                    '<div class="feedback correct">🛒 Fantastic! You solved the shopping problem! +30 points</div>';
-                addPoints(30);
-                setTimeout(newShoppingProblem, 2000);
-            } else {
-                document.getElementById('shopFeedback').innerHTML = 
-                    `<div class="feedback incorrect">Not quite. The correct answer is $${gameState.shopping.answer.toFixed(2)}. ${gameState.shopping.questionType === 'total' ? 'Add all the prices' : 'Subtract the total from what you paid'}.</div>`;
-                resetStreak();
-            }
-        }
-
-        // CHALLENGE GAME
-        function newChallengeProblem() {
-            const scenarios = [
-                {
-                    text: 'Maya had $50.00. She bought a book for $12.75, a pen for $3.50, and lunch for $8.25. How much money does she have left?',
-                    answer: 25.50,
-                    steps: ['Add all expenses: $12.75 + $3.50 + $8.25 = $24.50', 'Subtract from starting amount: $50.00 - $24.50 = $25.50']
-                },
-                {
-                    text: 'Carlos earned $35.50 babysitting and $22.75 mowing lawns. He spent $15.99 on a game. How much money does he have now?',
-                    answer: 42.26,
-                    steps: ['Add earnings: $35.50 + $22.75 = $58.25', 'Subtract expense: $58.25 - $15.99 = $42.26']
-                },
-                {
-                    text: 'Sarah bought 3 notebooks for $2.25 each and 2 pens for $1.50 each. She paid with $20.00. How much change did she get?',
-                    answer: 10.25,
-                    steps: ['Calculate notebooks: 3 × $2.25 = $6.75', 'Calculate pens: 2 × $1.50 = $3.00', 'Add total: $6.75 + $3.00 = $9.75', 'Calculate change: $20.00 - $9.75 = $10.25']
-                },
-                {
-                    text: 'Jake had $28.50. He earned $15.75 for helping his neighbor. Then he bought supplies for $12.35 and a snack for $4.50. How much does he have left?',
-                    answer: 27.40,
-                    steps: ['Add earnings: $28.50 + $15.75 = $44.25', 'Add expenses: $12.35 + $4.50 = $16.85', 'Subtract: $44.25 - $16.85 = $27.40']
-                }
-            ];
-            
-            const problem = scenarios[Math.floor(Math.random() * scenarios.length)];
-            
-            gameState.challenge.answer = problem.answer;
-            gameState.challenge.steps = problem.steps;
-            
-            document.getElementById('challengeQuestion').textContent = problem.text;
-            document.getElementById('challengeAnswer').value = '';
-            document.getElementById('challengeFeedback').innerHTML = '';
-            document.getElementById('challengeSolution').innerHTML = '';
-        }
-
-        function checkChallenge() {
-            const userAnswer = Number(document.getElementById('challengeAnswer').value);
-            
-            if (isNaN(userAnswer)) {
-                document.getElementById('challengeFeedback').innerHTML = 
-                    '<div class="feedback incorrect">Please enter a valid number!</div>';
-                return;
-            }
-            
-            if (Math.abs(userAnswer - gameState.challenge.answer) < 0.01) {
-                document.getElementById('challengeFeedback').innerHTML = 
-                    '<div class="feedback correct">🏆 AMAZING! You mastered the challenge! +50 points</div>';
-                addPoints(50);
-                setTimeout(() => {
-                    document.getElementById('challengeFeedback').innerHTML = '<div class="celebration">🎉🎊🏆</div>';
-                }, 1000);
-                setTimeout(newChallengeProblem, 3000);
-            } else {
-                document.getElementById('challengeFeedback').innerHTML = 
-                    `<div class="feedback incorrect">Not quite. The correct answer is $${gameState.challenge.answer.toFixed(2)}. Click "Show Solution" to see the steps!</div>`;
-                resetStreak();
-            }
-        }
-
-        function showChallengeSolution() {
-            let stepsHTML = '<div class="problem-steps" style="margin-top: 20px;"><h3 style="color: var(--primary); margin-bottom: 15px;">Solution:</h3>';
-
-            gameState.challenge.steps.forEach((step, index) => {
-                stepsHTML += `<div class="step"><strong>Step ${index + 1}:</strong> ${step}</div>`;
-            });
-
-            stepsHTML += `<div class="step" style="background: #C6F6D5; border-left-color: var(--success);"><strong>Final Answer:</strong> $${gameState.challenge.answer.toFixed(2)}</div></div>`;
-
-            document.getElementById('challengeSolution').innerHTML = stepsHTML;
-        }
-
-        // ─── ASSESSMENT ───────────────────────────────────────────────────────
-
-        const ASSESS_QUESTION_BANK = [
-            // Place Value (MC)
-            {
-                topic: 'Place Value',
-                type: 'mc',
-                points: 10,
-                question: 'What is the value of the digit 7 in the number 3.75?',
-                options: ['7 ones', '7 tenths', '7 hundredths', '7 thousandths'],
-                answer: '7 tenths',
-                explanation: 'The first digit after the decimal point is in the tenths place, so 7 is worth 7 tenths (0.7).'
-            },
-            {
-                topic: 'Place Value',
-                type: 'mc',
-                points: 10,
-                question: 'Which decimal shows "4 ones, 0 tenths, and 3 hundredths"?',
-                options: ['4.30', '4.03', '0.43', '40.3'],
-                answer: '4.03',
-                explanation: '4 ones = 4, 0 tenths = .0, 3 hundredths = .03 → 4.03'
-            },
-            {
-                topic: 'Place Value',
-                type: 'mc',
-                points: 10,
-                question: 'In $12.56, which digit is in the hundredths place?',
-                options: ['1', '2', '5', '6'],
-                answer: '6',
-                explanation: 'Hundredths is the second place after the decimal point. In 12.56, that is 6.'
-            },
-            // Addition (fill-in)
-            {
-                topic: 'Addition',
-                type: 'input',
-                points: 15,
-                question: 'Calculate: $8.45 + $3.27 = $?',
-                answer: '11.72',
-                explanation: '8.45 + 3.27: hundredths 5+7=12 (write 2, carry 1), tenths 4+2+1=7, ones 8+3=11 → $11.72'
-            },
-            {
-                topic: 'Addition',
-                type: 'input',
-                points: 15,
-                question: 'Calculate: $14.60 + $7.85 = $?',
-                answer: '22.45',
-                explanation: '14.60 + 7.85: hundredths 0+5=5, tenths 6+8=14 (write 4, carry 1), ones 14+7+1=22 → $22.45'
-            },
-            // Subtraction (fill-in)
-            {
-                topic: 'Subtraction',
-                type: 'input',
-                points: 15,
-                question: 'Calculate: $15.00 − $6.38 = $?',
-                answer: '8.62',
-                explanation: '15.00 − 6.38: borrow as needed → $8.62'
-            },
-            {
-                topic: 'Subtraction',
-                type: 'input',
-                points: 15,
-                question: 'Calculate: $23.75 − $9.40 = $?',
-                answer: '14.35',
-                explanation: '23.75 − 9.40: hundredths 5−0=5, tenths 7−4=3, ones 23−9=14 → $14.35'
-            },
-            // Money (MC)
-            {
-                topic: 'Money',
-                type: 'mc',
-                points: 10,
-                question: 'You buy a sandwich for $4.75 and a drink for $1.50. What is the total?',
-                options: ['$5.25', '$6.25', '$6.50', '$5.75'],
-                answer: '$6.25',
-                explanation: '$4.75 + $1.50 = $6.25'
-            },
-            {
-                topic: 'Money',
-                type: 'mc',
-                points: 10,
-                question: 'You pay $20.00 for items totalling $13.65. What is your change?',
-                options: ['$6.35', '$7.35', '$6.45', '$7.45'],
-                answer: '$6.35',
-                explanation: '$20.00 − $13.65 = $6.35'
-            },
-            // Multi-step (fill-in)
-            {
-                topic: 'Multi-step',
-                type: 'input',
-                points: 20,
-                question: 'Emma had $30.00. She bought a book for $8.95 and a pen for $2.50. How much money does she have left? (Enter numbers only, e.g. 18.55)',
-                answer: '18.55',
-                explanation: 'Total spent: $8.95 + $2.50 = $11.45. Change: $30.00 − $11.45 = $18.55'
-            }
-        ];
-
-        let assess = {
-            questions: [],
-            current: 0,
-            responses: [],
-            score: 0,
-            maxScore: 0,
-            timerInterval: null,
-            secondsLeft: 90,
-            selectedMC: null
-        };
-
-        function startAssessment() {
-            // Shuffle and pick 10
-            assess.questions = [...ASSESS_QUESTION_BANK].sort(() => Math.random() - 0.5);
-            assess.current = 0;
-            assess.responses = [];
-            assess.score = 0;
-            assess.maxScore = assess.questions.reduce((s, q) => s + q.points, 0);
-
-            document.getElementById('assessStartScreen').style.display = 'none';
-            document.getElementById('assessResultsScreen').style.display = 'none';
-            document.getElementById('assessQuizScreen').style.display = 'block';
-            document.getElementById('assessHintBox').style.display = 'none';
-
-            loadAssessQuestion();
-        }
-
-        function loadAssessQuestion() {
-            clearInterval(assess.timerInterval);
-            assess.selectedMC = null;
-
-            const q = assess.questions[assess.current];
-            const qNum = assess.current + 1;
-
-            document.getElementById('assessQNum').textContent = qNum;
-            document.getElementById('assessScore').textContent = assess.score;
-            document.getElementById('assessMaxScore').textContent = assess.maxScore;
-            document.getElementById('assessTopic').textContent = q.topic;
-            document.getElementById('assessQuestion').textContent = q.question;
-            document.getElementById('assessFeedback').innerHTML = '';
-            document.getElementById('assessProgress').style.width = ((assess.current / 10) * 100) + '%';
-            document.getElementById('assessSubmitBtn').disabled = false;
-            document.getElementById('assessSubmitBtn').textContent = 'Submit Answer';
-
-            if (q.type === 'mc') {
-                document.getElementById('assessMCOptions').style.display = 'block';
-                document.getElementById('assessInputArea').style.display = 'none';
-                const grid = document.getElementById('assessOptionsGrid');
-                grid.innerHTML = q.options.map((opt, i) =>
-                    `<div class="option-card" id="aOpt${i}" onclick="selectAssessMC(${i}, '${opt.replace(/'/g, "\\'")}')">${opt}</div>`
-                ).join('');
-            } else {
-                document.getElementById('assessMCOptions').style.display = 'none';
-                document.getElementById('assessInputArea').style.display = 'block';
-                const input = document.getElementById('assessInput');
-                input.value = '';
-                setTimeout(() => input.focus(), 100);
-            }
-
-            // Timer
-            assess.secondsLeft = 90;
-            updateAssessTimer();
-            assess.timerInterval = setInterval(() => {
-                assess.secondsLeft--;
-                updateAssessTimer();
-                if (assess.secondsLeft <= 0) {
-                    clearInterval(assess.timerInterval);
-                    autoSubmitAssess();
-                }
-            }, 1000);
-        }
-
-        function updateAssessTimer() {
-            const m = Math.floor(assess.secondsLeft / 60);
-            const s = assess.secondsLeft % 60;
-            const el = document.getElementById('assessTimer');
-            el.textContent = `${m}:${s.toString().padStart(2, '0')}`;
-            el.style.color = assess.secondsLeft <= 15 ? 'var(--error)' : 'var(--primary)';
-        }
-
-        function selectAssessMC(i, val) {
-            document.querySelectorAll('#assessOptionsGrid .option-card').forEach((c, idx) => {
-                c.classList.toggle('selected', idx === i);
-            });
-            assess.selectedMC = val;
-        }
-
-        function autoSubmitAssess() {
-            const q = assess.questions[assess.current];
-            const userAnswer = q.type === 'mc' ? (assess.selectedMC || '') : document.getElementById('assessInput').value.trim();
-            recordAssessResponse(q, userAnswer, true);
-        }
-
-        function submitAssessAnswer() {
-            clearInterval(assess.timerInterval);
-            const q = assess.questions[assess.current];
-            let userAnswer;
-            if (q.type === 'mc') {
-                if (!assess.selectedMC) {
-                    document.getElementById('assessFeedback').innerHTML =
-                        '<div class="feedback incorrect">Please select an answer first!</div>';
-                    assess.timerInterval = setInterval(() => {
-                        assess.secondsLeft--;
-                        updateAssessTimer();
-                        if (assess.secondsLeft <= 0) { clearInterval(assess.timerInterval); autoSubmitAssess(); }
-                    }, 1000);
-                    return;
-                }
-                userAnswer = assess.selectedMC;
-            } else {
-                userAnswer = document.getElementById('assessInput').value.trim();
-                if (!userAnswer) {
-                    document.getElementById('assessFeedback').innerHTML =
-                        '<div class="feedback incorrect">Please enter an answer!</div>';
-                    assess.timerInterval = setInterval(() => {
-                        assess.secondsLeft--;
-                        updateAssessTimer();
-                        if (assess.secondsLeft <= 0) { clearInterval(assess.timerInterval); autoSubmitAssess(); }
-                    }, 1000);
-                    return;
-                }
-            }
-            recordAssessResponse(q, userAnswer, false);
-        }
-
-        function recordAssessResponse(q, userAnswer, timedOut) {
-            let correct = false;
-            if (!timedOut) {
-                if (q.type === 'mc') {
-                    correct = userAnswer === q.answer;
-                } else {
-                    correct = Math.abs(parseFloat(userAnswer) - parseFloat(q.answer)) < 0.005;
-                }
-            }
-
-            if (correct) assess.score += q.points;
-
-            assess.responses.push({ q, userAnswer, correct, timedOut });
-
-            document.getElementById('assessSubmitBtn').disabled = true;
-            document.getElementById('assessScore').textContent = assess.score;
-
-            const fb = document.getElementById('assessFeedback');
-            if (timedOut) {
-                fb.innerHTML = `<div class="feedback incorrect">⏰ Time's up! The answer was: <strong>${q.answer}</strong>. ${q.explanation}</div>`;
-            } else if (correct) {
-                fb.innerHTML = `<div class="feedback correct">✅ Correct! +${q.points} points. ${q.explanation}</div>`;
-            } else {
-                fb.innerHTML = `<div class="feedback incorrect">❌ Not quite. The answer is <strong>${q.answer}</strong>. ${q.explanation}</div>`;
-            }
-
-            document.getElementById('assessSubmitBtn').textContent = assess.current < 9 ? 'Next Question →' : 'See Results';
-            document.getElementById('assessSubmitBtn').disabled = false;
-            document.getElementById('assessSubmitBtn').onclick = advanceAssessment;
-        }
-
-        function advanceAssessment() {
-            assess.current++;
-            if (assess.current >= assess.questions.length) {
-                showAssessResults();
-            } else {
-                document.getElementById('assessSubmitBtn').onclick = submitAssessAnswer;
-                loadAssessQuestion();
-            }
-        }
-
-        function showAssessResults() {
-            clearInterval(assess.timerInterval);
-            document.getElementById('assessQuizScreen').style.display = 'none';
-            document.getElementById('assessResultsScreen').style.display = 'block';
-            document.getElementById('assessHintBox').style.display = 'block';
-
-            const pct = Math.round((assess.score / assess.maxScore) * 100);
-            document.getElementById('assessFinalScore').textContent = `${assess.score} / ${assess.maxScore} pts (${pct}%)`;
-
-            let grade, emoji;
-            if (pct >= 90)      { grade = 'Outstanding! You have mastered decimals!';    emoji = '🏆'; }
-            else if (pct >= 75) { grade = 'Proficient! Strong understanding with minor gaps.'; emoji = '🌟'; }
-            else if (pct >= 60) { grade = 'Developing. Review the topics you missed.';   emoji = '📚'; }
-            else                { grade = 'Needs practice. Revisit the games before retrying.'; emoji = '💪'; }
-
-            document.getElementById('assessGrade').textContent = grade;
-            document.getElementById('assessEmoji').textContent = emoji;
-            document.getElementById('assessResultTitle').textContent =
-                pct >= 75 ? 'Great Work!' : pct >= 60 ? 'Keep Going!' : 'Keep Practicing!';
-
-            // Per-topic breakdown
-            const topics = {};
-            assess.responses.forEach(r => {
-                if (!topics[r.q.topic]) topics[r.q.topic] = { earned: 0, total: 0, count: 0, correct: 0 };
-                topics[r.q.topic].total += r.q.points;
-                topics[r.q.topic].count++;
-                if (r.correct) { topics[r.q.topic].earned += r.q.points; topics[r.q.topic].correct++; }
-            });
-
-            let breakdownHTML = '<h3 style="color:#C0392B; margin-bottom:12px;">Performance by Topic</h3>';
-            for (const [topic, data] of Object.entries(topics)) {
-                const tPct = Math.round((data.earned / data.total) * 100);
-                const barColor = tPct >= 75 ? '#16A34A' : tPct >= 50 ? '#F59E0B' : '#DC2626';
-                breakdownHTML += `
-                    <div style="margin-bottom:12px;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                            <span style="font-weight:600;">${topic}</span>
-                            <span style="color:#4A5568;">${data.correct}/${data.count} correct (${tPct}%)</span>
-                        </div>
-                        <div style="background:#E2E8F0; height:12px; border-radius:6px; overflow:hidden;">
-                            <div style="background:${barColor}; width:${tPct}%; height:100%; border-radius:6px; transition:width 0.6s;"></div>
-                        </div>
-                    </div>`;
-            }
-            document.getElementById('assessBreakdown').innerHTML = breakdownHTML;
-
-            // Review
-            let reviewHTML = '';
-            assess.responses.forEach((r, i) => {
-                const icon = r.correct ? '✅' : r.timedOut ? '⏰' : '❌';
-                reviewHTML += `
-                    <div style="background:${r.correct ? '#F0FFF4' : '#FFF5F5'}; border:1px solid ${r.correct ? '#48BB78' : '#FC8181'}; border-radius:8px; padding:12px; margin-bottom:10px;">
-                        <div style="font-weight:600; margin-bottom:4px;">${icon} Q${i + 1} (${r.q.topic}) — ${r.q.points} pts</div>
-                        <div style="color:#4A5568; margin-bottom:4px;">${r.q.question}</div>
-                        <div>Your answer: <strong>${r.timedOut ? '(no answer)' : r.userAnswer}</strong></div>
-                        ${!r.correct ? `<div style="color:#C0392B;">Correct: <strong>${r.q.answer}</strong></div>` : ''}
-                        <div style="color:#718096; font-size:0.9em; margin-top:4px;">${r.q.explanation}</div>
-                    </div>`;
-            });
-            document.getElementById('assessReview').innerHTML = reviewHTML;
-
-            // Award points to main scoreboard
-            addPoints(assess.score);
-        }
-
-        function showAssessStart() {
-            clearInterval(assess.timerInterval);
-            document.getElementById('assessQuizScreen').style.display = 'none';
-            document.getElementById('assessResultsScreen').style.display = 'none';
-            document.getElementById('assessStartScreen').style.display = 'block';
-        }
-    </script>
 </body>
 </html>
