@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fraction Pizza — EduSuite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #F4845F;
+  --yellow: #F7C948;
+  --green: #43B97A;
+  --pink: #E85D75;
+  --purple: #A78BFA;
+  --cheese: #FFD966;
+  --sauce: #E53935;
+  --crust: #C68642;
+  --white: #FFFFFF;
+  --text: #2D2A32;
+  --soft: #6B6A75;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  line-height: 1.7;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #FFF0E6 0%, #FFF5C2 25%, #FDE6F0 50%, #E6F5FF 75%, #F0E8FF 100%);
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+header {
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+  margin-bottom: 20px;
+}
+.brand { font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 700; }
+.brand-e { color: var(--orange); }
+.brand-d { color: var(--green); }
+header a { color: var(--text); text-decoration: none; font-weight: 700; font-size: 14px; padding: 8px 16px; border-radius: 12px; transition: background 0.2s; }
+header a:hover { background: rgba(244,132,95,0.12); }
+h1 { font-family: 'Fredoka', sans-serif; font-size: 28px; color: var(--text); text-align: center; margin-bottom: 16px; }
+
+.card { width: 100%; max-width: 680px; background: rgba(255,255,255,0.65); backdrop-filter: blur(14px); border-radius: 22px; padding: 28px 28px 24px; margin-bottom: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.5); text-align: center; }
+
+.stats-bar {
+  width: 100%;
+  max-width: 680px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.stat { background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); border-radius: 14px; padding: 10px 8px; text-align: center; font-size: 13px; color: var(--soft); font-weight: 600; }
+.stat strong { display: block; font-family: 'Fredoka', sans-serif; font-size: 26px; color: var(--text); line-height: 1.1; }
+.stat.streak strong { color: var(--orange); }
+.stat.score strong { color: var(--green); }
+.stat.time-bar { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.time-fill { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, var(--green), var(--yellow)); border-radius: 14px; transition: width 0.1s linear; }
+.time-fill.urgent { background: linear-gradient(90deg, var(--pink), var(--orange)); }
+.stat.time-bar span { position: relative; z-index: 1; }
+
+.difficulty-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+.dbtn { padding: 16px 12px; border-radius: 16px; border: 2px solid transparent; background: rgba(255,255,255,0.7); cursor: pointer; font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.dbtn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+.dbtn span { font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 600; color: var(--soft); }
+.dbtn .icon { font-size: 28px; }
+.dbtn.easy { border-color: var(--green); }
+.dbtn.easy:hover, .dbtn.easy.active { background: rgba(67,185,122,0.18); }
+.dbtn.medium { border-color: var(--yellow); }
+.dbtn.medium:hover, .dbtn.medium.active { background: rgba(247,201,72,0.18); }
+.dbtn.hard { border-color: var(--pink); }
+.dbtn.hard:hover, .dbtn.hard.active { background: rgba(232,93,117,0.18); }
+
+/* ORDER DISPLAY */
+.order-box {
+  background: rgba(255,255,255,0.8);
+  border-radius: 16px;
+  padding: 16px 24px;
+  margin-bottom: 20px;
+  border: 2px solid var(--yellow);
+}
+.order-label { font-size: 12px; font-weight: 700; color: var(--soft); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.order-text { font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); }
+.order-fraction { color: var(--orange); }
+.order-topping { color: var(--sauce); }
+
+/* PIZZA SVG */
+.pizza-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 20px;
+}
+#pizza-svg { width: 260px; height: 260px; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15)); }
+
+/* FEEDBACK */
+.feedback {
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: none;
+}
+.feedback.correct { display: block; background: rgba(67,185,122,0.15); color: #2D8A4E; border: 2px solid var(--green); }
+.feedback.wrong { display: block; background: rgba(232,93,117,0.12); color: #C0394A; border: 2px solid var(--pink); }
+.feedback.timeout { display: block; background: rgba(167,139,250,0.12); color: #7C5CBF; border: 2px solid var(--purple); }
+
+/* PROGRESS DOTS */
+.progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.1);
+}
+.dot.done-correct { background: var(--green); }
+.dot.done-wrong { background: var(--pink); }
+.dot.current { background: var(--orange); transform: scale(1.3); }
+
+/* ACTION BUTTON */
+.action-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, var(--orange), #F4845F);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(244,132,95,0.35);
+}
+.action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244,132,95,0.4); }
+.action-btn:active { transform: translateY(0); }
+.action-btn:disabled { opacity: 0.5; cursor: default; transform: none; }
+
+/* RESULTS */
+.result-grade { font-family: 'Fredoka', sans-serif; font-size: 64px; margin-bottom: 4px; }
+.result-label { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.result-sub { font-size: 14px; color: var(--soft); margin-bottom: 20px; }
+.result-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+.result-stat { background: rgba(255,255,255,0.7); border-radius: 14px; padding: 12px; text-align: center; }
+.result-stat strong { display: block; font-family: 'Fredoka', sans-serif; font-size: 28px; color: var(--text); }
+.result-stat span { font-size: 12px; color: var(--soft); font-weight: 600; }
+.btn { display: inline-block; padding: 14px 36px; background: linear-gradient(135deg, var(--orange), #F4845F); color: white; border: none; border-radius: 50px; font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(244,132,95,0.35); text-decoration: none; margin: 4px; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244,132,95,0.4); }
+.btn-outline { background: transparent; border: 2px solid var(--orange); color: var(--orange); box-shadow: none; }
+.btn-outline:hover { background: rgba(244,132,95,0.08); }
+footer { margin-top: auto; padding: 16px; text-align: center; font-size: 12px; color: var(--soft); }
+.quiz-icon { font-size: 72px; margin-bottom: 8px; }
+
+/* HOW TO PLAY */
+.how-to-play {
+  background: rgba(255,255,255,0.6);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 14px 0 0;
+  text-align: left;
+  font-size: 13px;
+  color: var(--soft);
+}
+.how-to-play strong { color: var(--text); }
+
+/* Animations */
+@keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
+.pop { animation: pop 0.3s ease; }
+@keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.streak-banner { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--orange), var(--pink)); color: white; padding: 10px 28px; border-radius: 50px; font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 700; box-shadow: 0 4px 20px rgba(244,132,95,0.4); animation: slideIn 0.4s ease; z-index: 100; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><span class="brand-e">Edu</span><span class="brand-d">Suite</span><span style="color:var(--yellow)">.</span></div>
+  <a href="subjects.html">← Back</a>
+</header>
+
+<!-- HOME SCREEN -->
+<div id="home-screen" class="card">
+  <div class="quiz-icon">🍕</div>
+  <h1>Fraction Pizza</h1>
+  <p style="color:var(--soft);max-width:380px;margin:0 auto 8px">Learn fractions by building pizzas! Match the order by filling the right number of slices.</p>
+  <div class="difficulty-btns">
+    <button class="dbtn easy" id="btn-easy">
+      <span class="icon">🌱</span>Easy<span>Halves &amp; Quarters · 20s</span>
+    </button>
+    <button class="dbtn medium" id="btn-medium">
+      <span class="icon">🔥</span>Medium<span>Thirds &amp; Sixths · 15s</span>
+    </button>
+    <button class="dbtn hard" id="btn-hard">
+      <span class="icon">💀</span>Hard<span>Fifths &amp; Eighths · 10s</span>
+    </button>
+  </div>
+  <div class="how-to-play">
+    <strong>How to play:</strong> Look at the order — "Build 3/4 pizza with mushrooms!" Count the slices, then click the pizza slices to fill them with toppings. Fill exactly the right fraction to complete the order!
+  </div>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="game-screen" style="display:none;width:100%;max-width:680px">
+  <div class="stats-bar">
+    <div class="stat"><strong id="stat-score">0</strong>Score</div>
+    <div class="stat streak"><strong id="stat-streak">0</strong>Streak</div>
+    <div class="stat"><strong id="stat-correct">0</strong>Correct</div>
+    <div class="stat time-bar">
+      <div class="time-fill" id="time-fill" style="width:100%"></div>
+      <span id="stat-time">20s</span>
+    </div>
+  </div>
+
+  <div class="progress-dots" id="progress-dots"></div>
+
+  <div class="card" id="question-card">
+    <div class="order-box">
+      <div class="order-label">Order</div>
+      <div class="order-text" id="order-text">Build <span class="order-fraction" id="order-fraction">1/2</span> pizza with <span class="order-topping" id="order-topping">pepperoni</span>!</div>
+    </div>
+
+    <div class="pizza-container">
+      <svg id="pizza-svg" viewBox="-130 -130 260 260"></svg>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <button class="action-btn" id="action-btn">Check Answer</button>
+  </div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div id="results-screen" class="card" style="display:none;text-align:center">
+  <div class="result-grade" id="r-grade">🌟</div>
+  <div class="result-label" id="r-label">Great job!</div>
+  <div class="result-sub" id="r-sub">You scored 80 points</div>
+  <div class="result-stats">
+    <div class="result-stat"><strong id="r-correct">0</strong><span>Correct</span></div>
+    <div class="result-stat"><strong id="r-accuracy">0%</strong><span>Accuracy</span></div>
+    <div class="result-stat"><strong id="r-best-streak">0</strong><span>Best Streak</span></div>
+  </div>
+  <button class="btn" id="btn-play-again">Play Again</button>
+  <a href="subjects.html" class="btn btn-outline">More Games</a>
+</div>
+
+<footer><p>EduSuite · Free forever · No sign-up needed</p></footer>
+
+<script>
+'use strict';
+
+// ── PIZZA SLICE CLASS ─────────────────────────────────────────
+function PizzaSlice(cx, cy, r, startAngle, endAngle) {
+  this.cx = cx; this.cy = cy; this.r = r;
+  this.startAngle = startAngle;
+  this.endAngle = endAngle;
+  this.filled = false;
+  this.sliceIndex = -1;
+
+  this.path = function() {
+    var sa = this.startAngle;
+    var ea = this.endAngle;
+    var x1 = this.cx + this.r * Math.cos(sa);
+    var y1 = this.cy + this.r * Math.sin(sa);
+    var x2 = this.cx + this.r * Math.cos(ea);
+    var y2 = this.cy + this.r * Math.sin(ea);
+    var large = (ea - sa) > Math.PI ? 1 : 0;
+    return 'M ' + this.cx + ',' + this.cy +
+           ' L ' + x1 + ',' + y1 +
+           ' A ' + this.r + ',' + this.r + ' 0 ' + large + ' 1 ' + x2 + ',' + y2 +
+           ' Z';
+  };
+}
+
+// Generate SVG path for a slice (crust only, for click detection)
+function slicePath(cx, cy, r, startAngle, endAngle) {
+  var sa = startAngle;
+  var ea = endAngle;
+  var x1 = cx + r * Math.cos(sa);
+  var y1 = cy + r * Math.sin(sa);
+  var x2 = cx + r * Math.cos(ea);
+  var y2 = cy + r * Math.sin(ea);
+  var large = (ea - sa) > Math.PI ? 1 : 0;
+  return 'M ' + cx + ',' + cy + ' L ' + x1 + ',' + y1 + ' A ' + r + ',' + r + ' 0 ' + large + ' 1 ' + x2 + ',' + y2 + ' Z';
+}
+
+// ── QUESTION BANK ──────────────────────────────────────────────
+// Each: numerator / denominator, toppings, order templates
+var QUESTIONS = [
+  // EASY — halves and quarters
+  { num: 1, den: 2, toppings: 'pepperoni', order: 'Build 1/2 pizza with pepperoni!' },
+  { num: 1, den: 2, toppings: 'mushrooms', order: 'Top 1/2 of the pizza with mushrooms!' },
+  { num: 1, den: 2, toppings: 'olives', order: 'Cover 1/2 pizza with olives!' },
+  { num: 1, den: 4, toppings: 'cheese', order: 'Add cheese to 1/4 of the pizza!' },
+  { num: 2, den: 4, toppings: 'pepperoni', order: 'Put pepperoni on 2/4 of the pizza!' },
+  { num: 3, den: 4, toppings: 'mushrooms', order: 'Cover 3/4 of the pizza with mushrooms!' },
+  { num: 3, den: 4, toppings: 'olives', order: 'Add olives to 3/4 of the pizza!' },
+  { num: 1, den: 2, toppings: 'peppers', order: 'Top 1/2 of the pizza with peppers!' },
+  { num: 1, den: 4, toppings: 'pepperoni', order: 'Add pepperoni to 1/4 of the pizza!' },
+  { num: 2, den: 4, toppings: 'cheese', order: 'Cover 2/4 of the pizza with cheese!' },
+  { num: 3, den: 4, toppings: 'peppers', order: 'Add peppers to 3/4 of the pizza!' },
+  { num: 1, den: 4, toppings: 'olives', order: 'Cover 1/4 of the pizza with olives!' },
+
+  // MEDIUM — thirds and sixths
+  { num: 1, den: 3, toppings: 'pepperoni', order: 'Build 1/3 pizza with pepperoni!' },
+  { num: 2, den: 3, toppings: 'mushrooms', order: 'Cover 2/3 of the pizza with mushrooms!' },
+  { num: 1, den: 3, toppings: 'olives', order: 'Add olives to 1/3 of the pizza!' },
+  { num: 1, den: 3, toppings: 'cheese', order: 'Top 1/3 of the pizza with extra cheese!' },
+  { num: 2, den: 3, toppings: 'peppers', order: 'Cover 2/3 of the pizza with peppers!' },
+  { num: 2, den: 6, toppings: 'pepperoni', order: 'Add pepperoni to 2/6 of the pizza!' },
+  { num: 4, den: 6, toppings: 'mushrooms', order: 'Cover 4/6 of the pizza with mushrooms!' },
+  { num: 5, den: 6, toppings: 'olives', order: 'Top 5/6 of the pizza with olives!' },
+  { num: 1, den: 6, toppings: 'cheese', order: 'Add cheese to 1/6 of the pizza!' },
+  { num: 3, den: 6, toppings: 'peppers', order: 'Cover 3/6 of the pizza with peppers!' },
+  { num: 2, den: 3, toppings: 'pepperoni', order: 'Build 2/3 pizza with pepperoni!' },
+  { num: 5, den: 6, toppings: 'mushrooms', order: 'Top 5/6 of the pizza with mushrooms!' },
+
+  // HARD — fifths, sevenths, eighths
+  { num: 2, den: 5, toppings: 'pepperoni', order: 'Cover 2/5 of the pizza with pepperoni!' },
+  { num: 3, den: 5, toppings: 'mushrooms', order: 'Add mushrooms to 3/5 of the pizza!' },
+  { num: 4, den: 5, toppings: 'olives', order: 'Top 4/5 of the pizza with olives!' },
+  { num: 1, den: 5, toppings: 'cheese', order: 'Add cheese to 1/5 of the pizza!' },
+  { num: 2, den: 5, toppings: 'peppers', order: 'Cover 2/5 of the pizza with peppers!' },
+  { num: 3, den: 8, toppings: 'pepperoni', order: 'Add pepperoni to 3/8 of the pizza!' },
+  { num: 5, den: 8, toppings: 'mushrooms', order: 'Cover 5/8 of the pizza with mushrooms!' },
+  { num: 7, den: 8, toppings: 'olives', order: 'Top 7/8 of the pizza with olives!' },
+  { num: 1, den: 8, toppings: 'cheese', order: 'Add cheese to 1/8 of the pizza!' },
+  { num: 3, den: 8, toppings: 'peppers', order: 'Cover 3/8 of the pizza with peppers!' },
+  { num: 4, den: 8, toppings: 'pepperoni', order: 'Top 4/8 of the pizza with pepperoni!' },
+  { num: 6, den: 8, toppings: 'mushrooms', order: 'Build 6/8 pizza with mushrooms!' },
+  { num: 3, den: 7, toppings: 'olives', order: 'Cover 3/7 of the pizza with olives!' },
+  { num: 5, den: 7, toppings: 'pepperoni', order: 'Add pepperoni to 5/7 of the pizza!' },
+  { num: 2, den: 7, toppings: 'cheese', order: 'Top 2/7 of the pizza with extra cheese!' },
+  { num: 4, den: 7, toppings: 'mushrooms', order: 'Cover 4/7 of the pizza with mushrooms!' }
+];
+
+// ── TOPPING COLORS ────────────────────────────────────────────
+var TOPPING_COLORS = {
+  pepperoni:  '#E53935',
+  mushrooms:  '#8D6E63',
+  olives:     '#2E7D32',
+  cheese:     '#FFD966',
+  peppers:    '#FF8F00'
+};
+
+// ── GAME STATE ─────────────────────────────────────────────────
+var S = null;
+var timerID = null;
+var slices = [];  // array of PizzaSlice objects
+var selectedCount = 0;
+var currentDen = 4; // denominator of current pizza (set per question)
+
+// ── HELPERS ───────────────────────────────────────────────────
+function setText(id, t) { document.getElementById(id).textContent = t; }
+
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+function showBanner(text) {
+  var el = document.createElement('div');
+  el.className = 'streak-banner';
+  el.textContent = text;
+  document.body.appendChild(el);
+  setTimeout(function() { el.remove(); }, 2000);
+}
+
+// ── SVG PIZZA RENDERING ───────────────────────────────────────
+var CX = 0, CY = 0, R = 110;
+var INNER_R = 22; // crust hole
+
+function renderPizza(den) {
+  var svg = document.getElementById('pizza-svg');
+  svg.innerHTML = '';
+  slices = [];
+  selectedCount = 0;
+
+  var sliceAngle = (2 * Math.PI) / den;
+  var halfGap = 0.04; // small gap between slices
+
+  for (var i = 0; i < den; i++) {
+    var startAngle = i * sliceAngle - Math.PI / 2 + halfGap;
+    var endAngle = (i + 1) * sliceAngle - Math.PI / 2 - halfGap;
+
+    var slice = new PizzaSlice(CX, CY, R, startAngle, endAngle);
+    slice.sliceIndex = i;
+    slices.push(slice);
+
+    // Crust/base (always visible)
+    var crustPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    crustPath.setAttribute('d', slice.path());
+    crustPath.setAttribute('fill', '#C68642');
+    crustPath.setAttribute('stroke', '#8B5A2B');
+    crustPath.setAttribute('stroke-width', '1.5');
+    crustPath.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(crustPath);
+
+    // Sauce/cheese layer (hidden by default)
+    var saucePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    saucePath.setAttribute('d', slice.path());
+    saucePath.setAttribute('fill', '#FFD966');
+    saucePath.setAttribute('opacity', '0');
+    saucePath.setAttribute('class', 'sauce-layer');
+    saucePath.setAttribute('id', 'slice-sauce-' + i);
+    svg.appendChild(saucePath);
+
+    // Topping circles (hidden by default)
+    var toppingGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    toppingGroup.setAttribute('opacity', '0');
+    toppingGroup.setAttribute('class', 'topping-group');
+    toppingGroup.setAttribute('id', 'slice-topping-' + i);
+
+    // Place 2-3 topping circles per slice
+    var midAngle = (startAngle + endAngle) / 2;
+    var toppingR = R * 0.55;
+    var numToppings = 2 + (den > 6 ? 0 : 1);
+    for (var t = 0; t < numToppings; t++) {
+      var angle = midAngle + (t - (numToppings - 1) / 2) * 0.35;
+      var tx = CX + toppingR * Math.cos(angle);
+      var ty = CY + toppingR * Math.sin(angle);
+      var circ = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circ.setAttribute('cx', tx);
+      circ.setAttribute('cy', ty);
+      circ.setAttribute('r', den <= 4 ? 14 : den <= 6 ? 10 : 7);
+      toppingGroup.appendChild(circ);
+    }
+    svg.appendChild(toppingGroup);
+
+    // Invisible click area
+    var clickArea = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    clickArea.setAttribute('d', slice.path());
+    clickArea.setAttribute('fill', 'transparent');
+    clickArea.setAttribute('cursor', 'pointer');
+    clickArea.setAttribute('data-index', i);
+    clickArea.style.cursor = 'pointer';
+    clickArea.onclick = (function(idx) {
+      return function() { toggleSlice(idx); };
+    })(i);
+    svg.appendChild(clickArea);
+  }
+
+  // Center hole (crust edge)
+  var center = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  center.setAttribute('cx', CX);
+  center.setAttribute('cy', CY);
+  center.setAttribute('r', INNER_R);
+  center.setAttribute('fill', '#A0522D');
+  center.setAttribute('stroke', '#8B4513');
+  center.setAttribute('stroke-width', '2');
+  svg.appendChild(center);
+
+  // "EduSuite Pizza Co." text in center
+  var label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  label.setAttribute('x', CX);
+  label.setAttribute('y', CY + 5);
+  label.setAttribute('text-anchor', 'middle');
+  label.setAttribute('fill', '#FFF8DC');
+  label.setAttribute('font-size', '8');
+  label.setAttribute('font-family', 'Fredoka, sans-serif');
+  label.setAttribute('font-weight', '600');
+  label.textContent = '🍕';
+  svg.appendChild(label);
+}
+
+function toggleSlice(index) {
+  if (S && S.answered) return;
+
+  var sauceEl = document.getElementById('slice-sauce-' + index);
+  var toppingEl = document.getElementById('slice-topping-' + index);
+
+  if (slices[index].filled) {
+    // Unfill
+    slices[index].filled = false;
+    selectedCount--;
+    sauceEl.setAttribute('opacity', '0');
+    toppingEl.setAttribute('opacity', '0');
+  } else {
+    // Fill
+    slices[index].filled = true;
+    selectedCount++;
+    sauceEl.setAttribute('opacity', '1');
+    toppingEl.setAttribute('opacity', '1');
+  }
+}
+
+function fillToppingColor(color) {
+  var toppingEls = document.querySelectorAll('.topping-group circle');
+  toppingEls.forEach(function(c) { c.setAttribute('fill', color); });
+}
+
+function clearPizza() {
+  slices.forEach(function(s) { s.filled = false; });
+  selectedCount = 0;
+  document.querySelectorAll('.sauce-layer').forEach(function(el) { el.setAttribute('opacity', '0'); });
+  document.querySelectorAll('.topping-group').forEach(function(el) { el.setAttribute('opacity', '0'); });
+}
+
+// ── GAME INIT ──────────────────────────────────────────────────
+function startGame(diff) {
+  var pool;
+  if (diff === 1) {
+    pool = QUESTIONS.filter(function(q) { return q.den <= 4; });
+  } else if (diff === 2) {
+    pool = QUESTIONS.filter(function(q) { return q.den <= 6; });
+  } else {
+    pool = QUESTIONS;
+  }
+
+  S = {
+    diff: diff,
+    pool: shuffle(pool).slice(0, 10),
+    idx: 0,
+    score: 0,
+    streak: 0,
+    bestStreak: 0,
+    correct: 0,
+    timeLeft: diff === 1 ? 20 : diff === 2 ? 15 : 10,
+    maxTime: diff === 1 ? 20 : diff === 2 ? 15 : 10,
+    answerHistory: [], // 'correct' | 'wrong' | 'timeout'
+    answered: false
+  };
+
+  document.getElementById('home-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'block';
+
+  renderProgressDots();
+  showQuestion();
+}
+
+function renderProgressDots() {
+  var container = document.getElementById('progress-dots');
+  var html = '';
+  for (var i = 0; i < S.pool.length; i++) {
+    var cls = 'dot';
+    if (i < S.idx) {
+      cls += S.answerHistory[i] === 'correct' ? ' done-correct' : ' done-wrong';
+    } else if (i === S.idx) {
+      cls += ' current';
+    }
+    html += '<div class="' + cls + '"></div>';
+  }
+  container.innerHTML = html;
+}
+
+function showQuestion() {
+  var q = S.pool[S.idx];
+  S.answered = false;
+
+  setText('order-fraction', q.num + '/' + q.den);
+  setText('order-topping', q.toppings);
+  document.getElementById('feedback').style.display = 'none';
+  document.getElementById('action-btn').textContent = 'Check Answer';
+  document.getElementById('action-btn').disabled = false;
+
+  currentDen = q.den;
+  renderPizza(q.den);
+  fillToppingColor(TOPPING_COLORS[q.toppings] || '#E53935');
+
+  S.timeLeft = S.maxTime;
+  updateTimerDisplay();
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerID);
+  timerID = setInterval(function() {
+    S.timeLeft -= 0.1;
+    updateTimerDisplay();
+    if (S.timeLeft <= 0) {
+      S.timeLeft = 0;
+      clearInterval(timerID);
+      submitAnswer(true); // timeout
+    }
+  }, 100);
+}
+
+function updateTimerDisplay() {
+  var pct = (S.timeLeft / S.maxTime) * 100;
+  var fill = document.getElementById('time-fill');
+  fill.style.width = pct + '%';
+  fill.className = 'time-fill' + (pct < 30 ? ' urgent' : '');
+  setText('stat-time', Math.ceil(S.timeLeft) + 's');
+}
+
+// ── SUBMIT ANSWER ──────────────────────────────────────────────
+function submitAnswer(timedOut) {
+  if (S.answered) return;
+  S.answered = true;
+  clearInterval(timerID);
+
+  var q = S.pool[S.idx];
+  var feedbackEl = document.getElementById('feedback');
+
+  // Lock pizza
+  document.querySelectorAll('[data-index]').forEach(function(el) {
+    el.style.cursor = 'default';
+    el.onclick = null;
+  });
+
+  if (timedOut) {
+    // Show correct answer
+    S.answerHistory.push('timeout');
+    S.streak = 0;
+    feedbackEl.className = 'feedback timeout';
+    feedbackEl.innerHTML = '<strong>⏰ Time\'s up!</strong> The correct answer was ' + q.num + '/' + q.den + '.';
+    feedbackEl.style.display = 'block';
+    highlightCorrectSlices(q.num);
+  } else {
+    // Check
+    if (selectedCount === q.num) {
+      // Correct!
+      S.score += 10;
+      S.streak++;
+      S.correct++;
+      if (S.streak > S.bestStreak) S.bestStreak = S.streak;
+      S.answerHistory.push('correct');
+      feedbackEl.className = 'feedback correct';
+      feedbackEl.innerHTML = '<strong>🎉 Perfect! ' + q.num + '/' + q.den + ' is correct!</strong>';
+      feedbackEl.style.display = 'block';
+
+      if (S.streak === 3) {
+        S.score += 15;
+        showBanner('🔥 3 in a row! +15 bonus!');
+      } else if (S.streak > 3 && S.streak % 3 === 0) {
+        S.score += 10;
+        showBanner('🔥 ' + S.streak + ' STREAK! +10');
+      }
+
+      document.getElementById('question-card').classList.add('pop');
+      setTimeout(function() { document.getElementById('question-card').classList.remove('pop'); }, 300);
+    } else {
+      // Wrong
+      S.answerHistory.push('wrong');
+      S.streak = 0;
+      feedbackEl.className = 'feedback wrong';
+      var diff = selectedCount - q.num;
+      if (selectedCount > q.num) {
+        feedbackEl.innerHTML = '<strong>❌ Too much!</strong> You filled ' + selectedCount + '/' + q.den + ' slices. The order was ' + q.num + '/' + q.den + '.';
+      } else {
+        feedbackEl.innerHTML = '<strong>❌ Not enough!</strong> You filled ' + selectedCount + '/' + q.den + ' slices. The order was ' + q.num + '/' + q.den + '.';
+      }
+      feedbackEl.style.display = 'block';
+      highlightCorrectSlices(q.num);
+    }
+  }
+
+  setText('stat-score', S.score);
+  setText('stat-streak', S.streak);
+  setText('stat-correct', S.correct);
+
+  document.getElementById('action-btn').textContent = 'Next Slice →';
+  document.getElementById('action-btn').onclick = nextQuestion;
+}
+
+function highlightCorrectSlices(num) {
+  // Fill the correct number of slices
+  var count = 0;
+  for (var i = 0; i < slices.length && count < num; i++) {
+    if (!slices[i].filled) {
+      var sauceEl = document.getElementById('slice-sauce-' + i);
+      var toppingEl = document.getElementById('slice-topping-' + i);
+      if (sauceEl) sauceEl.setAttribute('opacity', '1');
+      if (toppingEl) toppingEl.setAttribute('opacity', '1');
+      count++;
+    }
+  }
+}
+
+function nextQuestion() {
+  S.idx++;
+  if (S.idx >= S.pool.length) {
+    showResults();
+  } else {
+    renderProgressDots();
+    showQuestion();
+  }
+}
+
+// ── RESULTS ────────────────────────────────────────────────────
+function showResults() {
+  clearInterval(timerID);
+  document.getElementById('game-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'block';
+
+  var pct = Math.round((S.correct / 10) * 100);
+  var diffLabels = {1: '🌱 Easy', 2: '🔥 Medium', 3: '💀 Hard'};
+  var grade, label;
+  if (pct >= 90) { grade = '🏆'; label = 'Pizza Master!'; }
+  else if (pct >= 70) { grade = '🌟'; label = 'Great work!'; }
+  else if (pct >= 50) { grade = '👍'; label = 'Good effort!'; }
+  else { grade = '🍕'; label = 'Keep practicing!'; }
+
+  setText('r-grade', grade);
+  setText('r-label', label);
+  setText('r-sub', diffLabels[S.diff] + ' · ' + S.score + ' points');
+  setText('r-correct', S.correct + '/10');
+  setText('r-accuracy', pct + '%');
+  setText('r-best-streak', S.bestStreak);
+}
+
+// ── ATTACH BUTTONS ─────────────────────────────────────────────
+document.getElementById('btn-easy').onclick = function() { startGame(1); };
+document.getElementById('btn-medium').onclick = function() { startGame(2); };
+document.getElementById('btn-hard').onclick = function() { startGame(3); };
+document.getElementById('action-btn').onclick = function() { submitAnswer(false); };
+document.getElementById('btn-play-again').onclick = function() {
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'none';
+  document.getElementById('home-screen').style.display = 'block';
+};
+</script>
+</body>
+</html>
