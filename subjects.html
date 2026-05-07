@@ -333,6 +333,7 @@ document.getElementById('grid').innerHTML = SUBJECTS.map(s => `
         </div>
         ${s.g1.cls!=='coming' ? '<span class="g-arrow">→</span>' : ''}
       </a>
+      ${s.g2 ? `
       <a class="sc-game ${s.g2.cls}" href="${s.g2.href}">
         <div class="g-icon">${s.g2.icon}</div>
         <div class="g-info">
@@ -340,7 +341,7 @@ document.getElementById('grid').innerHTML = SUBJECTS.map(s => `
           <div class="g-level">${s.g2.lvl}</div>
         </div>
         ${s.g2.cls!=='coming' ? '<span class="g-arrow">→</span>' : ''}
-      </a>
+      </a>` : ''}
     </div>
   </div>
 `).join('');
