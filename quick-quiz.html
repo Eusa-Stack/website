@@ -587,14 +587,21 @@ function showQuestion() {
   document.getElementById('q-text').textContent = q.q;
 
   const answers = shuffle(q.a.map((a, i) => ({ text: a, orig: i })));
-  q._order = answers; // store for answer checking
+  q._order = answers;
 
   const btns = document.querySelectorAll('.abtn');
   btns.forEach((btn, i) => {
     btn.className = 'abtn';
     btn.disabled = false;
+    btn.dataset.btnIdx = i;
     btn.querySelector('span:last-child').textContent = answers[i].text;
-    btn.onclick = () => answer(answers[i].orig);
+    btn.onclick = null; // clear first
+    btn.addEventListener('click', () => {
+      if (state.answered) return;
+      state.answered = true;
+      clearInterval(timerInterval);
+      showAnswer(q._order[parseInt(btn.dataset.btnIdx)].orig);
+    });
   });
 
   document.getElementById('q-explain').style.display = 'none';
