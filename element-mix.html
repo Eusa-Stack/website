@@ -6,233 +6,360 @@
 <style>
 :root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh;overflow-x:hidden}
 .back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
-.hero{text-align:center;padding:1.5rem 1.5rem .5rem}
-.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(24px,5vw,34px);font-weight:700;margin-bottom:4px}
+.hero{text-align:center;padding:1.5rem 1.5rem .3rem}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(24px,5vw,34px);font-weight:700}
 .hero p{color:var(--sft);font-size:14px;font-weight:600}
-.stats{display:flex;justify-content:center;gap:16px;margin-bottom:.5rem}
+.stats{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:.8rem}
 .stat{background:var(--wht);border-radius:14px;padding:10px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.03)}
-.snum{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--ppl)}
+.snum{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--org)}
 .slbl{font-size:10px;color:var(--sft);font-weight:700;text-transform:uppercase}
 .game-wrap{max-width:650px;margin:0 auto;padding:0 1rem 2rem;text-align:center}
-.q-box{background:var(--wht);border-radius:16px;padding:1.5rem;border:3px solid #E0D6CC;margin-bottom:1rem}
-.q-text{font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px}
-.q-hint{font-size:13px;color:var(--sft);margin-bottom:.8rem}
-.shelf{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:.8rem;padding:.5rem;background:#F5F0EB;border-radius:14px;min-height:80px}
-.element{background:var(--wht);border:3px solid #E0D6CC;border-radius:14px;padding:10px 16px;cursor:pointer;transition:.12s;text-align:center;min-width:85px;position:relative}
-.element:hover{border-color:var(--ppl);transform:scale(1.05);box-shadow:0 4px 14px rgba(0,0,0,.06)}
-.element.selected{border-color:var(--ppl);background:#EEF2FF;box-shadow:0 0 0 3px rgba(167,139,250,.2)}
-.element:disabled{cursor:default;opacity:.4;transform:none}
-.element:disabled:hover{box-shadow:none}
-.el-icon{font-size:32px;display:block;margin-bottom:4px}
-.el-symbol{font-size:15px;font-weight:800;font-family:'Fredoka',sans-serif}
-.el-name{font-size:10px;color:var(--sft);margin-top:2px}
-.mixer{background:linear-gradient(135deg,#1A1A2E,#2D2A32);color:#fff;border-radius:16px;padding:1rem;margin-bottom:.8rem;display:flex;align-items:center;justify-content:center;gap:10px;min-height:60px;flex-wrap:wrap}
-.mixer-slot{width:70px;height:70px;border:2px dashed rgba(255,255,255,.3);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:12px;color:rgba(255,255,255,.4)}
-.mixer-slot.filled{border-style:solid;border-color:var(--yel);background:rgba(247,201,72,.1);color:#fff}
-.mixer-arrow{font-size:28px;color:var(--yel);flex-shrink:0}
-.result-area{padding:.5rem;min-height:2.5rem;font-weight:700;font-size:16px;text-align:center}
-.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:.8rem}
-.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none}
-.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
-.btn-ppl{background:var(--ppl);color:#fff}.btn-grn{background:var(--grn);color:#fff}.btn-org{background:var(--org);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
-.success{color:var(--grn)}.fail{color:var(--pnk)}
-.level-pick{text-align:center;padding:2rem}
-.level-pick h2{font-family:'Fredoka',sans-serif;font-size:26px;font-weight:700;margin-bottom:1.2rem}
-.lvl-card{background:var(--wht);border-radius:16px;padding:1.5rem;margin-bottom:1rem;cursor:pointer;border:3px solid transparent;transition:.2s;max-width:350px;margin:0 auto 1rem}
-.lvl-card:hover{border-color:var(--org);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+
+/* Level screen */
+.lvl{padding:2rem 1rem}
+.lvl h2{font-family:'Fredoka',sans-serif;font-size:26px;font-weight:700;margin-bottom:1.2rem}
+.lc{background:var(--wht);border-radius:16px;padding:1.5rem;margin:0 auto 1rem;cursor:pointer;border:3px solid transparent;transition:.2s;max-width:350px}
+.lc:hover{border-color:var(--org);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
 .lc-icon{font-size:36px;display:block;margin-bottom:6px}
 .lc-name{font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700}
 .lc-desc{font-size:13px;color:var(--sft);margin-top:4px}
-.reaction-show{font-size:22px;font-weight:800;margin:.5rem 0;animation:pop .3s}
+
+/* Target compound card */
+.target-card{background:var(--wht);border-radius:20px;padding:1.5rem 1rem;margin-bottom:1rem;border:3px solid #E0D6CC;position:relative}
+.target-emoji{font-size:52px;display:block;margin-bottom:4px}
+.target-name{font-family:'Fredoka',sans-serif;font-size:24px;font-weight:700;color:var(--ppl)}
+.target-formula{font-family:'Fredoka',sans-serif;font-size:18px;font-weight:500;color:var(--sft);margin-bottom:2px}
+.target-desc{font-size:12px;color:var(--sft);font-weight:600}
+
+/* Element shelf */
+.elem-instr{font-size:14px;font-weight:700;color:var(--sft);margin-bottom:.5rem;min-height:1.5rem}
+.shelf{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+.el{background:var(--wht);border:3px solid #E0D6CC;border-radius:16px;padding:14px 18px;cursor:pointer;transition:.15s;min-width:80px;text-align:center}
+.el:hover{border-color:var(--ppl);transform:scale(1.05);box-shadow:0 4px 14px rgba(167,139,250,.15)}
+.el.selected{border-color:var(--ppl);background:#F5F0FF;box-shadow:0 0 0 4px rgba(167,139,250,.2);transform:scale(1.08)}
+.el.correct{background:#DCFCE7;border-color:var(--grn);color:#14532D}
+.el.wrong{background:#FEE2E2;border-color:var(--pnk);color:#991B1B;animation:sh .3s}
+@keyframes sh{0%,100%{opacity:1}50%{opacity:.5}}
+.el:disabled{cursor:default;opacity:.6;transform:none;pointer-events:none}
+.el-sym{font-family:'Fredoka',sans-serif;font-size:28px;font-weight:700;display:block}
+.el-name{font-size:10px;color:var(--sft);font-weight:700;display:block;margin-top:2px}
+
+/* Feedback */
+.feedback{padding:.5rem;font-size:17px;font-weight:700;min-height:3rem}
+.fact-box{background:#F0FAF4;border-radius:12px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--grn);border:2px solid var(--grn);max-width:450px;margin:0 auto;display:none}
+.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:.8rem}
+.btn{padding:12px 24px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.btn-org{background:var(--org);color:#fff}.btn-grn{background:var(--grn);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
+.btn:disabled{opacity:.5;cursor:default;transform:none}
+
+/* Timer bar */
+.tbar{width:100%;height:8px;background:#E0D6CC;border-radius:4px;overflow:hidden;margin:.8rem 0}
+.tfill{height:8px;background:var(--grn);border-radius:4px;transition:width .1s linear}
+.tfill.danger{background:var(--pnk)}
+.combo-badge{display:inline-block;background:linear-gradient(135deg,var(--yel),var(--org));color:var(--txt);padding:4px 14px;border-radius:20px;font-weight:800;font-size:13px;animation:pop .3s}
 @keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.2)}100%{transform:scale(1)}}
 </style>
 </head>
 <body>
 <a href="subjects.html" class="back-link">← All Games</a>
-<header class="hero"><h1>🧪 Element Mix</h1><p>Pick the right elements from the shelf to create compounds!</p></header>
-
-<div id="levelScreen" class="level-pick">
-  <h2>🔬 Choose Your Lab</h2>
-  <div class="lvl-card" onclick="startGame(0)"><span class="lc-icon">👶</span><div class="lc-name">Junior Lab</div><div class="lc-desc">4 elements on shelf · Pick 2 to make the target compound · Ages 5–9</div></div>
-  <div class="lvl-card" onclick="startGame(1)"><span class="lc-icon">🥼</span><div class="lc-name">Senior Lab</div><div class="lc-desc">6 elements on shelf · More wrong options · Ages 10–15</div></div>
+<header class="hero"><h1>⚗️ Element Mix</h1><p>Pick the right elements to build compounds!</p></header>
+<div id="levelScreen" class="lvl">
+  <h2>🔬 Choose Lab</h2>
+  <div class="lc" onclick="start(0)"><span class="lc-icon">🔭</span><div class="lc-name">Discovery Lab</div><div class="lc-desc">8 elements · Simple compounds(H₂O,CO₂,NaCl) · 20s</div></div>
+  <div class="lc" onclick="start(1)"><span class="lc-icon">⚗️</span><div class="lc-name">Reaction Lab</div><div class="lc-desc">10 elements · Medium(NH₃,CaO,Fe₂O₃) · 15s</div></div>
+  <div class="lc" onclick="start(2)"><span class="lc-icon">🧪</span><div class="lc-name">Professor Lab</div><div class="lc-desc">12 elements · Complex(H₂SO₄,C₃H₈,HCl) · 12s</div></div>
 </div>
 
 <div id="gameScreen" style="display:none">
-<div class="stats"><div class="stat"><div class="snum" id="qnum">1/10</div><div class="slbl">Round</div></div><div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Score</div></div><div class="stat"><div class="snum" id="strk">0</div><div class="slbl">Streak</div></div></div>
-<div class="game-wrap">
-<div class="q-box">
-  <div class="q-text" id="mission">Make: Water</div>
-  <div class="q-hint" id="hint">Pick exactly 2 elements from the shelf</div>
+<div class="stats">
+  <div class="stat"><div class="snum" id="qnum">0/10</div><div class="slbl">Question</div></div>
+  <div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Score</div></div>
+  <div class="stat"><div class="snum" id="strk">0</div><div class="slbl">Streak</div></div>
 </div>
-<div class="mixer"><div class="mixer-slot" id="slot1">Pick 1st</div><div class="mixer-arrow">+</div><div class="mixer-slot" id="slot2">Pick 2nd</div><div class="mixer-arrow">=</div><div class="result-area" id="result" style="flex:1">?</div></div>
-<div class="shelf" id="shelf"></div>
-<div class="brow"><button class="btn btn-ppl" id="mixBtn" onclick="doMix()" disabled>⚗️ Mix!</button><button class="btn btn-org" onclick="resetGame()">🔄 Restart</button><a href="subjects.html" class="btn btn-wht">← Back</a></div>
+<div class="game-wrap">
+  <div class="target-card" id="targetCard">
+    <span class="target-emoji" id="tEmoji">💧</span>
+    <div class="target-name" id="tName">Water</div>
+    <div class="target-formula" id="tForm">H₂O</div>
+    <div class="target-desc" id="tDesc">Drinking, cleaning, life!</div>
+  </div>
+  <div class="tbar"><div class="tfill" id="tfill" style="width:100%"></div></div>
+  <div class="elem-instr" id="instr">👆 Click 2 elements to make this compound</div>
+  <div class="shelf" id="shelf"></div>
+  <div class="feedback" id="feed"></div>
+  <div class="fact-box" id="fact"></div>
+  <div class="brow">
+    <button class="btn btn-grn" id="submitBtn" disabled onclick="submitAnswer()">✅ Submit</button>
+    <button class="btn btn-wht" onclick="backToMenu()">← Menu</button>
+  </div>
+</div>
 </div>
 
 <script>
-// Element database
-const ELEMENTS=[
-  {sym:'H',name:'Hydrogen',e:'💨',type:'gas'},
-  {sym:'O',name:'Oxygen',e:'💨',type:'gas'},
-  {sym:'N',name:'Nitrogen',e:'💨',type:'gas'},
-  {sym:'C',name:'Carbon',e:'⚫',type:'solid'},
-  {sym:'Na',name:'Sodium',e:'🧂',type:'metal'},
-  {sym:'Cl',name:'Chlorine',e:'☁️',type:'gas'},
-  {sym:'Ca',name:'Calcium',e:'🪨',type:'metal'},
-  {sym:'Fe',name:'Iron',e:'🔩',type:'metal'},
-  {sym:'Si',name:'Silicon',e:'💎',type:'solid'},
-  {sym:'Mg',name:'Magnesium',e:'🔆',type:'metal'}
+// Elements: symbol, name, color class
+const ELEMENTS={
+  H:{sym:'H',name:'Hydrogen',color:'#6BBF6E'},
+  He:{sym:'He',name:'Helium',color:'#A78BFA'},
+  C:{sym:'C',name:'Carbon',color:'#636363'},
+  N:{sym:'N',name:'Nitrogen',color:'#60A5FA'},
+  O:{sym:'O',name:'Oxygen',color:'#EF4444'},
+  F:{sym:'F',name:'Fluorine',color:'#34D399'},
+  Na:{sym:'Na',name:'Sodium',color:'#F59E0B'},
+  Mg:{sym:'Mg',name:'Magnesium',color:'#84CC16'},
+  Si:{sym:'Si',name:'Silicon',color:'#78716C'},
+  P:{sym:'P',name:'Phosphorus',color:'#FB923C'},
+  S:{sym:'S',name:'Sulfur',color:'#FBBF24'},
+  Cl:{sym:'Cl',name:'Chlorine',color:'#38BDF8'},
+  K:{sym:'K',name:'Potassium',color:'#C084FC'},
+  Ca:{sym:'Ca',name:'Calcium',color:'#F472B6'},
+  Fe:{sym:'Fe',name:'Iron',color:'#DC2626'},
+  Cu:{sym:'Cu',name:'Copper',color:'#D97706'}
+};
+
+// Compounds: name, formula, emoji, [elementA, elementB], fact, difficulty: 0|1|2
+const COMPOUNDS=[
+  // Easy (lvl 0) — simple common compounds
+  {n:'Water',f:'H₂O',e:'💧',el:['H','O'],d:0,fact:'2H₂ + O₂ → 2H₂O · Water covers 71% of Earth!'},
+  {n:'Table Salt',f:'NaCl',e:'🧂',el:['Na','Cl'],d:0,fact:'2Na + Cl₂ → 2NaCl · Used since ancient times!'},
+  {n:'Carbon Dioxide',f:'CO₂',e:'💨',el:['C','O'],d:0,fact:'C + O₂ → CO₂ · Plants breathe this in!'},
+  {n:'Ammonia',f:'NH₃',e:'🧪',el:['N','H'],d:0,fact:'N₂ + 3H₂ → 2NH₃ · Used in fertilizers!'},
+  {n:'Hydrochloric Acid',f:'HCl',e:'🧪',el:['H','Cl'],d:0,fact:'H₂ + Cl₂ → 2HCl · Your stomach uses this!'},
+  {n:'Silicon Dioxide',f:'SiO₂',e:'💎',el:['Si','O'],d:0,fact:'Si + O₂ → SiO₂ · Main part of sand and glass!'},
+  {n:'Rust',f:'Fe₂O₃',e:'🟫',el:['Fe','O'],d:0,fact:'4Fe + 3O₂ → 2Fe₂O₃ · Iron + oxygen + water!'},
+  {n:'Quicklime',f:'CaO',e:'🪨',el:['Ca','O'],d:0,fact:'2Ca + O₂ → 2CaO · Used in cement!'},
+  {n:'Sodium Hydroxide',f:'NaOH',e:'🧪',el:['Na','O'],d:0,fact:'2Na + 2H₂O → 2NaOH + H₂ · Drain cleaner!'},
+  {n:'Hydrogen Peroxide',f:'H₂O₂',e:'💧',el:['H','O'],d:0,fact:'H₂O₂ → H₂O + O · Used as disinfectant!'},
+
+  // Medium (lvl 1)
+  {n:'Magnesium Oxide',f:'MgO',e:'🔆',el:['Mg','O'],d:1,fact:'2Mg + O₂ → 2MgO · Used in medicine!'},
+  {n:'Calcium Chloride',f:'CaCl₂',e:'🧪',el:['Ca','Cl'],d:1,fact:'Ca + Cl₂ → CaCl₂ · Melts ice on roads!'},
+  {n:'Potassium Oxide',f:'K₂O',e:'🧂',el:['K','O'],d:1,fact:'4K + O₂ → 2K₂O · Found in fertilizers!'},
+  {n:'Sodium Sulfide',f:'Na₂S',e:'🟡',el:['Na','S'],d:1,fact:'2Na + S → Na₂S · Used in paper making!'},
+  {n:'Iron Sulfide',f:'FeS',e:'🪨',el:['Fe','S'],d:1,fact:'Fe + S → FeS · Fool\'s gold cousin!'},
+  {n:'Calcium Hydroxide',f:'Ca(OH)₂',e:'🧪',el:['Ca','O'],d:1,fact:'CaO + H₂O → Ca(OH)₂ · Used in construction!'},
+  {n:'Sulfur Dioxide',f:'SO₂',e:'💨',el:['S','O'],d:1,fact:'S + O₂ → SO₂ · Volcanic gas smell!'},
+  {n:'Phosphorus Pentoxide',f:'P₂O₅',e:'🔥',el:['P','O'],d:1,fact:'4P + 5O₂ → 2P₂O₅ · Used in matches!'},
+  {n:'Carbon Monoxide',f:'CO',e:'💨',el:['C','O'],d:1,fact:'2C + O₂ → 2CO · Silent but dangerous!'},
+  {n:'Copper Oxide',f:'CuO',e:'🟤',el:['Cu','O'],d:1,fact:'2Cu + O₂ → 2CuO · Turns copper black!'},
+
+  // Hard (lvl 2)
+  {n:'Sulfuric Acid',f:'H₂SO₄',e:'🧪',el:['H','S'],d:2,fact:'Most produced chemical in the world!'},
+  {n:'Phosphoric Acid',f:'H₃PO₄',e:'🧪',el:['H','P'],d:2,fact:'Gives cola its tangy taste!'},
+  {n:'Calcium Carbonate',f:'CaCO₃',e:'🪨',el:['Ca','C'],d:2,fact:'Main component of chalk and limestone!'},
+  {n:'Iron(II) Chloride',f:'FeCl₂',e:'🟢',el:['Fe','Cl'],d:2,fact:'Used in water treatment!'},
+  {n:'Potassium Chloride',f:'KCl',e:'🧪',el:['K','Cl'],d:2,fact:'Used as a salt substitute!'},
+  {n:'Copper Sulfate',f:'CuSO₄',e:'🔵',el:['Cu','S'],d:2,fact:'Bright blue — used to detect water!'},
+  {n:'Magnesium Chloride',f:'MgCl₂',e:'🧪',el:['Mg','Cl'],d:2,fact:'Used to make tofu!'},
+  {n:'Sodium Phosphate',f:'Na₃PO₄',e:'🧪',el:['Na','P'],d:2,fact:'Used in detergents!'},
+  {n:'Silicon Carbide',f:'SiC',e:'💎',el:['Si','C'],d:2,fact:'Almost as hard as diamond!'},
+  {n:'Iron Carbide',f:'Fe₃C',e:'🔩',el:['Fe','C'],d:2,fact:'Carbon makes iron into STEEL!'}
 ];
 
-// Reaction database: [element1, element2] → compound
-const REACTIONS=[
-  {a:'H',b:'O',name:'Water',formula:'H₂O',e:'💧',desc:'2H₂ + O₂ → 2H₂O\nUsed for drinking, cleaning, and life!'},
-  {a:'Na',b:'Cl',name:'Table Salt',formula:'NaCl',e:'🧂',desc:'2Na + Cl₂ → 2NaCl\nEveryday table salt!'},
-  {a:'C',b:'O',name:'Carbon Dioxide',formula:'CO₂',e:'💨',desc:'C + O₂ → CO₂\nWe breathe it out, plants breathe it in!'},
-  {a:'Fe',b:'O',name:'Rust',formula:'Fe₂O₃',e:'🟫',desc:'4Fe + 3O₂ → 2Fe₂O₃\nIron reacts with oxygen and water!'},
-  {a:'H',b:'N',name:'Ammonia',formula:'NH₃',e:'🧪',desc:'N₂ + 3H₂ → 2NH₃\nUsed in fertilizers and cleaning!'},
-  {a:'Ca',b:'O',name:'Quicklime',formula:'CaO',e:'🪨',desc:'2Ca + O₂ → 2CaO\nUsed in cement and construction!'},
-  {a:'Si',b:'O',name:'Quartz',formula:'SiO₂',e:'💎',desc:'Si + O₂ → SiO₂\nThe main part of sand and glass!'},
-  {a:'Mg',b:'O',name:'Magnesia',formula:'MgO',e:'🔆',desc:'2Mg + O₂ → 2MgO\nUsed in medicine (milk of magnesia)!'},
-  {a:'H',b:'Cl',name:'Hydrochloric Acid',formula:'HCl',e:'🧪',desc:'H₂ + Cl₂ → 2HCl\nYour stomach uses this to digest food!'},
-  {a:'Na',b:'O',name:'Sodium Oxide',formula:'Na₂O',e:'🧂',desc:'4Na + O₂ → 2Na₂O\nReacts with water to form sodium hydroxide!'},
-  {a:'C',b:'Si',name:'Silicon Carbide',formula:'SiC',e:'💎',desc:'Si + C → SiC\nAlmost as hard as diamond!'},
-  {a:'Fe',b:'C',name:'Steel',formula:'Fe₃C',e:'🔩',desc:'3Fe + C → Fe₃C\nCarbon makes iron into strong steel!'}
+// Each level: shelf size, time, which compounds
+const LEVELS=[
+  {name:'Discovery',shelfSize:8,time:20,numQ:10},
+  {name:'Reaction',shelfSize:10,time:15,numQ:10},
+  {name:'Professor',shelfSize:12,time:12,numQ:10}
 ];
 
-let game={mode:0,round:0,score:0,streak:0,sel1:null,sel2:null,target:null,shelf:[]};
-
-function startGame(m){
-  game.mode=m;game.round=0;game.score=0;game.streak=0;
-  document.getElementById('levelScreen').style.display='none';
-  document.getElementById('gameScreen').style.display='block';
-  newRound();
+// Which elements appear in which level
+function elementsForLevel(lvl){
+  const elSet=new Set();
+  COMPOUNDS.filter(c=>c.d<=lvl).forEach(c=>{c.el.forEach(e=>elSet.add(e));});
+  let all=Array.from(elSet);
+  // Add filler elements for the shelf
+  const extras=[['He','F','Mg','Si','P','S','K','Ca','Cu','Fe','Na','Cl','H','C','N','O']];
+  const allKnown=extras[0];
+  const fillers=allKnown.filter(e=>!elSet.has(e));
+  shuffle(fillers);
+  while(all.length<LEVELS[lvl].shelfSize && fillers.length>0){
+    const f=fillers.shift();
+    if(!all.includes(f)) all.push(f);
+  }
+  shuffle(all);
+  return all.slice(0,LEVELS[lvl].shelfSize);
 }
 
-function resetGame(){
-  document.getElementById('gameScreen').style.display='none';
-  document.getElementById('levelScreen').style.display='block';
-}
+// State
+let S={lvl:0,rounds:[],r:0,score:0,streak:0,sel:[],timer:null,time:0,active:false};
 
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
-function newRound(){
-  if(game.round>=10){endGame();return;}
-  game.round++;game.sel1=null;game.sel2=null;
-  
-  // Pick a random reaction as the target
-  const rx=shuffle([...REACTIONS])[0];
-  game.target=rx;
-  
-  // Get the correct two elements
-  const elA=ELEMENTS.find(e=>e.sym===rx.a);
-  const elB=ELEMENTS.find(e=>e.sym===rx.b);
-  
-  // Pick wrong elements for the shelf
-  const usedSyms=new Set([rx.a,rx.b]);
-  const wrongs=ELEMENTS.filter(e=>!usedSyms.has(e.sym));
-  const numWrongs=game.mode===0?2:4; // Junior: 2 wrongs, Senior: 4 wrongs
-  const pickedWrongs=shuffle([...wrongs]).slice(0,numWrongs);
-  
-  // Full shelf: correct elements + wrong elements
-  game.shelf=shuffle([elA,elB,...pickedWrongs]);
-  
-  document.getElementById('qnum').textContent=game.round+'/10';
-  document.getElementById('scr').textContent=game.score;
-  document.getElementById('strk').textContent=game.streak;
-  document.getElementById('mission').textContent='🧪 Make some ' + rx.name + '!';
-  document.getElementById('hint').innerHTML='📝 Formula: <strong>'+rx.formula+'</strong> — pick the 2 elements from the shelf';
-  document.getElementById('result').innerHTML='?';
-  document.getElementById('mixBtn').disabled=true;
-  
-  document.getElementById('slot1').innerHTML='Pick 1st';
-  document.getElementById('slot1').className='mixer-slot';
-  document.getElementById('slot2').innerHTML='Pick 2nd';
-  document.getElementById('slot2').className='mixer-slot';
-  
-  renderShelf();
+function start(lvl){
+  S.lvl=lvl;S.r=0;S.score=0;S.streak=0;S.sel=[];S.active=true;
+  document.getElementById('levelScreen').style.display='none';
+  document.getElementById('gameScreen').style.display='block';
+  // Pick compounds for this level
+  const pool=shuffle(COMPOUNDS.filter(c=>c.d<=lvl));
+  S.rounds=pool.slice(0,10);
+  nextQ();
 }
 
-function renderShelf(){
-  document.getElementById('shelf').innerHTML=game.shelf.map((el,i)=>`<div class="element" id="e${i}" onclick="pickEl(${i})"><span class="el-icon">${el.e}</span><span class="el-symbol">${el.sym}</span><div class="el-name">${el.name}</div></div>`).join('');
+function nextQ(){
+  if(S.r>=10){endGame();return;}
+  S.sel=[];
+  document.getElementById('submitBtn').disabled=true;
+  const q=S.rounds[S.r];
+  const lvlData=LEVELS[S.lvl];
+  S.r++;
+  
+  // Show target
+  document.getElementById('qnum').textContent=S.r+'/10';
+  document.getElementById('scr').textContent=S.score;
+  document.getElementById('strk').textContent=S.streak;
+  document.getElementById('tEmoji').textContent=q.e;
+  document.getElementById('tName').textContent=q.n;
+  document.getElementById('tForm').textContent=q.f;
+  document.getElementById('tDesc').textContent=q.fact.split('·')[0].trim();
+  
+  // Build shelf
+  let elements=elementsForLevel(S.lvl);
+  // Ensure both correct elements are in shelf
+  const needed=q.el;
+  elements=elements.filter(e=>!needed.includes(e));
+  shuffle(elements);
+  while(elements.length<LEVELS[S.lvl].shelfSize-2){
+    const fillers=['H','O','C','N','Na','Cl','Fe','Ca'];
+    const f=fillers.find(e=>!elements.includes(e) && !needed.includes(e));
+    if(f) elements.push(f); else break;
+  }
+  elements=elements.slice(0,LEVELS[S.lvl].shelfSize-2);
+  elements.push(...needed);
+  shuffle(elements);
+  
+  document.getElementById('shelf').innerHTML=elements.map(sym=>{
+    const el=ELEMENTS[sym];
+    if(!el) return '';
+    return `<button class="el" data-sym="${sym}"><span class="el-sym" style="color:${el.color}">${sym}</span><span class="el-name">${el.name}</span></button>`;
+  }).join('');
+  
+  // Add event listeners
+  document.querySelectorAll('.el').forEach(b=>b.addEventListener('click',function(){pickEl(this);}));
+  
+  document.getElementById('instr').innerHTML='👆 Click <b>2 elements</b> to make <b>'+q.n+'</b>';
+  document.getElementById('feed').innerHTML='';
+  document.getElementById('fact').style.display='none';
+  document.querySelectorAll('.el').forEach(b=>{b.classList.remove('selected','correct','wrong');b.disabled=false;});
+  
+  // Timer
+  S.time=lvlData.time+0.1;
+  if(S.timer)clearInterval(S.timer);
+  const tf=document.getElementById('tfill');
+  tf.style.width='100%';tf.className='tfill';
+  S.timer=setInterval(()=>{
+    S.time-=0.1;
+    const pct=Math.max(0,S.time/lvlData.time*100);
+    tf.style.width=pct+'%';
+    tf.className='tfill'+(pct<30?' danger':'');
+    if(S.time<=0){
+      clearInterval(S.timer);
+      S.streak=0;
+      document.getElementById('strk').textContent=S.streak;
+      document.querySelectorAll('.el').forEach(b=>b.disabled=true);
+      const ans=q.el.map(e=>ELEMENTS[e].sym).join(' + ');
+      document.getElementById('feed').innerHTML='⏰ Time\'s up! Answer: '+ans;
+      document.getElementById('instr').innerHTML='❌ '+ELEMENTS[q.el[0]].name+' + '+ELEMENTS[q.el[1]].name;
+      showFact(q);
+      setTimeout(nextQ,1500);
+    }
+  },100);
 }
 
-function pickEl(idx){
-  const el=game.shelf[idx];
-  const elDiv=document.getElementById('e'+idx);
+function pickEl(btn){
+  if(!S.active)return;
+  const sym=btn.dataset.sym;
+  if(btn.disabled)return;
   
-  // Deselect if already selected
-  if(game.sel1===idx){
-    game.sel1=null;elDiv.classList.remove('selected');
-    document.getElementById('slot1').innerHTML='Pick 1st';document.getElementById('slot1').className='mixer-slot';
-    document.getElementById('mixBtn').disabled=true;return;
-  }
-  if(game.sel2===idx){
-    game.sel2=null;elDiv.classList.remove('selected');
-    document.getElementById('slot2').innerHTML='Pick 2nd';document.getElementById('slot2').className='mixer-slot';
-    document.getElementById('mixBtn').disabled=true;return;
+  if(btn.classList.contains('selected')){
+    btn.classList.remove('selected');
+    S.sel=S.sel.filter(s=>s!==sym);
+  } else if(S.sel.length<2){
+    btn.classList.add('selected');
+    S.sel.push(sym);
   }
   
-  // Pick first or second
-  if(game.sel1===null){
-    game.sel1=idx;elDiv.classList.add('selected');
-    document.getElementById('slot1').innerHTML=`<span class="el-icon">${el.e}</span><span style="font-size:13px">${el.sym}</span>`;
-    document.getElementById('slot1').className='mixer-slot filled';
-  }else if(game.sel2===null){
-    game.sel2=idx;elDiv.classList.add('selected');
-    document.getElementById('slot2').innerHTML=`<span class="el-icon">${el.e}</span><span style="font-size:13px">${el.sym}</span>`;
-    document.getElementById('slot2').className='mixer-slot filled';
-    document.getElementById('mixBtn').disabled=false;
+  document.getElementById('submitBtn').disabled=(S.sel.length!==2);
+  if(S.sel.length===2){
+    document.getElementById('instr').innerHTML='👉 Click <b>✅ Submit</b> to check!';
+  } else {
+    const q=S.rounds[S.r-1];
+    document.getElementById('instr').innerHTML='👆 Click <b>'+ (2-S.sel.length) +' more</b> to make '+q.n;
   }
 }
 
-function doMix(){
-  if(game.sel1===null||game.sel2===null)return;
-  const a=game.shelf[game.sel1];
-  const b=game.shelf[game.sel2];
-  const tx=game.target;
+function submitAnswer(){
+  if(!S.active || S.sel.length!==2)return;
+  if(S.timer)clearInterval(S.timer);
+  document.querySelectorAll('.el').forEach(b=>b.disabled=true);
   
-  // Disable all elements during reveal
-  document.querySelectorAll('.element').forEach(e=>e.disabled=true);
-  document.getElementById('mixBtn').disabled=true;
+  const q=S.rounds[S.r-1];
+  const needed=q.el.slice().sort();
+  const picked=S.sel.slice().sort();
+  const correct=needed.length===picked.length && needed.every((v,i)=>v===picked[i]);
   
-  // Check: both elements correct (order doesn't matter)
-  const correct=(a.sym===tx.a&&b.sym===tx.b)||(a.sym===tx.b&&b.sym===tx.a);
+  // Show which elements were correct/wrong
+  document.querySelectorAll('.el').forEach(b=>{
+    const s=b.dataset.sym;
+    if(needed.includes(s)){
+      b.classList.add('correct');
+      b.classList.remove('selected');
+    } else if(S.sel.includes(s)){
+      b.classList.add('wrong');
+      b.classList.remove('selected');
+    }
+  });
   
   if(correct){
-    game.score+=10;game.streak++;
-    document.getElementById('scr').textContent=game.score;
-    document.getElementById('strk').textContent=game.streak;
-    document.getElementById('result').innerHTML=`<div class="reaction-show">${tx.e} ${tx.name}!</div><div style="font-size:13px;color:var(--grn);white-space:pre-line">${tx.desc}</div>`;
-    document.getElementById('result').className='result-area success';
-    // Highlight both as correct
-    document.getElementById('e'+game.sel1).style.borderColor='var(--grn)';
-    document.getElementById('e'+game.sel2).style.borderColor='var(--grn)';
-    document.getElementById('e'+game.sel1).style.background='#F0FAF4';
-    document.getElementById('e'+game.sel2).style.background='#F0FAF4';
-  }else{
-    game.streak=0;
-    document.getElementById('strk').textContent=game.streak;
-    document.getElementById('result').innerHTML=`<div class="reaction-show">❌ No reaction!</div><div style="font-size:13px;color:var(--pnk)">${a.sym} + ${b.sym} → Nothing useful<br>Try different elements!</div>`;
-    document.getElementById('result').className='result-area fail';
-    document.getElementById('e'+game.sel1).style.borderColor='var(--pnk)';
-    document.getElementById('e'+game.sel2).style.borderColor='var(--pnk)';
-    document.getElementById('e'+game.sel1).style.background='#FEE2E2';
-    document.getElementById('e'+game.sel2).style.background='#FEE2E2';
+    S.streak++;
+    S.score++;
+    const comboOn=S.streak>=3;
+    if(comboOn){S.score+=2;}
+    document.getElementById('feed').innerHTML='✅ Correct! '+(comboOn?' 🔥 COMBO +3!':' +1 pt');
+    document.getElementById('instr').innerHTML='🎉 '+q.n+' = '+ELEMENTS[q.el[0]].name+' + '+ELEMENTS[q.el[1]].name;
+  } else {
+    S.streak=0;
+    document.getElementById('feed').innerHTML='❌ Not quite! '+ELEMENTS[q.el[0]].name+' + '+ELEMENTS[q.el[1]].name;
+    document.getElementById('instr').innerHTML='💡 '+q.n+' = '+ELEMENTS[needed[0]].name+' + '+ELEMENTS[needed[1]].name;
   }
   
-  setTimeout(newRound,2000);
+  document.getElementById('scr').textContent=S.score;
+  document.getElementById('strk').textContent=S.streak;
+  showFact(q);
+  setTimeout(nextQ,2000);
+}
+
+function showFact(q){
+  const factEl=document.getElementById('fact');
+  factEl.textContent='💡 '+q.fact;
+  factEl.style.display='block';
 }
 
 function endGame(){
-  const pct=Math.round(game.score/100*100);
-  const em=pct>=80?'🧪':pct>=50?'🔬':'👨‍🔬';
-  document.querySelector('.game-wrap').innerHTML=`<div style="text-align:center;padding:2rem"><div style="font-size:64px">${em}</div><div style="font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700">${game.score}/100</div><div style="color:var(--sft);margin-bottom:1.5rem">${pct}% correct</div><div class="brow"><button class="btn btn-org" onclick="location.reload()">🔄 Play Again</button><a href="subjects.html" class="btn btn-wht">← Back</a></div></div>`;
+  S.active=false;
+  const pct=Math.min(100,Math.round(S.score/10*100));
+  const em=pct>=80?'🏆':pct>=50?'🌟':'💪';
+  const title=pct>=80?'Element Master!':pct>=50?'Good Chemist!':'Keep Studying!';
+  document.querySelector('.game-wrap').innerHTML=`
+    <div style="text-align:center;padding:2rem">
+      <div style="font-size:64px">${em}</div>
+      <div style="font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700">${S.score}/10</div>
+      <div style="color:var(--sft);margin-bottom:1.5rem">${title}</div>
+      <div class="brow">
+        <button class="btn btn-org" onclick="start(${S.lvl})">🔄 Retry</button>
+        <button class="btn btn-wht" onclick="backToMenu()">← Menu</button>
+      </div>
+    </div>`;
 }
 
-startGame(0);
+function backToMenu(){
+  if(S.timer)clearInterval(S.timer);
+  S.active=false;
+  document.getElementById('gameScreen').style.display='none';
+  document.getElementById('levelScreen').style.display='block';
+}
 </script>
 </body>
 </html>
