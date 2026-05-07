@@ -406,7 +406,7 @@ function renderPizza(den) {
     slice.sliceIndex = i;
     slices.push(slice);
 
-    // Crust/base (always visible)
+    // CRUST — full circle base, rendered FIRST so it's at the bottom
     var crustPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     crustPath.setAttribute('d', slice.path());
     crustPath.setAttribute('fill', '#C68642');
@@ -415,7 +415,7 @@ function renderPizza(den) {
     crustPath.setAttribute('stroke-linejoin', 'round');
     svg.appendChild(crustPath);
 
-    // Sauce/cheese layer (hidden by default)
+    // Sauce/cheese layer (above crust, below toppings)
     var saucePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     saucePath.setAttribute('d', slice.path());
     saucePath.setAttribute('fill', '#FFD966');
@@ -424,7 +424,7 @@ function renderPizza(den) {
     saucePath.setAttribute('id', 'slice-sauce-' + i);
     svg.appendChild(saucePath);
 
-    // Topping circles (hidden by default)
+    // Topping circles (above sauce)
     var toppingGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     toppingGroup.setAttribute('opacity', '0');
     toppingGroup.setAttribute('class', 'topping-group');
@@ -446,15 +446,20 @@ function renderPizza(den) {
     }
     svg.appendChild(toppingGroup);
 
-    // Invisible click area
+    // Click area — INVISIBLE but on TOP so clicks register
+    // Use a clip path per slice so we only click within the slice shape
+    // Simple approach: a transparent path that covers the slice wedge
     var clickArea = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     clickArea.setAttribute('d', slice.path());
-    clickArea.setAttribute('fill', 'transparent');
-    clickArea.setAttribute('cursor', 'pointer');
+    clickArea.setAttribute('fill', 'rgba(0,0,0,0.003)');
+    clickArea.setAttribute('stroke', 'none');
     clickArea.setAttribute('data-index', i);
     clickArea.style.cursor = 'pointer';
     clickArea.onclick = (function(idx) {
-      return function() { toggleSlice(idx); };
+      return function(e) {
+        e.stopPropagation();
+        toggleSlice(idx);
+      };
     })(i);
     svg.appendChild(clickArea);
   }
