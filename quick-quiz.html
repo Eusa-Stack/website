@@ -14,7 +14,6 @@
   --green: #43B97A;
   --pink: #E85D75;
   --purple: #A78BFA;
-  --blue: #60A5FA;
   --white: #FFFFFF;
   --text: #2D2A32;
   --soft: #6B6A75;
@@ -32,8 +31,6 @@ body {
   align-items: center;
   padding: 20px;
 }
-
-/* ── HEADER ── */
 header {
   width: 100%;
   max-width: 680px;
@@ -46,33 +43,13 @@ header {
   border-radius: 18px;
   margin-bottom: 20px;
 }
-.brand {
-  font-family: 'Fredoka', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-}
+.brand { font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 700; }
 .brand-e { color: var(--orange); }
 .brand-d { color: var(--green); }
-header a {
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 14px;
-  padding: 8px 16px;
-  border-radius: 12px;
-  transition: background 0.2s;
-}
+header a { color: var(--text); text-decoration: none; font-weight: 700; font-size: 14px; padding: 8px 16px; border-radius: 12px; transition: background 0.2s; }
 header a:hover { background: rgba(244,132,95,0.12); }
+h1 { font-family: 'Fredoka', sans-serif; font-size: 28px; color: var(--text); text-align: center; margin-bottom: 16px; }
 
-h1 {
-  font-family: 'Fredoka', sans-serif;
-  font-size: 28px;
-  color: var(--text);
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-/* ── STATS BAR ── */
 .stats-bar {
   width: 100%;
   max-width: 680px;
@@ -81,287 +58,66 @@ h1 {
   gap: 10px;
   margin-bottom: 20px;
 }
-.stat {
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(10px);
-  border-radius: 14px;
-  padding: 10px 8px;
-  text-align: center;
-  font-size: 13px;
-  color: var(--soft);
-  font-weight: 600;
-}
-.stat strong {
-  display: block;
-  font-family: 'Fredoka', sans-serif;
-  font-size: 26px;
-  color: var(--text);
-  line-height: 1.1;
-}
+.stat { background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); border-radius: 14px; padding: 10px 8px; text-align: center; font-size: 13px; color: var(--soft); font-weight: 600; }
+.stat strong { display: block; font-family: 'Fredoka', sans-serif; font-size: 26px; color: var(--text); line-height: 1.1; }
 .stat.streak strong { color: var(--orange); }
 .stat.score strong { color: var(--green); }
-.stat.time-bar {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.time-fill {
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  background: linear-gradient(90deg, var(--green), var(--yellow));
-  border-radius: 14px;
-  transition: width 0.1s linear;
-}
+.stat.time-bar { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.time-fill { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, var(--green), var(--yellow)); border-radius: 14px; transition: width 0.1s linear; }
 .time-fill.urgent { background: linear-gradient(90deg, var(--pink), var(--orange)); }
 .stat.time-bar span { position: relative; z-index: 1; }
 
-/* ── CARDS ── */
-.card {
-  width: 100%;
-  max-width: 680px;
-  background: rgba(255,255,255,0.65);
-  backdrop-filter: blur(14px);
-  border-radius: 22px;
-  padding: 28px 28px 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-  border: 1px solid rgba(255,255,255,0.5);
-  text-align: center;
-}
+.card { width: 100%; max-width: 680px; background: rgba(255,255,255,0.65); backdrop-filter: blur(14px); border-radius: 22px; padding: 28px 28px 24px; margin-bottom: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.5); text-align: center; }
 
-/* ── DIFFICULTY SELECT ── */
-.difficulty-btns {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 18px;
-}
-.dbtn {
-  padding: 16px 12px;
-  border-radius: 16px;
-  border: 2px solid transparent;
-  background: rgba(255,255,255,0.7);
-  cursor: pointer;
-  font-family: 'Fredoka', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-  transition: all 0.2s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
+.difficulty-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+.dbtn { padding: 16px 12px; border-radius: 16px; border: 2px solid transparent; background: rgba(255,255,255,0.7); cursor: pointer; font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .dbtn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
 .dbtn span { font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 600; color: var(--soft); }
+.dbtn .icon { font-size: 28px; }
 .dbtn.easy { border-color: var(--green); }
 .dbtn.easy:hover, .dbtn.easy.active { background: rgba(67,185,122,0.18); }
 .dbtn.medium { border-color: var(--yellow); }
 .dbtn.medium:hover, .dbtn.medium.active { background: rgba(247,201,72,0.18); }
 .dbtn.hard { border-color: var(--pink); }
 .dbtn.hard:hover, .dbtn.hard.active { background: rgba(232,93,117,0.18); }
-.dbtn .icon { font-size: 28px; }
 
-/* ── QUESTION ── */
-.q-counter {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--soft);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-.question-text {
-  font-family: 'Fredoka', sans-serif;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.4;
-  margin-bottom: 24px;
-}
-.category-tag {
-  display: inline-block;
-  background: rgba(167,139,250,0.15);
-  color: var(--purple);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 20px;
-  margin-bottom: 16px;
-  letter-spacing: 0.5px;
-}
+.q-counter { font-size: 12px; font-weight: 700; color: var(--soft); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+.question-text { font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 24px; }
+.category-tag { display: inline-block; background: rgba(167,139,250,0.15); color: var(--purple); font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.5px; }
 
-/* ── ANSWERS ── */
-.answers {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.abtn {
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 2px solid rgba(0,0,0,0.08);
-  background: rgba(255,255,255,0.8);
-  cursor: pointer;
-  font-family: 'Nunito', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  text-align: left;
-  transition: all 0.15s;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.abtn:hover:not(:disabled) {
-  border-color: var(--orange);
-  background: rgba(244,132,95,0.1);
-  transform: translateY(-1px);
-}
-.abtn .letter {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: rgba(0,0,0,0.06);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 800;
-  flex-shrink: 0;
-}
-.abtn.correct {
-  border-color: var(--green);
-  background: rgba(67,185,122,0.2);
-}
-.abtn.correct .letter { background: var(--green); color: white; }
-.abtn.wrong {
-  border-color: var(--pink);
-  background: rgba(232,93,117,0.15);
-}
-.abtn.wrong .letter { background: var(--pink); color: white; }
-.abtn:disabled { cursor: default; }
-.abtn.dim { opacity: 0.45; }
+.answers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.abtn { padding: 14px 16px; border-radius: 14px; border: 2px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.8); cursor: pointer; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); text-align: left; transition: all 0.15s; display: flex; align-items: center; gap: 10px; }
+.abtn:hover:not(.disabled) { border-color: var(--orange); background: rgba(244,132,95,0.1); transform: translateY(-1px); }
+.abtn .letter { width: 28px; height: 28px; border-radius: 8px; background: rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0; }
+.abtn.correct { border-color: var(--green) !important; background: rgba(67,185,122,0.2) !important; }
+.abtn.correct .letter { background: var(--green) !important; color: white; }
+.abtn.wrong { border-color: var(--pink) !important; background: rgba(232,93,117,0.15) !important; }
+.abtn.wrong .letter { background: var(--pink) !important; color: white; }
+.abtn.disabled { opacity: 0.6; cursor: default; }
 
-/* ── EXPLANATION ── */
-.explanation {
-  margin-top: 14px;
-  padding: 14px;
-  background: rgba(255,255,255,0.7);
-  border-radius: 14px;
-  font-size: 14px;
-  color: var(--soft);
-  text-align: left;
-  line-height: 1.6;
-  border-left: 4px solid var(--yellow);
-}
+.explanation { margin-top: 14px; padding: 14px; background: rgba(255,255,255,0.7); border-radius: 14px; font-size: 14px; color: var(--soft); text-align: left; line-height: 1.6; border-left: 4px solid var(--yellow); }
 .explanation strong { color: var(--text); }
 
-/* ── FEEDBACK ANIMATION ── */
-@keyframes pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.06); }
-  100% { transform: scale(1); }
-}
+@keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
 .pop { animation: pop 0.3s ease; }
 
-/* ── STREAK BANNER ── */
-@keyframes slideIn {
-  from { transform: translateY(-20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-.streak-banner {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, var(--orange), var(--pink));
-  color: white;
-  padding: 10px 28px;
-  border-radius: 50px;
-  font-family: 'Fredoka', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  box-shadow: 0 4px 20px rgba(244,132,95,0.4);
-  animation: slideIn 0.4s ease;
-  z-index: 100;
-  pointer-events: none;
-}
+@keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.streak-banner { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--orange), var(--pink)); color: white; padding: 10px 28px; border-radius: 50px; font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 700; box-shadow: 0 4px 20px rgba(244,132,95,0.4); animation: slideIn 0.4s ease; z-index: 100; pointer-events: none; }
 
-/* ── RESULTS ── */
-.result-grade {
-  font-family: 'Fredoka', sans-serif;
-  font-size: 64px;
-  margin-bottom: 4px;
-}
-.result-label {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.result-sub {
-  font-size: 14px;
-  color: var(--soft);
-  margin-bottom: 20px;
-}
-.result-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.result-stat {
-  background: rgba(255,255,255,0.7);
-  border-radius: 14px;
-  padding: 12px;
-  text-align: center;
-}
-.result-stat strong {
-  display: block;
-  font-family: 'Fredoka', sans-serif;
-  font-size: 28px;
-  color: var(--text);
-}
+.result-grade { font-family: 'Fredoka', sans-serif; font-size: 64px; margin-bottom: 4px; }
+.result-label { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.result-sub { font-size: 14px; color: var(--soft); margin-bottom: 20px; }
+.result-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+.result-stat { background: rgba(255,255,255,0.7); border-radius: 14px; padding: 12px; text-align: center; }
+.result-stat strong { display: block; font-family: 'Fredoka', sans-serif; font-size: 28px; color: var(--text); }
 .result-stat span { font-size: 12px; color: var(--soft); font-weight: 600; }
 
-/* ── BUTTONS ── */
-.btn {
-  display: inline-block;
-  padding: 14px 36px;
-  background: linear-gradient(135deg, var(--orange), #F4845F);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  font-family: 'Fredoka', sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 14px rgba(244,132,95,0.35);
-  text-decoration: none;
-  margin: 4px;
-}
+.btn { display: inline-block; padding: 14px 36px; background: linear-gradient(135deg, var(--orange), #F4845F); color: white; border: none; border-radius: 50px; font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(244,132,95,0.35); text-decoration: none; margin: 4px; }
 .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244,132,95,0.4); }
-.btn-outline {
-  background: transparent;
-  border: 2px solid var(--orange);
-  color: var(--orange);
-  box-shadow: none;
-}
+.btn-outline { background: transparent; border: 2px solid var(--orange); color: var(--orange); box-shadow: none; }
 .btn-outline:hover { background: rgba(244,132,95,0.08); }
 
-/* ── FOOTER ── */
-footer {
-  margin-top: auto;
-  padding: 16px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--soft);
-}
-
-/* ── INTRO ILLUSTRATION ── */
+footer { margin-top: auto; padding: 16px; text-align: center; font-size: 12px; color: var(--soft); }
 .quiz-icon { font-size: 72px; margin-bottom: 8px; }
 </style>
 </head>
@@ -372,176 +128,145 @@ footer {
   <a href="subjects.html">← Back</a>
 </header>
 
-<!-- HOME SCREEN -->
-<div id="home" class="card">
+<!-- HOME -->
+<div id="home-screen" class="card">
   <div class="quiz-icon">🧠</div>
   <h1>Quick Quiz</h1>
-  <p style="color:var(--soft);max-width:380px;margin:0 auto 8px">
-    20 random questions from our knowledge bank. How much do you know?
-  </p>
+  <p style="color:var(--soft);max-width:380px;margin:0 auto 8px">20 random questions from our knowledge bank. How much do you know?</p>
   <p style="font-size:13px;color:var(--soft)">Three difficulty levels. Streak bonuses. No account needed.</p>
-
   <div class="difficulty-btns">
-    <button class="dbtn easy" onclick="startGame(1)">
-      <span class="icon">🌱</span>
-      Easy
-      <span>15s per question</span>
+    <button class="dbtn easy" id="btn-easy">
+      <span class="icon">🌱</span>Easy<span>15s per question</span>
     </button>
-    <button class="dbtn medium" onclick="startGame(2)">
-      <span class="icon">🔥</span>
-      Medium
-      <span>12s per question</span>
+    <button class="dbtn medium" id="btn-medium">
+      <span class="icon">🔥</span>Medium<span>12s per question</span>
     </button>
-    <button class="dbtn hard" onclick="startGame(3)">
-      <span class="icon">💀</span>
-      Hard
-      <span>8s per question</span>
+    <button class="dbtn hard" id="btn-hard">
+      <span class="icon">💀</span>Hard<span>8s per question</span>
     </button>
   </div>
 </div>
 
-<!-- GAME SCREEN -->
-<div id="game" style="display:none;width:100%;max-width:680px">
+<!-- GAME -->
+<div id="game-screen" style="display:none;width:100%;max-width:680px">
   <div class="stats-bar">
-    <div class="stat">
-      <strong id="s-score">0</strong>
-      Score
-    </div>
-    <div class="stat streak">
-      <strong id="s-streak">0</strong>
-      Streak
-    </div>
-    <div class="stat">
-      <strong id="s-correct">0</strong>
-      Correct
-    </div>
+    <div class="stat"><strong id="stat-score">0</strong>Score</div>
+    <div class="stat streak"><strong id="stat-streak">0</strong>Streak</div>
+    <div class="stat"><strong id="stat-correct">0</strong>Correct</div>
     <div class="stat time-bar">
       <div class="time-fill" id="time-fill" style="width:100%"></div>
-      <span id="s-time">15s</span>
+      <span id="stat-time">15s</span>
     </div>
   </div>
-
   <div class="card" id="question-card">
     <div class="q-counter" id="q-counter">Question 1 of 20</div>
     <div class="category-tag" id="q-category">Geography</div>
     <div class="question-text" id="q-text">Loading...</div>
-    <div class="answers" id="q-answers">
-      <button class="abtn"><span class="letter">A</span><span></span></button>
-      <button class="abtn"><span class="letter">B</span><span></span></button>
-      <button class="abtn"><span class="letter">C</span><span></span></button>
-      <button class="abtn"><span class="letter">D</span><span></span></button>
+    <div class="answers">
+      <button class="abtn" id="answer-btn-0"><span class="letter">A</span><span></span></button>
+      <button class="abtn" id="answer-btn-1"><span class="letter">B</span><span></span></button>
+      <button class="abtn" id="answer-btn-2"><span class="letter">C</span><span></span></button>
+      <button class="abtn" id="answer-btn-3"><span class="letter">D</span><span></span></button>
     </div>
     <div class="explanation" id="q-explain" style="display:none"></div>
   </div>
 </div>
 
-<!-- RESULTS SCREEN -->
-<div id="results" class="card" style="display:none;text-align:center">
+<!-- RESULTS -->
+<div id="results-screen" class="card" style="display:none;text-align:center">
   <div class="result-grade" id="r-grade">🌟</div>
   <div class="result-label" id="r-label">Great job!</div>
   <div class="result-sub" id="r-sub">You scored 140 points</div>
   <div class="result-stats">
-    <div class="result-stat">
-      <strong id="r-correct">0</strong>
-      <span>Correct</span>
-    </div>
-    <div class="result-stat">
-      <strong id="r-accuracy">0%</strong>
-      <span>Accuracy</span>
-    </div>
-    <div class="result-stat">
-      <strong id="r-best-streak">0</strong>
-      <span>Best Streak</span>
-    </div>
+    <div class="result-stat"><strong id="r-correct">0</strong><span>Correct</span></div>
+    <div class="result-stat"><strong id="r-accuracy">0%</strong><span>Accuracy</span></div>
+    <div class="result-stat"><strong id="r-best-streak">0</strong><span>Best Streak</span></div>
   </div>
-  <button class="btn" onclick="restartGame()">Play Again</button>
+  <button class="btn" id="btn-play-again">Play Again</button>
   <a href="subjects.html" class="btn btn-outline">More Games</a>
 </div>
 
-<footer>
-  <p>EduSuite · Free forever · No sign-up needed</p>
-</footer>
+<footer><p>EduSuite · Free forever · No sign-up needed</p></footer>
 
 <script>
-// ─────────────────────────────────────────
-//  QUESTION BANK — 60 QUESTIONS
-// ─────────────────────────────────────────
-const QUESTIONS = [
-  // ─ EASY (difficulty 1) ─
+'use strict';
+
+// ── QUESTION BANK ──────────────────────────────────────────────
+const Q = [
+  // EASY
   { q: "What is the capital of France?", a: ["Paris", "London", "Berlin", "Madrid"], c: 0, cat: "Geography", exp: "Paris has been the capital of France since the 10th century." },
-  { q: "How many continents are there on Earth?", a: ["7", "5", "6", "8"], c: 0, cat: "Geography", exp: "The seven continents are Africa, Antarctica, Asia, Australia, Europe, North America, and South America." },
-  { q: "What is the largest ocean on Earth?", a: ["Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"], c: 0, cat: "Geography", exp: "The Pacific Ocean covers about 63 million square miles — larger than all land on Earth combined." },
-  { q: "Which planet is known as the Red Planet?", a: ["Mars", "Venus", "Jupiter", "Mercury"], c: 0, cat: "Science", exp: "Mars appears red because its surface is rich in iron oxide — essentially rusty dust." },
-  { q: "What is the largest mammal on Earth?", a: ["Blue Whale", "Elephant", "Giraffe", "Hippopotamus"], c: 0, cat: "Biology", exp: "The blue whale can grow up to 100 feet long and weigh as much as 200 tons." },
-  { q: "How many sides does a hexagon have?", a: ["6", "5", "7", "8"], c: 0, cat: "Math", exp: "A hexagon has 6 sides. 'Hex' comes from the Greek word for six." },
-  { q: "What is the chemical symbol for gold?", a: ["Au", "Ag", "Fe", "Cu"], c: 0, cat: "Chemistry", exp: "Au comes from 'aurum', the Latin word for gold. Ag is silver (argentum)." },
+  { q: "How many continents are there on Earth?", a: ["7", "5", "6", "8"], c: 0, cat: "Geography", exp: "Africa, Antarctica, Asia, Australia, Europe, North America, South America." },
+  { q: "What is the largest ocean on Earth?", a: ["Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"], c: 0, cat: "Geography", exp: "The Pacific Ocean covers about 63 million square miles." },
+  { q: "Which planet is known as the Red Planet?", a: ["Mars", "Venus", "Jupiter", "Mercury"], c: 0, cat: "Science", exp: "Mars appears red because its surface is rich in iron oxide." },
+  { q: "What is the largest mammal on Earth?", a: ["Blue Whale", "Elephant", "Giraffe", "Hippopotamus"], c: 0, cat: "Biology", exp: "Blue whales can grow up to 100 feet long and weigh 200 tons." },
+  { q: "How many sides does a hexagon have?", a: ["6", "5", "7", "8"], c: 0, cat: "Math", exp: "Hex comes from the Greek word for six." },
+  { q: "What is the chemical symbol for gold?", a: ["Au", "Ag", "Fe", "Cu"], c: 0, cat: "Chemistry", exp: "Au comes from aurum, the Latin word for gold." },
   { q: "Which country has the most people?", a: ["India", "China", "United States", "Indonesia"], c: 0, cat: "Geography", exp: "India surpassed China as the world's most populous country in 2023." },
   { q: "What gas do plants absorb from the air?", a: ["Carbon dioxide", "Oxygen", "Nitrogen", "Hydrogen"], c: 0, cat: "Biology", exp: "Plants absorb CO₂ and release oxygen through photosynthesis." },
-  { q: "In what year did World War II end?", a: ["1945", "1944", "1946", "1943"], c: 0, cat: "History", exp: "WWII ended in 1945 with Germany's surrender in May and Japan's in September." },
+  { q: "In what year did World War II end?", a: ["1945", "1944", "1946", "1943"], c: 0, cat: "History", exp: "WWII ended in 1945." },
   { q: "What is the hardest natural substance on Earth?", a: ["Diamond", "Gold", "Iron", "Quartz"], c: 0, cat: "Science", exp: "Diamond scores 10/10 on the Mohs hardness scale." },
   { q: "Which is the fastest land animal?", a: ["Cheetah", "Lion", "Horse", "Gazelle"], c: 0, cat: "Biology", exp: "Cheetahs can reach 70 mph in just 3 seconds." },
   { q: "What is 15 × 6?", a: ["90", "75", "84", "96"], c: 0, cat: "Math", exp: "15 × 6 = (10 × 6) + (5 × 6) = 60 + 30 = 90" },
-  { q: "What is the smallest country in the world?", a: ["Vatican City", "Monaco", "San Marino", "Liechtenstein"], c: 0, cat: "Geography", exp: "Vatican City is only 0.17 square miles — smaller than most shopping malls." },
-  { q: "Which organ pumps blood through the body?", a: ["Heart", "Lungs", "Brain", "Liver"], c: 0, cat: "Biology", exp: "The human heart beats about 100,000 times per day, pumping 2,000 gallons of blood." },
-  { q: "What is the capital of Japan?", a: ["Tokyo", "Osaka", "Kyoto", "Hiroshima"], c: 0, cat: "Geography", exp: "Tokyo has been Japan's capital since 1868. The Imperial Palace sits in the city center." },
-  { q: "What are the three states of matter?", a: ["Solid, Liquid, Gas", "Hot, Cold, Warm", "Air, Water, Earth", "Rock, Water, Fire"], c: 0, cat: "Science", exp: "Matter exists as solid, liquid, or gas depending on how much energy its particles have." },
-  { q: "Which ancient wonder was located in Egypt?", a: ["The Great Pyramid", "The Hanging Gardens", "The Colossus", "The Lighthouse"], c: 0, cat: "History", exp: "The Great Pyramid of Giza is the only ancient wonder still standing today." },
-  { q: "What is 25% of 200?", a: ["50", "40", "60", "45"], c: 0, cat: "Math", exp: "25% means one quarter. 200 ÷ 4 = 50" },
+  { q: "What is the smallest country in the world?", a: ["Vatican City", "Monaco", "San Marino", "Liechtenstein"], c: 0, cat: "Geography", exp: "Vatican City is only 0.17 square miles." },
+  { q: "Which organ pumps blood through the body?", a: ["Heart", "Lungs", "Brain", "Liver"], c: 0, cat: "Biology", exp: "The human heart beats about 100,000 times per day." },
+  { q: "What is the capital of Japan?", a: ["Tokyo", "Osaka", "Kyoto", "Hiroshima"], c: 0, cat: "Geography", exp: "Tokyo has been Japan's capital since 1868." },
+  { q: "What are the three states of matter?", a: ["Solid, Liquid, Gas", "Hot, Cold, Warm", "Air, Water, Earth", "Rock, Water, Fire"], c: 0, cat: "Science", exp: "Matter is solid, liquid, or gas depending on particle energy." },
+  { q: "Which ancient wonder was located in Egypt?", a: ["The Great Pyramid", "The Hanging Gardens", "The Colossus", "The Lighthouse"], c: 0, cat: "History", exp: "The Great Pyramid of Giza is the only ancient wonder still standing." },
+  { q: "What is 25% of 200?", a: ["50", "40", "60", "45"], c: 0, cat: "Math", exp: "25% = one quarter. 200 ÷ 4 = 50" },
   { q: "What is the longest river in the world?", a: ["Nile", "Amazon", "Mississippi", "Yangtze"], c: 0, cat: "Geography", exp: "The Nile stretches 4,132 miles through northeastern Africa." },
 
-  // ─ MEDIUM (difficulty 2) —
-  { q: "What year did the Titanic sink?", a: ["1912", "1910", "1905", "1918"], c: 0, cat: "History", exp: "The Titanic struck an iceberg on April 14, 1912, and sank in the early hours of April 15." },
-  { q: "What is the chemical formula for water?", a: ["H₂O", "CO₂", "NaCl", "O₂"], c: 0, cat: "Chemistry", exp: "H₂O means each water molecule has 2 hydrogen atoms and 1 oxygen atom." },
+  // MEDIUM
+  { q: "What year did the Titanic sink?", a: ["1912", "1910", "1905", "1918"], c: 0, cat: "History", exp: "The Titanic struck an iceberg on April 14, 1912." },
+  { q: "What is the chemical formula for water?", a: ["H₂O", "CO₂", "NaCl", "O₂"], c: 0, cat: "Chemistry", exp: "H₂O = 2 hydrogen atoms + 1 oxygen atom." },
   { q: "What is the square root of 144?", a: ["12", "14", "11", "13"], c: 0, cat: "Math", exp: "12 × 12 = 144, so √144 = 12" },
   { q: "In which country did the Renaissance begin?", a: ["Italy", "France", "England", "Spain"], c: 0, cat: "History", exp: "The Renaissance began in Florence, Italy in the 14th century." },
-  { q: "What is the largest organ inside the human body?", a: ["Skin", "Liver", "Brain", "Lungs"], c: 0, cat: "Biology", exp: "The skin covers about 20 square feet and weighs about 8 pounds in adults." },
-  { q: "What is the atomic number of carbon?", a: ["6", "8", "12", "14"], c: 0, cat: "Chemistry", exp: "Carbon has 6 protons — its atomic number is always 6." },
+  { q: "What is the largest organ inside the human body?", a: ["Skin", "Liver", "Brain", "Lungs"], c: 0, cat: "Biology", exp: "The skin covers about 20 square feet and weighs about 8 pounds." },
+  { q: "What is the atomic number of carbon?", a: ["6", "8", "12", "14"], c: 0, cat: "Chemistry", exp: "Carbon has 6 protons." },
   { q: "Which element has the chemical symbol 'O'?", a: ["Oxygen", "Gold", "Osmium", "Oganesson"], c: 0, cat: "Chemistry", exp: "Oxygen makes up about 21% of Earth's atmosphere." },
-  { q: "What is the capital of Australia?", a: ["Canberra", "Sydney", "Melbourne", "Brisbane"], c: 0, cat: "Geography", exp: "Canberra was purpose-built as the capital in 1913, between Sydney and Melbourne." },
-  { q: "How many bones are in the adult human body?", a: ["206", "208", "205", "210"], c: 0, cat: "Biology", exp: "Babies are born with about 270 bones — many fuse together as we grow." },
-  { q: "Which blood type is the universal donor?", a: ["O negative", "AB positive", "A positive", "B negative"], c: 0, cat: "Biology", exp: "O negative can be given to anyone in emergencies, though matches are still preferred." },
-  { q: "What is 0.125 as a fraction?", a: ["1/8", "1/4", "1/3", "1/5"], c: 0, cat: "Math", exp: "0.125 = 125/1000 = 1/8. Also known as one-eighth." },
+  { q: "What is the capital of Australia?", a: ["Canberra", "Sydney", "Melbourne", "Brisbane"], c: 0, cat: "Geography", exp: "Canberra was purpose-built as the capital in 1913." },
+  { q: "How many bones are in the adult human body?", a: ["206", "208", "205", "210"], c: 0, cat: "Biology", exp: "Babies are born with about 270 bones — many fuse as we grow." },
+  { q: "Which blood type is the universal donor?", a: ["O negative", "AB positive", "A positive", "B negative"], c: 0, cat: "Biology", exp: "O negative can be given to anyone in emergencies." },
+  { q: "What is 0.125 as a fraction?", a: ["1/8", "1/4", "1/3", "1/5"], c: 0, cat: "Math", exp: "0.125 = 125/1000 = 1/8" },
   { q: "Who wrote 'Romeo and Juliet'?", a: ["William Shakespeare", "Charles Dickens", "Jane Austen", "Mark Twain"], c: 0, cat: "Literature", exp: "Shakespeare wrote Romeo and Juliet around 1594–1596." },
-  { q: "Which planet has the most moons?", a: ["Saturn", "Jupiter", "Uranus", "Neptune"], c: 0, cat: "Science", exp: "Saturn has over 200 known moons — the most in our solar system." },
+  { q: "Which planet has the most moons?", a: ["Saturn", "Jupiter", "Uranus", "Neptune"], c: 0, cat: "Science", exp: "Saturn has over 200 known moons." },
   { q: "What is the speed of light (approx)?", a: ["300,000 km/s", "150,000 km/s", "500,000 km/s", "1,000,000 km/s"], c: 0, cat: "Science", exp: "Light travels at 299,792 km per second in a vacuum." },
   { q: "What is 20% of 350?", a: ["70", "65", "75", "80"], c: 0, cat: "Math", exp: "20% = 0.20. 350 × 0.20 = 70" },
-  { q: "Who painted the Mona Lisa?", a: ["Leonardo da Vinci", "Michelangelo", "Raphael", "Botticelli"], c: 0, cat: "Art", exp: "Da Vinci painted it between 1503–1519. It hangs in the Louvre, Paris." },
-  { q: "What is the driest place on Earth?", a: ["Atacama Desert", "Sahara", "Gobi", "Antarctica"], c: 0, cat: "Geography", exp: "Atacama in Chile had no measurable rain for 401 years (1570–1971)." },
-  { q: "Which vitamin does the skin produce from sunlight?", a: ["Vitamin D", "Vitamin C", "Vitamin A", "Vitamin B12"], c: 0, cat: "Biology", exp: "Sunlight triggers vitamin D synthesis in the skin — essential for strong bones." },
+  { q: "Who painted the Mona Lisa?", a: ["Leonardo da Vinci", "Michelangelo", "Raphael", "Botticelli"], c: 0, cat: "Art", exp: "It hangs in the Louvre, Paris." },
+  { q: "What is the driest place on Earth?", a: ["Atacama Desert", "Sahara", "Gobi", "Antarctica"], c: 0, cat: "Geography", exp: "Atacama in Chile had no rain for 401 years." },
+  { q: "Which vitamin does the skin produce from sunlight?", a: ["Vitamin D", "Vitamin C", "Vitamin A", "Vitamin B12"], c: 0, cat: "Biology", exp: "Sunlight triggers vitamin D synthesis in the skin." },
   { q: "What is the capital of Canada?", a: ["Ottawa", "Toronto", "Vancouver", "Montreal"], c: 0, cat: "Geography", exp: "Ottawa was chosen as a compromise between Toronto and Montreal." },
-  { q: "In which year did the Berlin Wall fall?", a: ["1989", "1991", "1987", "1990"], c: 0, cat: "History", exp: "The Berlin Wall fell on November 9, 1989, reuniting East and West Germany." },
+  { q: "In which year did the Berlin Wall fall?", a: ["1989", "1991", "1987", "1990"], c: 0, cat: "History", exp: "The Berlin Wall fell on November 9, 1989." },
 
-  // ─ HARD (difficulty 3) —
-  { q: "What is the derivative of x²?", a: ["2x", "x²", "2", "x"], c: 0, cat: "Math", exp: "The power rule: d/dx[xⁿ] = n·xⁿ⁻¹. So d/dx[x²] = 2x." },
+  // HARD
+  { q: "What is the derivative of x²?", a: ["2x", "x²", "2", "x"], c: 0, cat: "Math", exp: "Power rule: d/dx[xⁿ] = n·xⁿ⁻¹, so d/dx[x²] = 2x." },
   { q: "What is the most abundant gas in Earth's atmosphere?", a: ["Nitrogen", "Oxygen", "Argon", "Carbon dioxide"], c: 0, cat: "Science", exp: "Nitrogen makes up 78.08% of Earth's atmosphere." },
-  { q: "What is the pH of pure water?", a: ["7", "6", "8", "5"], c: 0, cat: "Chemistry", exp: "Pure water is neutral at pH 7. Below 7 is acidic, above 7 is basic." },
+  { q: "What is the pH of pure water?", a: ["7", "6", "8", "5"], c: 0, cat: "Chemistry", exp: "Pure water is neutral at pH 7." },
   { q: "What year was the first iPhone released?", a: ["2007", "2006", "2008", "2009"], c: 0, cat: "Technology", exp: "Steve Jobs unveiled the first iPhone on January 9, 2007." },
-  { q: "What is the tallest mountain in the solar system?", a: ["Olympus Mons", "Mount Everest", "Mauna Kea", "Kilimanjaro"], c: 0, cat: "Science", exp: "Olympus Mons on Mars is 72,000 ft tall — nearly 3× Everest." },
+  { q: "What is the tallest mountain in the solar system?", a: ["Olympus Mons", "Mount Everest", "Mauna Kea", "Kilimanjaro"], c: 0, cat: "Science", exp: "Olympus Mons on Mars is 72,000 ft — nearly 3× Everest." },
   { q: "What is the smallest prime number?", a: ["2", "1", "3", "5"], c: 0, cat: "Math", exp: "2 is the smallest and only even prime number." },
-  { q: "Who developed the theory of general relativity?", a: ["Albert Einstein", "Isaac Newton", "Niels Bohr", "Stephen Hawking"], c: 0, cat: "Physics", exp: "Einstein published his general theory of relativity in 1915." },
-  { q: "What is the main component of the Sun?", a: ["Hydrogen", "Helium", "Oxygen", "Carbon"], c: 0, cat: "Science", exp: "The Sun is about 73% hydrogen by mass. It fuses hydrogen into helium." },
-  { q: "What is 17²?", a: ["289", "289", "324", "256"], c: 0, cat: "Math", exp: "17² = 17 × 17 = 289. (10×10) + (7×7) + 2(10×7) = 100 + 49 + 140 = 289" },
+  { q: "Who developed the theory of general relativity?", a: ["Albert Einstein", "Isaac Newton", "Niels Bohr", "Stephen Hawking"], c: 0, cat: "Physics", exp: "Einstein published it in 1915." },
+  { q: "What is the main component of the Sun?", a: ["Hydrogen", "Helium", "Oxygen", "Carbon"], c: 0, cat: "Science", exp: "The Sun is about 73% hydrogen by mass." },
+  { q: "What is 17²?", a: ["289", "324", "256", "196"], c: 0, cat: "Math", exp: "17 × 17 = 289" },
   { q: "What is the currency of Japan?", a: ["Yen", "Yuan", "Won", "Ringgit"], c: 0, cat: "Geography", exp: "The yen (¥) has been Japan's currency since 1871." },
-  { q: "What is the hardest rock?", a: ["Diamond", "Quartz", "Topaz", "Ruby"], c: 0, cat: "Science", exp: "Diamond is a 10 on the Mohs scale. Nothing is harder." },
-  { q: "How many chromosomes do humans have?", a: ["46", "44", "48", "42"], c: 0, cat: "Biology", exp: "Humans have 46 chromosomes in 23 pairs. We inherit 23 from each parent." },
-  { q: "What is the largest desert in the world?", a: ["Antarctica", "Sahara", "Arabian", "Gobi"], c: 0, cat: "Geography", exp: "Antarctica is technically the largest desert — cold deserts count too." },
-  { q: "What is the boiling point of water in Celsius?", a: ["100°C", "90°C", "110°C", "120°C"], c: 0, cat: "Science", exp: "At sea level, water boils at exactly 100°C (212°F)." },
-  { q: "What is the period of the element Neon on the periodic table?", a: ["2", "1", "3", "4"], c: 0, cat: "Chemistry", exp: "Neon (Ne) is in period 2, group 18. It has 2 electron shells." },
-  { q: "Which planet rotates the fastest?", a: ["Jupiter", "Saturn", "Earth", "Mars"], c: 0, cat: "Science", exp: "Jupiter rotates in just under 10 hours — faster than any other planet." },
+  { q: "What is the hardest rock?", a: ["Diamond", "Quartz", "Topaz", "Ruby"], c: 0, cat: "Science", exp: "Diamond is a 10 on the Mohs scale." },
+  { q: "How many chromosomes do humans have?", a: ["46", "44", "48", "42"], c: 0, cat: "Biology", exp: "Humans have 46 chromosomes in 23 pairs." },
+  { q: "What is the largest desert in the world?", a: ["Antarctica", "Sahara", "Arabian", "Gobi"], c: 0, cat: "Geography", exp: "Antarctica is technically the largest desert." },
+  { q: "What is the boiling point of water in Celsius?", a: ["100°C", "90°C", "110°C", "120°C"], c: 0, cat: "Science", exp: "At sea level, water boils at exactly 100°C." },
+  { q: "What is the period of the element Neon on the periodic table?", a: ["2", "1", "3", "4"], c: 0, cat: "Chemistry", exp: "Neon (Ne) is in period 2." },
+  { q: "Which planet rotates the fastest?", a: ["Jupiter", "Saturn", "Earth", "Mars"], c: 0, cat: "Science", exp: "Jupiter rotates in just under 10 hours." },
   { q: "What is the sum of angles in a triangle?", a: ["180°", "360°", "90°", "270°"], c: 0, cat: "Math", exp: "Every triangle's interior angles add up to 180 degrees." },
-  { q: "What is the SI unit of force?", a: ["Newton", "Joule", "Watt", "Pascal"], c: 0, cat: "Physics", exp: "One Newton is the force to accelerate 1kg at 1m/s². Named after Isaac Newton." },
-  { q: "What is the largest coral reef system?", a: ["Great Barrier Reef", "Belize Barrier Reef", "Red Sea Coral", "Florida Reef"], c: 0, cat: "Biology", exp: "The Great Barrier Reef stretches 1,400 miles off the coast of Queensland, Australia." },
-  { q: "What is the only mammal capable of true flight?", a: ["Bat", "Flying Squirrel", "Sugar Glider", "Colugo"], c: 0, cat: "Biology", exp: "Bats are the only mammals with powered flight. Flying squirrels glide only." }
+  { q: "What is the SI unit of force?", a: ["Newton", "Joule", "Watt", "Pascal"], c: 0, cat: "Physics", exp: "One Newton accelerates 1kg at 1m/s²." },
+  { q: "What is the largest coral reef system?", a: ["Great Barrier Reef", "Belize Barrier Reef", "Red Sea Coral", "Florida Reef"], c: 0, cat: "Biology", exp: "It stretches 1,400 miles off Queensland, Australia." },
+  { q: "What is the only mammal capable of true flight?", a: ["Bat", "Flying Squirrel", "Sugar Glider", "Colugo"], c: 0, cat: "Biology", exp: "Bats are the only mammals with powered flight." }
 ];
 
-// ─────────────────────────────────────────
-//  GAME STATE
-// ─────────────────────────────────────────
-let state = {};
-let timerInterval = null;
+// ── GAME STATE ─────────────────────────────────────────────────
+let S = null;          // { diff, pool, idx, score, streak, bestStreak, correct, timeLeft, maxTime, answerOrder }
+let timerID = null;
 
+// ── HELPERS ────────────────────────────────────────────────────
 function shuffle(arr) {
-  const a = [...arr];
+  const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
@@ -549,140 +274,167 @@ function shuffle(arr) {
   return a;
 }
 
+function setText(id, text) {
+  document.getElementById(id).textContent = text;
+}
+
+// ── GAME INIT ──────────────────────────────────────────────────
 function startGame(diff) {
-  // Mark difficulty button
-  document.querySelectorAll('.dbtn').forEach(b => b.classList.remove('active'));
-  const diffMap = {1:'easy',2:'medium',3:'hard'};
-  document.querySelector(`.dbtn.${diffMap[diff]}`).classList.add('active');
+  // Select questions by difficulty
+  let pool;
+  if (diff === 1) {
+    pool = Q.filter(q => ["Geography","Biology","Math","History","Science"].includes(q.cat));
+  } else if (diff === 2) {
+    pool = Q.filter(q => q.cat !== "Physics");
+  } else {
+    pool = Q;
+  }
 
-  // Pick 20 random questions from appropriate difficulty
-  const byDiff = QUESTIONS.filter(q => {
-    if (diff === 1) return q.cat === 'Geography' || q.cat === 'Biology' || q.cat === 'Math' || q.cat === 'History' || q.cat === 'Science';
-    if (diff === 2) return q.cat !== undefined;
-    if (diff === 3) return true; // all
-  });
-  const pool = shuffle(byDiff).slice(0, 20);
-
-  const timeMap = {1: 15, 2: 12, 3: 8};
-  state = {
-    diff, pool, idx: 0,
-    score: 0, streak: 0, bestStreak: 0, correct: 0,
-    time: timeMap[diff], maxTime: timeMap[diff],
-    answered: false
+  S = {
+    diff, pool: shuffle(pool).slice(0, 20),
+    idx: 0, score: 0, streak: 0, bestStreak: 0, correct: 0,
+    timeLeft: diff === 1 ? 15 : diff === 2 ? 12 : 8,
+    maxTime:  diff === 1 ? 15 : diff === 2 ? 12 : 8,
+    answerOrder: []  // array of {text, origIdx}
   };
 
-  document.getElementById('home').style.display = 'none';
-  document.getElementById('results').style.display = 'none';
-  document.getElementById('game').style.display = 'block';
+  document.getElementById('home-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'block';
+
+  // Attach event listeners to answer buttons
+  for (let i = 0; i < 4; i++) {
+    document.getElementById('answer-btn-' + i).onclick = (function(idx) {
+      return function() { pickAnswer(idx); };
+    })(i);
+  }
+
   showQuestion();
 }
 
+// ── SHOW QUESTION ──────────────────────────────────────────────
 function showQuestion() {
-  const q = state.pool[state.idx];
-  state.time = state.maxTime;
-  state.answered = false;
+  const q = S.pool[S.idx];
 
-  document.getElementById('q-counter').textContent = `Question ${state.idx + 1} of 20`;
-  document.getElementById('q-category').textContent = q.cat;
-  document.getElementById('q-text').textContent = q.q;
-
-  const answers = shuffle(q.a.map((a, i) => ({ text: a, orig: i })));
-  q._order = answers;
-
-  const btns = document.querySelectorAll('.abtn');
-  btns.forEach((btn, i) => {
-    btn.className = 'abtn';
-    btn.disabled = false;
-    btn.dataset.btnIdx = i;
-    btn.querySelector('span:last-child').textContent = answers[i].text;
-    btn.onclick = null; // clear first
-    btn.addEventListener('click', () => {
-      if (state.answered) return;
-      state.answered = true;
-      clearInterval(timerInterval);
-      showAnswer(q._order[parseInt(btn.dataset.btnIdx)].orig);
-    });
-  });
-
+  setText('q-counter', 'Question ' + (S.idx + 1) + ' of 20');
+  setText('q-category', q.cat);
+  setText('q-text', q.q);
   document.getElementById('q-explain').style.display = 'none';
 
-  clearInterval(timerInterval);
-  updateTimer();
-  timerInterval = setInterval(() => {
-    if (state.answered) return;
-    state.time -= 0.1;
-    updateTimer();
-    if (state.time <= 0) {
-      state.time = 0;
-      clearInterval(timerInterval);
-      showAnswer(-1); // timeout
+  // Shuffle answers: create array of {text, origIdx}
+  const order = shuffle(q.a.map((t, i) => ({ text: t, origIdx: i })));
+  S.answerOrder = order;
+
+  // Set button text and clear state
+  for (let i = 0; i < 4; i++) {
+    const btn = document.getElementById('answer-btn-' + i);
+    btn.querySelector('span:last-child').textContent = order[i].text;
+    btn.className = 'abtn';
+    btn.disabled = false;
+  }
+
+  S.timeLeft = S.maxTime;
+  updateTimerDisplay();
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerID);
+  timerID = setInterval(function() {
+    S.timeLeft -= 0.1;
+    updateTimerDisplay();
+    if (S.timeLeft <= 0) {
+      S.timeLeft = 0;
+      clearInterval(timerID);
+      pickAnswer(-1); // timeout
     }
   }, 100);
 }
 
-function updateTimer() {
-  const pct = (state.time / state.maxTime) * 100;
+function updateTimerDisplay() {
+  const pct = (S.timeLeft / S.maxTime) * 100;
   const fill = document.getElementById('time-fill');
   fill.style.width = pct + '%';
   fill.className = 'time-fill' + (pct < 30 ? ' urgent' : '');
-  document.getElementById('s-time').textContent = Math.ceil(state.time) + 's';
+  setText('stat-time', Math.ceil(S.timeLeft) + 's');
 }
 
-function answer(selected) {
-  if (state.answered) return;
-  state.answered = true;
-  clearInterval(timerInterval);
-  showAnswer(selected);
-}
+// ── PICK ANSWER ────────────────────────────────────────────────
+function pickAnswer(btnIndex) {
+  clearInterval(timerID);
 
-function showAnswer(selected) {
-  const q = state.pool[state.idx];
-  const btns = document.querySelectorAll('.abtn');
+  const q = S.pool[S.idx];
+  let selectedOrigIdx;
 
-  // Disable all
-  btns.forEach(b => b.disabled = true);
-
-  if (selected === -1) {
-    // Timeout — show correct answer highlighted
-    btns[q.c].classList.add('correct');
-  } else if (selected === q.c) {
-    // Correct!
-    state.score += 10;
-    state.streak++;
-    state.correct++;
-    if (state.streak > state.bestStreak) state.bestStreak = state.streak;
-
-    btns[q.c].classList.add('correct');
-    document.getElementById('q-explain').innerHTML = `<strong>Correct! 🎉</strong> ${q.exp}`;
-    document.getElementById('q-explain').style.display = 'block';
-    document.getElementById('q-explain').style.borderLeftColor = 'var(--green)';
-
-    // Streak bonus at 5
-    if (state.streak === 5) {
-      state.score += 20;
-      showStreakBanner('🔥 5-STREAK BONUS! +20');
-    } else if (state.streak > 5 && state.streak % 5 === 0) {
-      state.score += 10;
-      showStreakBanner(`🔥 ${state.streak} STREAK! +10`);
-    }
-
-    // Card pop animation
-    document.getElementById('question-card').classList.add('pop');
-    setTimeout(() => document.getElementById('question-card').classList.remove('pop'), 300);
+  if (btnIndex === -1) {
+    // Timeout — no selection
+    selectedOrigIdx = -1;
   } else {
-    // Wrong
-    state.streak = 0;
-    btns[selected].classList.add('wrong');
-    btns[q.c].classList.add('correct');
-    document.getElementById('q-explain').innerHTML = `<strong>Not quite.</strong> ${q.exp}`;
-    document.getElementById('q-explain').style.display = 'block';
-    document.getElementById('q-explain').style.borderLeftColor = 'var(--pink)';
+    // Get the original index of the answer at this button position
+    selectedOrigIdx = S.answerOrder[btnIndex].origIdx;
   }
 
-  updateStats();
-  setTimeout(() => {
-    state.idx++;
-    if (state.idx >= state.pool.length) {
+  const correctOrigIdx = q.c;
+  const btns = [
+    document.getElementById('answer-btn-0'),
+    document.getElementById('answer-btn-1'),
+    document.getElementById('answer-btn-2'),
+    document.getElementById('answer-btn-3')
+  ];
+
+  // Disable all
+  btns.forEach(function(b) { b.disabled = true; });
+
+  if (selectedOrigIdx === -1) {
+    // Timeout
+    btns[correctOrigIdx].classList.add('correct');
+  } else if (selectedOrigIdx === correctOrigIdx) {
+    // Correct!
+    S.score += 10;
+    S.streak++;
+    S.correct++;
+    if (S.streak > S.bestStreak) S.bestStreak = S.streak;
+    btns[btnIndex].classList.add('correct');
+
+    const explain = document.getElementById('q-explain');
+    explain.innerHTML = '<strong>Correct! 🎉</strong> ' + q.exp;
+    explain.style.display = 'block';
+    explain.style.borderLeftColor = 'var(--green)';
+
+    if (S.streak === 5) {
+      S.score += 20;
+      showBanner('🔥 5-STREAK BONUS! +20');
+    } else if (S.streak > 5 && S.streak % 5 === 0) {
+      S.score += 10;
+      showBanner('🔥 ' + S.streak + ' STREAK! +10');
+    }
+
+    document.getElementById('question-card').classList.add('pop');
+    setTimeout(function() { document.getElementById('question-card').classList.remove('pop'); }, 300);
+  } else {
+    // Wrong
+    S.streak = 0;
+    btns[btnIndex].classList.add('wrong');
+    // Find which button has the correct answer and highlight it
+    for (let i = 0; i < 4; i++) {
+      if (S.answerOrder[i].origIdx === correctOrigIdx) {
+        btns[i].classList.add('correct');
+        break;
+      }
+    }
+    const explain = document.getElementById('q-explain');
+    explain.innerHTML = '<strong>Not quite.</strong> ' + q.exp;
+    explain.style.display = 'block';
+    explain.style.borderLeftColor = 'var(--pink)';
+  }
+
+  setText('stat-score', S.score);
+  setText('stat-streak', S.streak);
+  setText('stat-correct', S.correct);
+
+  setTimeout(function() {
+    S.idx++;
+    if (S.idx >= S.pool.length) {
       showResults();
     } else {
       showQuestion();
@@ -690,49 +442,47 @@ function showAnswer(selected) {
   }, 1800);
 }
 
-function showStreakBanner(text) {
-  const el = document.createElement('div');
+// ── RESULTS ────────────────────────────────────────────────────
+function showResults() {
+  clearInterval(timerID);
+  document.getElementById('game-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'block';
+
+  const pct = Math.round((S.correct / 20) * 100);
+  const diffLabels = {1: '🌱 Easy', 2: '🔥 Medium', 3: '💀 Hard'};
+  let grade, label;
+  if (pct >= 90) { grade = '🏆'; label = 'Outstanding!'; }
+  else if (pct >= 75) { grade = '🌟'; label = 'Great job!'; }
+  else if (pct >= 60) { grade = '👍'; label = 'Good effort!'; }
+  else if (pct >= 40) { grade = '📚'; label = 'Keep learning!'; }
+  else { grade = '💪'; label = 'Try again!'; }
+
+  setText('r-grade', grade);
+  setText('r-label', label);
+  setText('r-sub', diffLabels[S.diff] + ' · ' + S.score + ' points');
+  setText('r-correct', S.correct + '/20');
+  setText('r-accuracy', pct + '%');
+  setText('r-best-streak', S.bestStreak);
+}
+
+// ── UI HELPERS ─────────────────────────────────────────────────
+function showBanner(text) {
+  var el = document.createElement('div');
   el.className = 'streak-banner';
   el.textContent = text;
   document.body.appendChild(el);
-  setTimeout(() => el.remove(), 2000);
+  setTimeout(function() { el.remove(); }, 2000);
 }
 
-function updateStats() {
-  document.getElementById('s-score').textContent = state.score;
-  document.getElementById('s-streak').textContent = state.streak;
-  document.getElementById('s-correct').textContent = state.correct;
-}
-
-function showResults() {
-  clearInterval(timerInterval);
-  document.getElementById('game').style.display = 'none';
-  document.getElementById('results').style.display = 'block';
-
-  const pct = Math.round((state.correct / 20) * 100);
-  const diffLabels = {1:'🌱 Easy', 2:'🔥 Medium', 3:'💀 Hard'};
-  const accuracy = pct;
-
-  let grade, label;
-  if (accuracy >= 90) { grade = '🏆'; label = 'Outstanding!'; }
-  else if (accuracy >= 75) { grade = '🌟'; label = 'Great job!'; }
-  else if (accuracy >= 60) { grade = '👍'; label = 'Good effort!'; }
-  else if (accuracy >= 40) { grade = '📚'; label = 'Keep learning!'; }
-  else { grade = '💪'; label = 'Try again!'; }
-
-  document.getElementById('r-grade').textContent = grade;
-  document.getElementById('r-label').textContent = label;
-  document.getElementById('r-sub').textContent = `${diffLabels[state.diff]} · ${state.score} points`;
-  document.getElementById('r-correct').textContent = state.correct + '/20';
-  document.getElementById('r-accuracy').textContent = pct + '%';
-  document.getElementById('r-best-streak').textContent = state.bestStreak;
-}
-
-function restartGame() {
-  document.getElementById('results').style.display = 'none';
-  document.getElementById('home').style.display = 'block';
-  document.querySelectorAll('.dbtn').forEach(b => b.classList.remove('active'));
-}
+// ── ATTACH DIFFICULTY BUTTONS ──────────────────────────────────
+document.getElementById('btn-easy').onclick = function() { startGame(1); };
+document.getElementById('btn-medium').onclick = function() { startGame(2); };
+document.getElementById('btn-hard').onclick = function() { startGame(3); };
+document.getElementById('btn-play-again').onclick = function() {
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'none';
+  document.getElementById('home-screen').style.display = 'block';
+};
 </script>
 </body>
 </html>
