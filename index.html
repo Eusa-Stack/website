@@ -7,9 +7,8 @@
 <meta name="keywords" content="free learning games, math games, IELTS grammar, education, interactive learning, teacher-built, EUSTAQUIA">
 <meta name="author" content="EUSTAQUIA">
 <title>EduSuite — Learning with EUSTAQUIA</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
-
 :root {
   --orange: #F4845F;
   --yellow: #F7C948;
@@ -25,7 +24,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Inter', 'Nunito', sans-serif;
   color: var(--text);
   line-height: 1.7;
   min-height: 100vh;
@@ -140,28 +139,88 @@ a.nav-yt:hover { background: #CC0000; }
   max-width: 520px; margin-left: auto; margin-right: auto;
 }
 
-/* ── STORY ── */
-.story-block {
-  display: flex; gap: 28px; align-items: flex-start;
-  flex-wrap: wrap; justify-content: center;
+/* ── LUMINA CARD ── */
+.lumina-card {
+  background: var(--white);
+  border-radius: 12px;
+  border: 0.5px solid rgba(0,0,0,0.06);
+  padding: 2rem 1.75rem;
+  max-width: 660px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
-.story-avatar {
-  width: 85px; height: 85px; border-radius: 50%;
+.lumina-card > * + * { margin-top: 1.5rem; }
+
+/* Avatar 72px */
+.lumina-avatar {
+  width: 72px; height: 72px;
+  border-radius: 50%;
   object-fit: cover; object-position: center top;
-  border: 4px solid var(--orange); flex-shrink: 0;
+  border: 3px solid var(--purple);
+  display: block;
 }
-.story-text { flex: 1; min-width: 260px; }
-.story-text p { font-size: 16px; color: var(--soft); line-height: 1.8; margin-bottom: 14px; }
-.story-text .lang-tag { font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.5; display: block; margin-bottom: 2px; }
-.story-quote {
-  background: rgba(244,132,95,0.07);
-  border-left: 4px solid var(--orange);
-  border-radius: 0 14px 14px 0;
-  padding: 16px 20px; margin: 20px 0;
-  font-size: 16px; font-weight: 700; color: var(--text);
+
+/* Tagline box: soft gray bg, 8px rounded */
+.lumina-tagline {
+  background: rgba(107,106,117,0.05);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Inter', 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--soft);
   line-height: 1.6;
 }
-.story-quote .q-author { font-size:13px; opacity:0.7; font-weight:600; display:block; margin-top:4px; }
+.lumina-tagline strong { color: var(--text); }
+
+/* Bio paragraph */
+.lumina-bio {
+  font-family: 'Inter', 'Nunito', sans-serif;
+  font-size: 15px;
+  color: var(--soft);
+  font-weight: 400;
+  line-height: 1.75;
+}
+.lumina-bio strong { color: var(--text); }
+
+/* Mission line: 2px left accent, serif italic */
+.lumina-mission {
+  border-left: 2px solid var(--purple);
+  padding: 14px 18px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+  background: rgba(167,139,250,0.04);
+  border-radius: 0 8px 8px 0;
+}
+
+/* Quote box */
+.lumina-quote {
+  background: rgba(107,106,117,0.05);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+.lumina-quote .q-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.6;
+}
+.lumina-quote .q-attrib {
+  text-align: right;
+  font-family: 'Inter', 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--soft);
+  margin-top: 6px;
+}
 
 /* ── BELIEFS ── */
 .beliefs {
@@ -279,41 +338,34 @@ footer a:hover { color: rgba(255,255,255,0.65); }
   <div class="hero-cta-sub">No accounts · No ads · Free for everyone</div>
 </header>
 
-<!-- ═════════ MY STORY ═════════ -->
+<!-- ═════════ MY STORY (LUMINA Card) ═════════ -->
 <section class="section">
-  <div class="story-block">
-    <img src="teacher-photo.jpg" alt="" class="story-avatar">
-    <div class="story-text">
+  <div class="lumina-card">
 
-      <p>
-        <span class="lang-tag">🇺🇸 English</span>
-        After 27 years in classrooms — 23 in the Philippines, where I founded my first preschool, and the rest in the United States — I noticed something I couldn't look away from: curious children losing interest, not from lack of ability, but from lack of wonder in the work we handed them. This portal is my small attempt to do it differently — a classroom built for curiosity, born from a design I carried in my heart for a long time, and brought to life by an engineer whose skill I am deeply grateful for.
-      </p>
+    <!-- Avatar 72px + tagline row -->
+    <img src="teacher-photo.jpg" alt="EUSTAQUIA" class="lumina-avatar">
 
-      <p>
-        <span class="lang-tag">🇵🇭 Tagalog</span>
-        Pagkatapos ng 27 taon sa silid-aralan — 23 sa Pilipinas, kung saan itinatag ko ang aking unang preschool, at ang natitira sa Estados Unidos — may nakita akong hindi ko na maialis sa isip: mga batang likas na mausisa, unti-unting nawawalan ng sigla, hindi dahil kulang sila sa kakayahan, kundi dahil kulang ang pagtataka sa mga gawaing ibinibigay natin sa kanila. Ang portal na ito ang munting tugon ko — isang silid-aralang itinayo para sa pag-uusisa, mula sa disenyong matagal kong dala sa puso, at binuhay ng isang engineer na lubos kong pinasasalamatan.
-      </p>
-
-      <p>
-        <span class="lang-tag">🇫🇮 Finnish</span>
-        Kahdenkymmenenseitsemän vuoden opetustyön jälkeen — kaksikymmentäkolme Filippiineillä, jossa perustin ensimmäisen esikouluni, ja loput Yhdysvalloissa — huomasin jotain, mistä en voinut kääntää katsettani: uteliaat lapset menettivät kiinnostuksensa, eivät kykyjen puutteen vuoksi, vaan koska heille annetussa työssä ei ollut ihmettä. Tämä portaali on vaatimaton yritykseni tehdä toisin — luokkahuone, joka on rakennettu uteliaisuutta varten, syntynyt suunnitelmasta, jota olen kantanut sydämessäni pitkään, ja toteutettu insinöörin taidolla, josta olen syvästi kiitollinen.
-      </p>
-
-      <div class="story-quote">
-        ✨ "Education is not the filling of a pail, but the lighting of a fire."<br>
-        <span class="q-author">— W.B. Yeats</span>
-      </div>
-
-      <div class="story-quote" style="border-left-color:var(--green)">
-        ✨ "It is the supreme art of the teacher to awaken joy in creative expression and knowledge."<br>
-        <span class="q-author">— Albert Einstein</span>
-      </div>
-
-      <p>
-        So I started building something different. Tools my own students <em>wanted</em> to use. When they began staying after class — voluntarily — to practice more, I knew I'd found something real.
-      </p>
+    <div class="lumina-tagline">
+      International educator · 27 years in classrooms across two countries — still chasing <strong>the same fire</strong>.
     </div>
+
+    <div class="lumina-bio">
+      After 27 years in classrooms — 23 in the Philippines, where I founded my first preschool, and the rest in the United States — I noticed something I couldn't look away from: curious children losing interest, not from lack of ability, but from <strong>lack of wonder</strong> in the work we handed them. This portal is my small attempt to do it differently — a classroom built for curiosity, born from a design I carried in my heart for a long time, and brought to life by an engineer whose skill I am deeply grateful for.
+    </div>
+
+    <!-- Mission line -->
+    <div class="lumina-mission">
+      Following the child — into wonder, into discovery, into joy.
+    </div>
+
+    <!-- Quote -->
+    <div class="lumina-quote">
+      <div class="q-text">
+        "The greatest sign of success for a teacher is to be able to say, 'The children are now working as if I did not exist.'"
+      </div>
+      <div class="q-attrib">— Maria Montessori</div>
+    </div>
+
   </div>
 </section>
 
