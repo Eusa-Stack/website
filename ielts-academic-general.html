@@ -4,6 +4,7 @@
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="footer.css">
 <link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -425,21 +426,7 @@ nav a.active { background: rgba(167,139,250,0.12); color: var(--purple); }
   transition: width 0.4s ease;
 }
 
-/* ── FOOTER ── */
-footer {
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  text-align: center;
-  padding: 20px 16px;
-  font-size: 13px;
-  margin-top: 2rem;
-}
-footer .fn { color: var(--green); font-weight: 700; }
-footer a { color: var(--soft); text-decoration: none; }
-footer a:hover { color: var(--accent); }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 700px) {
   .compare-wrap { grid-template-columns: 1fr; }
   .modules-grid { grid-template-columns: 1fr 1fr; }
@@ -796,12 +783,7 @@ footer a:hover { color: var(--accent); }
   </div>
 </div>
 
-<footer>
-  <p><span class="fn">EUSTAQUIA</span> — EduSuite IELTS Guide</p>
-  <p style="margin-top:4px">
-    <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="https://www.youtube.com/@Eusell77" target="_blank">YouTube</a>
-  </p>
-      <span style="opacity:.4;margin:0 4px">·</span> <a href="https://tech-ant.fi" target="_blank" style="color:var(--purple);font-size:.8rem">tech-ant</a> — <a href="https://tech-ant.fi" target="_blank" style="opacity:.6;font-size:.75rem">tech-ant.fi</a></footer>
+<div id="shared-footer-placeholder"></div>
 
 <script>
 // Decision quiz logic

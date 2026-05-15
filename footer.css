@@ -1,0 +1,56 @@
+/* ══════════════════════════════════════
+   GLOBAL FOOTER — shared across ALL pages
+   EduSuite by EUSTAQUIA + tech-ant branding
+   ══════════════════════════════════════ */
+
+#shared-footer {
+  text-align: center;
+  padding: 1.2rem 1rem .8rem;
+  font-size: .8rem;
+  color: var(--soft);
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 10;
+  background: var(--bg);
+}
+
+#shared-footer p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+#shared-footer .ft {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  color: var(--text);
+}
+
+#shared-footer .ft-brand {
+  color: var(--purple);
+  font-size: .8rem;
+  font-weight: 700;
+  text-decoration: none;
+  opacity: 1;
+  margin-left: 2px;
+}
+
+#shared-footer .ft-url {
+  font-size: .75rem;
+  text-decoration: none;
+  opacity: .6;
+}
+
+#shared-footer .ft-sep {
+  opacity: .35;
+  margin: 0 3px;
+}
+
+#shared-footer .ft-dash {
+  opacity: .35;
+  margin: 0 1px;
+}
+
+#shared-footer a:hover {
+  text-decoration: underline;
+  opacity: 1;
+}

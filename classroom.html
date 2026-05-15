@@ -4,6 +4,7 @@
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="footer.css">
 <link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -170,12 +171,7 @@
   font-weight: 700;
 }
 
-/* ── FOOTER ── */
-footer { text-align: center; padding: 1.5rem; font-size: .8rem; color: var(--soft); border-top: 1px solid var(--border); margin-top: 2rem; position: relative; z-index: 10; }
-footer a { color: var(--purple); text-decoration: none; }
-footer a:hover { text-decoration: underline; }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 600px) {
   #subject-grid, #games-grid { grid-template-columns: 1fr; }
   .gv-title { font-size: 20px; }
@@ -241,9 +237,7 @@ footer a:hover { text-decoration: underline; }
 
 </div>
 
-<footer>
-  <a href="index.html">Home</a> · <a href="classroom.html">Classroom</a> · <a href="grammar-hub.html">Grammar Hub</a> · <a href="ielts-3-day-power-study.html">IELTS</a> · EduSuite by EUSTAQUIA
-      <span style="opacity:.4;margin:0 4px">·</span> <a href="https://tech-ant.fi" target="_blank" style="color:var(--purple);font-size:.8rem">tech-ant</a> — <a href="https://tech-ant.fi" target="_blank" style="opacity:.6;font-size:.75rem">tech-ant.fi</a></footer>
+<div id="shared-footer-placeholder"></div>
 
 <script>
 /* ══════════════════════════════════════
@@ -462,5 +456,6 @@ renderSubjectGrid();
 </script>
 
 <script src="floating-anim.js"></script>
+<script src="footer-inject.js"></script>
 </body>
 </html>
