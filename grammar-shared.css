@@ -1,5 +1,24 @@
-/* grammar-shared.css — EUSTAQUIA Grammar Academy shared theme */
-/* Import fonts (must be first) */
+/* ═══════════════════════════════════════════════════════════
+   EUSTAQUIA — Grammar Academy Shared Theme
+   Dark academic style · Purple · #13122a base
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── FLOATING BACKGROUND ANIMATION ────────────────────── */
+#floating-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  /* Ensure it's below all content */
+}
+
+body {
+  position: relative;
+  /* Ensure content sits above canvas */
+}
+
+/* ── GOOGLE FONTS ─────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&display=swap');
 
 /* BIGGER BASE FONT SIZE for readability */
