@@ -3,7 +3,7 @@
 <head>
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
-
+<link rel="stylesheet" href="navbar.css">
 <link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -252,19 +252,27 @@ h3 { font-size: 21px !important; }
 <div class="bub b2"></div>
 <div class="bub b3"></div>
 
-<!-- NAV -->
-<nav>
-  <div class="brand">
-    <span class="brand-e">Edu</span><span class="brand-d">Suite</span><span class="brand-dot">.</span>
-    <span style="font-size:11px;color:var(--soft);font-weight:600;margin-left:6px">🎓 Classroom</span>
+<!-- GLOBAL NAVBAR -->
+<nav class="global-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-e">Edu</span><span class="nav-brand-d">Suite</span><span class="nav-brand-dot">.</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="subjects.html" class="nav-link active">📚 Subjects</a>
+    <a href="classroom.html" class="nav-link">🎓 Classroom</a>
   </div>
-  <a href="index.html">← Home</a>
+  <div class="nav-right">
+    <div class="nav-page-links">
+      <a href="index.html" class="nav-page-link">Home</a>
+      <a href="classroom.html" class="nav-page-link">Classroom</a>
+    </div>
+    <button class="nav-theme-btn theme-toggle" onclick="EustaTheme.toggle()">☾ / ☀</button>
+  </div>
 </nav>
 
 <!-- HERO -->
 <header class="hero">
-<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
-
   <span class="hero-icon">🎓</span>
   <h1><span class="hl">EduSuite</span> — All Subjects</h1>
   <p>10 subjects · 14 games · 28 Grammar + IELTS pages — interactive learning for all levels!</p>

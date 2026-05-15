@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="grammar-shared.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎓 Classroom — EduSuite</title>
+<meta name="description" content="EduSuite Classroom: Choose a subject and start learning! Math, Geography, History, Science, Language, IELTS, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,600;1&display=swap" rel="stylesheet">
+<style>
+/* ── DECORATIVE BUBBLES ── */
+.bub { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+.b1 { width: 300px; height: 300px; background: rgba(244,132,95,0.10); top: -80px; left: -60px; }
+.b2 { width: 200px; height: 200px; background: rgba(167,139,250,0.10); top: 40%; right: -50px; }
+.b3 { width: 250px; height: 250px; background: rgba(67,185,122,0.08); bottom: 10%; left: 5%; }
+
+/* ── CONTAINER ── */
+.container { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem; position: relative; z-index: 10; }
+
+/* ── HERO ── */
+.hero { text-align: center; padding: 2rem 1rem 1.5rem; }
+.hero h1 { font-family: 'Fredoka', sans-serif; font-size: clamp(26px,4vw,38px); font-weight: 700; margin-bottom: .4rem; }
+.hero h1 .hl { background: linear-gradient(135deg, var(--orange), var(--pink), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero p { color: var(--soft); font-size: 16px; font-weight: 600; }
+
+/* ── SUBJECT CARDS (GRID) ── */
+#subject-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+
+.subj-card {
+  background: var(--white);
+  border-radius: 22px;
+  padding: 1.6rem 1.4rem;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+  border: 3px solid transparent;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+.subj-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+}
+.subj-card .sc-icon { font-size: 52px; display: block; margin-bottom: .6rem; }
+.subj-card .sc-name { font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+.subj-card .sc-count { font-size: 12px; color: var(--soft); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+
+/* Subject colors on hover */
+.subj-card.math:hover    { border-color: var(--orange); }
+.subj-card.geo:hover     { border-color: var(--blue); }
+.subj-card.hist:hover    { border-color: var(--yellow); }
+.subj-card.sci:hover     { border-color: var(--purple); }
+.subj-card.lang:hover    { border-color: var(--green); }
+.subj-card.ielts:hover   { border-color: var(--pink); }
+.subj-card.gen:hover     { border-color: #94A3B8; }
+
+/* ── GAMES VIEW ── */
+#games-view { display: none; }
+#games-view.active { display: block; }
+
+.gv-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+.gv-back {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: .5rem 1rem;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--text);
+  font-family: 'Fredoka', sans-serif;
+  transition: background 0.15s;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.gv-back:hover { background: var(--bg2); }
+.gv-title-group { display: flex; align-items: center; gap: .7rem; }
+.gv-icon { font-size: 40px; }
+.gv-title { font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 700; color: var(--text); }
+
+/* Game cards grid */
+#games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+
+.g-card {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 1.2rem 1.2rem;
+  border: 2.5px solid transparent;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+.g-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+}
+.g-card.junior { border-left: 5px solid var(--orange); }
+.g-card.advanced { border-left: 5px solid var(--purple); }
+.g-card.senior { border-left: 5px solid var(--green); }
+.g-card .gc-icon { font-size: 32px; flex-shrink: 0; }
+.g-card .gc-info { flex: 1; }
+.g-card .gc-name { font-family: 'Fredoka', sans-serif; font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: .15rem; }
+.g-card .gc-desc { font-size: .8rem; color: var(--soft); line-height: 1.4; margin-bottom: .25rem; }
+.g-card .gc-lvl { display: inline-block; border-radius: 20px; padding: .1rem .6rem; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.g-card.junior .gc-lvl { background: rgba(244,132,95,0.12); color: var(--orange); }
+.g-card.advanced .gc-lvl { background: rgba(167,139,250,0.12); color: var(--purple); }
+.g-card.senior .gc-lvl { background: rgba(67,185,122,0.12); color: var(--green); }
+.g-card .gc-arrow { font-size: 22px; font-weight: 800; color: var(--soft); flex-shrink: 0; }
+
+/* Science sub-sections */
+.sci-section { margin-top: .5rem; }
+.sci-section-label { font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--soft); margin-bottom: .5rem; padding-left: .3rem; }
+
+/* ── SEARCH ── */
+.search-row { display: flex; gap: .7rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+#searchInput {
+  flex: 1; min-width: 200px;
+  padding: .55rem .9rem;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  background: var(--white);
+  transition: border-color 0.15s;
+}
+#searchInput:focus { outline: none; border-color: var(--orange); }
+.filter-btns { display: flex; gap: .4rem; flex-wrap: wrap; }
+.filt-btn { background: var(--white); border: 2px solid var(--border); border-radius: 10px; padding: .4rem .9rem; font-size: .8rem; font-weight: 700; cursor: pointer; transition: .15s; font-family: 'Fredoka', sans-serif; color: var(--text); }
+.filt-btn:hover { border-color: var(--orange); }
+.filt-btn.active { background: var(--orange); border-color: var(--orange); color: #fff; }
+
+/* ── FOOTER ── */
+footer { text-align: center; padding: 1.5rem; font-size: .8rem; color: var(--soft); border-top: 1px solid var(--border); margin-top: 2rem; position: relative; z-index: 10; }
+footer a { color: var(--purple); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  #subject-grid, #games-grid { grid-template-columns: 1fr; }
+  .gv-title { font-size: 20px; }
+  .g-card { padding: .9rem 1rem; }
+  .g-card .gc-icon { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<!-- BUBBLES -->
+<div class="bub b1"></div>
+<div class="bub b2"></div>
+<div class="bub b3"></div>
+
+<!-- ═════════ GLOBAL NAVBAR ═════════ -->
+<nav class="global-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-e">Edu</span><span class="nav-brand-d">Suite</span><span class="nav-brand-dot">.</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="subjects.html" class="nav-link">📚 Subjects</a>
+    <a href="classroom.html" class="nav-link active">🎓 Classroom</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-page-links">
+      <a href="index.html" class="nav-page-link">Home</a>
+      <a href="subjects.html" class="nav-page-link">Subjects</a>
+    </div>
+    <button class="nav-theme-btn theme-toggle" onclick="EustaTheme.toggle()">☾ / ☀</button>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>🎓 <span class="hl">Classroom</span> — Choose a Subject</h1>
+    <p>Pick a subject below to see all available games and pages</p>
+  </div>
+
+  <!-- SEARCH + FILTER -->
+  <div class="search-row">
+    <input id="searchInput" type="text" placeholder="🔍 Search games..." oninput="filterAll()" style="flex:1;min-width:200px;padding:.55rem .9rem;border-radius:14px;border:2px solid var(--border);font-size:15px;font-family:'Inter',sans-serif;background:var(--white)">
+    <div class="filter-btns">
+      <button class="filt-btn active" onclick="setFilter(this,'all')">All</button>
+      <button class="filt-btn" onclick="setFilter(this,'math')">📐 Math</button>
+      <button class="filt-btn" onclick="setFilter(this,'sci')">🧪 Science</button>
+      <button class="filt-btn" onclick="setFilter(this,'lang')">📝 Language</button>
+      <button class="filt-btn" onclick="setFilter(this,'ielts')">🎓 IELTS</button>
+    </div>
+  </div>
+
+  <!-- SUBJECT GRID (default view) -->
+  <div id="subject-grid"></div>
+
+  <!-- GAMES VIEW (shown when subject selected) -->
+  <div id="games-view">
+    <div class="gv-header">
+      <button class="gv-back" onclick="goBack()">← Back to subjects</button>
+      <div class="gv-title-group">
+        <span class="gv-icon" id="gvIcon"></span>
+        <span class="gv-title" id="gvTitle"></span>
+      </div>
+    </div>
+    <div id="games-grid"></div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="index.html">Home</a> · <a href="subjects.html">Subjects</a> · <a href="grammar-hub.html">Grammar Hub</a> · <a href="ielts-3-day-power-study.html">IELTS</a> · EduSuite by EUSTAQUIA
+</footer>
+
+<script>
+/* ══════════════════════════════════════
+   CLASSROOM DATA — All 23 items
+   ══════════════════════════════════════ */
+
+const SUBJECTS = [
+  {
+    id: 'math', icon: '📐', name: 'Math', color: 'var(--orange)',
+    items: [
+      { name: 'Decimal Games', icon: '🧮', href: 'math-games.html', cls: 'junior', desc: 'Learn decimals with fun games', lvl: 'Beginner' },
+      { name: 'Number Ninja', icon: '⚔️', href: 'number-ninja.html', cls: 'advanced', desc: 'Advanced number practice', lvl: 'Advanced' },
+      { name: 'Fraction Pizza', icon: '🍕', href: 'fraction-pizza.html', cls: 'junior', desc: 'Learn fractions with pizza!', lvl: 'All Levels' },
+    ]
+  },
+  {
+    id: 'geo', icon: '🌍', name: 'Geography', color: 'var(--blue)',
+    items: [
+      { name: 'Flag Match', icon: '🏁', href: 'flag-match.html', cls: 'junior', desc: 'Match country flags', lvl: 'Beginner' },
+      { name: 'Geo Challenge', icon: '🗺️', href: 'geo-challenge.html', cls: 'advanced', desc: 'Advanced geography quiz', lvl: 'Advanced' },
+    ]
+  },
+  {
+    id: 'hist', icon: '🏛️', name: 'History', color: 'var(--yellow)',
+    items: [
+      { name: 'Time Train', icon: '⏳', href: 'time-train.html', cls: 'junior', desc: 'Journey through history', lvl: 'Beginner' },
+    ]
+  },
+  {
+    id: 'sci', icon: '🧪', name: 'Science', color: 'var(--purple)',
+    sub: [
+      {
+        label: '🧬 Biology',
+        items: [
+          { name: 'Animal Sort', icon: '🐾', href: 'animal-sort.html', cls: 'junior', desc: 'Sort animals by type', lvl: 'Beginner' },
+        ]
+      },
+      {
+        label: '⚡ Physics',
+        items: [
+          { name: 'Gravity Drop', icon: '🪂', href: 'gravity-drop.html', cls: 'junior', desc: 'Learn about gravity', lvl: 'Beginner' },
+          { name: 'Force Lab', icon: '🔬', href: 'force-lab.html', cls: 'advanced', desc: 'Advanced physics experiments', lvl: 'Advanced' },
+        ]
+      },
+      {
+        label: '⚗️ Chemistry',
+        items: [
+          { name: 'Element Mix', icon: '⚗️', href: 'element-mix.html', cls: 'junior', desc: 'Mix chemical elements', lvl: 'Beginner' },
+          { name: 'Balance Lab', icon: '⚖️', href: 'balance-lab.html', cls: 'advanced', desc: 'Balance equations', lvl: 'Advanced' },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'lang', icon: '📝', name: 'Language & Vocabulary', color: 'var(--green)',
+    items: [
+      { name: 'Word Match Jr', icon: '💬', href: 'word-match.html', cls: 'junior', desc: 'Match words with pictures', lvl: 'Beginner' },
+      { name: 'My Name!', icon: '✏️', href: 'my-name.html', cls: 'junior', desc: 'Learn letters in your name', lvl: 'Beginner' },
+      { name: 'Grammar Hub', icon: '📚', href: 'grammar-hub.html', cls: 'senior', desc: '25 grammar units', lvl: 'All Levels' },
+      { name: 'Grammar Coach', icon: '👩‍🏫', href: 'grammar-coach.html', cls: 'senior', desc: 'Personal grammar trainer', lvl: 'Personal' },
+      { name: 'IELTS Grammar', icon: '📝', href: 'ielts-grammar.html', cls: 'junior', desc: 'IELTS grammar basics', lvl: 'Intermediate' },
+    ]
+  },
+  {
+    id: 'ielts', icon: '🎓', name: 'IELTS Preparation', color: 'var(--pink)',
+    items: [
+      { name: '3-Day Power Study', icon: '⚡', href: 'ielts-3-day-power-study.html', cls: 'senior', desc: '3-day intensive programme', lvl: 'All Levels' },
+      { name: 'Academic vs General', icon: '🎓', href: 'ielts-academic-general.html', cls: 'senior', desc: 'Choose your IELTS path', lvl: 'Intermediate' },
+      { name: 'Band Score Tracker', icon: '🏆', href: 'ielts-band-score.html', cls: 'senior', desc: 'Track your band score', lvl: 'Intermediate' },
+      { name: 'Writing Task 2', icon: '✍️', href: 'ielts-writing-task2.html', cls: 'senior', desc: 'Master essay writing', lvl: 'Intermediate' },
+      { name: 'All 4 Subjects', icon: '🎧📖✍️🗣️', href: 'ielts-all-4-subjects-interactive.html', cls: 'senior', desc: 'Listen, Read, Write, Speak', lvl: 'All Levels' },
+      { name: 'Drag & Sort Quiz', icon: '🔀', href: 'ielts-drag-sort-quiz.html', cls: 'senior', desc: 'Sort IELTS information', lvl: 'All Levels' },
+    ]
+  },
+  {
+    id: 'gen', icon: '🧠', name: 'General Knowledge', color: '#94A3B8',
+    items: [
+      { name: 'Quick Quiz', icon: '🧩', href: 'quick-quiz.html', cls: 'junior', desc: 'Fun facts and trivia', lvl: 'All Levels' },
+    ]
+  },
+];
+
+/* ══════════════════════════════════════
+   RENDER SUBJECT GRID
+   ══════════════════════════════════════ */
+
+function renderSubjectGrid(filter = 'all') {
+  const grid = document.getElementById('subject-grid');
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+
+  let html = '';
+
+  SUBJECTS.forEach(s => {
+    // Filter by type (math/sci/lang/ielts) or show all
+    if (filter !== 'all' && s.id !== filter) return;
+
+    // Count total items in this subject (flatten sub arrays)
+    let totalItems = 0;
+    if (s.items) totalItems += s.items.length;
+    if (s.sub) s.sub.forEach(ss => totalItems += ss.items.length);
+
+    // Search filter: skip if no items match query
+    if (query) {
+      let hasMatch = false;
+      if (s.items) hasMatch = s.items.some(i => i.name.toLowerCase().includes(query));
+      if (s.sub) hasMatch = hasMatch || s.sub.some(ss => ss.items.some(i => i.name.toLowerCase().includes(query)));
+      if (!hasMatch && !s.name.toLowerCase().includes(query)) return;
+    }
+
+    html += `
+      <div class="subj-card ${s.id}" onclick="showSubject('${s.id}')">
+        <span class="sc-icon">${s.icon}</span>
+        <div class="sc-name">${s.name}</div>
+        <div class="sc-count">${totalItems} ${totalItems === 1 ? 'item' : 'items'}</div>
+      </div>
+    `;
+  });
+
+  grid.innerHTML = html || '<p style="text-align:center;color:var(--soft);font-size:16px;grid-column:1/-1;padding:2rem">No results found — try a different search!</p>';
+}
+
+/* ══════════════════════════════════════
+   SHOW SUBJECT GAMES
+   ══════════════════════════════════════ */
+
+function showSubject(id) {
+  const subj = SUBJECTS.find(s => s.id === id);
+  if (!subj) return;
+
+  // Update header
+  document.getElementById('gvIcon').textContent = subj.icon;
+  document.getElementById('gvTitle').textContent = subj.name;
+
+  // Render games grid
+  let html = '';
+
+  if (subj.items) {
+    subj.items.forEach(item => {
+      html += makeGameCard(item);
+    });
+  }
+
+  if (subj.sub) {
+    subj.sub.forEach(section => {
+      if (section.items && section.items.length > 0) {
+        html += `<div class="sci-section"><div class="sci-section-label">${section.label}</div>`;
+        section.items.forEach(item => {
+          html += makeGameCard(item);
+        });
+        html += `</div>`;
+      }
+    });
+  }
+
+  document.getElementById('games-grid').innerHTML = html;
+
+  // Switch views
+  document.getElementById('subject-grid').style.display = 'none';
+  document.getElementById('games-view').classList.add('active');
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function makeGameCard(item) {
+  return `
+    <a class="g-card ${item.cls}" href="${item.href}">
+      <span class="gc-icon">${item.icon}</span>
+      <div class="gc-info">
+        <div class="gc-name">${item.name}</div>
+        <div class="gc-desc">${item.desc}</div>
+        <span class="gc-lvl">${item.lvl}</span>
+      </div>
+      <span class="gc-arrow">→</span>
+    </a>
+  `;
+}
+
+/* ══════════════════════════════════════
+   GO BACK
+   ══════════════════════════════════════ */
+
+function goBack() {
+  document.getElementById('subject-grid').style.display = '';
+  document.getElementById('games-view').classList.remove('active');
+  document.getElementById('searchInput').value = '';
+  renderSubjectGrid();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ══════════════════════════════════════
+   SEARCH & FILTER
+   ══════════════════════════════════════ */
+
+let activeFilter = 'all';
+
+function setFilter(btn, type) {
+  document.querySelectorAll('.filt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = type;
+  renderSubjectGrid(type);
+}
+
+function filterAll() {
+  renderSubjectGrid(activeFilter);
+}
+
+/* ══════════════════════════════════════
+   INIT
+   ══════════════════════════════════════ */
+
+renderSubjectGrid();
+</script>
+
+<script src="floating-anim.js"></script>
+</body>
+</html>

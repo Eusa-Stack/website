@@ -1,0 +1,136 @@
+/* ═══════════════════════════════════════════
+   EduSuite — Global Navbar CSS
+   Child-friendly, consistent across all pages
+   ═══════════════════════════════════════════ */
+
+/* ── VARIABLES (from theme.css) ── */
+:root {
+  --orange: #F4845F;
+  --yellow: #F7C948;
+  --green: #43B97A;
+  --purple: #A78BFA;
+  --blue: #4B9EFF;
+  --pink: #F472B6;
+  --text: #1a1a2e;
+  --soft: #6B7280;
+  --border: rgba(0,0,0,0.08);
+  --white: #ffffff;
+  --bg: #F8F5F0;
+}
+
+/* ── GLOBAL NAVBAR ── */
+.global-nav {
+  display: flex;
+  align-items: center;
+  padding: 0 1.2rem;
+  height: 60px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 3px solid var(--yellow);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  gap: 0.5rem;
+}
+
+/* Brand */
+.nav-brand {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-brand-e { color: var(--orange); }
+.nav-brand-d { color: var(--green); }
+.nav-brand-dot { color: var(--yellow); }
+.nav-brand .nav-brand-sub {
+  font-size: 11px;
+  color: var(--soft);
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+/* Left nav links */
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: 0.8rem;
+}
+.nav-link {
+  padding: 0.45rem 0.9rem;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.nav-link:hover { background: rgba(244,132,95,0.12); }
+.nav-link.active {
+  background: rgba(244,132,95,0.18);
+  color: var(--orange);
+}
+
+/* Right side */
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Page links (right) */
+.nav-page-links {
+  display: flex;
+  gap: 0.35rem;
+  font-size: 13px;
+  font-weight: 700;
+}
+.nav-page-link {
+  color: var(--soft);
+  text-decoration: none;
+  padding: 0.35rem 0.7rem;
+  border-radius: 8px;
+  transition: color 0.15s, background 0.15s;
+}
+.nav-page-link:hover {
+  color: var(--text);
+  background: rgba(0,0,0,0.06);
+}
+.nav-page-link.active { color: var(--orange); }
+
+/* Theme toggle */
+.nav-theme-btn {
+  font-size: 1rem;
+  padding: 4px 14px;
+  border: none;
+  background: rgba(0,0,0,0.05);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.nav-theme-btn:hover { background: rgba(0,0,0,0.10); }
+
+/* Mobile responsive */
+@media (max-width: 700px) {
+  .global-nav { padding: 0 0.8rem; height: 54px; }
+  .nav-brand { font-size: 19px; }
+  .nav-brand-sub { display: none; }
+  .nav-links { margin-left: 0.4rem; gap: 0.15rem; }
+  .nav-link { font-size: 13px; padding: 0.4rem 0.65rem; }
+  .nav-page-links { font-size: 12px; gap: 0.2rem; }
+  .nav-page-link { padding: 0.3rem 0.5rem; }
+}
+
+@media (max-width: 480px) {
+  .nav-links { display: none; }
+  .nav-page-links { font-size: 11px; }
+}
