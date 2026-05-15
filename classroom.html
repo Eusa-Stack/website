@@ -167,13 +167,11 @@ footer a:hover { text-decoration: underline; }
   </a>
   <div class="nav-links">
     <a href="index.html" class="nav-link">🏠 Home</a>
-    <a href="subjects.html" class="nav-link">📚 Subjects</a>
     <a href="classroom.html" class="nav-link active">🎓 Classroom</a>
   </div>
   <div class="nav-right">
     <div class="nav-page-links">
       <a href="index.html" class="nav-page-link">Home</a>
-      <a href="subjects.html" class="nav-page-link">Subjects</a>
     </div>
     <button class="nav-theme-btn theme-toggle" onclick="EustaTheme.toggle()">☾ / ☀</button>
   </div>
@@ -184,12 +182,20 @@ footer a:hover { text-decoration: underline; }
   <!-- HERO -->
   <div class="hero">
     <h1>🎓 <span class="hl">Classroom</span> — Choose a Subject</h1>
-    <p>Pick a subject below to see all available games and pages</p>
+    <p>10 subjects · 14 games · 28 Grammar + IELTS pages — interactive learning for all levels!</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-card"><div class="sn">10</div><div class="sl">Subjects</div></div>
+    <div class="stat-card"><div class="sn">14</div><div class="sl">Games</div></div>
+    <div class="stat-card"><div class="sn">28</div><div class="sl">Grammar+IELTS Pages</div></div>
+    <div class="stat-card"><div class="sn">6–16</div><div class="sl">Age Range</div></div>
   </div>
 
   <!-- SEARCH + FILTER -->
   <div class="search-row">
-    <input id="searchInput" type="text" placeholder="🔍 Search games..." oninput="filterAll()" style="flex:1;min-width:200px;padding:.55rem .9rem;border-radius:14px;border:2px solid var(--border);font-size:15px;font-family:'Inter',sans-serif;background:var(--white)">
+    <input id="searchInput" type="text" placeholder="🔍 Search games & pages..." oninput="filterAll()" style="flex:1;min-width:200px;padding:.55rem .9rem;border-radius:14px;border:2px solid var(--border);font-size:15px;font-family:'Inter',sans-serif;background:var(--white)">
     <div class="filter-btns">
       <button class="filt-btn active" onclick="setFilter(this,'all')">All</button>
       <button class="filt-btn" onclick="setFilter(this,'math')">📐 Math</button>
@@ -217,7 +223,7 @@ footer a:hover { text-decoration: underline; }
 </div>
 
 <footer>
-  <a href="index.html">Home</a> · <a href="subjects.html">Subjects</a> · <a href="grammar-hub.html">Grammar Hub</a> · <a href="ielts-3-day-power-study.html">IELTS</a> · EduSuite by EUSTAQUIA
+  <a href="index.html">Home</a> · <a href="classroom.html">Classroom</a> · <a href="grammar-hub.html">Grammar Hub</a> · <a href="ielts-3-day-power-study.html">IELTS</a> · EduSuite by EUSTAQUIA
 </footer>
 
 <script>
