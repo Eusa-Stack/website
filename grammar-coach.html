@@ -3,6 +3,7 @@
 <head>
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="navbar.css">
 <link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -142,10 +143,24 @@ footer a{color:var(--purple)}
 </head>
 <body>
 
+<!-- GLOBAL NAVBAR -->
+<nav class="global-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-e">Edu</span><span class="nav-brand-d">Suite</span><span class="nav-brand-dot">.</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="classroom.html" class="nav-link">🎓 Classroom</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-theme-btn theme-toggle" onclick="EusaTheme.toggle()">☾ / ☀</button>
+  </div>
+</nav>
+
+
 <!-- TOP BAR -->
 <div class="topbar">
   <div class="tb-brand">
-<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
 👩‍🏫 <span>EUSTAQUIA</span> Grammar</div>
   <div class="tb-stats">
     <div class="tb-stat tb-correct">
@@ -253,7 +268,7 @@ footer a{color:var(--purple)}
 </div>
 
 <footer>
-  <a href="grammar-hub.html">← Grammar Hub</a> · <a href="subjects.html">All Games</a> · EduSuite by EUSTAQUIA
+  <a href="grammar-hub.html">← Grammar Hub</a> · <a href="classroom.html">All Games</a> · EduSuite by EUSTAQUIA
 </footer>
 
 <script>

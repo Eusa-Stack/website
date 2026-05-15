@@ -3,6 +3,7 @@
 <head>
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="navbar.css">
 
 <link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
@@ -211,6 +212,21 @@ h3 { font-size: 21px !important; }
 </head>
 <body>
 
+<!-- GLOBAL NAVBAR -->
+<nav class="global-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-e">Edu</span><span class="nav-brand-d">Suite</span><span class="nav-brand-dot">.</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="classroom.html" class="nav-link">🎓 Classroom</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-theme-btn theme-toggle" onclick="EusaTheme.toggle()">☾ / ☀</button>
+  </div>
+</nav>
+
+
 <!-- NAV -->
 <nav>
   <div class="logo">EUSTAQUIA <span>Grammar</span></div>
@@ -223,13 +239,12 @@ h3 { font-size: 21px !important; }
     <li><a href="#m5">Module 5</a></li>
     <li><a href="grammar-assessment.html" class="nav-assess">📋 Assessment</a></li>
   </ul>
-  <a href="subjects.html" class="back-link" style="margin:0;font-size:.8rem;padding:.35rem .8rem;">← Games</a>
+  <a href="classroom.html" class="back-link" style="margin:0;font-size:.8rem;padding:.35rem .8rem;">← Games</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-eyebrow">
-<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
 🎓 Grammar Mastery Academy</div>
   <h1>Grammar Power Pack</h1>
   <p class="hero-sub">Prepositions · Conditionals · Verb Patterns · Reported Speech</p>
@@ -426,7 +441,7 @@ h3 { font-size: 21px !important; }
 
 <!-- FOOTER -->
 <footer>
-  <a href="subjects.html" class="back-link">← Back to All Subjects</a>
+  <a href="classroom.html" class="back-link">← Back to All Subjects</a>
   <p>© <strong>EUSTAQUIA</strong> — Grammar Mastery Academy · <a href="grammar-assessment.html">Take Assessment</a></p>
 </footer>
 

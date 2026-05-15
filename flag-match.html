@@ -3,6 +3,7 @@
 <head>
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="navbar.css">
 
 <link rel="stylesheet" href="grammar-shared.css"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flag Match — EduSuite Games</title>
@@ -63,14 +64,27 @@ h3 { font-size: 21px !important; }
 </style>
 </head>
 <body>
-<a href="subjects.html" class="back-link">← All Games</a>
+
+<!-- GLOBAL NAVBAR -->
+<nav class="global-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-e">Edu</span><span class="nav-brand-d">Suite</span><span class="nav-brand-dot">.</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="classroom.html" class="nav-link">🎓 Classroom</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-theme-btn theme-toggle" onclick="EusaTheme.toggle()">☾ / ☀</button>
+  </div>
+</nav>
+
 <header class="hero">
-<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
 <h1>🌍 Flag Match</h1><p>Match flags to countries — 3 difficulty levels!</p></header>
 <div class="diff"><button class="db act" onclick="newGame(0)">👶 Easy (6 pairs)</button><button class="db" onclick="newGame(1)">🥷 Medium (8 pairs)</button><button class="db" onclick="newGame(2)">🔥 Hard (10 pairs)</button></div>
 <div class="stats"><div class="stat"><div class="snum" id="pairs">0/6</div><div class="slbl">Matched</div></div><div class="stat"><div class="snum" id="turns">0</div><div class="slbl">Turns</div></div></div>
 <div class="game-wrap"><div class="board" id="board"></div><div class="fact-pop" id="msg"></div>
-<div class="brow"><button class="btn btn-org" onclick="newGame(-1)">🔄 New Game</button><a href="subjects.html" class="btn btn-wht">← Back</a></div></div>
+<div class="brow"><button class="btn btn-org" onclick="newGame(-1)">🔄 New Game</button><a href="classroom.html" class="btn btn-wht">← Back</a></div></div>
 
 <script>
 const FLAGS=[

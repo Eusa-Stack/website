@@ -3,6 +3,7 @@
 <head>
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="navbar.css">
 
 <link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
@@ -198,12 +199,25 @@ h3 { font-size: 21px !important; }
 </head>
 <body>
 
+<!-- GLOBAL NAVBAR -->
+<nav class="global-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-e">Edu</span><span class="nav-brand-d">Suite</span><span class="nav-brand-dot">.</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="classroom.html" class="nav-link">🎓 Classroom</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-theme-btn theme-toggle" onclick="EusaTheme.toggle()">☾ / ☀</button>
+  </div>
+</nav>
+
+
 <header>
-<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
 
   <div class="brand"><span class="brand-e">Edu</span><span class="brand-d">Suite</span><span style="color:var(--yellow)">.</span></div>
-  <a href="subjects.html">← Back</a>
-</header>
+  </header>
 
 <!-- HOME SCREEN -->
 <div id="home-screen" class="card">
@@ -267,7 +281,7 @@ h3 { font-size: 21px !important; }
     <div class="result-stat"><strong id="r-best-streak">0</strong><span>Best Streak</span></div>
   </div>
   <button class="btn" id="btn-play-again">Play Again</button>
-  <a href="subjects.html" class="btn btn-outline">More Games</a>
+  <a href="classroom.html" class="btn btn-outline">More Games</a>
 </div>
 
 <footer><p>EduSuite · Free forever · No sign-up needed</p></footer>

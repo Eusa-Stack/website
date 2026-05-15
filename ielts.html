@@ -3,6 +3,7 @@
 <head>
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="navbar.css">
 
 <link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
@@ -185,6 +186,21 @@ h3 { font-size: 21px !important; }
 </head>
 <body>
 
+<!-- GLOBAL NAVBAR -->
+<nav class="global-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-e">Edu</span><span class="nav-brand-d">Suite</span><span class="nav-brand-dot">.</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="classroom.html" class="nav-link">🎓 Classroom</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-theme-btn theme-toggle" onclick="EusaTheme.toggle()">☾ / ☀</button>
+  </div>
+</nav>
+
+
 <div class="page active" id="pg-home">
 <div class="full-scroll">
 <!-- SITE-WIDE NAV -->
@@ -194,7 +210,7 @@ h3 { font-size: 21px !important; }
     <span class="nav-icon">🎮</span> Math Games
     <span class="nav-badge" style="background:#7C3AED" id="math-xp-badge">0 pts</span>
   </a>
-  <a class="site-nav-link" href="subjects.html">
+  <a class="site-nav-link" href="classroom.html">
     <span class="nav-icon">🧩</span> Learning Games
     <span class="nav-badge" style="background:#7C3AED">9 Games</span>
   </a>
@@ -212,7 +228,6 @@ h3 { font-size: 21px !important; }
   <span class="breadcrumb-current">📚 IELTS Grammar Mastery Studio</span>
 </div>
 <div class="home-hero">
-<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
 
   <div style="font-size:13px;opacity:0.75;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">IELTS Grammar Mastery Studio</div>
   <div class="home-title">25-Unit Complete System</div>

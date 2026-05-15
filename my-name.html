@@ -3,6 +3,7 @@
 <head>
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="navbar.css">
 
 <link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
@@ -142,8 +143,22 @@ h3 { font-size: 21px !important; }
 </style>
 </head>
 <body>
+
+<!-- GLOBAL NAVBAR -->
+<nav class="global-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-e">Edu</span><span class="nav-brand-d">Suite</span><span class="nav-brand-dot">.</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="classroom.html" class="nav-link">🎓 Classroom</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-theme-btn theme-toggle" onclick="EusaTheme.toggle()">☾ / ☀</button>
+  </div>
+</nav>
+
 <div class="bg"></div>
-<a href="subjects.html" class="home-link">← Back to Subjects</a>
 
 <!-- INPUT PHASE -->
 <div class="top-section" id="topSection">
@@ -168,7 +183,7 @@ h3 { font-size: 21px !important; }
   <p class="letter-title">Let's learn the letters in <strong id="displayName"></strong>!</p>
   <div class="letter-grid" id="letterGrid"></div>
   <button id="speakBtn">🔊 Say the letters</button>
-  <a href="subjects.html" class="back-link">← Back to Subjects</a>
+  <a href="classroom.html" class="back-link">← Back to Subjects</a>
 </div>
 
 <script>

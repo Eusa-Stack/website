@@ -3,6 +3,7 @@
 <head>
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="navbar.css">
 <link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -249,6 +250,21 @@ footer a:hover{color:rgba(255,255,255,.7)}
 </head>
 <body data-theme="light">
 
+<!-- GLOBAL NAVBAR -->
+<nav class="global-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-e">Edu</span><span class="nav-brand-d">Suite</span><span class="nav-brand-dot">.</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="classroom.html" class="nav-link">🎓 Classroom</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-theme-btn theme-toggle" onclick="EusaTheme.toggle()">☾ / ☀</button>
+  </div>
+</nav>
+
+
 <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--orange);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem;position:relative;z-index:10">← Back to Home</a>
 
 <nav>
@@ -258,22 +274,21 @@ footer a:hover{color:rgba(255,255,255,.7)}
   </div>
   <a href="index.html">Home</a>
   <a href="math-games.html">Math</a>
-  <a href="subjects.html">Games</a>
+  <a href="classroom.html">Games</a>
   <a href="ielts-grammar.html">Grammar</a>
   <a href="ielts.html" class="active">IELTS</a>
 </nav>
 
 <!-- HERO BANNER -->
 <header class="hero">
-  <button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
-
+  
   <div class="hero-badge">🔥 Intensive Programme</div>
   <h1>IELTS <span class="hi">3-Day Power Study</span></h1>
   <p>A focused, guided 3-day sprint covering all four IELTS papers — Listening, Reading, Writing, and Speaking. Master the key strategies and maximise your band score in just 72 hours.</p>
   <div class="hero-actions">
     <a href="ielts-grammar.html" class="btn btn-o">📚 Grammar Foundation</a>
     <a href="ielts.html" class="btn btn-w">📋 All IELTS Units</a>
-    <a href="subjects.html" class="btn btn-p">🎮 Games Hub</a>
+    <a href="classroom.html" class="btn btn-p">🎮 Games Hub</a>
   </div>
 </header>
 

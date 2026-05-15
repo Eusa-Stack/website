@@ -3,6 +3,7 @@
 <head>
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="navbar.css">
 
 <link rel="stylesheet" href="grammar-shared.css"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Balance Lab — EduSuite Games</title>
@@ -62,9 +63,22 @@ h3 { font-size: 21px !important; }
 </style>
 </head>
 <body>
-<a href="subjects.html" class="back-link">← All Games</a>
+
+<!-- GLOBAL NAVBAR -->
+<nav class="global-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-e">Edu</span><span class="nav-brand-d">Suite</span><span class="nav-brand-dot">.</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="classroom.html" class="nav-link">🎓 Classroom</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-theme-btn theme-toggle" onclick="EusaTheme.toggle()">☾ / ☀</button>
+  </div>
+</nav>
+
 <header class="hero">
-<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
 <h1>⚖️ Balance Lab</h1><p>Balance chemical equations — 3 difficulty levels!</p></header>
 <div class="diff"><button class="db act" onclick="startGame(0)">👶 Easy</button><button class="db" onclick="startGame(1)">🥷 Medium</button><button class="db" onclick="startGame(2)">🔥 Hard</button></div>
 <div class="stats"><div class="stat"><div class="snum" id="qnum">1/10</div><div class="slbl">Equation</div></div><div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Balanced</div></div></div>
@@ -80,7 +94,7 @@ h3 { font-size: 21px !important; }
 </details>
 <div class="q-box"><div class="eq-wrap" id="eqWrap"></div><div class="hint" id="hint">Enter numbers in the boxes to balance the equation</div><div class="msg" id="msg"></div>
 <div class="brow"><button class="btn btn-grn" id="chk" onclick="checkBalance()">✅ Check</button></div>
-</div><a href="subjects.html" class="btn btn-wht">← Back</a></div>
+</div><a href="classroom.html" class="btn btn-wht">← Back</a></div>
 
 <script>
 const EQ_LEVELS=[[
@@ -143,7 +157,7 @@ function checkBalance(){
   document.querySelectorAll('.coeff-input').forEach((el,i)=>{el.classList.toggle('correct',vals[i]===e.coeff[i]);el.classList.toggle('wrong',vals[i]!==e.coeff[i]);});
   if(correct){game.score++;document.getElementById('scr').textContent=game.score;document.getElementById('msg').innerHTML='✅ Balanced!';game.eq++;setTimeout(nextEq,1200);}else{document.getElementById('msg').innerHTML='❌ Try again!';setTimeout(()=>document.querySelectorAll('.coeff-input').forEach(el=>el.classList.remove('wrong')),600);}
 }
-function endGame(){const pct=Math.round(game.score/10*100),em=pct>=80?'🧪':pct>=50?'⚖️':'📖';document.querySelector('.q-box').innerHTML=`<div style="font-size:48px;margin-bottom:.5rem">${em}</div><div style="font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700">${game.score}/10</div><div style="color:var(--sft)">balanced!</div><div class="brow" style="margin-top:1.5rem"><button class="btn btn-org" onclick="location.reload()">🔄 Play Again</button><a href="subjects.html" class="btn btn-wht">← Back</a></div></div>`;}
+function endGame(){const pct=Math.round(game.score/10*100),em=pct>=80?'🧪':pct>=50?'⚖️':'📖';document.querySelector('.q-box').innerHTML=`<div style="font-size:48px;margin-bottom:.5rem">${em}</div><div style="font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700">${game.score}/10</div><div style="color:var(--sft)">balanced!</div><div class="brow" style="margin-top:1.5rem"><button class="btn btn-org" onclick="location.reload()">🔄 Play Again</button><a href="classroom.html" class="btn btn-wht">← Back</a></div></div>`;}
 startGame(0);
 </script>
 <script src="floating-anim.js"></script>

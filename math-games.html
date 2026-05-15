@@ -3,6 +3,8 @@
 <head>
 <script src="theme-manager.js"></script>
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="grammar-shared.css">
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -381,6 +383,21 @@ details summary {
 </head>
 <body>
 
+<!-- GLOBAL NAVBAR -->
+<nav class="global-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-e">Edu</span><span class="nav-brand-d">Suite</span><span class="nav-brand-dot">.</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="classroom.html" class="nav-link">🎓 Classroom</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-theme-btn theme-toggle" onclick="EusaTheme.toggle()">☾ / ☀</button>
+  </div>
+</nav>
+
+
 <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--orange);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem;position:relative;z-index:10">← Back to Home</a>
 
 <nav>
@@ -389,12 +406,11 @@ details summary {
     <span style="font-size:11px;color:var(--soft);font-weight:600;margin-left:6px">💰 Math Games</span>
   </div>
   <a href="index.html">Home</a>
-  <a href="subjects.html">Games</a>
+  <a href="classroom.html">Games</a>
   <a href="ielts-grammar.html">Grammar</a>
 </nav>
 
 <header class="hero">
-<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
 
   <h1>💰 <span class="hl">Decimal Math Games</span></h1>
   <p>Practice decimals through real-world money problems — made fun!</p>
