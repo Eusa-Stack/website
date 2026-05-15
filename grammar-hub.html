@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
+<link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grammar Mastery Hub — EduSuite by EUSTAQUIA</title>
@@ -9,20 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:       #13122a;
-  --bg2:      #1c1b38;
-  --purple:   #7c6cd4;
-  --purple2:  #a89cf0;
-  --accent:   #5a4fcf;
-  --white:    #ffffff;
-  --muted:    #9090b8;
-  --card:     #232240;
-  --card2:    #2a2950;
-  --green:    #4ade80;
-  --yellow:   #fbbf24;
-  --border:   rgba(124,108,212,.25);
-}
+
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -199,6 +190,23 @@ footer a { color:var(--purple2); text-decoration:none; }
   .nav-tabs{display:none}
   .modules-grid{grid-template-columns:1fr}
 }
+
+/* bigger font override */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title, .g-sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
+
+
+
+/* EUSTAQUIA — bigger fonts for readability */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+h1 { font-size: 36px !important; }
+h2 { font-size: 28px !important; }
+h3 { font-size: 21px !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
 </style>
 </head>
 <body>
@@ -220,7 +228,9 @@ footer a { color:var(--purple2); text-decoration:none; }
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-eyebrow">🎓 Grammar Mastery Academy</div>
+  <div class="hero-eyebrow">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+🎓 Grammar Mastery Academy</div>
   <h1>Grammar Power Pack</h1>
   <p class="hero-sub">Prepositions · Conditionals · Verb Patterns · Reported Speech</p>
   <div class="hero-stats">
@@ -420,5 +430,6 @@ footer a { color:var(--purple2); text-decoration:none; }
   <p>© <strong>EUSTAQUIA</strong> — Grammar Mastery Academy · <a href="grammar-assessment.html">Take Assessment</a></p>
 </footer>
 
+<script src="floating-anim.js"></script>
 </body>
 </html>

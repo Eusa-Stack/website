@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
+<link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IELTS Grammar Mastery Studio</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Merriweather:wght@400;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#EFF3F8;--card:#FFFFFF;--navy:#1B3A6B;--teal:#1A7A6A;--amber:#C06000;--coral:#C03030;--sky:#2980B9;--mint:#E8F6F3;--gold:#F0A500;--text:#1A2540;--muted:#5A6880;--border:#D5DCE8;--success:#1A7A6A;--wrong:#B03030;--rad:14px;--rad-sm:8px;}
+
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
 .page{display:none}.page.active{display:block}
 .home-hero{background:linear-gradient(135deg,#1B3A6B 0%,#1A5A8A 50%,#1A7A6A 100%);color:#fff;padding:2.5rem 1.5rem;text-align:center}
@@ -160,6 +164,23 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .breadcrumb-current{color:#1A2540;font-weight:700}
 .site-back-bar{background:rgba(0,0,0,0.25);text-align:center;padding:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.85);cursor:pointer;letter-spacing:0.04em;text-decoration:none;display:block}
 .site-back-bar:hover{background:rgba(0,0,0,0.4);color:#fff}
+
+/* bigger font override */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title, .g-sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
+
+
+
+/* EUSTAQUIA — bigger fonts for readability */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+h1 { font-size: 36px !important; }
+h2 { font-size: 28px !important; }
+h3 { font-size: 21px !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
 </style>
 </head>
 <body>
@@ -191,6 +212,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   <span class="breadcrumb-current">📚 IELTS Grammar Mastery Studio</span>
 </div>
 <div class="home-hero">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+
   <div style="font-size:13px;opacity:0.75;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">IELTS Grammar Mastery Studio</div>
   <div class="home-title">25-Unit Complete System</div>
   <div class="home-sub">Visual Lessons · Interactive Drills · Gamified Quizzes</div>
@@ -1207,5 +1230,6 @@ function nextUnit(){const n=curUnit+1;if(n<UNITS.length)startLesson(n);else goHo
 
 document.addEventListener('DOMContentLoaded',goHome);
 </script>
+<script src="floating-anim.js"></script>
 </body>
 </html>

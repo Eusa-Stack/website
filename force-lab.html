@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
+<link rel="stylesheet" href="grammar-shared.css"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Force Lab — EduSuite Games</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
 .back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
@@ -24,11 +28,23 @@ input[type=range]{width:100%;accent-color:var(--org)}
 .btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
 .btn-org{background:var(--org);color:#fff}.btn-grn{background:var(--grn);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
 .msg{padding:.3rem;font-size:16px;font-weight:700;text-align:center;min-height:2rem}
+
+
+/* EUSTAQUIA — bigger fonts for readability */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+h1 { font-size: 36px !important; }
+h2 { font-size: 28px !important; }
+h3 { font-size: 21px !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
 </style>
 </head>
 <body>
 <a href="subjects.html" class="back-link">← All Games</a>
-<header class="hero"><h1>🔬 Force Lab</h1><p>Mass · Ramp Angle · Friction · Force — predict the block!</p></header>
+<header class="hero">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+<h1>🔬 Force Lab</h1><p>Mass · Ramp Angle · Friction · Force — predict the block!</p></header>
 <div class="game-wrap">
 <canvas id="cv" width="750" height="300"></canvas>
 <div class="controls">
@@ -77,5 +93,6 @@ function drawScene(){ctx.clearRect(0,0,750,300);
 function resetS(){if(sim){clearInterval(sim);sim=null;}running=false;blockV=0;blockX=80;document.getElementById('pushB').disabled=false;document.getElementById('spd').textContent='0 m/s';document.getElementById('stat').textContent='Ready';document.getElementById('msg').innerHTML='Drag sliders, then click Push!';update();drawScene();}
 update();drawScene();
 </script>
+<script src="floating-anim.js"></script>
 </body>
 </html>

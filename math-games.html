@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Decimal Math Games — EduSuite by EUSTAQUIA</title>
@@ -8,18 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --orange: #F4845F;
-  --yellow: #F7C948;
-  --green:  #43B97A;
-  --pink:   #E85D75;
-  --purple: #A78BFA;
-  --blue:   #60A5FA;
-  --white:  #FFFFFF;
-  --text:   #2D2A32;
-  --soft:   #6B6A75;
-  --mono:   'JetBrains Mono', 'Courier New', monospace;
-}
+
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -402,6 +394,8 @@ details summary {
 </nav>
 
 <header class="hero">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+
   <h1>💰 <span class="hl">Decimal Math Games</span></h1>
   <p>Practice decimals through real-world money problems — made fun!</p>
 </header>

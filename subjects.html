@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
+<link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Learning Games — EduSuite</title>
@@ -9,17 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --orange: #F4845F;
-  --yellow: #F7C948;
-  --green:  #43B97A;
-  --pink:   #E85D75;
-  --purple: #A78BFA;
-  --blue:   #60A5FA;
-  --white:  #FFFFFF;
-  --text:   #2D2A32;
-  --soft:   #6B6A75;
-}
+
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -235,6 +229,16 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   nav a { font-size: 12px; padding: 6px 10px; }
   .subj-grid { grid-template-columns: 1fr; }
 }
+
+
+/* EUSTAQUIA — bigger fonts for readability */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+h1 { font-size: 36px !important; }
+h2 { font-size: 28px !important; }
+h3 { font-size: 21px !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
 </style>
 </head>
 <body>
@@ -255,6 +259,8 @@ footer a:hover { color: rgba(255,255,255,0.7); }
 
 <!-- HERO -->
 <header class="hero">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+
   <span class="hero-icon">🎮</span>
   <h1><span class="hl">Learning Games</span></h1>
   <p>9 interactive educational games across 8 subjects — from geography to chemistry!</p>
@@ -294,9 +300,10 @@ const SUBJECTS = [
     g1:{icon:'🧮',name:'Decimal Games',lvl:'Beginner',href:'math-games.html',cls:'junior'},
     g2:{icon:'⚔️',name:'Number Ninja',lvl:'Advanced',href:'number-ninja.html',cls:'advanced'}
   },
-  { cls:'sc-english', icon:'🎯', name:'English & Grammar', count:'2 pages',
+  { cls:'sc-english', icon:'🎯', name:'English & Grammar', count:'3 pages',
     g1:{icon:'📚',name:'Grammar Hub',lvl:'All',href:'grammar-hub.html',cls:'senior'},
-    g2:{icon:'📝',name:'IELTS Grammar',lvl:'Intermediate',href:'ielts-grammar.html',cls:'junior'},
+    g2:{icon:'👩‍🏫',name:'Grammar Coach',lvl:'Personal',href:'grammar-coach.html',cls:'senior'},
+    g3:{icon:'📝',name:'IELTS Grammar',lvl:'Intermediate',href:'ielts-grammar.html',cls:'junior'},
   },
   { cls:'sc-vocab', icon:'💬', name:'Vocabulary', count:'2 games',
     g1:{icon:'💬',name:'Word Match Jr',lvl:'Beginner',href:'word-match.html',cls:'junior'},
@@ -349,5 +356,6 @@ document.getElementById('grid').innerHTML = SUBJECTS.map(s => `
 `).join('');
 </script>
 
+<script src="floating-anim.js"></script>
 </body>
 </html>

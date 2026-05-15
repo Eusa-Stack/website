@@ -1,0 +1,249 @@
+/**
+ * EUSTAQUIA Theme CSS
+ * 
+ * How it works:
+ *   Each HTML page includes:
+ *     <script src="theme-manager.js"></script>   (must be FIRST in <head>)
+ *     <link rel="stylesheet" href="theme.css">
+ *   
+ *   The theme-manager.js sets data-theme="dark" or data-theme="light"
+ *   on <html> BEFORE paint, so there's no flash.
+ * 
+ *   CSS cascade:
+ *     :root               → light defaults (CSS fallback, no data-theme needed)
+ *     :root[data-theme]   → explicit overrides per theme
+ * 
+ *   Pages that use legacy var names (--org, --txt, etc.) get aliases via
+ *   the :root[data-theme="X"] blocks.
+ */
+
+/* ═══════════════════════════════════════
+   BASE — Light (warm) theme as default
+   CSS fallback: used if no data-theme attribute
+   ═══════════════════════════════════════ */
+:root {
+  /* Backgrounds */
+  --bg:       #FEF9F3;
+  --bg2:      #FFF5EB;
+  --bg3:      #FFFFFF;
+
+  /* Brand colours — warm palette */
+  --orange:   #F4845F;
+  --yellow:   #F7C948;
+  --green:    #43B97A;
+  --pink:     #E85D75;
+  --purple:   #A78BFA;
+  --blue:     #60A5FA;
+
+  /* Text */
+  --white:    #FFFFFF;
+  --text:     #2D2A32;
+  --muted:    #6B6A75;
+  --soft:     #6B6A75;
+
+  /* Accents */
+  --accent:   #F4845F;
+  --accent2:   #F7C948;
+
+  /* Cards */
+  --card:     #FFFFFF;
+  --card2:    #FFF5EB;
+  --card3:    #FEF0E6;
+
+  /* Borders */
+  --border:   rgba(244,132,95,.2);
+  --border2:  rgba(167,139,250,.2);
+
+  /* Grammar/academic specific (overridden in dark) */
+  --purple-l: #7c6cd4;
+  --card-dark: #FEF9F3;
+  --muted-dark: #9090b8;
+
+  /* Fonts */
+  --font-heading: 'Fredoka', 'Comic Sans MS', cursive;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-accent:  'Nunito', system-ui, sans-serif;
+
+  /* Font sizes */
+  --g-font-base:  1.125rem;
+  --g-font-h1:    2.25rem;
+  --g-font-h2:    1.75rem;
+  --g-font-h3:    1.3rem;
+  --g-font-card:  1.05rem;
+  --g-font-meta:  0.95rem;
+  --g-font-sm:    0.85rem;
+
+  /* Legacy shorthand aliases for game pages */
+  --org: var(--orange);
+  --yel: var(--yellow);
+  --grn: var(--green);
+  --ppl: var(--purple);
+  --wht: var(--white);
+  --txt: var(--text);
+  --sft: var(--soft);
+}
+
+/* ═══════════════════════════════════════
+   LIGHT THEME (explicit)
+   ═══════════════════════════════════════ */
+:root[data-theme="light"] {
+  --bg:       #FEF9F3;
+  --bg2:      #FFF5EB;
+  --bg3:      #FFFFFF;
+  --orange:   #F4845F;
+  --yellow:   #F7C948;
+  --green:    #43B97A;
+  --pink:     #E85D75;
+  --purple:   #A78BFA;
+  --blue:     #60A5FA;
+  --white:    #FFFFFF;
+  --text:     #2D2A32;
+  --muted:    #6B6A75;
+  --soft:     #6B6A75;
+  --accent:   #F4845F;
+  --accent2:   #F7C948;
+  --card:     #FFFFFF;
+  --card2:    #FFF5EB;
+  --card3:    #FEF0E6;
+  --border:   rgba(244,132,95,.2);
+  --border2:  rgba(167,139,250,.2);
+  --purple-l: #7c6cd4;
+  --card-dark: #FEF9F3;
+  --muted-dark: #9090b8;
+  --font-heading: 'Fredoka', 'Comic Sans MS', cursive;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-accent:  'Nunito', system-ui, sans-serif;
+  --org: var(--orange);
+  --yel: var(--yellow);
+  --grn: var(--green);
+  --ppl: var(--purple);
+  --wht: var(--white);
+  --txt: var(--text);
+  --sft: var(--soft);
+}
+
+/* ═══════════════════════════════════════
+   DARK THEME (academic / grammar)
+   ═══════════════════════════════════════ */
+:root[data-theme="dark"] {
+  /* Backgrounds */
+  --bg:       #13122a;
+  --bg2:      #1c1b38;
+  --bg3:      #0e0d1f;
+
+  /* Brand colours — same palette */
+  --orange:   #F4845F;
+  --yellow:   #F7C948;
+  --green:    #43B97A;
+  --pink:     #E85D75;
+  --purple:   #A78BFA;
+  --blue:     #60A5FA;
+
+  /* Text */
+  --white:    #FFFFFF;
+  --text:     #E8E6F0;
+  --muted:    #9090b8;
+  --soft:     #9090b8;
+
+  /* Accents — dark-academic purple */
+  --accent:   #5a4fcf;
+  --accent2:  #7c6cd4;
+
+  /* Cards */
+  --card:     #232240;
+  --card2:    #2a2950;
+  --card3:    #1e1d3a;
+
+  /* Borders */
+  --border:   rgba(124,108,212,.25);
+  --border2:  rgba(167,139,250,.2);
+
+  /* Grammar/academic specific */
+  --purple-l: #7c6cd4;
+  --card-dark: #232240;
+  --muted-dark: #9090b8;
+
+  /* Fonts */
+  --font-heading: 'Fredoka', 'Comic Sans MS', cursive;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-accent:  'Nunito', system-ui, sans-serif;
+
+  /* Legacy shorthand aliases */
+  --org: var(--orange);
+  --yel: var(--yellow);
+  --grn: var(--green);
+  --ppl: var(--purple);
+  --wht: var(--white);
+  --txt: var(--text);
+  --sft: var(--soft);
+}
+
+/* ═══════════════════════════════════════
+   SHARED — always apply regardless of theme
+   ═══════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body, 'Inter', system-ui, sans-serif);
+  font-size: var(--g-font-base, 1rem);
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background .3s ease, color .3s ease;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+/* Canvas — always fixed full-screen (floating animation) */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ═══════════════════════════════════════
+   THEME TOGGLE BUTTON
+   Add onclick="EusaTheme.toggle()"
+   ═══════════════════════════════════════ */
+.theme-toggle {
+  cursor: pointer;
+  user-select: none;
+  background: none;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: 1rem;
+  color: var(--text);
+  transition: border-color .2s, background .2s;
+  vertical-align: middle;
+}
+.theme-toggle:hover {
+  border-color: var(--accent);
+  background: var(--card2);
+}

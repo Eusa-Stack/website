@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
+<link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IELTS Grammar Practice — EduSuite by EUSTAQUIA</title>
@@ -8,17 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --orange: #F4845F;
-  --yellow: #F7C948;
-  --green:  #43B97A;
-  --pink:   #E85D75;
-  --purple: #A78BFA;
-  --blue:   #60A5FA;
-  --white:  #FFFFFF;
-  --text:   #2D2A32;
-  --soft:   #6B6A75;
-}
+
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6 0%,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF 100%);background-attachment:fixed;color:var(--text);min-height:100vh;overflow-x:hidden}
 /* ── NAV ── */
@@ -139,6 +133,23 @@ footer .fn{color:var(--green);font-weight:700}
 footer a{color:rgba(255,255,255,.4);text-decoration:none}
 footer a:hover{color:rgba(255,255,255,.7)}
 @media(max-width:600px){.site-nav-link{font-size:11px;padding:0 8px}.t-grid{grid-template-columns:1fr}}
+
+/* bigger font override */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title, .g-sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
+
+
+
+/* EUSTAQUIA — bigger fonts for readability */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+h1 { font-size: 36px !important; }
+h2 { font-size: 28px !important; }
+h3 { font-size: 21px !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
 </style>
 </head>
 <body>
@@ -157,6 +168,8 @@ footer a:hover{color:rgba(255,255,255,.7)}
 </nav>
 
 <header class="hero">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+
   <h1>📚 IELTS Grammar Practice</h1>
   <p>25 topics · 125 practice questions · Instant feedback</p>
 </header>
@@ -237,5 +250,6 @@ function gT(){document.getElementById('pg-quiz').style.display='none';document.g
 document.addEventListener('DOMContentLoaded',rT);
 </script>
 
+<script src="floating-anim.js"></script>
 </body>
 </html>

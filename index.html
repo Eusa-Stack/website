@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
+<link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="EduSuite — Free interactive learning games and resources for students worldwide. Built by teacher EUSTAQUIA. Math, Grammar, Science and more. No sign-up, no ads.">
@@ -9,17 +13,7 @@
 <title>EduSuite — Learning with EUSTAQUIA</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --orange: #F4845F;
-  --yellow: #F7C948;
-  --green:  #43B97A;
-  --pink:   #E85D75;
-  --purple: #A78BFA;
-  --blue:   #60A5FA;
-  --white:  #FFFFFF;
-  --text:   #2D2A32;
-  --soft:   #6B6A75;
-}
+
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -305,6 +299,16 @@ footer a:hover { color: rgba(255,255,255,0.65); }
   nav .brand { font-size: 22px; }
   .story-block { flex-direction: column; align-items: center; text-align: center; }
 }
+
+
+/* EUSTAQUIA — bigger fonts for readability */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+h1 { font-size: 36px !important; }
+h2 { font-size: 28px !important; }
+h3 { font-size: 21px !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
 </style>
 </head>
 <body>
@@ -321,6 +325,8 @@ footer a:hover { color: rgba(255,255,255,0.65); }
 
 <!-- ═════════ HERO ═════════ -->
 <header class="hero">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+
   <img src="teacher-photo.jpg" alt="EUSTAQUIA" class="hero-avatar">
   <h1><span class="hl">EUSTAQUIA</span></h1>
   <p class="hero-sub">
@@ -458,5 +464,6 @@ footer a:hover { color: rgba(255,255,255,0.65); }
 })();
 </script>
 
+<script src="floating-anim.js"></script>
 </body>
 </html>

@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
+<link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quick Quiz — EduSuite</title>
@@ -8,16 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --orange: #F4845F;
-  --yellow: #F7C948;
-  --green: #43B97A;
-  --pink: #E85D75;
-  --purple: #A78BFA;
-  --white: #FFFFFF;
-  --text: #2D2A32;
-  --soft: #6B6A75;
-}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Nunito', sans-serif;
@@ -119,11 +114,23 @@ h1 { font-family: 'Fredoka', sans-serif; font-size: 28px; color: var(--text); te
 
 footer { margin-top: auto; padding: 16px; text-align: center; font-size: 12px; color: var(--soft); }
 .quiz-icon { font-size: 72px; margin-bottom: 8px; }
+
+
+/* EUSTAQUIA — bigger fonts for readability */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+h1 { font-size: 36px !important; }
+h2 { font-size: 28px !important; }
+h3 { font-size: 21px !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
 </style>
 </head>
 <body>
 
 <header>
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+
   <div class="brand"><span class="brand-e">Edu</span><span class="brand-d">Suite</span><span style="color:var(--yellow)">.</span></div>
   <a href="subjects.html">← Back</a>
 </header>
@@ -484,5 +491,6 @@ document.getElementById('btn-play-again').onclick = function() {
   document.getElementById('home-screen').style.display = 'block';
 };
 </script>
+<script src="floating-anim.js"></script>
 </body>
 </html>

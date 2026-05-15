@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
+<link rel="stylesheet" href="grammar-shared.css"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Balance Lab — EduSuite Games</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
 .back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
@@ -38,11 +42,30 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#
 .diff{display:flex;gap:6px;justify-content:center;margin-bottom:.5rem}
 .db{padding:8px 16px;border-radius:10px;font-size:12px;font-weight:800;border:2px solid #E0D6CC;cursor:pointer;background:var(--wht);transition:.15s;font-family:'Nunito',sans-serif}
 .db:hover{border-color:var(--org)}.db.act{border-color:var(--org);background:#FFF0E8;color:var(--org)}
+
+/* bigger font override */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title, .g-sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
+
+
+
+/* EUSTAQUIA — bigger fonts for readability */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+h1 { font-size: 36px !important; }
+h2 { font-size: 28px !important; }
+h3 { font-size: 21px !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
 </style>
 </head>
 <body>
 <a href="subjects.html" class="back-link">← All Games</a>
-<header class="hero"><h1>⚖️ Balance Lab</h1><p>Balance chemical equations — 3 difficulty levels!</p></header>
+<header class="hero">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+<h1>⚖️ Balance Lab</h1><p>Balance chemical equations — 3 difficulty levels!</p></header>
 <div class="diff"><button class="db act" onclick="startGame(0)">👶 Easy</button><button class="db" onclick="startGame(1)">🥷 Medium</button><button class="db" onclick="startGame(2)">🔥 Hard</button></div>
 <div class="stats"><div class="stat"><div class="snum" id="qnum">1/10</div><div class="slbl">Equation</div></div><div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Balanced</div></div></div>
 <div class="game-wrap">
@@ -123,5 +146,6 @@ function checkBalance(){
 function endGame(){const pct=Math.round(game.score/10*100),em=pct>=80?'🧪':pct>=50?'⚖️':'📖';document.querySelector('.q-box').innerHTML=`<div style="font-size:48px;margin-bottom:.5rem">${em}</div><div style="font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700">${game.score}/10</div><div style="color:var(--sft)">balanced!</div><div class="brow" style="margin-top:1.5rem"><button class="btn btn-org" onclick="location.reload()">🔄 Play Again</button><a href="subjects.html" class="btn btn-wht">← Back</a></div></div>`;}
 startGame(0);
 </script>
+<script src="floating-anim.js"></script>
 </body>
 </html>

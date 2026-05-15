@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
+<link rel="stylesheet" href="grammar-shared.css"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Animal Sort — EduSuite Games</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--org:#F4845F;--yel:#F7C948;--grn:#43B97A;--pnk:#E85D75;--ppl:#A78BFA;--wht:#FFF;--txt:#2D2A32;--sft:#6B6A75}
+
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#FFF5C2 25%,#FDE6F0 50%,#E6F5FF 75%,#F0E8FF);color:var(--txt);min-height:100vh}
 .back-link{display:inline-flex;gap:6px;color:var(--org);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem}
@@ -37,11 +41,23 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FFF0E6,#
 .btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
 .btn-grn{background:var(--grn);color:#fff}.btn-org{background:var(--org);color:#fff}.btn-wht{background:var(--wht);color:var(--txt);border:2px solid #E0D6CC}
 .msg{padding:.4rem;font-size:16px;font-weight:700;min-height:2.5rem;text-align:center}
+
+
+/* EUSTAQUIA — bigger fonts for readability */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+h1 { font-size: 36px !important; }
+h2 { font-size: 28px !important; }
+h3 { font-size: 21px !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
 </style>
 </head>
 <body>
 <a href="subjects.html" class="back-link">← All Games</a>
-<header class="hero"><h1>🌿 Animal Sort</h1><p>Pick an animal, then click its correct home!</p></header>
+<header class="hero">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+<h1>🌿 Animal Sort</h1><p>Pick an animal, then click its correct home!</p></header>
 <div class="stats"><div class="stat"><div class="snum" id="qnum">1/6</div><div class="slbl">Round</div></div><div class="stat"><div class="snum" id="scr">0</div><div class="slbl">Score</div></div></div>
 <div class="game-wrap">
 <div class="instruction" id="instr">👆 <b>Step 1:</b> Click an animal below</div>
@@ -146,5 +162,6 @@ function endGame(){
   document.querySelector('.game-wrap').innerHTML=`<div style="text-align:center;padding:2rem"><div style="font-size:64px">${em}</div><div style="font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700">${game.score}/120</div><div style="color:var(--sft);margin-bottom:1.5rem">Animal expert!</div><div class="brow"><button class="btn btn-org" onclick="location.reload()">🔄 Play Again</button><a href="subjects.html" class="btn btn-wht">← Back</a></div></div>`;}
 newGame();
 </script>
+<script src="floating-anim.js"></script>
 </body>
 </html>

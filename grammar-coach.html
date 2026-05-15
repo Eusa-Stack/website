@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="grammar-shared.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grammar Coach — EduSuite by EUSTAQUIA</title>
+<meta name="description" content="Your personal grammar trainer. Tracks your mistakes and creates a personalised practice plan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,600;1&display=swap" rel="stylesheet">
+<style>
+/* ─── TOPBAR ─────────────────────────────────── */
+.topbar{display:flex;align-items:center;gap:.6rem;padding:.55rem 1.2rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.tb-brand{display:flex;align-items:center;gap:.5rem;font-family:var(--font-heading);font-size:1.1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.tb-stats{display:flex;gap:.4rem;margin-left:auto}
+.tb-stat{display:flex;flex-direction:column;align-items:center;background:var(--bg2);border-radius:10px;padding:.25rem .6rem;min-width:52px}
+.tb-stat .icon{font-size:.9rem}
+.tb-stat .val{font-size:1.1rem;font-weight:700;color:var(--text);line-height:1}
+.tb-stat .lbl{font-size:.55rem;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}
+.tb-correct .val{color:var(--green)}
+
+/* ─── LAYOUT ────────────────────────────────── */
+.container{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+
+/* ─── HEADER HERO ───────────────────────────── */
+.hero{text-align:center;padding:2rem 1rem 1.5rem}
+.hero h1{font-family:var(--font-heading);font-size:2.4rem;color:var(--text);margin-bottom:.4rem}
+.hero p{color:var(--muted);font-size:1.1rem;max-width:480px;margin:0 auto 1.2rem}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--purple);font-size:1.2rem;margin:.2rem 0 .8rem}
+
+/* ─── STATS ROW ────────────────────────────── */
+.stats-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1.2rem 0}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.8rem 1.4rem;text-align:center;min-width:110px;flex:1}
+.stat-card .sc-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.3rem}
+.stat-card .sc-val{font-size:2rem;font-weight:700;color:var(--text);line-height:1}
+.stat-card .sc-val.good{color:var(--green)}
+.stat-card .sc-val.warn{color:var(--yellow)}
+.stat-card .sc-val.bad{color:var(--pink)}
+
+/* ─── SECTION ────────────────────────────────── */
+.section{margin:1.5rem 0}
+.section-title{font-family:var(--font-heading);font-size:1.4rem;color:var(--text);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.section-title .icon{font-size:1.2rem}
+
+/* ─── WEAK AREAS ─────────────────────────────── */
+.weak-list{display:flex;flex-direction:column;gap:.6rem}
+.weak-item{display:flex;align-items:center;gap:.8rem;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.7rem 1rem;cursor:pointer;transition:border-color .2s,transform .15s}
+.weak-item:hover{border-color:var(--accent);transform:translateX(4px)}
+.weak-item .wi-num{font-size:1.3rem;font-weight:700;color:var(--purple);min-width:2.5rem;text-align:center}
+.weak-item .wi-info{flex:1}
+.weak-item .wi-topic{font-weight:600;color:var(--text);font-size:.95rem}
+.weak-item .wi-unit{font-size:.75rem;color:var(--muted)}
+.weak-item .wi-errors{background:var(--pink);color:#fff;border-radius:20px;padding:.1rem .55rem;font-size:.75rem;font-weight:600;white-space:nowrap}
+.weak-item .wi-correct{background:var(--green);color:#fff;border-radius:20px;padding:.1rem .55rem;font-size:.75rem;font-weight:600;white-space:nowrap}
+
+/* ─── SMART RETRY CARD ──────────────────────── */
+.retry-card{background:linear-gradient(135deg,var(--card),var(--card2));border:2px solid var(--purple);border-radius:18px;padding:1.5rem;text-align:center}
+.retry-card h3{font-family:var(--font-heading);font-size:1.5rem;color:var(--text);margin-bottom:.5rem}
+.retry-card p{color:var(--muted);margin-bottom:1rem}
+.retry-card .retry-btn{background:var(--purple);color:#fff;border:none;border-radius:12px;padding:.7rem 2rem;font-size:1.1rem;font-family:var(--font-heading);cursor:pointer;transition:opacity .2s}
+.retry-card .retry-btn:hover{opacity:.85}
+.retry-card .retry-btn:disabled{background:var(--muted);cursor:not-allowed}
+
+/* ─── ACTIVITY TABS ─────────────────────────── */
+.activity-tabs{display:flex;gap:.4rem;margin:.8rem 0;flex-wrap:wrap}
+.atab{padding:.45rem 1rem;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font-size:.85rem;cursor:pointer;transition:all .2s;font-family:var(--font-body)}
+.atab:hover{border-color:var(--purple)}
+.atab.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+
+/* ─── QUIZ CARD ─────────────────────────────── */
+.quiz-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.4rem;margin-top:.8rem}
+.q-progress{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;font-size:.8rem;color:var(--muted)}
+.q-counter{font-weight:600;color:var(--text)}
+.q-score{color:var(--green)}
+.q-timer{font-size:.85rem;color:var(--muted)}
+.q-question{font-size:1.15rem;font-weight:600;color:var(--text);margin:.6rem 0 .4rem;line-height:1.4}
+.q-hint{margin:.2rem 0 .6rem;font-size:.8rem;color:var(--muted);font-style:italic}
+
+/* ─── ANSWER OPTIONS ─────────────────────────── */
+.options{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.8rem}
+.opt{background:var(--bg2);border:2px solid var(--border);border-radius:10px;padding:.6rem .8rem;font-size:.95rem;color:var(--text);cursor:pointer;text-align:left;transition:all .15s;font-family:var(--font-body)}
+.opt:hover{border-color:var(--purple);background:var(--card2)}
+.opt.selected{border-color:var(--purple);background:color-mix(in srgb,var(--purple) 15%,var(--card))}
+.opt.correct{background:color-mix(in srgb,var(--green) 20%,var(--card));border-color:var(--green);color:#1a5e30}
+.opt.wrong{background:color-mix(in srgb,var(--pink) 20%,var(--card));border-color:var(--pink);color:#8b1a2e}
+.opt:disabled{cursor:default}
+
+/* ─── FEEDBACK ───────────────────────────────── */
+.feedback{margin-top:.8rem;padding:.7rem 1rem;border-radius:10px;font-size:.9rem;font-weight:500}
+.feedback.pass{background:color-mix(in srgb,var(--green) 15%,var(--card));color:#1a5e30;border:1px solid var(--green)}
+.feedback.fail{background:color-mix(in srgb,var(--pink) 15%,var(--card));color:#8b1a2e;border:1px solid var(--pink)}
+
+/* ─── NAV BUTTONS ────────────────────────────── */
+.nav-btns{display:flex;gap:.6rem;margin-top:.8rem;justify-content:flex-end}
+.btn-next{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:.55rem 1.4rem;font-size:.9rem;font-family:var(--font-heading);cursor:pointer;transition:opacity .2s}
+.btn-next:hover{opacity:.85}
+.btn-next:disabled{background:var(--muted);cursor:not-allowed}
+
+/* ─── PROGRESS BAR ───────────────────────────── */
+.prog-bar{height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;margin:.4rem 0}
+.prog-fill{height:100%;background:var(--purple);border-radius:3px;transition:width .4s}
+
+/* ─── EMPTY STATE ────────────────────────────── */
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--muted)}
+.empty-state .es-icon{font-size:3rem;margin-bottom:.8rem}
+.empty-state h3{font-family:var(--font-heading);color:var(--text);margin-bottom:.4rem}
+.empty-state p{font-size:.9rem;max-width:360px;margin:0 auto}
+.es-cta{display:inline-block;margin-top:1.2rem;padding:.6rem 1.5rem;background:var(--purple);color:#fff;border-radius:10px;font-weight:600;text-decoration:none}
+
+/* ─── UNIT GRID ──────────────────────────────── */
+.unit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem;margin-top:.8rem}
+.ug-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem;cursor:pointer;transition:border-color .2s}
+.ug-item:hover{border-color:var(--accent)}
+.ug-item .ugi-name{font-weight:600;font-size:.88rem;color:var(--text)}
+.ug-item .ugi-meta{font-size:.72rem;color:var(--muted);margin-top:.15rem}
+.ug-item .ugi-score{font-size:.78rem;font-weight:600;margin-top:.2rem}
+.ug-item .ugi-score.s100{color:var(--green)}
+.ug-item .ugi-score.s80{color:var(--yellow)}
+.ug-item .ugi-score.s0{color:var(--pink)}
+
+/* ─── TIER BADGE ──────────────────────────────── */
+.tier{display:inline-block;border-radius:20px;padding:.15rem .7rem;font-size:.72rem;font-weight:600}
+.tier-beginner{background:color-mix(in srgb,var(--green) 20%,var(--card));color:#2d7a3a}
+.tier-inter{background:color-mix(in srgb,var(--yellow) 20%,var(--card));color:#8a6500}
+.tier-advanced{background:color-mix(in srgb,var(--purple) 20%,var(--card));color:var(--purple)}
+
+/* ─── FOOTER ─────────────────────────────────── */
+footer{text-align:center;padding:1.5rem;font-size:.8rem;color:var(--muted);border-top:1px solid var(--border);margin-top:2rem}
+footer a{color:var(--purple)}
+
+/* ─── RESPONSIVE ──────────────────────────────── */
+@media(max-width:600px){
+  .topbar{flex-wrap:wrap;gap:.4rem}
+  .tb-stats{width:100%;justify-content:center}
+  .options{grid-template-columns:1fr}
+  .stat-card{min-width:80px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-brand">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+👩‍🏫 <span>EUSTAQUIA</span> Grammar</div>
+  <div class="tb-stats">
+    <div class="tb-stat tb-correct">
+      <span class="icon">✅</span>
+      <span class="val" id="stat-correct">0</span>
+      <span class="lbl">CORRECT</span>
+    </div>
+    <div class="tb-stat">
+      <span class="icon">🔥</span>
+      <span class="val" id="stat-streak">0</span>
+      <span class="lbl">STREAK</span>
+    </div>
+    <div class="tb-stat">
+      <span class="icon">⭐</span>
+      <span class="val" id="stat-xp">0</span>
+      <span class="lbl">XP</span>
+    </div>
+  </div>
+  <a href="grammar-hub.html" class="btn-prev" style="font-size:.78rem;padding:.3rem .7rem">← Hub</a>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-sub">Your personal grammar trainer</div>
+    <h1>🎯 Grammar Coach</h1>
+    <p>Tracks every answer. Remembers your mistakes. Creates a practice plan just for you.</p>
+  </div>
+
+  <!-- OVERALL STATS ROW -->
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card">
+      <div class="sc-label">Questions Attempted</div>
+      <div class="sc-val" id="sc-attempted">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Accuracy</div>
+      <div class="sc-val" id="sc-accuracy">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Topics to Practise</div>
+      <div class="sc-val" id="sc-weak">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Current Streak</div>
+      <div class="sc-val" id="sc-streak">0</div>
+    </div>
+  </div>
+
+  <!-- SMART RETRY -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🔁</span> Smart Retry</div>
+    <div class="retry-card" id="retryCard">
+      <h3>Practise Your Mistakes</h3>
+      <p id="retryDesc">Complete some quizzes to build your practice list.</p>
+      <button class="retry-btn" id="retryBtn" disabled onclick="startSmartRetry()">▶ Start Smart Retry</button>
+    </div>
+  </div>
+
+  <!-- WEAK AREAS -->
+  <div class="section">
+    <div class="section-title"><span class="icon">⚠️</span> Areas That Need Practice</div>
+    <div class="weak-list" id="weakList">
+      <div class="empty-state">
+        <div class="es-icon">📋</div>
+        <h3>No data yet</h3>
+        <p>Complete grammar quizzes on any unit — your mistakes will appear here automatically.</p>
+        <a href="grammar-hub.html" class="es-cta">Go to Grammar Hub →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALL UNITS PROGRESS -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📊</span> Unit Progress</div>
+    <div class="activity-tabs">
+      <button class="atab active" onclick="filterUnits('all')">All</button>
+      <button class="atab" onclick="filterUnits('needs-practice')">Needs Practice</button>
+      <button class="atab" onclick="filterUnits('good')">Looking Good</button>
+    </div>
+    <div class="unit-grid" id="unitGrid"></div>
+  </div>
+
+  <!-- PRACTICE MODE (shown when Smart Retry or unit practice starts) -->
+  <div class="section" id="practiceSection" style="display:none">
+    <div class="section-title" id="practiceTitle"><span class="icon">🎯</span> Practice Mode</div>
+    <div class="quiz-wrap" id="quizWrap">
+      <div class="q-progress">
+        <span class="q-counter" id="qCounter">Q 1 / 10</span>
+        <span class="q-score" id="qScore">Score: 0</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <div class="q-question" id="qQuestion">Loading...</div>
+      <div class="q-hint" id="qHint"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback" style="display:none"></div>
+      <div class="nav-btns">
+        <button class="btn-next" id="nextBtn" disabled onclick="nextQuestion()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="grammar-hub.html">← Grammar Hub</a> · <a href="subjects.html">All Games</a> · EduSuite by EUSTAQUIA
+</footer>
+
+<script>
+/* ════════════════════════════════════════
+   GRAMMAR COACH — personal trainer logic
+   Stores all data in localStorage
+   ════════════════════════════════════════ */
+
+const STORAGE_KEY = 'eusa-coach-data';
+const XP_PER_CORRECT = 10;
+const STREAK_BONUS = 5;
+
+// ── DATA SCHEMA ──────────────────────────────
+// localStorage['eusa-coach-data'] = {
+//   sessions: [{ unit, topic, timestamp, questions: [{q, a, correct}] }],
+//   streak: number,
+//   xp: number,
+//   totalCorrect: number,
+//   totalAttempted: number
+// }
+
+// ── HELPERS ──────────────────────────────────
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
+}
+
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function initData() {
+  let d = loadData();
+  if (!d) {
+    d = { sessions: [], streak: 0, xp: 0, totalCorrect: 0, totalAttempted: 0 };
+    saveData(d);
+  }
+  return d;
+}
+
+// Collect wrong answers grouped by unit+topic
+function getWeakAreas(data) {
+  const map = {}; // key: "unit|topic" → {unit, topic, errors: [], total: 0}
+  (data.sessions || []).forEach(sess => {
+    (sess.questions || []).forEach(q => {
+      const key = sess.unit + '|' + sess.topic;
+      if (!map[key]) map[key] = { unit: sess.unit, topic: sess.topic, errors: [], total: 0 };
+      map[key].total++;
+      if (!q.correct) map[key].errors.push(q);
+    });
+  });
+  return Object.values(map).filter(v => v.errors.length > 0)
+    .sort((a, b) => b.errors.length - a.errors.length);
+}
+
+// Get per-unit stats
+function getUnitStats(data) {
+  const map = {};
+  (data.sessions || []).forEach(sess => {
+    if (!map[sess.unit]) map[sess.unit] = { correct: 0, total: 0, topic: sess.topic };
+    (sess.questions || []).forEach(q => {
+      map[sess.unit].total++;
+      if (q.correct) map[sess.unit].correct++;
+    });
+  });
+  return map;
+}
+
+// ── UPDATE TOPBAR STATS ──────────────────────
+function updateTopbar(data) {
+  document.getElementById('stat-correct').textContent = data.totalCorrect || 0;
+  document.getElementById('stat-streak').textContent = data.streak || 0;
+  document.getElementById('stat-xp').textContent = data.xp || 0;
+}
+
+// ── UPDATE OVERALL STATS ──────────────────────
+function updateStats(data) {
+  const total = data.totalAttempted || 0;
+  const correct = data.totalCorrect || 0;
+  const acc = total > 0 ? Math.round(correct / total * 100) : 0;
+  const weak = getWeakAreas(data);
+  document.getElementById('sc-attempted').textContent = total;
+  document.getElementById('sc-accuracy').textContent = total > 0 ? acc + '%' : '—';
+  document.getElementById('sc-accuracy').className = 'sc-val' + (acc >= 80 ? ' good' : acc >= 60 ? ' warn' : acc > 0 ? ' bad' : '');
+  document.getElementById('sc-weak').textContent = weak.length;
+  document.getElementById('sc-streak').textContent = data.streak || 0;
+}
+
+// ── UPDATE WEAK LIST ──────────────────────────
+function renderWeakList(data) {
+  const weak = getWeakAreas(data);
+  const el = document.getElementById('weakList');
+  if (weak.length === 0) {
+    el.innerHTML = '<div class="empty-state"><div class="es-icon">📋</div><h3>No weak areas yet</h3><p>Complete grammar quizzes on any unit — your mistakes will appear here automatically.</p><a href="grammar-hub.html" class="es-cta">Go to Grammar Hub →</a></div>';
+    return;
+  }
+  el.innerHTML = weak.map(w => `
+    <div class="weak-item" onclick="startPractice('${w.unit}','${w.topic}',${w.errors.length})">
+      <div class="wi-num">${w.unit.replace('grammar-unit-','').replace('.html','')}</div>
+      <div class="wi-info">
+        <div class="wi-topic">${w.topic}</div>
+        <div class="wi-unit">Unit ${w.unit.replace('grammar-unit-','').replace('.html','')}</div>
+      </div>
+      <div class="wi-errors">${w.errors.length} mistakes</div>
+    </div>
+  `).join('');
+}
+
+// ── UPDATE UNIT GRID ─────────────────────────
+const ALL_UNITS = [
+  {n:1,t:'Present Tenses'},{n:2,t:'Past Tenses'},{n:3,t:'Present Perfect'},
+  {n:4,t:'Past Tenses 2'},{n:5,t:'Future Tenses 1'},{n:6,t:'Future Tenses 2'},
+  {n:7,t:'Countable & Uncountable'},{n:8,t:'Referring to Nouns'},{n:9,t:'Pronouns & Referencing'},
+  {n:10,t:'Adjectives & Adverbs'},{n:11,t:'Comparing Things'},{n:12,t:'The Noun Phrase'},
+  {n:13,t:'Modals 1'},{n:14,t:'Modals 2'},{n:15,t:'Reported Speech'},
+  {n:16,t:'Verb + Verb Patterns'},{n:17,t:'Conditionals I'},{n:18,t:'Conditionals II'},
+  {n:19,t:'Prepositions'},{n:20,t:'Relative Clauses'},{n:21,t:'Ways of Organising Texts'},
+  {n:22,t:'The Passive Voice'},{n:23,t:'Linking Ideas'},{n:24,t:'Showing Your Position'},
+  {n:25,t:'Nominalisation'}
+];
+
+let currentFilter = 'all';
+
+function renderUnitGrid(data, filter) {
+  const stats = getUnitStats(data);
+  const grid = document.getElementById('unitGrid');
+  let units = ALL_UNITS.map(u => {
+    const s = stats['grammar-unit-' + u.n + '.html'];
+    const total = s ? s.total : 0;
+    const correct = s ? s.correct : 0;
+    const pct = total > 0 ? Math.round(correct / total * 100) : -1;
+    return { ...u, total, correct, pct };
+  });
+  if (filter === 'needs-practice') units = units.filter(u => u.pct >= 0 && u.pct < 80);
+  else if (filter === 'good') units = units.filter(u => u.pct >= 80);
+
+  grid.innerHTML = units.map(u => {
+    const pct = u.pct;
+    const scoreClass = pct >= 80 ? 's100' : pct >= 60 ? 's80' : pct >= 0 ? 's0' : '';
+    const scoreText = pct < 0 ? 'Not tried' : `${u.correct}/${u.total} (${pct}%)`;
+    return `<div class="ug-item" onclick="window.location='grammar-unit-${u.n}.html'">
+      <div class="ugi-name">Unit ${u.n}: ${u.t}</div>
+      <div class="ugi-meta">Grammar Unit ${u.n}</div>
+      <div class="ugi-score ${scoreClass}">${scoreText}</div>
+    </div>`;
+  }).join('');
+}
+
+function filterUnits(f) {
+  currentFilter = f;
+  document.querySelectorAll('.atab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderUnitGrid(initData(), f);
+}
+
+// ── SMART RETRY SETUP ─────────────────────────
+let practiceMode = null; // { questions: [], idx: 0, score: 0 }
+
+function updateSmartRetry(data) {
+  const weak = getWeakAreas(data);
+  const btn = document.getElementById('retryBtn');
+  const desc = document.getElementById('retryDesc');
+  if (weak.length === 0) {
+    desc.textContent = 'Complete some quizzes to build your practice list.';
+    btn.disabled = true;
+  } else {
+    const total = weak.reduce((s, w) => s + w.errors.length, 0);
+    desc.textContent = `${weak.length} topics need practice — ${total} questions to review.`;
+    btn.disabled = false;
+  }
+}
+
+function startSmartRetry() {
+  const data = loadData();
+  const weak = getWeakAreas(data);
+  if (weak.length === 0) return;
+  // Flatten all wrong questions into a list
+  const qs = [];
+  weak.forEach(w => {
+    w.errors.forEach(err => {
+      qs.push({ unit: w.unit, topic: w.topic, q: err.q, opts: err.opts, ans: err.ans });
+    });
+  });
+  // Shuffle
+  for (let i = qs.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [qs[i], qs[j]] = [qs[j], qs[i]];
+  }
+  practiceMode = { questions: qs, idx: 0, score: 0, total: qs.length, mode: 'smart-retry' };
+  document.getElementById('practiceTitle').innerHTML = '<span class="icon">🔁</span> Smart Retry — ' + qs.length + ' questions';
+  document.getElementById('practiceSection').style.display = 'block';
+  document.getElementById('practiceSection').scrollIntoView({ behavior: 'smooth' });
+  renderQuestion();
+}
+
+function startPractice(unit, topic, count) {
+  const data = loadData();
+  const weak = getWeakAreas(data);
+  const entry = weak.find(w => w.unit === unit && w.topic === topic);
+  if (!entry) return;
+  const qs = entry.errors.map(err => ({ unit: entry.unit, topic: entry.topic, q: err.q, opts: err.opts, ans: err.ans }));
+  // Shuffle
+  for (let i = qs.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [qs[i], qs[j]] = [qs[j], qs[i]];
+  }
+  practiceMode = { questions: qs, idx: 0, score: 0, total: qs.length, mode: 'topic' };
+  document.getElementById('practiceTitle').innerHTML = `<span class="icon">🎯</span> Practising: ${topic}`;
+  document.getElementById('practiceSection').style.display = 'block';
+  document.getElementById('practiceSection').scrollIntoView({ behavior: 'smooth' });
+  renderQuestion();
+}
+
+// ── QUIZ RENDERING ────────────────────────────
+function renderQuestion() {
+  if (!practiceMode) return;
+  const q = practiceMode.questions[practiceMode.idx];
+  const n = practiceMode.idx + 1;
+  const total = practiceMode.total;
+
+  document.getElementById('qCounter').textContent = `Q ${n} / ${total}`;
+  document.getElementById('qScore').textContent = `Score: ${practiceMode.score}`;
+  document.getElementById('progFill').style.width = ((n - 1) / total * 100) + '%';
+  document.getElementById('qQuestion').textContent = q.q;
+  document.getElementById('qHint').textContent = '';
+  document.getElementById('feedback').style.display = 'none';
+  document.getElementById('nextBtn').disabled = true;
+
+  const opts = q.opts || [];
+  const optionsEl = document.getElementById('options');
+  optionsEl.innerHTML = opts.map((opt, i) =>
+    `<button class="opt" onclick="selectAnswer(${i},${q.ans})" id="opt-${i}">${opt}</button>`
+  ).join('');
+}
+
+function selectAnswer(selected, correct) {
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(o => o.disabled = true);
+  const selectedEl = document.getElementById('opt-' + selected);
+  const correctEl = document.getElementById('opt-' + correct);
+
+  const isCorrect = selected === correct;
+  selectedEl.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) correctEl.classList.add('correct');
+
+  // Save to localStorage
+  const data = loadData() || initData();
+  const q = practiceMode.questions[practiceMode.idx];
+  const sessKey = q.unit + '|' + q.topic;
+  let sess = data.sessions.find(s => s.unit === q.unit && s.topic === q.topic);
+  if (!sess) {
+    sess = { unit: q.unit, topic: q.topic, timestamp: Date.now(), questions: [] };
+    data.sessions.push(sess);
+  }
+  sess.questions.push({ q: q.q, a: selected, correct: isCorrect });
+
+  if (isCorrect) {
+    practiceMode.score++;
+    data.totalCorrect = (data.totalCorrect || 0) + 1;
+    data.streak = (data.streak || 0) + 1;
+    data.xp = (data.xp || 0) + XP_PER_CORRECT + (data.streak > 3 ? STREAK_BONUS : 0);
+  } else {
+    data.streak = 0;
+  }
+  data.totalAttempted = (data.totalAttempted || 0) + 1;
+  saveData(data);
+
+  const fb = document.getElementById('feedback');
+  fb.style.display = 'block';
+  fb.className = 'feedback ' + (isCorrect ? 'pass' : 'fail');
+  fb.textContent = isCorrect
+    ? '✅ Correct! Streak: ' + data.streak
+    : `❌ Wrong. The correct answer is: ${practiceMode.questions[practiceMode.idx].opts[correct]}`;
+
+  document.getElementById('qScore').textContent = `Score: ${practiceMode.score}`;
+  document.getElementById('nextBtn').disabled = false;
+
+  // Update topbar live
+  updateTopbar(data);
+}
+
+function nextQuestion() {
+  if (!practiceMode) return;
+  practiceMode.idx++;
+  if (practiceMode.idx >= practiceMode.total) {
+    // Done
+    const pct = Math.round(practiceMode.score / practiceMode.total * 100);
+    const el = document.getElementById('quizWrap');
+    el.innerHTML = `
+      <div style="text-align:center;padding:1rem">
+        <div style="font-size:3rem">${pct >= 80 ? '🏆' : pct >= 60 ? '👍' : '💪'}</div>
+        <h3 style="font-family:var(--font-heading);font-size:1.5rem;margin:.8rem 0">${practiceMode.mode === 'smart-retry' ? 'Smart Retry Complete!' : 'Practice Complete!'}</h3>
+        <p style="color:var(--muted)">You got ${practiceMode.score} out of ${practiceMode.total} correct (${pct}%)</p>
+        <div style="margin-top:1rem">
+          <button class="btn-next" onclick="location.reload()">← Back to Coach</button>
+          ${practiceMode.mode === 'smart-retry' ? '<button class="btn-next" style="margin-left:.5rem;background:var(--purple)" onclick="startSmartRetry()">Try Again 🔁</button>' : ''}
+        </div>
+      </div>
+    `;
+    // Update all
+    const data = loadData();
+    updateStats(data);
+    renderWeakList(data);
+    updateSmartRetry(data);
+    renderUnitGrid(data, currentFilter);
+  } else {
+    renderQuestion();
+  }
+}
+
+// ── RECORD QUIZZES FROM OTHER PAGES ──────────
+// This page can record results from any grammar unit.
+// When the user completes a quiz on any unit, the unit's own page
+// will save results. We just display the aggregated data here.
+
+function refreshAll() {
+  const data = initData();
+  updateTopbar(data);
+  updateStats(data);
+  renderWeakList(data);
+  updateSmartRetry(data);
+  renderUnitGrid(data, currentFilter);
+}
+
+// ── INIT ─────────────────────────────────────
+refreshAll();
+
+// ── DEMO: seed some data for testing ─────────
+// Only seed if no data exists — comment out in production
+(function seedDemo() {
+  const data = loadData();
+  if (data && data.totalAttempted > 0) return; // already has data
+  // Add a few demo sessions so the coach isn't empty on first visit
+  const demoSessions = [
+    { unit: 'grammar-unit-02.html', topic: 'Past Tenses', timestamp: Date.now(), questions: [
+      { q: 'She _____ (go) to the market yesterday.', a: 2, correct: false, opts: ['go', 'goes', 'went', 'going'] },
+      { q: 'They _____ (play) when it started to rain.', a: 1, correct: false, opts: ['played', 'were playing', 'play', 'had played'] },
+      { q: 'I _____ (see) that film three times.', a: 0, correct: true, opts: ['have seen', 'saw', 'see', 'had seen'] }
+    ]},
+    { unit: 'grammar-unit-05.html', topic: 'Future Tenses 1', timestamp: Date.now(), questions: [
+      { q: 'I think it _____ (rain) tomorrow.', a: 1, correct: false, opts: ['rains', 'will rain', 'is raining', 'rained'] },
+      { q: 'She _____ (start) her new job next Monday.', a: 2, correct: false, opts: ['starts', 'is starting', 'is going to start', 'will start'] },
+      { q: 'We _____ (meet) at 7pm tonight.', a: 3, correct: true, opts: ['meet', 'are meeting', 'are going to meet', 'Both B and C are correct'] }
+    ]},
+    { unit: 'grammar-unit-01.html', topic: 'Present Tenses', timestamp: Date.now(), questions: [
+      { q: 'She _____ (work) at a bank.', a: 0, correct: true, opts: ['works', 'is working', 'work', 'is work'] },
+      { q: 'The train _____ (leave) at 9pm.', a: 1, correct: true, opts: ['leaves', 'is leaving', 'leave', 'will leave'] }
+    ]}
+  ];
+  demoSessions.forEach(sess => {
+    sess.questions.forEach(q => {
+      let existing = data.sessions.find(s => s.unit === sess.unit && s.topic === sess.topic);
+      if (!existing) {
+        existing = { unit: sess.unit, topic: sess.topic, timestamp: sess.timestamp, questions: [] };
+        data.sessions.push(existing);
+      }
+      existing.questions.push(q);
+      data.totalAttempted = (data.totalAttempted || 0) + 1;
+      if (q.correct) data.totalCorrect = (data.totalCorrect || 0) + 1;
+    });
+  });
+  data.streak = 2;
+  data.xp = 210;
+  saveData(data);
+  refreshAll();
+})();
+
+</script>
+</body>
+</html>

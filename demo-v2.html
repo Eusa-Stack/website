@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
+<link rel="stylesheet" href="grammar-shared.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduSuite — Learn with Eustaquia T Calope</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(180deg, #FFF5EB 0%, #FFECD2 30%, #FFF8F0 100%);
+  color: var(--dark-text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── DECORATIVE ELEMENTS ── */
+.decor-dots {
+  position: fixed;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+.decor-dots::before {
+  content: '● ● ● ● ●\\A ● ● ● ● ●\\A ● ● ● ● ●\\A ● ● ● ● ●\\A ● ● ● ● ●';
+  white-space: pre;
+  font-size: 20px;
+  line-height: 1.8;
+  color: var(--warm-orange);
+}
+
+/* ── NAV ── */
+nav {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid rgba(244,132,95,0.15);
+}
+nav .brand {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--warm-orange);
+  margin-right: auto;
+}
+nav .brand .suite { color: var(--warm-green); }
+nav .brand .dot { color: var(--warm-yellow); }
+nav a {
+  color: var(--dark-text);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  margin-left: 4px;
+  transition: all 0.2s;
+}
+nav a:hover { background: rgba(244,132,95,0.1); }
+nav a.youtube-link {
+  background: #FF0000;
+  color: #fff;
+}
+nav a.youtube-link:hover { background: #CC0000; }
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+  position: relative;
+}
+.hero-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 5px solid var(--white);
+  box-shadow: 0 8px 32px rgba(244,132,95,0.25), 0 0 0 8px rgba(244,132,95,0.1);
+  margin-bottom: 20px;
+  transition: transform 0.3s;
+}
+.hero-avatar:hover { transform: scale(1.05); }
+.hero-greeting {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--warm-green);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.hero h1 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 700;
+  color: var(--dark-text);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.hero h1 .name-highlight {
+  background: linear-gradient(135deg, var(--warm-orange), var(--soft-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-role {
+  font-size: 16px;
+  color: var(--muted-text);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.hero-tags {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.tag {
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 2px solid;
+}
+.tag-math { background: #FFF0E8; color: var(--warm-orange); border-color: rgba(244,132,95,0.3); }
+.tag-ielts { background: #F0FAF4; color: var(--warm-green); border-color: rgba(67,185,122,0.3); }
+.tag-youtube { background: #FFE8E8; color: #CC0000; border-color: rgba(204,0,0,0.2); }
+.tag-global { background: #EEF2FF; color: #4F46E5; border-color: rgba(79,70,229,0.2); }
+
+.hero-cta {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn {
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+.btn-primary { background: var(--warm-orange); color: #fff; }
+.btn-green { background: var(--warm-green); color: #fff; }
+.btn-white { background: var(--white); color: var(--dark-text); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+/* ── YOUTUBE BANNER ── */
+.youtube-banner {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  padding: 0 1.5rem;
+}
+.youtube-card {
+  background: linear-gradient(135deg, #FF0000, #CC0000);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  flex-wrap: wrap;
+}
+.youtube-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(255,0,0,0.3); }
+.youtube-play { 
+  width: 56px; height: 56px; 
+  background: #fff; color: #FF0000;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.youtube-info { flex: 1; min-width: 200px; }
+.youtube-info .yt-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; opacity: 0.8; margin-bottom: 4px;
+}
+.youtube-info .yt-name {
+  font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700;
+  margin-bottom: 4px;
+}
+.youtube-info .yt-desc { font-size: 13px; opacity: 0.85; }
+.youtube-arrow { font-size: 28px; flex-shrink: 0; }
+
+/* ── SECTION ── */
+.section {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+.section-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 700;
+  color: var(--dark-text);
+  text-align: center;
+  margin-bottom: 8px;
+}
+.section-sub {
+  text-align: center;
+  color: var(--muted-text);
+  margin-bottom: 2.5rem;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ── MODULE CARDS ── */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+.module-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+.module-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+}
+.module-card.math:hover { border-color: var(--warm-orange); }
+.module-card.ielts:hover { border-color: var(--warm-green); }
+.module-header {
+  padding: 28px 24px 18px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.module-header.math {
+  background: linear-gradient(135deg, #FFF0E8, #FFE4D6);
+}
+.module-header.ielts {
+  background: linear-gradient(135deg, #F0FAF4, #E0F5EA);
+}
+.module-emoji {
+  font-size: 48px;
+  margin-bottom: 8px;
+  display: block;
+}
+.module-header h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--dark-text);
+}
+.module-header .module-sub {
+  font-size: 13px;
+  color: var(--muted-text);
+  font-weight: 600;
+}
+.module-body {
+  padding: 20px 24px 20px;
+}
+.module-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.module-features li {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.feature-dot {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.feature-dot.math-dot { background: rgba(244,132,95,0.15); color: var(--warm-orange); }
+.feature-dot.ielts-dot { background: rgba(67,185,122,0.15); color: var(--warm-green); }
+.module-footer {
+  border-top: 1px solid #F0F0F0;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.module-meta {
+  font-size: 13px;
+  color: var(--muted-text);
+  font-weight: 600;
+}
+.module-meta .count {
+  font-weight: 800;
+  color: var(--dark-text);
+}
+.btn-module {
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  border: none;
+  text-decoration: none;
+  transition: all 0.2s;
+  color: #fff;
+}
+.btn-module.math-btn { background: var(--warm-orange); }
+.btn-module.ielts-btn { background: var(--warm-green); }
+.btn-module:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.15); }
+
+/* ── ABOUT STRIP ── */
+.about-strip {
+  background: var(--white);
+  border-top: 3px solid var(--warm-yellow);
+  border-bottom: 3px solid var(--warm-yellow);
+  padding: 2rem 1.5rem;
+}
+.about-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.about-avatar-sm {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 4px solid var(--warm-yellow);
+}
+.about-text { flex: 1; min-width: 250px; }
+.about-text h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.about-text p {
+  color: var(--muted-text);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ── FREE SECTION ── */
+.free-strip {
+  background: linear-gradient(135deg, var(--warm-green), #2D9C5E);
+  color: #fff;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+}
+.free-strip h2 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(24px, 4vw, 30px);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.free-strip p { opacity: 0.9; font-size: 16px; margin-bottom: 20px; }
+
+/* ── FOOTER ── */
+footer {
+  background: #2D2A32;
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  padding: 28px 16px;
+  font-size: 13px;
+}
+footer .name { color: var(--warm-orange); font-weight: 700; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  nav { padding: 8px 12px; }
+  nav .brand { font-size: 18px; }
+  nav a { font-size: 12px; padding: 6px 10px; }
+  .modules-grid { grid-template-columns: 1fr; }
+  .youtube-card { flex-direction: column; text-align: center; }
+}
+
+
+/* EUSTAQUIA — bigger fonts for readability */
+body { font-size: 18px !important; line-height: 1.65 !important; }
+h1 { font-size: 36px !important; }
+h2 { font-size: 28px !important; }
+h3 { font-size: 21px !important; }
+.quiz-q, .fillin-q, .speak-q, .match-title { font-size: 18px !important; }
+.sect-title { font-size: 19px !important; }
+.quiz-opt, .fillin-opt, .match-word, .tb-stat { font-size: 15px !important; }
+</style>
+</head>
+<body>
+
+<div class="decor-dots"></div>
+
+<nav>
+  <div class="brand">Edu<span class="suite">Suite</span><span class="dot">.</span></div>
+  <a href="#">Home</a>
+  <a href="math-games.html">Math</a>
+  <a href="ielts-grammar.html">Grammar</a>
+  <a href="https://www.youtube.com/@Eusell77" class="youtube-link" target="_blank">▶ YouTube</a>
+</nav>
+
+<header class="hero">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+
+  <img src="teacher-photo.jpg" alt="Eustaquia T Calope" class="hero-avatar">
+  <div class="hero-greeting">👋 Welcome! I'm your teacher</div>
+  <h1><span class="name-highlight">Eustaquia T Calope</span></h1>
+  <p class="hero-role">Global Educator · Math Specialist · IELTS Expert</p>
+  <div class="hero-tags">
+    <span class="tag tag-math">💰 Decimal Math</span>
+    <span class="tag tag-ielts">📚 IELTS Grammar</span>
+    <span class="tag tag-youtube">▶ Video Lessons</span>
+    <span class="tag tag-global">🌍 Global Classroom</span>
+  </div>
+  <div class="hero-cta">
+    <a href="math-games.html" class="btn btn-primary">🎮 Play Math Games</a>
+    <a href="ielts-grammar.html" class="btn btn-green">📖 Study Grammar</a>
+    <a href="https://www.youtube.com/@Eusell77" class="btn btn-white" target="_blank">▶ Watch on YouTube</a>
+  </div>
+</header>
+
+<!-- YOUTUBE CHANNEL CARD -->
+<div class="youtube-banner">
+  <a href="https://www.youtube.com/@Eusell77" class="youtube-card" target="_blank">
+    <div class="youtube-play">▶</div>
+    <div class="youtube-info">
+      <div class="yt-label">📺 YouTube Channel</div>
+      <div class="yt-name">EuStack Vitality</div>
+      <div class="yt-desc">Global Educator with Real-Life Wisdom — teaching videos coming soon!</div>
+    </div>
+    <div class="youtube-arrow">→</div>
+  </a>
+</div>
+
+<section class="section" id="modules">
+  <h2 class="section-title">✨ Start Learning</h2>
+  <p class="section-sub">Pick your path — I've built these tools just for you!</p>
+
+  <div class="modules-grid">
+    <!-- MATH MODULE -->
+    <div class="module-card math">
+      <div class="module-header math">
+        <span class="module-emoji">💰</span>
+        <h3>Decimal Math Games</h3>
+        <div class="module-sub">Real-World Money Problems</div>
+      </div>
+      <div class="module-body">
+        <ul class="module-features">
+          <li><span class="feature-dot math-dot">🎯</span> Place Value Matching</li>
+          <li><span class="feature-dot math-dot">💵</span> Money Builder Challenge</li>
+          <li><span class="feature-dot math-dot">➕</span> Addition & Subtraction</li>
+          <li><span class="feature-dot math-dot">🛒</span> Shopping Spree</li>
+          <li><span class="feature-dot math-dot">🏆</span> Challenge Mode + Quiz</li>
+        </ul>
+      </div>
+      <div class="module-footer">
+        <div class="module-meta"><span class="count">7</span> games &nbsp;·&nbsp; all levels</div>
+        <a href="math-games.html" class="btn-module math-btn">Play Now →</a>
+      </div>
+    </div>
+
+    <!-- IELTS MODULE -->
+    <div class="module-card ielts">
+      <div class="module-header ielts">
+        <span class="module-emoji">📚</span>
+        <h3>IELTS Grammar Studio</h3>
+        <div class="module-sub">25 Units · Visual Lessons · Quizzes</div>
+      </div>
+      <div class="module-body">
+        <ul class="module-features">
+          <li><span class="feature-dot ielts-dot">⏱️</span> Tenses Mastery</li>
+          <li><span class="feature-dot ielts-dot">📝</span> Nouns & Description</li>
+          <li><span class="feature-dot ielts-dot">🏆</span> Advanced Grammar</li>
+          <li><span class="feature-dot ielts-dot">✅</span> Interactive Quizzes</li>
+          <li><span class="feature-dot ielts-dot">📈</span> XP & Progress Tracking</li>
+        </ul>
+      </div>
+      <div class="module-footer">
+        <div class="module-meta"><span class="count">25</span> units &nbsp;·&nbsp; 3 phases</div>
+        <a href="ielts-grammar.html" class="btn-module ielts-btn">Start Learning →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT THE TEACHER -->
+<div class="about-strip">
+  <div class="about-inner">
+    <img src="teacher-photo.jpg" alt="Eustaquia T Calope" class="about-avatar-sm">
+    <div class="about-text">
+      <h3>👩‍🏫 About Eustaquia T Calope</h3>
+      <p>
+        A passionate educator with real-world teaching experience. I create interactive learning tools because every student deserves engaging, effective practice — not boring worksheets. From decimal math to IELTS grammar, my goal is to make learning <strong>fun</strong> and <strong>free</strong> for everyone.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- FREE FOREVER -->
+<div class="free-strip">
+  <h2>🎉 100% Free — Forever</h2>
+  <p>All interactive games and lessons are completely free. No accounts, no paywalls — just learning.</p>
+  <a href="math-games.html" class="btn btn-white">Start Playing Now →</a>
+</div>
+
+<footer>
+  <p><span class="name">Eustaquia T Calope</span> — EduSuite Teaching Tools</p>
+  <p style="margin-top:6px;">
+    <a href="#" style="color:rgba(255,255,255,0.4)">Privacy</a> · 
+    <a href="#" style="color:rgba(255,255,255,0.4)">Terms</a> · 
+    <a href="https://www.youtube.com/@Eusell77" style="color:rgba(255,255,255,0.4)" target="_blank">YouTube</a>
+  </p>
+</footer>
+
+<script src="floating-anim.js"></script>
+</body>
+</html>

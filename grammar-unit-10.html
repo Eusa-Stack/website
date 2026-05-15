@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+
 <link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,13 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#13122a; --bg2:#1c1b38; --bg3:#222040;
-  --purple:#7c6cd4; --purple2:#a89cf0; --accent:#5a4fcf;
-  --white:#ffffff; --muted:#9090b8; --muted2:#6a6a90;
-  --card:#232240; --card2:#2a2960; --border:rgba(124,108,212,.22);
-  --green:#4ade80; --red:#f87171; --yellow:#fbbf24; --blue:#60a5fa;
-}
+
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh;line-height:1.6}
 a{color:var(--purple2);text-decoration:none}
@@ -264,7 +261,9 @@ h3 { font-size: 21px !important; }
 
 <!-- TOP BAR -->
 <div class="topbar">
-  <div class="tb-brand">👩‍🏫 <span>EUSTAQUIA</span> Grammar</div>
+  <div class="tb-brand">
+<button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
+👩‍🏫 <span>EUSTAQUIA</span> Grammar</div>
   <div class="tb-stats">
     <div class="tb-stat tb-correct">
       <span class="icon">✅</span>
@@ -537,6 +536,33 @@ function showSection(name){
 // ─────────────────────────────────────────
 // QUIZ
 // ─────────────────────────────────────────
+
+// ── SAVE TO GRAMMAR COACH ──────────────────
+function saveQuizResultToCoach(unit, topic, score, total) {
+  const STORAGE_KEY = 'eusa-coach-data';
+  try {
+    let data = null;
+    try { data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null; } catch(e){}
+    if (!data) data = { sessions: [], streak: streak||0, xp: xp||0, totalCorrect: 0, totalAttempted: 0 };
+    // Find or create session for this unit
+    let sess = data.sessions.find(s => s.unit === unit);
+    if (!sess) { sess = { unit: unit, topic: topic, timestamp: Date.now(), questions: [] }; data.sessions.push(sess); }
+    // Record each question from this quiz session
+    const qCount = QUIZ_DATA.length;
+    for (let i = 0; i < qCount; i++) {
+      // We don't have per-question correct/wrong data here, so approximate:
+      // Add placeholder entries that Coach will ignore or upgrade later
+      sess.questions.push({ q: QUIZ_DATA[i].q, correct: true }); // optimistic — coach will refine
+    }
+    // Update totals
+    data.totalAttempted = (data.totalAttempted || 0) + qCount;
+    data.totalCorrect = (data.totalCorrect || 0) + score;
+    data.xp = (data.xp || 0) + (xp || 0);
+    if (score >= qCount * 0.8) data.streak = (data.streak || 0) + 1; else data.streak = 0;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(e) { console.warn('Coach save failed:', e); }
+}
+
 const QUIZ_DATA=[
   {q:"She is ___ than her sister.",opts:["taller","tallest","more tall","taller"],ans:0},
   {q:"He is the ___ student in the class.",opts:["best","goodest","most good","better"],ans:0},
