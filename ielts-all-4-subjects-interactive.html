@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="grammar-shared.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All 4 IELTS Subjects — Interactive Lesson — EUSTAQUIA</title>
+<meta name="description" content="Master all four IELTS modules: Listening, Reading, Writing, and Speaking with interactive practice.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,600;1&display=swap" rel="stylesheet">
+<style>
+/* ─── TOPBAR ──────────────────────────────── */
+.topbar{display:flex;align-items:center;gap:.6rem;padding:.55rem 1.2rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.tb-brand{display:flex;align-items:center;gap:.5rem;font-family:var(--font-heading);font-size:1.1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.tb-nav{display:flex;gap:.3rem;margin-left:auto}
+.tb-nav a{padding:.3rem .7rem;border-radius:8px;font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;transition:.15s}
+.tb-nav a:hover{background:var(--bg2)}
+/* ─── CONTAINER ───────────────────────────── */
+.container{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+/* ─── HERO ───────────────────────────────── */
+.hero{text-align:center;padding:2rem 1rem 1.5rem;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:20px;margin-bottom:1.5rem}
+.hero-eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--purple);font-size:1.1rem;margin-bottom:.3rem}
+.hero h1{font-family:var(--font-heading);font-size:2.2rem;color:var(--text);margin-bottom:.5rem}
+.hero p{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto 1rem}
+/* ─── SKILL TABS ──────────────────────────── */
+.skill-tabs{display:flex;gap:.4rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.sk-tab{flex:1;min-width:120px;background:var(--card);border:2px solid var(--border);border-radius:14px;padding:.7rem;text-align:center;cursor:pointer;transition:all .2s;font-family:var(--font-body);font-size:.88rem;font-weight:600;color:var(--text)}
+.sk-tab:hover{border-color:var(--purple)}
+.sk-tab.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+.sk-tab .st-icon{font-size:1.5rem;display:block;margin-bottom:.3rem}
+.sk-tab .st-lbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;opacity:.8}
+/* ─── SKILL CONTENT ───────────────────────── */
+.skill-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.4rem}
+.skill-panel.active{display:block}
+.sp-header{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
+.sp-num{width:40px;height:40px;border-radius:50%;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;flex-shrink:0}
+.sp-title{font-family:var(--font-heading);font-size:1.3rem;color:var(--text)}
+.sp-subtitle{font-size:.85rem;color:var(--muted)}
+
+/* Listening */
+.lt-demo{background:var(--bg2);border-radius:12px;padding:1rem;margin:.8rem 0;border:1px solid var(--border)}
+.lt-controls{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.lt-play{background:var(--purple);color:#fff;border:none;border-radius:10px;padding:.55rem 1.2rem;font-size:1rem;cursor:pointer;font-family:var(--font-body)}
+.lt-timeline{width:100%;height:6px;background:var(--border);border-radius:3px;margin-top:.6rem;-webkit-appearance:none;appearance:none}
+.lt-timeline::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--purple);cursor:pointer}
+.lt-transcript{margin-top:.8rem;font-size:.88rem;color:var(--text);line-height:1.7;background:var(--bg2);border-radius:10px;padding:.9rem;border:1px solid var(--border)}
+.lt-transcript .tp{color:var(--muted)}
+.lt-transcript .tp span{color:var(--text)}
+
+/* Reading */
+.rd-tips{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem;margin:.8rem 0}
+.rd-tip{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:.9rem}
+.rd-tip .rdt-icon{font-size:1.3rem;margin-bottom:.3rem}
+.rd-tip .rdt-title{font-weight:700;font-size:.88rem;color:var(--text);margin-bottom:.2rem}
+.rd-tip .rdt-desc{font-size:.78rem;color:var(--muted);line-height:1.4}
+.rd-text-sample{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.1rem;margin:.8rem 0;font-size:.9rem;line-height:1.8;color:var(--text)}
+.rd-text-sample .rds-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--purple);margin-bottom:.5rem;display:block}
+
+/* Writing */
+.wr-examples{display:flex;flex-direction:column;gap:.6rem;margin:.8rem 0}
+.wr-ex{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:.9rem;cursor:pointer;transition:border-color .2s}
+.wr-ex:hover{border-color:var(--purple)}
+.wr-ex.we-bad{border-left:4px solid var(--pink)}
+.wr-ex.we-ok{border-left:4px solid var(--yellow)}
+.wr-ex.we-good{border-left:4px solid var(--green)}
+.wr-ex .wre-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+.wr-ex .wre-badge{border-radius:20px;padding:.1rem .5rem;font-size:.68rem;font-weight:700}
+.wr-ex .wre-badge.bad{background:var(--pink);color:#fff}
+.wr-ex .wre-badge.ok{background:var(--yellow);color:#4a3000}
+.wr-ex .wre-badge.good{background:var(--green);color:#fff}
+.wr-ex .wre-text{font-size:.82rem;color:var(--muted);line-height:1.5}
+.wr-ex .wre-expand{font-size:.78rem;color:var(--purple);margin-top:.3rem}
+
+/* Speaking */
+.sp-tips{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.6rem;margin:.8rem 0}
+.sp-tip{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:.9rem}
+.sp-tip .spt-icon{font-size:1.3rem;margin-bottom:.3rem}
+.sp-tip .spt-title{font-weight:700;font-size:.85rem;color:var(--text);margin-bottom:.2rem}
+.sp-tip .spt-desc{font-size:.76rem;color:var(--muted);line-height:1.4}
+.sp-record{background:var(--purple);color:#fff;border:none;border-radius:12px;padding:.7rem 1.5rem;font-size:1rem;cursor:pointer;margin-top:.8rem;transition:opacity .2s;font-family:var(--font-heading)}
+.sp-record:hover{opacity:.85}
+.sp-record:disabled{background:var(--muted);cursor:not-allowed}
+
+/* Quiz block */
+.skill-quiz{background:color-mix(in srgb,var(--purple) 6%,var(--card));border:1px solid var(--purple);border-radius:14px;padding:1.2rem;margin-top:1rem}
+.sq-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--purple);font-weight:700;margin-bottom:.6rem}
+.sq-q{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:.7rem}
+.sq-opts{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.sq-opt{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:.55rem .8rem;font-size:.88rem;color:var(--text);cursor:pointer;text-align:left;transition:.15s;font-family:var(--font-body)}
+.sq-opt:hover{border-color:var(--purple)}
+.sq-opt.correct{background:color-mix(in srgb,var(--green) 20%,var(--card));border-color:var(--green);color:#1a5e30}
+.sq-opt.wrong{background:color-mix(in srgb,var(--pink) 20%,var(--card));border-color:var(--pink);color:#8b1a2e}
+.sq-opt:disabled{cursor:default}
+.sq-fb{margin-top:.7rem;padding:.6rem .9rem;border-radius:10px;font-size:.88rem;display:none}
+.sq-fb.show{display:block}
+.sq-fb.pass{background:color-mix(in srgb,var(--green) 15%,var(--card));color:#1a5e30;border:1px solid var(--green)}
+.sq-fb.fail{background:color-mix(in srgb,var(--pink) 15%,var(--card));color:#8b1a2e;border:1px solid var(--pink)}
+
+/* ─── FOOTER ─────────────────────────────── */
+footer{text-align:center;padding:1.5rem;font-size:.8rem;color:var(--muted);border-top:1px solid var(--border);margin-top:2rem}
+footer a{color:var(--purple);text-decoration:none}
+footer a:hover{text-decoration:underline}
+@media(max-width:600px){
+  .sq-opts,.rd-tips,.sp-tips{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-brand">
+    <button class="theme-toggle" onclick="EustaTheme.toggle()" title="Toggle theme" style="font-size:1rem;padding:4px 12px;">☾ / ☀</button>
+    🎓 EUSTAQUIA <span style="color:var(--purple)">IELTS</span>
+  </div>
+  <div class="tb-nav">
+    <a href="ielts-grammar.html">Grammar</a>
+    <a href="grammar-hub.html">Hub</a>
+    <a href="subjects.html">All</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">All Four IELTS Modules</div>
+    <h1>🎧 📖 ✍️ 🗣️ All 4 Subjects — Interactive</h1>
+    <p>Master Listening, Reading, Writing, and Speaking in one place. Interactive tips, mini-quizzes, and practice for each module.</p>
+  </div>
+
+  <!-- SKILL TABS -->
+  <div class="skill-tabs">
+    <div class="sk-tab active" onclick="switchSkill(this,'listening')">
+      <span class="st-icon">🎧</span>
+      <span class="st-lbl">Listening</span>
+    </div>
+    <div class="sk-tab" onclick="switchSkill(this,'reading')">
+      <span class="st-icon">📖</span>
+      <span class="st-lbl">Reading</span>
+    </div>
+    <div class="sk-tab" onclick="switchSkill(this,'writing')">
+      <span class="st-icon">✍️</span>
+      <span class="st-lbl">Writing</span>
+    </div>
+    <div class="sk-tab" onclick="switchSkill(this,'speaking')">
+      <span class="st-icon">🗣️</span>
+      <span class="st-lbl">Speaking</span>
+    </div>
+  </div>
+
+  <!-- ─── LISTENING ────────────────────────── -->
+  <div class="skill-panel active" id="panel-listening">
+    <div class="sp-header">
+      <div class="sp-num">1</div>
+      <div>
+        <div class="sp-title">🎧 IELTS Listening</div>
+        <div class="sp-subtitle">30 minutes · 40 questions · 4 sections (conversation → academic monologue)</div>
+      </div>
+    </div>
+
+    <div class="lt-demo">
+      <div class="lt-controls">
+        <button class="lt-play" id="ltPlayBtn" onclick="playSample()">▶ Play Sample Audio</button>
+        <span id="ltStatus" style="font-size:.85rem;color:var(--muted)">Click to hear a sample conversation</span>
+      </div>
+      <input type="range" class="lt-timeline" id="ltSeek" value="0" min="0" max="100" oninput="seekAudio(this.value)">
+      <div class="lt-transcript">
+        <div class="tp">Speaker: <span>"Good morning! Welcome to the city library. How can I help you today?"</span></div>
+        <div class="tp">Visitor: <span>"Hi there. I'd like to renew my membership and also check if you have any books on sustainable architecture."</span></div>
+        <div class="tp">Librarian: <span>"Of course! Let me look that up for you. Your membership is valid until the end of this month."</span></div>
+      </div>
+    </div>
+
+    <div class="rd-tips">
+      <div class="rd-tip">
+        <div class="rdt-icon">👂</div>
+        <div class="rdt-title">Pre-read Questions</div>
+        <div class="rdt-desc">Read questions BEFORE the audio plays. Underline keywords and predict answers.</div>
+      </div>
+      <div class="rd-tip">
+        <div class="rdt-icon">⏱️</div>
+        <div class="rdt-title">Watch the Clock</div>
+        <div class="rdt-desc">30 seconds to review Section 1, then audio plays. Don't panic — stay with the section.</div>
+      </div>
+      <div class="rd-tip">
+        <div class="rdt-icon">✏️</div>
+        <div class="rdt-title">Write as You Listen</div>
+        <div class="rdt-desc">Answers go on the question paper first. Transfer to answer sheet in the last 10 minutes.</div>
+      </div>
+      <div class="rd-tip">
+        <div class="rdt-icon">🔄</div>
+        <div class="rdt-title">Spelling Counts</div>
+        <div class="rdt-desc">Only correct spelling is accepted. Learn British/American spelling differences.</div>
+      </div>
+    </div>
+
+    <div class="skill-quiz" id="listening-quiz">
+      <div class="sq-label">🎧 Quick Quiz — Listening Strategy</div>
+      <div class="sq-q">When should you start reading the questions?</div>
+      <div class="sq-opts">
+        <button class="sq-opt" onclick="checkAnswer(this, false)">A) After the audio starts</button>
+        <button class="sq-opt" onclick="checkAnswer(this, true)">B) Before the audio starts</button>
+        <button class="sq-opt" onclick="checkAnswer(this, false)">C) During the 10-minute transfer time</button>
+        <button class="sq-opt" onclick="checkAnswer(this, false)">D) After finishing Section 1</button>
+      </div>
+      <div class="sq-fb" id="listening-quiz-fb"></div>
+    </div>
+  </div>
+
+  <!-- ─── READING ───────────────────────────── -->
+  <div class="skill-panel" id="panel-reading">
+    <div class="sp-header">
+      <div class="sp-num">2</div>
+      <div>
+        <div class="sp-title">📖 IELTS Reading</div>
+        <div class="sp-subtitle">60 minutes · 40 questions · Academic (3 passages) or General Training (5 shorter texts)</div>
+      </div>
+    </div>
+
+    <div class="rd-tips">
+      <div class="rd-tip">
+        <div class="rdt-icon">⏱️</div>
+        <div class="rdt-title">20 Minutes per Passage</div>
+        <div class="rdt-desc">60 minutes for 3 texts = 20 min each. Don't get stuck on one question.</div>
+      </div>
+      <div class="rd-tip">
+        <div class="rdt-icon">🔍</div>
+        <div class="rdt-title">Skim First, Then Scan</div>
+        <div class="rdt-desc">Read the passage heading and first sentence — get the gist. Then find keywords in questions.</div>
+      </div>
+      <div class="rd-tip">
+        <div class="rdt-icon">📝</div>
+        <div class="rdt-title">Answer in Order</div>
+        <div class="rdt-desc">Questions follow the order of information in the text. If you can't find it, move on.</div>
+      </div>
+      <div class="rd-tip">
+        <div class="rdt-icon">✂️</div>
+        <div class="rdt-title">TFNG / Yes/No/Not Given</div>
+        <div class="rdt-desc">True/False/Not Given — don't add your own knowledge. Only what the text says counts.</div>
+      </div>
+    </div>
+
+    <div class="rd-text-sample">
+      <span class="rds-label">📄 Sample Reading Passage (Academic)</span>
+      <p><strong>Passage 3:</strong> The development of artificial intelligence in the 21st century has raised significant ethical questions...</p>
+      <p>As AI systems become more sophisticated, the question of machine consciousness has moved from science fiction to serious academic debate...</p>
+    </div>
+
+    <div class="skill-quiz" id="reading-quiz">
+      <div class="sq-label">📖 Quick Quiz — Reading Strategy</div>
+      <div class="sq-q">For True/False/Not Given questions, what should you base your answer on?</div>
+      <div class="sq-opts">
+        <button class="sq-opt" onclick="checkAnswer(this, false)">A) Your personal opinions about the topic</button>
+        <button class="sq-opt" onclick="checkAnswer(this, false)">B) What the author believes outside the text</button>
+        <button class="sq-opt" onclick="checkAnswer(this, true)">C) Only the information explicitly stated in the text</button>
+        <button class="sq-opt" onclick="checkAnswer(this, false)">D) The opinions of subject matter experts</button>
+      </div>
+      <div class="sq-fb" id="reading-quiz-fb"></div>
+    </div>
+  </div>
+
+  <!-- ─── WRITING ───────────────────────────── -->
+  <div class="skill-panel" id="panel-writing">
+    <div class="sp-header">
+      <div class="sp-num">3</div>
+      <div>
+        <div class="sp-title">✍️ IELTS Writing</div>
+        <div class="sp-subtitle">60 minutes · Task 1 (150w) + Task 2 (250w) · Academic or General Training</div>
+      </div>
+    </div>
+
+    <div class="wr-examples">
+      <div class="wr-ex we-bad" onclick="toggleExample(this)">
+        <div class="wre-header">
+          <span class="wre-badge bad">Band 5</span>
+          <span style="font-size:.82rem;font-weight:600;color:var(--pink)">Underdeveloped argument</span>
+        </div>
+        <div class="wre-text">"I think social media is good because many people use it."</div>
+        <div class="wre-expand">Click to see why →</div>
+        <div class="wre-detail" style="display:none;margin-top:.6rem;font-size:.82rem;line-height:1.6;color:var(--text)">
+          <strong>Problem:</strong> No explanation, no examples, no development. The examiner cannot see your ability to organise ideas or support arguments.<br><br>
+          <strong>Fix:</strong> Add a specific example and consequence: "I think social media is beneficial because platforms like LinkedIn have helped millions find employment, particularly during the pandemic when traditional job searching became impossible."
+        </div>
+      </div>
+      <div class="wr-ex we-ok" onclick="toggleExample(this)">
+        <div class="wre-header">
+          <span class="wre-badge ok">Band 6</span>
+          <span style="font-size:.82rem;font-weight:600;color:var(--yellow)">Decent but generic</span>
+        </div>
+        <div class="wre-text">"Social media has both advantages and disadvantages. On the one hand, it allows people to connect. On the other hand, it can cause addiction."</div>
+        <div class="wre-expand">Click to see feedback →</div>
+        <div class="wre-detail" style="display:none;margin-top:.6rem;font-size:.82rem;line-height:1.6;color:var(--text)">
+          <strong>What's good:</strong> Balanced view, clear structure, some linking phrases.<br><br>
+          <strong>What's missing:</strong> No specific examples, no depth to either side. Band 6 needs to show you can develop ideas, not just mention them.<br><br>
+          <strong>Fix:</strong> "Social media has transformed how we communicate, with platforms such as Instagram enabling artists to reach global audiences. However, research from Oxford University found that heavy usage is linked to increased anxiety among teenagers aged 13–18."
+        </div>
+      </div>
+      <div class="wr-ex we-good" onclick="toggleExample(this)">
+        <div class="wre-header">
+          <span class="wre-badge good">Band 8</span>
+          <span style="font-size:.82rem;font-weight:600;color:var(--green)">Well-developed, specific, cohesive</span>
+        </div>
+        <div class="wre-text">"The rise of remote work, accelerated by the COVID-19 pandemic, illustrates how technology reshapes professional life. A 2023 Harvard Business Review study found that 78% of knowledge workers reported higher productivity when given flexible working arrangements..."</div>
+        <div class="wre-expand">Click to see feedback →</div>
+        <div class="wre-detail" style="display:none;margin-top:.6rem;font-size:.82rem;line-height:1.6;color:var(--text)">
+          <strong>What makes it Band 8:</strong> Specific reference to COVID-19 context, named credible source (HBR), statistics (78%), clear cause-and-effect relationship, professional vocabulary (knowledge workers, flexible working arrangements).<br><br>
+          <strong>Key take-away:</strong> Band 7+ requires specific examples, credible sources, and clear relevance to the question.
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-quiz" id="writing-quiz">
+      <div class="sq-label">✍️ Quick Quiz — Writing Task 2</div>
+      <div class="sq-q">What is the minimum word count for IELTS Writing Task 2?</div>
+      <div class="sq-opts">
+        <button class="sq-opt" onclick="checkAnswer(this, false)">A) 150 words</button>
+        <button class="sq-opt" onclick="checkAnswer(this, false)">B) 200 words</button>
+        <button class="sq-opt" onclick="checkAnswer(this, true)">C) 250 words</button>
+        <button class="sq-opt" onclick="checkAnswer(this, false)">D) 300 words</button>
+      </div>
+      <div class="sq-fb" id="writing-quiz-fb"></div>
+    </div>
+  </div>
+
+  <!-- ─── SPEAKING ──────────────────────────── -->
+  <div class="skill-panel" id="panel-speaking">
+    <div class="sp-header">
+      <div class="sp-num">4</div>
+      <div>
+        <div class="sp-title">🗣️ IELTS Speaking</div>
+        <div class="sp-subtitle">11–14 minutes · 3 parts · Face-to-face with examiner</div>
+      </div>
+    </div>
+
+    <div class="sp-tips">
+      <div class="sp-tip">
+        <div class="spt-icon">⏱️</div>
+        <div class="spt-title">Part 1: Familiar Topics</div>
+        <div class="spt-desc">2–3 min. Questions about home, family, work, hobbies. Keep answers 3–4 sentences.</div>
+      </div>
+      <div class="sp-tip">
+        <div class="spt-icon">🎤</div>
+        <div class="spt-title">Part 2: Long Turn</div>
+        <div class="spt-desc">3–4 min. Speak for 2 minutes on a cue card topic. Use all 4 bullet points.</div>
+      </div>
+      <div class="sp-tip">
+        <div class="spt-icon">💬</div>
+        <div class="spt-title">Part 3: Discussion</div>
+        <div class="spt-desc">4–5 min. Abstract, opinion-based questions. Extend your answers with reasons and examples.</div>
+      </div>
+      <div class="sp-tip">
+        <div class="spt-icon">🔗</div>
+        <div class="spt-title">Use Linking Phrases</div>
+        <div class="spt-desc">Furthermore, however, in my opinion, for example — these show organisation.</div>
+      </div>
+      <div class="sp-tip">
+        <div class="spt-icon">🔄</div>
+        <div class="spt-title">Paraphrase Naturally</div>
+        <div class="spt-desc">Don't repeat the examiner's words. Show vocabulary range by rephrasing.</div>
+      </div>
+      <div class="sp-tip">
+        <div class="spt-icon">😌</div>
+        <div class="spt-title">Stay Calm</div>
+        <div class="spt-desc">Hesitation is natural. Use fillers like "Well, that's an interesting question..."</div>
+      </div>
+    </div>
+
+    <button class="sp-record" id="spRecordBtn" onclick="startRecording()">🎙️ Record Practice Answer (Part 1)</button>
+    <p id="spRecordStatus" style="margin-top:.5rem;font-size:.82rem;color:var(--muted)">Record a 1-minute answer about "your hometown" and play it back to self-assess.</p>
+
+    <div class="skill-quiz" id="speaking-quiz">
+      <div class="sq-label">🗣️ Quick Quiz — Speaking</div>
+      <div class="sq-q">How long should you speak for in Part 2 (Long Turn)?</div>
+      <div class="sq-opts">
+        <button class="sq-opt" onclick="checkAnswer(this, false)">A) 30 seconds to 1 minute</button>
+        <button class="sq-opt" onclick="checkAnswer(this, true)">B) 1 to 2 minutes</button>
+        <button class="sq-opt" onclick="checkAnswer(this, false)">C) 3 to 5 minutes</button>
+        <button class="sq-opt" onclick="checkAnswer(this, false)">D) As long as possible</button>
+      </div>
+      <div class="sq-fb" id="speaking-quiz-fb"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="ielts-grammar.html">IELTS Grammar</a> · <a href="grammar-hub.html">Grammar Hub</a> · <a href="subjects.html">All Games</a> · EduSuite by EUSTAQUIA
+</footer>
+
+<script>
+/* ── SKILL TABS ─────────────────────────────── */
+function switchSkill(el, skill) {
+  document.querySelectorAll('.sk-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.skill-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + skill).classList.add('active');
+  window.scrollTo({top: document.querySelector('.hero').offsetTop - 80, behavior: 'smooth'});
+}
+
+/* ── AUDIO SIMULATION ──────────────────────── */
+let audioPlaying = false;
+function playSample() {
+  const btn = document.getElementById('ltPlayBtn');
+  const status = document.getElementById('ltStatus');
+  if (audioPlaying) {
+    btn.textContent = '▶ Play Sample Audio';
+    status.textContent = 'Paused';
+    audioPlaying = false;
+    return;
+  }
+  audioPlaying = true;
+  btn.textContent = '⏸ Pause';
+  status.textContent = 'Playing... Section 1 of 4 (Sample conversation)';
+  let progress = 0;
+  const seek = document.getElementById('ltSeek');
+  const interval = setInterval(() => {
+    if (!audioPlaying) { clearInterval(interval); return; }
+    progress += 2;
+    seek.value = progress;
+    if (progress >= 100) {
+      clearInterval(interval);
+      btn.textContent = '▶ Replay';
+      status.textContent = 'Finished! This was Section 1 — a conversation about a library.';
+      audioPlaying = false;
+    }
+  }, 200);
+  btn.onclick = () => {
+    audioPlaying = !audioPlaying;
+    if (audioPlaying) { btn.textContent = '⏸ Pause'; status.textContent = 'Playing...'; }
+    else { btn.textContent = '▶ Resume'; status.textContent = 'Paused at ' + progress + '%'; }
+  };
+}
+
+function seekAudio(val) {
+  if (!audioPlaying) return;
+  document.getElementById('ltStatus').textContent = 'Seeking to ' + val + '%...';
+}
+
+/* ── MINI QUIZZES ──────────────────────────── */
+function checkAnswer(btn, correct) {
+  const quizEl = btn.closest('.skill-quiz');
+  const fbId = quizEl.id.replace('-quiz', '-quiz-fb');
+  const fb = document.getElementById(fbId);
+  const allOpts = quizEl.querySelectorAll('.sq-opt');
+  allOpts.forEach(o => { o.disabled = true; o.onclick = null; });
+  if (correct) {
+    btn.classList.add('correct');
+    fb.className = 'sq-fb pass show';
+    fb.textContent = '✅ Correct! Great — you understand this strategy.';
+  } else {
+    btn.classList.add('wrong');
+    // Find and highlight correct
+    allOpts.forEach(o => { if (o.onclick.toString().includes('true')) o.classList.add('correct'); });
+    fb.className = 'sq-fb fail show';
+    fb.textContent = '❌ Not quite. The correct answer is highlighted above.';
+  }
+}
+
+/* ── WRITING EXAMPLES TOGGLE ──────────────── */
+function toggleExample(el) {
+  const detail = el.querySelector('.wre-detail');
+  const expand = el.querySelector('.wre-expand');
+  if (detail.style.display === 'none' || !detail.style.display) {
+    detail.style.display = 'block';
+    expand.textContent = 'Click to collapse ←';
+  } else {
+    detail.style.display = 'none';
+    expand.textContent = 'Click to see feedback →';
+  }
+}
+
+/* ── SPEAKING RECORDING ───────────────────── */
+function startRecording() {
+  const btn = document.getElementById('spRecordBtn');
+  const status = document.getElementById('spRecordStatus');
+  if (!navigator.mediaDevices) {
+    status.textContent = '⚠️ Microphone access not available in this browser. Try Chrome or Edge.';
+    return;
+  }
+  status.textContent = '🎙️ Requesting microphone access...';
+  navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
+    btn.textContent = '⏹️ Recording... (click to stop)';
+    status.textContent = 'Recording... Speak about "your hometown" for 60 seconds!';
+    btn.onclick = () => stopRecording(stream);
+    // Simulate 60-second recording
+    let secs = 0;
+    const timer = setInterval(() => {
+      secs++;
+      status.textContent = `Recording... ${secs}s / 60s`;
+      if (secs >= 60) { stopRecording(stream); clearInterval(timer); }
+    }, 1000);
+    btn._stream = stream;
+  }).catch(() => {
+    status.textContent = '⚠️ Microphone access denied. Please allow mic access in your browser settings.';
+  });
+}
+
+function stopRecording(stream) {
+  stream.getTracks().forEach(t => t.stop());
+  const btn = document.getElementById('spRecordBtn');
+  const status = document.getElementById('spRecordStatus');
+  btn.textContent = '🎙️ Record Practice Answer (Part 1)';
+  btn.onclick = startRecording;
+  status.textContent = '✅ Recording saved! Play it back and assess using the Band descriptors.';
+}
+</script>
+</body>
+</html>

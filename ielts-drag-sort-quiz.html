@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="grammar-shared.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Drag & Sort Quiz — EUSTAQUIA</title>
+<meta name="description" content="Interactive drag-and-sort IELTS quiz. Sort information into the correct categories for each module.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,600;1&display=swap" rel="stylesheet">
+<style>
+/* ─── TOPBAR ──────────────────────────────── */
+.topbar{display:flex;align-items:center;gap:.6rem;padding:.55rem 1.2rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.tb-brand{display:flex;align-items:center;gap:.5rem;font-family:var(--font-heading);font-size:1.1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.tb-nav{display:flex;gap:.3rem;margin-left:auto}
+.tb-nav a{padding:.3rem .7rem;border-radius:8px;font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;transition:.15s}
+.tb-nav a:hover{background:var(--bg2)}
+/* ─── CONTAINER ───────────────────────────── */
+.container{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+/* ─── HERO ───────────────────────────────── */
+.hero{text-align:center;padding:2rem 1rem 1.5rem;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:20px;margin-bottom:1.5rem}
+.hero-eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--purple);font-size:1.1rem;margin-bottom:.3rem}
+.hero h1{font-family:var(--font-heading);font-size:2.2rem;color:var(--text);margin-bottom:.5rem}
+.hero p{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto 1rem}
+/* ─── PROGRESS BAR ────────────────────────── */
+.prog-row{margin:1rem 0;display:flex;align-items:center;gap:.7rem}
+.prog-label{font-size:.78rem;color:var(--muted);white-space:nowrap}
+.prog-bar{flex:1;height:8px;background:var(--bg2);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:var(--purple);border-radius:4px;transition:width .4s}
+.prog-score{font-size:.85rem;font-weight:700;color:var(--purple);white-space:nowrap}
+/* ─── QUIZ CARD ──────────────────────────── */
+.quiz-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:1.4rem;margin-bottom:1.2rem}
+.qc-header{display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem}
+.qc-num{width:36px;height:36px;border-radius:50%;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;flex-shrink:0}
+.qc-title{font-family:var(--font-heading);font-size:1.15rem;color:var(--text)}
+.qc-sub{font-size:.82rem;color:var(--muted)}
+
+/* ─── DRAG & DROP AREA ───────────────────── */
+.dnd-prompt{font-size:.9rem;color:var(--text);margin-bottom:.8rem;font-weight:600}
+.dnd-categories{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.9rem}
+.cat-zone{background:var(--bg2);border:2px dashed var(--border);border-radius:14px;min-height:80px;padding:.7rem;transition:border-color .2s,background .2s}
+.cat-zone.drag-over{background:color-mix(in srgb,var(--purple) 10%,var(--bg2));border-color:var(--purple);border-style:solid}
+.cat-zone .cz-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--purple);font-weight:700;margin-bottom:.4rem}
+.cat-zone .cz-hint{font-size:.72rem;color:var(--muted);margin-bottom:.4rem}
+.cat-zone .cz-items{display:flex;flex-direction:column;gap:.4rem}
+
+/* DRAG ITEMS */
+.drag-item{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:.55rem .8rem;font-size:.82rem;color:var(--text);cursor:grab;user-select:none;transition:box-shadow .15s,transform .15s;font-family:var(--font-body);line-height:1.4}
+.drag-item:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(91,33,182,.12)}
+.drag-item:active{cursor:grabbing}
+.drag-item.dragging{opacity:.4;transform:scale(.97)}
+.drag-item.correct{border-color:var(--green);background:color-mix(in srgb,var(--green) 10%,var(--card))}
+.drag-item.wrong{border-color:var(--pink);background:color-mix(in srgb,var(--pink) 10%,var(--card))}
+.drag-item.placed{border-color:var(--purple);background:color-mix(in srgb,var(--purple) 8%,var(--card))}
+
+/* DRAG SOURCE */
+.drag-source{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:.9rem;margin-top:.7rem}
+.ds-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.5rem}
+.ds-items{display:flex;flex-wrap:wrap;gap:.4rem}
+
+/* ─── ANSWER FEEDBACK ─────────────────────── */
+.answer-fb{margin-top:.8rem;padding:.8rem 1rem;border-radius:12px;font-size:.9rem;font-weight:500}
+.answer-fb.pass{background:color-mix(in srgb,var(--green) 15%,var(--card));color:#1a5e30;border:1px solid var(--green)}
+.answer-fb.fail{background:color-mix(in srgb,var(--pink) 15%,var(--card));color:#8b1a2e;border:1px solid var(--pink)}
+
+/* ─── RESULT CARD ─────────────────────────── */
+.result-card{background:linear-gradient(135deg,var(--card),var(--card2));border:2px solid var(--purple);border-radius:20px;padding:2rem;text-align:center;margin-top:1.5rem}
+.rc-icon{font-size:3rem;margin-bottom:.6rem}
+.rc-title{font-family:var(--font-heading);font-size:1.6rem;color:var(--text);margin-bottom:.4rem}
+.rc-msg{color:var(--muted);margin-bottom:1.2rem;max-width:400px;margin:0 auto 1rem}
+.rc-score-big{font-size:3.5rem;font-weight:700;color:var(--purple);line-height:1}
+.rc-score-lbl{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+/* ─── NAV BUTTONS ──────────────────────────── */
+.nav-row{display:flex;gap:.6rem;margin-top:1rem}
+.btn-main{background:var(--purple);color:#fff;border:none;border-radius:12px;padding:.6rem 1.5rem;font-size:1rem;font-family:var(--font-heading);cursor:pointer;transition:opacity .2s}
+.btn-main:hover{opacity:.85}
+.btn-main:disabled{background:var(--muted);cursor:not-allowed}
+.btn-outline{background:transparent;color:var(--purple);border:1.5px solid var(--purple);border-radius:12px;padding:.55rem 1.3rem;font-size:.88rem;font-family:var(--font-heading);cursor:pointer;transition:.15s}
+.btn-outline:hover{background:color-mix(in srgb,var(--purple) 10%,transparent)}
+/* ─── FOOTER ─────────────────────────────── */
+footer{text-align:center;padding:1.5rem;font-size:.8rem;color:var(--muted);border-top:1px solid var(--border);margin-top:2rem}
+footer a{color:var(--purple);text-decoration:none}
+footer a:hover{text-decoration:underline}
+@media(max-width:600px){
+  .dnd-categories{grid-template-columns:1fr}
+  .nav-row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-brand">
+    <button class="theme-toggle" onclick="EustaTheme.toggle()" title="Toggle theme" style="font-size:1rem;padding:4px 12px;">☾ / ☀</button>
+    🎓 EUSTAQUIA <span style="color:var(--purple)">IELTS</span>
+  </div>
+  <div class="tb-nav">
+    <a href="ielts-grammar.html">Grammar</a>
+    <a href="grammar-hub.html">Hub</a>
+    <a href="subjects.html">All</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Sort & Categorise IELTS Information</div>
+    <h1>🔀 IELTS Drag & Sort Quiz</h1>
+    <p>Drag each item into the correct category. Test your knowledge of the IELTS exam format, modules, and requirements.</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="prog-row">
+    <div class="prog-label">Progress</div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="prog-score" id="progScore">0 / 0</div>
+  </div>
+
+  <!-- QUIZ CONTAINER -->
+  <div id="quizContainer"></div>
+
+</div>
+
+<footer>
+  <a href="ielts-grammar.html">IELTS Grammar</a> · <a href="grammar-hub.html">Grammar Hub</a> · <a href="subjects.html">All Games</a> · EduSuite by EUSTAQUIA
+</footer>
+
+<script>
+/* ══════════════════════════════════════
+   DRAG & SORT QUIZ ENGINE
+   ══════════════════════════════════════ */
+
+const QUIZZES = [
+  {
+    id: 1,
+    title: "📋 IELTS Module Sort",
+    subtitle: "Which module does each component belong to?",
+    categories: [
+      { id: 'listening', label: '🎧 Listening', hint: 'Audio-based test', capacity: 4 },
+      { id: 'reading',    label: '📖 Reading',    hint: 'Written texts', capacity: 4 },
+      { id: 'writing',    label: '✍️ Writing',      hint: 'Written tasks', capacity: 4 },
+      { id: 'speaking',  label: '🗣️ Speaking',    hint: 'Face-to-face', capacity: 4 }
+    ],
+    items: [
+      { id: 'i1', text: 'Section 3: Group discussion', correct: 'speaking' },
+      { id: 'i2', text: 'Multiple choice questions', correct: 'reading' },
+      { id: 'i3', text: 'Diagram label completion', correct: 'listening' },
+      { id: 'i4', text: 'Essay (250 words)', correct: 'writing' },
+      { id: 'i5', text: 'Part 2: Long turn (cue card)', correct: 'speaking' },
+      { id: 'i6', text: 'TFNG / Yes/No/Not Given', correct: 'reading' },
+      { id: 'i7', text: 'Map labelling', correct: 'listening' },
+      { id: 'i8', text: 'Letter writing (150 words)', correct: 'writing' },
+      { id: 'i9', text: 'Short answers (1-3 words)', correct: 'reading' },
+      { id: 'i10', text: 'Section 4: Academic lecture', correct: 'listening' },
+      { id: 'i11', text: 'Part 1: Interview (familiar topics)', correct: 'speaking' },
+      { id: 'i12', text: 'Summary completion', correct: 'reading' },
+      { id: 'i13', text: 'Report writing (Task 1 Academic)', correct: 'writing' },
+      { id: 'i14', text: 'Form / table / note completion', correct: 'listening' },
+      { id: 'i15', text: 'Part 3: Discussion (abstract topics)', correct: 'speaking' },
+      { id: 'i16', text: 'Matching headings to paragraphs', correct: 'reading' },
+    ]
+  },
+  {
+    id: 2,
+    title: "⏱️ Timing Sort",
+    subtitle: "Sort these timing details to the correct modules",
+    categories: [
+      { id: 'listening', label: '🎧 Listening', hint: 'Total time', capacity: 4 },
+      { id: 'reading',    label: '📖 Reading',    hint: 'Total time', capacity: 4 },
+      { id: 'writing',    label: '✍️ Writing',      hint: 'Total time', capacity: 4 },
+      { id: 'speaking',  label: '🗣️ Speaking',    hint: 'Total time', capacity: 4 }
+    ],
+    items: [
+      { id: 't1', text: '30 minutes', correct: 'listening' },
+      { id: 't2', text: '60 minutes', correct: 'reading' },
+      { id: 't3', text: '60 minutes', correct: 'writing' },
+      { id: 't4', text: '11–14 minutes', correct: 'speaking' },
+      { id: 't5', text: '4 sections', correct: 'listening' },
+      { id: 't6', text: '3 passages (Academic)', correct: 'reading' },
+      { id: 't7', text: '2 tasks', correct: 'writing' },
+      { id: 't8', text: '3 parts', correct: 'speaking' },
+      { id: 't9', text: '40 questions', correct: 'listening' },
+      { id: 't10', text: '40 questions', correct: 'reading' },
+      { id: 't11', text: '10 minutes to transfer answers', correct: 'listening' },
+      { id: 't12', text: 'No extra transfer time', correct: 'reading' },
+      { id: 't13', text: '1 minute to plan Task 2', correct: 'writing' },
+      { id: 't14', text: '1-minute preparation (Part 2)', correct: 'speaking' },
+      { id: 't15', text: '30 seconds to review Section 1', correct: 'listening' },
+      { id: 't16', text: '40 minutes Task 2, 20 minutes Task 1', correct: 'writing' },
+    ]
+  },
+  {
+    id: 3,
+    title: "🎯 Band Score Criteria Sort",
+    subtitle: "Which assessment criterion does each statement belong to?",
+    categories: [
+      { id: 'tr', label: '📝 Task Response', hint: 'Content & position', capacity: 4 },
+      { id: 'cc', label: '🔗 Coherence & Cohesion', hint: 'Organisation & linking', capacity: 4 },
+      { id: 'lr', label: '📚 Lexical Resource', hint: 'Vocabulary & spelling', capacity: 4 },
+      { id: 'gr', label: '🧱 Grammatical Range', hint: 'Grammar & accuracy', capacity: 4 }
+    ],
+    items: [
+      { id: 'b1', text: 'Clear position statement', correct: 'tr' },
+      { id: 'b2', text: 'Uses linking words naturally', correct: 'cc' },
+      { id: 'b3', text: 'Wide vocabulary range', correct: 'lr' },
+      { id: 'b4', text: 'Complex sentence structures', correct: 'gr' },
+      { id: 'b5', text: 'Addresses all parts of the task', correct: 'tr' },
+      { id: 'b6', text: 'Logical paragraph structure', correct: 'cc' },
+      { id: 'b7', text: 'Spelling accuracy', correct: 'lr' },
+      { id: 'b8', text: 'Punctuation & grammar accuracy', correct: 'gr' },
+      { id: 'b9', text: 'Relevant examples to support arguments', correct: 'tr' },
+      { id: 'b10', text: 'Reference words (this, those, it)', correct: 'cc' },
+      { id: 'b11', text: 'Synonyms & paraphrasing', correct: 'lr' },
+      { id: 'b12', text: 'Mix of simple & compound sentences', correct: 'gr' },
+      { id: 'b13', text: 'Conclusion restates position', correct: 'tr' },
+      { id: 'b14', text: 'Uses cohesive devices (however, moreover)', correct: 'cc' },
+      { id: 'b15', text: 'Idiomatic expressions used appropriately', correct: 'lr' },
+      { id: 'b16', text: 'Fewer errors = higher score', correct: 'gr' },
+    ]
+  }
+];
+
+/* ── STATE ────────────────────────────────── */
+let currentQuiz = 0;
+let score = 0;
+let placedCount = 0;
+let draggedItem = null;
+
+/* ── INIT ─────────────────────────────────── */
+function loadQuiz(idx) {
+  currentQuiz = idx;
+  const quiz = QUIZZES[idx];
+  score = 0;
+  placedCount = 0;
+
+  document.getElementById('progFill').style.width = '0%';
+  document.getElementById('progScore').textContent = '0 / 0';
+
+  const container = document.getElementById('quizContainer');
+  const totalItems = quiz.items.length;
+
+  // Shuffle items
+  const shuffled = [...quiz.items].sort(() => Math.random() - 0.5);
+
+  const html = `
+    <div class="quiz-card">
+      <div class="qc-header">
+        <div class="qc-num">${quiz.id}</div>
+        <div>
+          <div class="qc-title">${quiz.title}</div>
+          <div class="qc-sub">${quiz.subtitle} · ${totalItems} items</div>
+        </div>
+      </div>
+      <div class="dnd-prompt">⬇ Drag each item into the correct category:</div>
+      <div class="dnd-categories">
+        ${quiz.categories.map(c => `
+          <div class="cat-zone" id="zone-${c.id}" ondragover="onDragOver(event)" ondrop="onDrop(event,'${c.id}')" ondragleave="onDragLeave(event)">
+            <div class="cz-label">${c.label}</div>
+            <div class="cz-hint">${c.hint}</div>
+            <div class="cz-items" id="zone-items-${c.id}"></div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="drag-source">
+        <div class="ds-label">Unplaced Items — drag from here:</div>
+        <div class="ds-items" id="source-items">
+          ${shuffled.map(item => `
+            <div class="drag-item" id="item-${item.id}" draggable="true"
+                 ondragstart="onDragStart(event,'${item.id}')"
+                 ondragend="onDragEnd(event)">
+              ${item.text}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="answer-fb" id="quizFeedback" style="display:none"></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-main" id="checkBtn" onclick="checkQuiz()" disabled>✓ Check Answers</button>
+      <button class="btn-outline" id="nextBtn" onclick="nextQuiz()" style="display:none">Next Quiz →</button>
+      <button class="btn-outline" id="restartBtn" onclick="restartAll()" style="display:none">🔄 Restart All</button>
+    </div>
+  `;
+
+  container.innerHTML = html;
+}
+
+/* ── DRAG & DROP ─────────────────────────── */
+function onDragStart(ev, itemId) {
+  draggedItem = itemId;
+  ev.dataTransfer.setData('text/plain', itemId);
+  ev.target.classList.add('dragging');
+}
+
+function onDragEnd(ev) {
+  ev.target.classList.remove('dragging');
+  draggedItem = null;
+  document.querySelectorAll('.cat-zone').forEach(z => z.classList.remove('drag-over'));
+}
+
+function onDragOver(ev) {
+  ev.preventDefault();
+  ev.currentTarget.classList.add('drag-over');
+}
+
+function onDragLeave(ev) {
+  ev.currentTarget.classList.remove('drag-over');
+}
+
+function onDrop(ev, zoneId) {
+  ev.preventDefault();
+  ev.currentTarget.classList.remove('drag-over');
+  if (!draggedItem) return;
+
+  const itemEl = document.getElementById('item-' + draggedItem);
+  const zoneItems = document.getElementById('zone-items-' + zoneId);
+  const sourceItems = document.getElementById('source-items');
+
+  // Move item to zone
+  itemEl.classList.remove('dragging');
+  itemEl.classList.add('placed');
+  zoneItems.appendChild(itemEl);
+
+  placedCount++;
+  updateProgress();
+
+  // Check if all placed
+  const quiz = QUIZZES[currentQuiz];
+  if (placedCount >= quiz.items.length) {
+    document.getElementById('checkBtn').disabled = false;
+  }
+}
+
+function updateProgress() {
+  const quiz = QUIZZES[currentQuiz];
+  const pct = (placedCount / quiz.items.length) * 100;
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progScore').textContent = placedCount + ' / ' + quiz.items.length;
+}
+
+/* ── CHECK ANSWERS ───────────────────────── */
+function checkQuiz() {
+  const quiz = QUIZZES[currentQuiz];
+  let correct = 0;
+
+  quiz.items.forEach(item => {
+    const el = document.getElementById('item-' + item.id);
+    const parent = el.parentElement;
+    const zoneId = parent.id.replace('zone-items-', '');
+    const isCorrect = zoneId === item.correct;
+
+    if (isCorrect) {
+      el.classList.add('correct');
+      correct++;
+    } else {
+      el.classList.add('wrong');
+      // Show correct zone briefly
+      const correctZone = document.getElementById('zone-items-' + item.correct);
+      if (correctZone) {
+        correctZone.style.outline = '2px solid var(--green)';
+        correctZone.style.borderRadius = '10px';
+      }
+    }
+  });
+
+  score += correct;
+  placedCount = correct; // update for overall progress
+
+  const pct = Math.round(correct / quiz.items.length * 100);
+  const fbEl = document.getElementById('quizFeedback');
+  fbEl.style.display = 'block';
+  fbEl.className = 'answer-fb ' + (pct >= 75 ? 'pass' : 'fail');
+  fbEl.innerHTML = pct >= 75
+    ? `✅ <strong>${correct}/${quiz.items.length} correct (${pct}%)</strong> — Excellent! You know your IELTS modules well!`
+    : `❌ <strong>${correct}/${quiz.items.length} correct (${pct}%)</strong> — Keep practising! Review the incorrect items (marked red) and try again.`;
+
+  document.getElementById('checkBtn').style.display = 'none';
+  if (currentQuiz < QUIZZES.length - 1) {
+    document.getElementById('nextBtn').style.display = 'inline-block';
+  } else {
+    showFinalResult();
+  }
+}
+
+/* ── NEXT QUIZ ───────────────────────────── */
+function nextQuiz() {
+  currentQuiz++;
+  loadQuiz(currentQuiz);
+}
+
+/* ── FINAL RESULT ─────────────────────────── */
+function showFinalResult() {
+  document.getElementById('restartBtn').style.display = 'inline-block';
+  const totalScore = score;
+  const totalItems = QUIZZES.reduce((s, q) => s + q.items.length, 0);
+  const pct = Math.round(totalScore / totalItems * 100);
+  const icon = pct >= 90 ? '🏆' : pct >= 75 ? '🌟' : pct >= 60 ? '👍' : '💪';
+
+  const resultHTML = `
+    <div class="result-card">
+      <div class="rc-icon">${icon}</div>
+      <div class="rc-title">${pct >= 90 ? 'IELTS Expert!' : pct >= 75 ? 'Almost There!' : pct >= 60 ? 'Good Start!' : 'Keep Practising!'}</div>
+      <div class="rc-msg">${pct >= 90 ? 'You have an excellent understanding of the IELTS exam format.' : pct >= 75 ? 'You know most of the IELTS format well. A little more practice and you\'ll be an expert!' : 'You\'re starting to understand the IELTS structure. Keep practising to improve!'}</div>
+      <div class="rc-score-big">${pct}%</div>
+      <div class="rc-score-lbl">${totalScore} / ${totalItems} correct across all ${QUIZZES.length} quizzes</div>
+    </div>
+  `;
+
+  const container = document.getElementById('quizContainer');
+  container.insertAdjacentHTML('beforeend', resultHTML);
+}
+
+/* ── RESTART ──────────────────────────────── */
+function restartAll() {
+  score = 0;
+  loadQuiz(0);
+}
+
+/* ── INIT ON LOAD ─────────────────────────── */
+loadQuiz(0);
+</script>
+</body>
+</html>

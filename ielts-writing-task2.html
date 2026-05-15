@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="grammar-shared.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Writing Task 2 — EduSuite by EUSTAQUIA</title>
+<meta name="description" content="Master IELTS Writing Task 2 with structured essay practice, band score tips, and model answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,600;1&display=swap" rel="stylesheet">
+<style>
+/* ─── TOPBAR ──────────────────────────────── */
+.topbar{display:flex;align-items:center;gap:.6rem;padding:.55rem 1.2rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.tb-brand{display:flex;align-items:center;gap:.5rem;font-family:var(--font-heading);font-size:1.1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.tb-nav{display:flex;gap:.3rem;margin-left:auto}
+.tb-nav a{padding:.3rem .7rem;border-radius:8px;font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;transition:.15s}
+.tb-nav a:hover{background:var(--bg2)}
+/* ─── CONTAINER ───────────────────────────── */
+.container{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+/* ─── HERO ───────────────────────────────── */
+.hero{text-align:center;padding:2rem 1rem 1.5rem;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:20px;margin-bottom:1.5rem}
+.hero-eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--purple);font-size:1.1rem;margin-bottom:.3rem}
+.hero h1{font-family:var(--font-heading);font-size:2.2rem;color:var(--text);margin-bottom:.5rem}
+.hero p{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto 1rem}
+.hparams{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.hp{background:var(--bg2);border-radius:12px;padding:.45rem .9rem;text-align:center}
+.hp .hpn{font-size:1.3rem;font-weight:700;color:var(--purple)}
+.hp .hpl{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+/* ─── SECTION ────────────────────────────── */
+.section{margin:1.5rem 0}
+.section-title{font-family:var(--font-heading);font-size:1.3rem;color:var(--text);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+/* ─── ESSAY TYPES ────────────────────────── */
+.et-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.6rem}
+.et-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:1rem;cursor:pointer;transition:border-color .2s,transform .15s}
+.et-card:hover{border-color:var(--purple);transform:translateY(-2px)}
+.et-card .etc-num{font-size:.7rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2rem}
+.et-card .etc-title{font-weight:700;font-size:1rem;color:var(--text);margin-bottom:.3rem}
+.et-card .etc-desc{font-size:.8rem;color:var(--muted);line-height:1.4}
+.et-card.selected{border-color:var(--purple);background:color-mix(in srgb,var(--purple) 8%,var(--card))}
+/* ─── WRITING AREA ────────────────────────── */
+.write-area{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.4rem}
+.write-area textarea{width:100%;min-height:260px;background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:1rem;font-family:var(--font-body);font-size:.95rem;color:var(--text);resize:vertical;line-height:1.7;transition:border-color .2s}
+.write-area textarea:focus{outline:none;border-color:var(--purple)}
+.write-area textarea::placeholder{color:var(--muted)}
+.wa-toolbar{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap;align-items:center}
+.wa-tools{display:flex;gap:.4rem}
+.ttip{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.35rem .7rem;font-size:.78rem;color:var(--text);cursor:pointer;transition:.15s;font-family:var(--font-body)}
+.ttip:hover{background:var(--card2)}
+.wa-word-count{font-size:.78rem;color:var(--muted);margin-left:auto}
+.wa-char-count{font-size:.78rem;color:var(--muted)}
+/* ─── BAND DESCRIPTORS ────────────────────── */
+.bd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem}
+.bd-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+.bd-card .bdc-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.3rem}
+.bd-card .bdc-val{font-size:1.6rem;font-weight:700;color:var(--text)}
+.bd-card .bdc-desc{font-size:.78rem;color:var(--muted);margin-top:.2rem;line-height:1.4}
+/* ─── PLAN BUILDER ────────────────────────── */
+.plan-builder{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.4rem}
+.pb-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.8rem}
+.pb-field label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem}
+.pb-field select,.pb-field input{width:100%;padding:.55rem .8rem;background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:.9rem;color:var(--text);transition:border-color .2s}
+.pb-field select:focus,.pb-field input:focus{outline:none;border-color:var(--purple)}
+.pb-field select option{background:var(--card)}
+.pb-btn{background:var(--purple);color:#fff;border:none;border-radius:12px;padding:.65rem 1.5rem;font-size:1rem;font-family:var(--font-heading);cursor:pointer;transition:opacity .2s;width:100%}
+.pb-btn:hover{opacity:.85}
+/* ─── MODEL ANSWER ────────────────────────── */
+.ma-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.ma-header{display:flex;align-items:center;gap:.7rem;padding:.9rem 1.2rem;cursor:pointer;border-bottom:1px solid var(--border)}
+.ma-header h3{font-family:var(--font-heading);font-size:1rem;color:var(--text)}
+.ma-score-badge{background:var(--purple);color:#fff;border-radius:20px;padding:.15rem .65rem;font-size:.72rem;font-weight:700;white-space:nowrap}
+.ma-body{padding:1.2rem;display:none;font-size:.9rem;line-height:1.8;color:var(--text)}
+.ma-body.open{display:block}
+.ma-body p{margin-bottom:.8rem}
+.ma-body blockquote{border-left:3px solid var(--purple);padding-left:1rem;color:var(--muted);font-style:italic;margin:.8rem 0}
+.ma-body .highlight{background:color-mix(in srgb,var(--yellow) 20%,transparent);padding:.05rem .3rem;border-radius:3px}
+/* ─── FEEDBACK ───────────────────────────── */
+.fb-panel{background:color-mix(in srgb,var(--purple) 8%,var(--card));border:1px solid var(--purple);border-radius:14px;padding:1.2rem;margin-top:.8rem;display:none}
+.fb-panel.show{display:block}
+.fb-panel h3{font-family:var(--font-heading);margin-bottom:.6rem;color:var(--text)}
+.fb-criteria{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.fb-crit{background:var(--card);border-radius:10px;padding:.6rem .8rem}
+.fb-crit .fc-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.fb-crit .fc-val{font-size:1rem;font-weight:700;color:var(--text)}
+/* ─── PROGRESS TRACKER ───────────────────── */
+.track-row{display:flex;gap:.5rem;margin:1rem 0;flex-wrap:wrap}
+.track-step{flex:1;min-width:80px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.5rem;text-align:center;cursor:pointer;transition:.15s}
+.track-step:hover{border-color:var(--purple)}
+.track-step.done{background:var(--green);border-color:var(--green);color:#fff}
+.track-step.done .ts-n{color:#fff}
+.track-step .ts-num{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.track-step .ts-label{font-size:.78rem;font-weight:600;color:var(--text);margin-top:.1rem}
+/* ─── FOOTER ─────────────────────────────── */
+footer{text-align:center;padding:1.5rem;font-size:.8rem;color:var(--muted);border-top:1px solid var(--border);margin-top:2rem}
+footer a{color:var(--purple);text-decoration:none}
+footer a:hover{text-decoration:underline}
+@media(max-width:600px){
+  .pb-row{grid-template-columns:1fr}
+  .fb-criteria{grid-template-columns:1fr}
+  .et-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-brand">
+    <button class="theme-toggle" onclick="EustaTheme.toggle()" title="Toggle theme" style="font-size:1rem;padding:4px 12px;">☾ / ☀</button>
+    🎓 EUSTAQUIA <span style="color:var(--purple)">IELTS</span>
+  </div>
+  <div class="tb-nav">
+    <a href="ielts-grammar.html">Grammar</a>
+    <a href="grammar-hub.html">Hub</a>
+    <a href="subjects.html">All</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">IELTS Writing Module</div>
+    <h1>✍️ Writing Task 2</h1>
+    <p>Opinion essays, discussion essays, advantage/disadvantage, problem/solution. Master them all.</p>
+    <div class="hparams">
+      <div class="hp"><div class="hpn">40</div><div class="hpl">Minutes</div></div>
+      <div class="hp"><div class="hpn">250+</div><div class="hpl">Words</div></div>
+      <div class="hp"><div class="hpn">2/3</div><div class="hpl">Essays/Week</div></div>
+      <div class="hp"><div class="hpn">66%</div><div class="hpl">of Total Score</div></div>
+    </div>
+  </div>
+
+  <!-- PROGRESS TRACKER -->
+  <div class="section">
+    <div class="section-title">📊 Your Writing Plan</div>
+    <div class="track-row" id="trackRow">
+      <div class="track-step" onclick="jumpTo('types')"><div class="ts-num">Step 1</div><div class="ts-label">Pick Type</div></div>
+      <div class="track-step" onclick="jumpTo('plan')"><div class="ts-num">Step 2</div><div class="ts-label">Plan</div></div>
+      <div class="track-step" onclick="jumpTo('write')"><div class="ts-num">Step 3</div><div class="ts-label">Write</div></div>
+      <div class="track-step" onclick="jumpTo('model')"><div class="ts-num">Step 4</div><div class="ts-label">Model</div></div>
+      <div class="track-step" onclick="jumpTo('self')"><div class="ts-num">Step 5</div><div class="ts-label">Self-Check</div></div>
+    </div>
+  </div>
+
+  <!-- ESSAY TYPES -->
+  <div class="section" id="types">
+    <div class="section-title">📋 Essay Types — Pick One to Practise</div>
+    <div class="et-grid">
+      <div class="et-card selected" onclick="selectType(this,'opinion')">
+        <div class="etc-num">Type 1</div>
+        <div class="etc-title">💡 Opinion Essay</div>
+        <div class="etc-desc">"To what extent do you agree?" Give a clear stance and defend it with arguments and examples.</div>
+      </div>
+      <div class="et-card" onclick="selectType(this,'discussion')">
+        <div class="etc-num">Type 2</div>
+        <div class="etc-title">🗣️ Discussion Essay</div>
+        <div class="etc-desc">"Discuss both views." Present two perspectives and explain your own position.</div>
+      </div>
+      <div class="et-card" onclick="selectType(this,'advantage')">
+        <div class="etc-num">Type 3</div>
+        <div class="etc-title">⚖️ Advantage & Disadvantage</div>
+        <div class="etc-desc">"Discuss the advantages and disadvantages." Weigh both sides equally.</div>
+      </div>
+      <div class="et-card" onclick="selectType(this,'problem')">
+        <div class="etc-num">Type 4</div>
+        <div class="etc-title">🩹 Problem & Solution</div>
+        <div class="etc-desc">"What problems does this cause? Solutions?" Identify issues and propose practical remedies.</div>
+      </div>
+    </div>
+    <p style="margin-top:.8rem;font-size:.85rem;color:var(--muted);">Selected: <strong id="selTypeLabel">Opinion Essay</strong></p>
+  </div>
+
+  <!-- PLAN BUILDER -->
+  <div class="section" id="plan">
+    <div class="section-title">🗺️ Essay Planner — 5 Minutes</div>
+    <div class="plan-builder">
+      <div class="pb-row">
+        <div class="pb-field">
+          <label>Your Position</label>
+          <select id="position">
+            <option value="agree">Fully Agree</option>
+            <option value="partially-agree" selected>Partially Agree</option>
+            <option value="disagree">Fully Disagree</option>
+            <option value="balanced">Balanced / Both Views</option>
+          </select>
+        </div>
+        <div class="pb-field">
+          <label>Brainstorm Points</label>
+          <input type="text" id="brainstorm" placeholder="Type your main ideas, separated by commas...">
+        </div>
+      </div>
+      <div class="pb-row">
+        <div class="pb-field">
+          <label>Supporting Example 1</label>
+          <input type="text" id="ex1" placeholder="Personal example or general knowledge...">
+        </div>
+        <div class="pb-field">
+          <label>Supporting Example 2</label>
+          <input type="text" id="ex2" placeholder="Another example to support your argument...">
+        </div>
+      </div>
+      <button class="pb-btn" onclick="generateOutline()">📝 Generate My Outline →</button>
+      <div id="outlineOut" style="margin-top:1rem;display:none"></div>
+    </div>
+  </div>
+
+  <!-- WRITING AREA -->
+  <div class="section" id="write">
+    <div class="section-title">✍️ Write Your Essay — <span id="writeTypeLabel" style="color:var(--purple)">Opinion Essay</span></div>
+    <div class="write-area">
+      <textarea id="essayArea" placeholder="Start writing your essay here...
+
+Remember:
+• Paragraph 1: Introduce the topic + your position
+• Paragraph 2: First argument + example
+• Paragraph 3: Second argument + example  
+• Paragraph 4: Conclusion (restate position)"></textarea>
+      <div class="wa-toolbar">
+        <div class="wa-tools">
+          <button class="ttip" onclick="insertText('Firstly, ')">Firstly</button>
+          <button class="ttip" onclick="insertText('Furthermore, ')">Furthermore</button>
+          <button class="ttip" onclick="insertText('However, ')">However</button>
+          <button class="ttip" onclick="insertText('In conclusion, ')">In conclusion</button>
+        </div>
+        <div class="wa-word-count">Words: <span id="wc">0</span> / 250+</div>
+        <div class="wa-char-count">Chars: <span id="cc">0</span></div>
+      </div>
+    </div>
+    <button class="pb-btn" style="margin-top:.7rem;background:var(--green)" onclick="submitForFeedback()">📊 Get Self-Feedback →</button>
+  </div>
+
+  <!-- SELF-CHECK CRITERIA -->
+  <div class="section" id="self">
+    <div class="section-title">🔍 Self-Check — Band Descriptors</div>
+    <div class="bd-grid">
+      <div class="bd-card">
+        <div class="bdc-label">Task Response</div>
+        <div class="bdc-val" id="tr-score">—</div>
+        <div class="bdc-desc">Addresses all parts, presents a clear position</div>
+      </div>
+      <div class="bd-card">
+        <div class="bdc-label">Coherence & Cohesion</div>
+        <div class="bdc-val" id="cc-score">—</div>
+        <div class="bdc-desc">Logical flow, paragraphing, linking words</div>
+      </div>
+      <div class="bd-card">
+        <div class="bdc-label">Lexical Resource</div>
+        <div class="bdc-val" id="lr-score">—</div>
+        <div class="bdc-desc">Vocabulary range, accuracy, spelling</div>
+      </div>
+      <div class="bd-card">
+        <div class="bdc-label">Grammatical Range</div>
+        <div class="bdc-val" id="gr-score">—</div>
+        <div class="bdc-desc">Sentence variety, complexity, accuracy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEEDBACK PANEL -->
+  <div class="fb-panel" id="feedbackPanel">
+    <h3>📋 Your Estimated Band Scores</h3>
+    <div class="fb-criteria">
+      <div class="fb-crit"><div class="fc-label">Task Response</div><div class="fc-val" id="fb-tr">6.0</div></div>
+      <div class="fb-crit"><div class="fc-label">Coherence & Cohesion</div><div class="fc-val" id="fb-cc">6.0</div></div>
+      <div class="fb-crit"><div class="fc-label">Lexical Resource</div><div class="fc-val" id="fb-lr">6.0</div></div>
+      <div class="fb-crit"><div class="fc-label">Grammatical Range</div><div class="fc-val" id="fb-gr">6.0</div></div>
+    </div>
+    <p style="margin-top:.8rem;font-size:.85rem;color:var(--muted)">Average: <strong id="fb-avg">6.0</strong> · This is self-assessment only — official scores from certified examiners.</p>
+  </div>
+
+  <!-- MODEL ANSWERS -->
+  <div class="section" id="model">
+    <div class="section-title">📖 Model Answers — Band 7–9</div>
+    <div class="ma-card">
+      <div class="ma-header" onclick="toggleModel(this)">
+        <div>
+          <h3>Opinion Essay — Band 8 Sample</h3>
+          <span class="ma-score-badge">Band 8</span>
+        </div>
+        <span style="margin-left:auto;font-size:1.2rem">▼</span>
+      </div>
+      <div class="ma-body">
+        <p><strong>Topic:</strong> Some people believe that university education should be free for everyone. To what extent do you agree or disagree?</p>
+        <p>It is often argued that higher education should be a fundamental right available to all citizens, regardless of their financial background. <span class="highlight">I strongly agree with this viewpoint</span>, as I believe that educated populations bring significant social and economic benefits to society.</p>
+        <p>Firstly, when tertiary education is accessible to all, it creates a more <span class="highlight">skilled and productive workforce</span>. For instance, countries such as Germany and Scandinavia have invested heavily in accessible higher education, resulting in highly qualified labour markets that drive innovation and economic growth. In contrast, when students are burdened with excessive student loans, many talented individuals from lower-income families are deterred from pursuing higher education altogether.</p>
+        <blockquote>Furthermore, an educated populace contributes to stronger democratic institutions and reduced social inequality. When education is only available to the wealthy, it perpetuates cycles of poverty and limits social mobility.</blockquote>
+        <p>In conclusion, while some contend that free university education places an unreasonable financial burden on governments, the long-term benefits to society far outweigh these concerns. Investing in accessible education is ultimately an investment in a more prosperous and equitable future.</p>
+      </div>
+    </div>
+    <div class="ma-card" style="margin-top:.6rem">
+      <div class="ma-header" onclick="toggleModel(this)">
+        <div>
+          <h3>Discussion Essay — Band 7 Sample</h3>
+          <span class="ma-score-badge">Band 7</span>
+        </div>
+        <span style="margin-left:auto;font-size:1.2rem">▼</span>
+      </div>
+      <div class="ma-body">
+        <p><strong>Topic:</strong> Some people think that children should start school earlier, while others believe they should start at age 6 or 7. Discuss both views.</p>
+        <p>The question of when children should begin formal education has long been a subject of debate among parents and educators alike. While some argue that an early start provides children with a competitive advantage, others maintain that a later start is more developmentally appropriate.</p>
+        <p>Those who advocate for early schooling argue that <span class="highlight">young children's brains are particularly receptive to learning</span>. During the first few years of life, neural plasticity is at its peak, meaning children can absorb languages and basic numeracy concepts more easily than older children. Countries such as Finland have demonstrated that a later start does not hinder academic achievement, yet this is often balanced against the benefits of early socialisation.</p>
+        <p>On the other hand, many experts believe that children who start formal education too early may experience unnecessary stress and miss out on crucial play-based learning opportunities. Research suggests that play is not merely a leisure activity but an essential component of cognitive and social development.</p>
+        <p>In conclusion, while the cognitive benefits of early education are appealing, I believe that a play-based early childhood approach followed by formal schooling from age 6 or 7 is the most beneficial approach for the majority of children.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="ielts-grammar.html">IELTS Grammar</a> · <a href="grammar-hub.html">Grammar Hub</a> · <a href="subjects.html">All Games</a> · EduSuite by EUSTAQUIA
+</footer>
+
+<script>
+/* ── ESSAY TYPE SELECTION ─────────────────── */
+let selectedType = 'opinion';
+const typeLabels = {opinion:'Opinion Essay',discussion:'Discussion Essay',advantage:'Advantage & Disadvantage',problem:'Problem & Solution'};
+
+function selectType(el, type) {
+  document.querySelectorAll('.et-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedType = type;
+  document.getElementById('selTypeLabel').textContent = typeLabels[type];
+  document.getElementById('writeTypeLabel').textContent = typeLabels[type];
+  markStep(0, 'done');
+}
+
+function markStep(n, cls) {
+  const steps = document.querySelectorAll('.track-step');
+  if (steps[n]) steps[n].classList.add(cls);
+}
+
+function jumpTo(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ── OUTLINE GENERATOR ────────────────────── */
+function generateOutline() {
+  const pos = document.getElementById('position').value;
+  const ideas = document.getElementById('brainstorm').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const ex1 = document.getElementById('ex1').value.trim();
+  const ex2 = document.getElementById('ex2').value.trim();
+
+  const posLabel = {agree:'I strongly agree', 'partially-agree':'I partially agree', disagree:'I completely disagree', balanced:'Both views have merit, though I lean towards'}[pos];
+
+  let html = `<div style="background:var(--bg2);border-radius:12px;padding:1rem;border:1px solid var(--border)">`;
+  html += `<div style="font-weight:700;margin-bottom:.6rem;color:var(--purple)">📝 Your Essay Outline</div>`;
+  html += `<div style="margin-bottom:.5rem"><strong style="color:var(--text)">Introduction:</strong> The topic of ${ideas[0]||'[your first idea]'} is widely debated. ${posLabel} that...</div>`;
+  html += `<div style="margin-bottom:.5rem"><strong style="color:var(--text)">Paragraph 2 (Argument 1):</strong> ${ideas[0]||'[Main idea 1]'}. For example, ${ex1||'[your example]'}.</div>`;
+  html += `<div style="margin-bottom:.5rem"><strong style="color:var(--text)">Paragraph 3 (Argument 2):</strong> ${ideas[1]||'[Main idea 2]'}. ${ex2?'Additionally, '+ex2+'.'.replace(/\.$/,''):'Another supporting point is...'}</div>`;
+  html += `<div><strong style="color:var(--text)">Conclusion:</strong> In conclusion, ${posLabel.split(' ').slice(0,4).join(' ').toLowerCase()}... Summarise main points.</div>`;
+  html += `</div>`;
+  const out = document.getElementById('outlineOut');
+  out.innerHTML = html;
+  out.style.display = 'block';
+  markStep(1, 'done');
+}
+
+/* ── TEXT INSERT TOOLS ────────────────────── */
+function insertText(text) {
+  const ta = document.getElementById('essayArea');
+  const start = ta.selectionStart;
+  const end = ta.selectionEnd;
+  ta.value = ta.value.substring(0, start) + text + ta.value.substring(end);
+  ta.focus();
+  ta.setSelectionRange(start + text.length, start + text.length);
+  updateCounts();
+}
+
+/* ── WORD / CHAR COUNT ───────────────────── */
+function updateCounts() {
+  const text = document.getElementById('essayArea').value;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const chars = text.length;
+  document.getElementById('wc').textContent = words;
+  document.getElementById('cc').textContent = chars;
+  document.getElementById('wc').style.color = words >= 250 ? 'var(--green)' : words >= 180 ? 'var(--yellow)' : 'var(--pink)';
+}
+document.getElementById('essayArea').addEventListener('input', updateCounts);
+
+/* ── SELF-FEEDBACK ────────────────────────── */
+function submitForFeedback() {
+  const words = parseInt(document.getElementById('wc').textContent) || 0;
+  const text = document.getElementById('essayArea').value;
+
+  // Simple heuristic-based self-assessment
+  let tr = 5, cc = 5, lr = 5, gr = 5;
+
+  if (words >= 250) tr = 6;
+  if (words >= 280 && text.includes(',')) { tr = 7; cc = 7; lr = 7; gr = 7; }
+  if (words >= 300 && (text.includes('Furthermore') || text.includes('Moreover'))) { tr = 8; cc = 8; lr = 8; gr = 8; }
+
+  if (text.split('.').length > 8) gr += 1;
+  if (text.split(',').length > 12) lr += 1;
+  if (text.includes('\n\n')) cc += 1;
+  tr = Math.min(tr, 9); cc = Math.min(cc, 9); lr = Math.min(lr, 9); gr = Math.min(gr, 9);
+
+  document.getElementById('tr-score').textContent = tr.toFixed(1);
+  document.getElementById('cc-score').textContent = cc.toFixed(1);
+  document.getElementById('lr-score').textContent = lr.toFixed(1);
+  document.getElementById('gr-score').textContent = gr.toFixed(1);
+  document.getElementById('fb-tr').textContent = tr.toFixed(1);
+  document.getElementById('fb-cc').textContent = cc.toFixed(1);
+  document.getElementById('fb-lr').textContent = lr.toFixed(1);
+  document.getElementById('fb-gr').textContent = gr.toFixed(1);
+  document.getElementById('fb-avg').textContent = ((tr+cc+lr+gr)/4).toFixed(1);
+
+  document.getElementById('feedbackPanel').classList.add('show');
+  markStep(3, 'done');
+  markStep(4, 'done');
+  document.getElementById('self').scrollIntoView({behavior:'smooth'});
+}
+
+/* ── MODEL ANSWER TOGGLE ──────────────────── */
+function toggleModel(el) {
+  el.nextElementSibling.classList.toggle('open');
+}
+
+/* ── INIT ─────────────────────────────────── */
+updateCounts();
+</script>
+</body>
+</html>

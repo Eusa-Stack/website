@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="grammar-shared.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Academic vs General Training — EduSuite by EUSTAQUIA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ── LOCAL STYLES ── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Nunito', 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ── NAV ── */
+nav {
+  display: flex; align-items: center;
+  padding: 12px 24px;
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  position: sticky; top: 0; z-index: 100;
+  border-bottom: 3px solid var(--purple);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+nav .brand {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 26px; font-weight: 700;
+  margin-right: auto; letter-spacing: -0.5px;
+}
+.brand-e { color: var(--orange); }
+.brand-d { color: var(--green); }
+.brand-u { color: var(--purple); }
+.brand-dot { color: var(--yellow); }
+nav a {
+  color: var(--text); text-decoration: none;
+  font-weight: 700; font-size: 14px;
+  padding: 8px 16px; border-radius: 14px;
+  margin-left: 4px; transition: 0.2s;
+}
+nav a:hover { background: rgba(167,139,250,0.12); }
+nav a.active { background: rgba(167,139,250,0.12); color: var(--purple); }
+
+/* ── THEME TOGGLE ── */
+.ttoggle {
+  cursor: pointer; user-select: none;
+  background: none; border: 2px solid var(--border);
+  border-radius: 8px; padding: 4px 12px;
+  font-size: 1rem; color: var(--text);
+  transition: border-color 0.2s, background 0.2s;
+}
+.ttoggle:hover { border-color: var(--accent); background: var(--card2); }
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 2.5rem 1.5rem 1.5rem;
+  position: relative; z-index: 10;
+}
+.hero h1 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(26px, 5vw, 42px);
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  color: var(--muted);
+  font-size: 15px; font-weight: 600;
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.hero .subtitle {
+  font-size: 13px;
+  color: var(--soft);
+  margin-top: 6px;
+}
+
+/* ── SECTION LABELS ── */
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--purple);
+  background: rgba(167,139,250,0.12);
+  border: 1px solid rgba(167,139,250,0.25);
+  border-radius: 20px;
+  padding: 5px 14px;
+  margin-bottom: 18px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── COMPARISON GRID ── */
+.compare-wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.card-academic, .card-general {
+  background: var(--card);
+  border-radius: 20px;
+  border: 2px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.card-academic:hover, .card-general:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+.card-academic { border-top: 4px solid var(--purple); }
+.card-general { border-top: 4px solid var(--blue); }
+
+.card-head {
+  padding: 20px 22px 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+.card-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.card-academic .card-icon { background: rgba(167,139,250,0.15); }
+.card-general .card-icon { background: rgba(96,165,250,0.15); }
+
+.card-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--text);
+}
+.card-subtitle {
+  font-size: 12px; color: var(--soft);
+  font-weight: 600; margin-top: 2px;
+}
+.card-badge {
+  margin-left: auto;
+  font-size: 10px; font-weight: 800;
+  padding: 4px 10px; border-radius: 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.card-academic .card-badge {
+  background: rgba(167,139,250,0.18);
+  color: var(--purple);
+  border: 1px solid rgba(167,139,250,0.3);
+}
+.card-general .card-badge {
+  background: rgba(96,165,250,0.18);
+  color: var(--blue);
+  border: 1px solid rgba(96,165,250,0.3);
+}
+
+.card-body { padding: 0 22px 20px; }
+.card-desc {
+  font-size: 14px; color: var(--muted);
+  line-height: 1.65; margin-bottom: 16px;
+}
+
+.use-list {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 8px;
+  margin-bottom: 16px;
+}
+.use-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--text);
+  line-height: 1.5;
+}
+.use-list li .bullet {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; flex-shrink: 0;
+  margin-top: 1px;
+}
+.card-academic .use-list .bullet { background: rgba(167,139,250,0.2); color: var(--purple); }
+.card-general .use-list .bullet { background: rgba(96,165,250,0.2); color: var(--blue); }
+
+.modules-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 12px; font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+.modules-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.mod {
+  background: var(--bg2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.mod-name {
+  font-size: 12px; font-weight: 700;
+  color: var(--text);
+}
+.mod-dur {
+  font-size: 10px; color: var(--soft);
+  font-weight: 600; margin-top: 2px;
+}
+.mod.acad { border-left: 3px solid var(--purple); }
+.mod.gen { border-left: 3px solid var(--blue); }
+
+.card-footer {
+  padding: 14px 22px;
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+}
+.who-label {
+  font-size: 11px; font-weight: 700;
+  color: var(--soft);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 5px;
+}
+.who-text { font-size: 13px; color: var(--muted); font-weight: 600; }
+
+/* ── DECISION QUIZ ── */
+.quiz-wrap {
+  max-width: 680px;
+  margin: 0 auto 3rem;
+  padding: 0 1.5rem;
+}
+.quiz-card {
+  background: var(--card);
+  border-radius: 20px;
+  border: 2px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+.quiz-head {
+  padding: 18px 24px;
+  background: linear-gradient(135deg, rgba(167,139,250,0.12), rgba(96,165,250,0.12));
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.quiz-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: rgba(167,139,250,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.quiz-head-text h2 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 18px; font-weight: 700;
+  color: var(--text);
+}
+.quiz-head-text p {
+  font-size: 12px; color: var(--soft);
+  font-weight: 600; margin-top: 2px;
+}
+
+#quiz-body { padding: 20px 24px; }
+
+.qstep { display: none; }
+.qstep.active { display: block; }
+
+.step-num {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 800;
+  color: var(--purple);
+  background: rgba(167,139,250,0.12);
+  border: 1px solid rgba(167,139,250,0.25);
+  border-radius: 20px;
+  padding: 4px 12px;
+  margin-bottom: 14px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+.question-text {
+  font-size: 17px; font-weight: 700;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.qopts { display: flex; flex-direction: column; gap: 10px; }
+.qopt {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--text);
+  transition: 0.15s;
+  width: 100%; text-align: left;
+}
+.qopt:hover { border-color: var(--purple); background: var(--card); }
+.qopt.sel { border-color: var(--purple); background: var(--card); }
+.qopt.gd { border-color: var(--green); background: rgba(67,185,122,0.1); }
+.qopt.bd { border-color: var(--pink); background: rgba(232,93,117,0.1); }
+
+.qopt-l {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800;
+  color: var(--soft);
+  flex-shrink: 0;
+  transition: 0.15s;
+}
+.qopt.sel .qopt-l { background: var(--purple); color: white; }
+.qopt.gd .qopt-l { background: var(--green); color: white; }
+.qopt.bd .qopt-l { background: var(--pink); color: white; }
+
+.qnext-btn {
+  display: flex; justify-content: flex-end;
+  margin-top: 18px;
+}
+.btn-next {
+  padding: 12px 26px;
+  border-radius: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 800;
+  border: none; cursor: pointer;
+  background: var(--purple);
+  color: white;
+  transition: 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-next:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(167,139,250,0.35); }
+.btn-next:disabled { opacity: 0.4; cursor: default; transform: none; box-shadow: none; }
+
+.feedback-box {
+  border-radius: 12px;
+  padding: 13px 16px;
+  margin-top: 14px;
+  font-size: 13px; font-weight: 600;
+  display: none;
+}
+.feedback-box.show { display: block; }
+.feedback-box.good {
+  background: rgba(67,185,122,0.12);
+  border: 2px solid rgba(67,185,122,0.3);
+  color: var(--green);
+}
+.feedback-box.reason {
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  color: var(--muted);
+}
+
+/* ── RESULT ── */
+#quiz-result { display: none; padding: 28px 24px; text-align: center; }
+#quiz-result.show { display: block; }
+
+.result-icon { font-size: 52px; margin-bottom: 10px; }
+.result-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.result-desc {
+  font-size: 14px; color: var(--muted);
+  line-height: 1.65;
+  max-width: 420px;
+  margin: 0 auto 20px;
+}
+.result-tags {
+  display: flex; justify-content: center; gap: 10px;
+  flex-wrap: wrap; margin-bottom: 20px;
+}
+.rstag {
+  font-size: 11px; font-weight: 800;
+  padding: 5px 14px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.rstag.acad { background: rgba(167,139,250,0.18); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+.rstag.gen { background: rgba(96,165,250,0.18); color: var(--blue); border: 1px solid rgba(96,165,250,0.3); }
+
+.result-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.btn-result {
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 800;
+  border: none; cursor: pointer;
+  transition: 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-result:hover { transform: translateY(-2px); }
+.btn-result.primary { background: var(--purple); color: white; box-shadow: 0 4px 14px rgba(167,139,250,0.3); }
+.btn-result.secondary { background: var(--bg2); color: var(--text); border: 2px solid var(--border); }
+.btn-result.secondary:hover { border-color: var(--purple); }
+
+/* ── PROGRESS BAR ── */
+.quiz-progress {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--purple), var(--blue));
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  text-align: center;
+  padding: 20px 16px;
+  font-size: 13px;
+  margin-top: 2rem;
+}
+footer .fn { color: var(--green); font-weight: 700; }
+footer a { color: var(--soft); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .compare-wrap { grid-template-columns: 1fr; }
+  .modules-grid { grid-template-columns: 1fr 1fr; }
+  .card-academic .card-icon, .card-general .card-icon { width: 44px; height: 44px; font-size: 20px; }
+}
+
+/* Dark theme overrides */
+:root[data-theme="dark"] .hero h1 {
+  background: linear-gradient(135deg, #A78BFA 0%, #60A5FA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+:root[data-theme="dark"] .quiz-head {
+  background: linear-gradient(135deg, rgba(167,139,250,0.08), rgba(96,165,250,0.08));
+}
+:root[data-theme="dark"] .mod { background: rgba(255,255,255,0.04); }
+</style>
+</head>
+<body>
+
+<a href="index.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--orange);font-weight:700;font-size:14px;text-decoration:none;padding:10px 0 0 1.5rem;position:relative;z-index:10">← Back to Home</a>
+
+<nav>
+  <div class="brand">
+    <span class="brand-e">Edu</span><span class="brand-d">Suite</span><span class="brand-dot">.</span>
+    <span style="font-size:11px;color:var(--soft);font-weight:600;margin-left:6px">📋 IELTS Guide</span>
+  </div>
+  <a href="index.html">Home</a>
+  <a href="math-games.html">Math</a>
+  <a href="subjects.html">Games</a>
+  <a href="ielts-grammar.html">Grammar</a>
+  <button class="ttoggle" onclick="EusaTheme.toggle()" title="Toggle theme">&#9790; / &#9728;</button>
+</nav>
+
+<header class="hero">
+  <h1>IELTS Academic or General Training?</h1>
+  <p>Both tests assess your English ability — but they serve different purposes. Find out which test is right for your goals.</p>
+  <p class="subtitle">4 modules · Listening, Reading, Writing, Speaking — same Speaking & Listening for both</p>
+</header>
+
+<!-- ── COMPARISON CARDS ── -->
+<div class="compare-wrap">
+
+  <!-- ACADEMIC CARD -->
+  <div class="card-academic">
+    <div class="card-head">
+      <div class="card-icon">🎓</div>
+      <div>
+        <div class="card-title">IELTS Academic</div>
+        <div class="card-subtitle">For university &amp; professional registration</div>
+      </div>
+      <div class="card-badge">University Route</div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Designed for people applying to higher education or professional registration in an English-speaking environment.</p>
+      <ul class="use-list">
+        <li>
+          <span class="bullet">✓</span>
+          <span>Applying to a university or higher education institution</span>
+        </li>
+        <li>
+          <span class="bullet">✓</span>
+          <span>Seeking professional registration (doctors, nurses, engineers)</span>
+        </li>
+        <li>
+          <span class="bullet">✓</span>
+          <span>Moving to a country for academic study</span>
+        </li>
+        <li>
+          <span class="bullet">✓</span>
+          <span>Enrolling in postgraduate or PhD programmes</span>
+        </li>
+      </ul>
+      <div class="modules-title">Test Modules</div>
+      <div class="modules-grid">
+        <div class="mod acad">
+          <div class="mod-name">Listening</div>
+          <div class="mod-dur">30 min</div>
+        </div>
+        <div class="mod acad">
+          <div class="mod-name">Reading</div>
+          <div class="mod-dur">60 min · Academic texts</div>
+        </div>
+        <div class="mod acad">
+          <div class="mod-name">Writing</div>
+          <div class="mod-dur">60 min · Data interpretation</div>
+        </div>
+        <div class="mod acad">
+          <div class="mod-name">Speaking</div>
+          <div class="mod-dur">11–14 min</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="who-label">Best for</div>
+      <div class="who-text">Students, academics, and professionals seeking certification</div>
+    </div>
+  </div>
+
+  <!-- GENERAL TRAINING CARD -->
+  <div class="card-general">
+    <div class="card-head">
+      <div class="card-icon">🏢</div>
+      <div>
+        <div class="card-title">IELTS General Training</div>
+        <div class="card-subtitle">For migration, work, and training programmes</div>
+      </div>
+      <div class="card-badge">Work &amp; Migration</div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Reflects workplace and social survival English. Less academic content, more practical everyday reading and writing.</p>
+      <ul class="use-list">
+        <li>
+          <span class="bullet">✓</span>
+          <span>Immigration to Australia, Canada, UK, New Zealand</span>
+        </li>
+        <li>
+          <span class="bullet">✓</span>
+          <span>Applying for a work permit or visa</span>
+        </li>
+        <li>
+          <span class="bullet">✓</span>
+          <span>Completing a non-academic training programme</span>
+        </li>
+        <li>
+          <span class="bullet">✓</span>
+          <span>Secondary school exchange or vocational study</span>
+        </li>
+      </ul>
+      <div class="modules-title">Test Modules</div>
+      <div class="modules-grid">
+        <div class="mod gen">
+          <div class="mod-name">Listening</div>
+          <div class="mod-dur">30 min</div>
+        </div>
+        <div class="mod gen">
+          <div class="mod-name">Reading</div>
+          <div class="mod-dur">60 min · Everyday materials</div>
+        </div>
+        <div class="mod gen">
+          <div class="mod-name">Writing</div>
+          <div class="mod-dur">60 min · Letter/report style</div>
+        </div>
+        <div class="mod gen">
+          <div class="mod-name">Speaking</div>
+          <div class="mod-dur">11–14 min</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="who-label">Best for</div>
+      <div class="who-text">Migrants, workers, and those on vocational training pathways</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── KEY DIFFERENCES BANNER ── -->
+<div style="max-width:1000px;margin:0 auto 2rem;padding:0 1.5rem;">
+  <div style="background:linear-gradient(135deg,rgba(167,139,250,0.12),rgba(96,165,250,0.12));border-radius:16px;padding:20px 24px;border:1px solid var(--border);">
+    <div style="font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px;">📌 Key Differences at a Glance</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Reading</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.5;"><strong>Academic:</strong> 3 long texts from journals, textbooks, newspapers</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.5;margin-top:4px;"><strong>General:</strong> Notices, ads, manuals, workplace documents</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Writing Task 1</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.5;"><strong>Academic:</strong> Describe a graph, chart, table, or diagram</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.5;margin-top:4px;"><strong>General:</strong> Write a formal or informal letter</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Writing Task 2</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.5;"><strong>Both:</strong> Essay writing — same task for Academic & General Training</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DECISION QUIZ ── -->
+<div class="quiz-wrap">
+  <div class="quiz-card">
+    <div class="quiz-head">
+      <div class="quiz-icon">❓</div>
+      <div class="quiz-head-text">
+        <h2>Which test should I take?</h2>
+        <p>Answer 5 quick questions to find your ideal test</p>
+      </div>
+    </div>
+    <div class="quiz-progress">
+      <div class="quiz-progress-fill" id="qprog" style="width:0%"></div>
+    </div>
+    <div id="quiz-body">
+
+      <!-- Q1 -->
+      <div class="qstep active" id="q1">
+        <div class="step-num">Question 1 of 5</div>
+        <div class="question-text">What is your primary goal for taking IELTS?</div>
+        <div class="qopts">
+          <button class="qopt" onclick="qPick(1,0,'academic')">
+            <span class="qopt-l">A</span>
+            <span>University admission (undergraduate or postgraduate)</span>
+          </button>
+          <button class="qopt" onclick="qPick(1,1,'general')">
+            <span class="qopt-l">B</span>
+            <span>Immigration, work permit, or visa application</span>
+          </button>
+          <button class="qopt" onclick="qPick(1,2,'either')">
+            <span class="qopt-l">C</span>
+            <span>Professional registration (medical, nursing, engineering)</span>
+          </button>
+          <button class="qopt" onclick="qPick(1,3,'either')">
+            <span class="qopt-l">D</span>
+            <span>Personal development / not sure yet</span>
+          </button>
+        </div>
+        <div class="feedback-box" id="fb1"></div>
+        <div class="qnext-btn">
+          <button class="btn-next" id="bn1" disabled onclick="nextQ(1)">Next →</button>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="qstep" id="q2">
+        <div class="step-num">Question 2 of 5</div>
+        <div class="question-text">Which best describes your reading preference?</div>
+        <div class="qopts">
+          <button class="qopt" onclick="qPick(2,0,'academic')">
+            <span class="qopt-l">A</span>
+            <span>Academic journals, research papers, textbooks</span>
+          </button>
+          <button class="qopt" onclick="qPick(2,1,'general')">
+            <span class="qopt-l">B</span>
+            <span>Manuals, guides, everyday instructions, letters</span>
+          </button>
+          <button class="qopt" onclick="qPick(2,2,'either')">
+            <span class="qopt-l">C</span>
+            <span>I'm comfortable with both types of texts</span>
+          </button>
+        </div>
+        <div class="feedback-box" id="fb2"></div>
+        <div class="qnext-btn">
+          <button class="btn-next" id="bn2" disabled onclick="nextQ(2)">Next →</button>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="qstep" id="q3">
+        <div class="step-num">Question 3 of 5</div>
+        <div class="question-text">What style of writing do you feel more confident with?</div>
+        <div class="qopts">
+          <button class="qopt" onclick="qPick(3,0,'academic')">
+            <span class="qopt-l">A</span>
+            <span>Describing data: graphs, charts, tables, diagrams</span>
+          </button>
+          <button class="qopt" onclick="qPick(3,1,'general')">
+            <span class="qopt-l">B</span>
+            <span>Writing formal or informal letters to communicate</span>
+          </button>
+          <button class="qopt" onclick="qPick(3,2,'either')">
+            <span class="qopt-l">C</span>
+            <span>Argumentative essays where I state and defend a position</span>
+          </button>
+        </div>
+        <div class="feedback-box" id="fb3"></div>
+        <div class="qnext-btn">
+          <button class="btn-next" id="bn3" disabled onclick="nextQ(3)">Next →</button>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="qstep" id="q4">
+        <div class="step-num">Question 4 of 5</div>
+        <div class="question-text">Which destination country are you targeting?</div>
+        <div class="qopts">
+          <button class="qopt" onclick="qPick(4,0,'academic')">
+            <span class="qopt-l">A</span>
+            <span>UK — applying mainly for a student visa</span>
+          </button>
+          <button class="qopt" onclick="qPick(4,1,'either')">
+            <span class="qopt-l">B</span>
+            <span>Australia, Canada, UK, or New Zealand — for immigration</span>
+          </button>
+          <button class="qopt" onclick="qPick(4,2,'academic')">
+            <span class="qopt-l">C</span>
+            <span>USA — primarily for university admission</span>
+          </button>
+          <button class="qopt" onclick="qPick(4,3,'either')">
+            <span class="qopt-l">D</span>
+            <span>Anywhere — just need a recognised English test</span>
+          </button>
+        </div>
+        <div class="feedback-box" id="fb4"></div>
+        <div class="qnext-btn">
+          <button class="btn-next" id="bn4" disabled onclick="nextQ(4)">Next →</button>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="qstep" id="q5">
+        <div class="step-num">Question 5 of 5</div>
+        <div class="question-text">How important is it that your test is accepted by universities worldwide?</div>
+        <div class="qopts">
+          <button class="qopt" onclick="qPick(5,0,'academic')">
+            <span class="qopt-l">A</span>
+            <span>Very important — that's my main reason for taking IELTS</span>
+          </button>
+          <button class="qopt" onclick="qPick(5,1,'general')">
+            <span class="qopt-l">B</span>
+            <span>Somewhat — but immigration acceptance matters more to me</span>
+          </button>
+          <button class="qopt" onclick="qPick(5,2,'either')">
+            <span class="qopt-l">C</span>
+            <span>Not sure yet — I want to keep options open</span>
+          </button>
+        </div>
+        <div class="feedback-box" id="fb5"></div>
+        <div class="qnext-btn">
+          <button class="btn-next" id="bn5" disabled onclick="showResult()">See My Result →</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RESULT -->
+    <div id="quiz-result">
+      <div class="result-icon" id="res-icon">🎓</div>
+      <div class="result-title" id="res-title">IELTS Academic</div>
+      <div class="result-desc" id="res-desc"></div>
+      <div class="result-tags" id="res-tags"></div>
+      <div class="result-actions">
+        <button class="btn-result primary" onclick="resetQuiz()">🔄 Retake Quiz</button>
+        <button class="btn-result secondary" id="res-link-btn">📚 View IELTS Grammar →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p><span class="fn">EUSTAQUIA</span> — EduSuite IELTS Guide</p>
+  <p style="margin-top:4px">
+    <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="https://www.youtube.com/@Eusell77" target="_blank">YouTube</a>
+  </p>
+</footer>
+
+<script>
+// Decision quiz logic
+const answers = { 1: null, 2: null, 3: null, 4: null, 5: null };
+const FEEDBACKS = {
+  1: [
+    'Academic is designed for higher education — your university will specify which test you need.',
+    'General Training is accepted for most immigration programmes. Check your visa requirements.',
+    'Professional registration bodies often accept either test — check your specific requirements.',
+    'Both tests are widely accepted. Consider your primary goal to decide.'
+  ],
+  2: [
+    'Academic Reading uses real academic texts — this suits your preference well.',
+    'General Training Reading uses practical everyday materials — this aligns with your preference.',
+    'Either test would suit you. Both require good comprehension skills.',
+    null
+  ],
+  3: [
+    'Academic Writing Task 1 requires data interpretation — you sound ready for this.',
+    'General Training Writing involves letter writing — practical and common in daily life.',
+    'Both tests share Writing Task 2 (essay) — the style is the same. Check which Task 1 suits you more.'
+  ],
+  4: [
+    'UK student visas typically require Academic. Check the official UKVI requirements.',
+    'Immigration to AU/CA/UK/NZ accepts General Training for most visa routes. Academic is also accepted.',
+    'US universities typically require Academic. Most US institutions accept only Academic.',
+    'Both tests are recognised globally. Choose based on your purpose rather than destination.'
+  ],
+  5: [
+    'Academic is the globally recognised test for university admission — you\'re on the right track.',
+    'General Training is accepted for immigration purposes, which seems to be your priority.',
+    'Both tests are valued. If you\'re undecided, consider which modules feel more manageable.'
+  ]
+};
+
+function qPick(qNum, optIdx, resultType) {
+  answers[qNum] = resultType;
+
+  // Highlight selected
+  const step = document.getElementById('q' + qNum);
+  step.querySelectorAll('.qopt').forEach((btn, i) => {
+    btn.classList.remove('sel', 'gd', 'bd');
+    if (i === optIdx) btn.classList.add('sel');
+  });
+
+  // Show feedback
+  const fb = document.getElementById('fb' + qNum);
+  const fbText = FEEDBACKS[qNum][optIdx];
+  if (fbText) {
+    fb.textContent = fbText;
+    fb.className = 'feedback-box show reason';
+  } else {
+    fb.className = 'feedback-box';
+  }
+
+  document.getElementById('bn' + qNum).disabled = false;
+}
+
+function nextQ(qNum) {
+  document.getElementById('q' + qNum).classList.remove('active');
+  document.getElementById('q' + (qNum + 1)).classList.add('active');
+  updateProgress(qNum + 1);
+}
+
+function updateProgress(step) {
+  const pct = ((step - 1) / 5) * 100;
+  document.getElementById('qprog').style.width = pct + '%';
+}
+
+function showResult() {
+  // Count votes
+  let acad = 0, gen = 0, either = 0;
+  Object.values(answers).forEach(v => {
+    if (v === 'academic') acad++;
+    else if (v === 'general') gen++;
+    else if (v === 'either') either++;
+  });
+
+  let winner;
+  if (acad > gen) winner = 'academic';
+  else if (gen > acad) winner = 'general';
+  else winner = Math.random() > 0.5 ? 'academic' : 'general';
+
+  const results = {
+    academic: {
+      icon: '🎓',
+      title: 'IELTS Academic',
+      desc: 'Your profile strongly aligns with IELTS Academic. Designed for university admission and higher education pathways, this test focuses on academic reading and data interpretation writing tasks. Most universities worldwide accept Academic scores for admission.',
+      tags: ['University', 'Postgraduate', 'Professional Registration'],
+      link: 'ielts-grammar.html',
+      badge: 'acad'
+    },
+    general: {
+      icon: '🏢',
+      title: 'IELTS General Training',
+      desc: 'Your profile strongly aligns with IELTS General Training. This test is ideal for immigration applications and work permits. It features practical everyday reading materials and letter-writing tasks that are directly relevant to real-world workplace and social contexts.',
+      tags: ['Immigration', 'Work Permit', 'Visa Application'],
+      link: 'index.html',
+      badge: 'gen'
+    }
+  };
+
+  const r = results[winner];
+  document.getElementById('res-icon').textContent = r.icon;
+  document.getElementById('res-title').textContent = r.title;
+  document.getElementById('res-desc').textContent = r.desc;
+  document.getElementById('res-tags').innerHTML = r.tags.map(t =>
+    `<span class="rstag ${r.badge}">${t}</span>`
+  ).join('');
+  document.getElementById('res-link-btn').onclick = () => { window.location.href = r.link; };
+
+  document.getElementById('quiz-body').style.display = 'none';
+  const res = document.getElementById('quiz-result');
+  res.classList.add('show');
+  document.getElementById('qprog').style.width = '100%';
+}
+
+function resetQuiz() {
+  Object.keys(answers).forEach(k => answers[k] = null);
+  document.querySelectorAll('.qopt').forEach(btn => btn.classList.remove('sel', 'gd', 'bd'));
+  document.querySelectorAll('.feedback-box').forEach(fb => fb.className = 'feedback-box');
+  document.querySelectorAll('.btn-next').forEach(btn => btn.disabled = true);
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('quiz-result').classList.remove('show');
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById('q' + i).classList.remove('active');
+  }
+  document.getElementById('q1').classList.add('active');
+  document.getElementById('qprog').style.width = '0%';
+}
+</script>
+
+</body>
+</html>

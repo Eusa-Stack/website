@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="theme-manager.js"></script>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="grammar-shared.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Band Score Calculator — EduSuite by EUSTAQUIA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ─── PAGE VARIABLES (dark default) ─── */
+:root[data-theme="dark"] {
+  --pg-bg: #0d0c20;
+  --pg-card: #1a1935;
+  --pg-card2: #222042;
+  --pg-card3: #16142e;
+  --pg-border: rgba(124,108,212,.22);
+  --pg-border2: rgba(167,139,250,.15);
+  --pg-text: #e4e2f0;
+  --pg-muted: #8885a8;
+  --pg-accent: #7c6cd4;
+  --pg-accent2: #5a4fcf;
+  --pg-gold: #f7c948;
+  --pg-green: #43b97a;
+  --pg-orange: #f4845f;
+  --pg-pink: #e85d75;
+  --pg-purple: #a78bfa;
+  --pg-blue: #60a5fa;
+  --pg-surface: #12112a;
+  --pg-glow: rgba(124,108,212,.35);
+}
+:root {
+  --pg-font-h: 'Fredoka', sans-serif;
+  --pg-font-b: 'Nunito', sans-serif;
+  --pg-font-a: 'Inter', sans-serif;
+}
+
+/* ─── RESET & BASE ─── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--pg-font-b);
+  background: var(--pg-bg);
+  color: var(--pg-text);
+  min-height: 100vh;
+  line-height: 1.6;
+  font-size: 18px !important;
+}
+
+/* ─── CANVAS BACKDROP ─── */
+#floating-canvas {
+  position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 0; pointer-events: none;
+}
+.page-wrap { position: relative; z-index: 10; }
+
+/* ─── NAV ─── */
+.site-nav {
+  display: flex; align-items: center;
+  background: #0a091c;
+  padding: 0 16px;
+  gap: 0;
+  position: sticky; top: 0; z-index: 999;
+  border-bottom: 1px solid var(--pg-border);
+}
+.site-nav-brand {
+  font-size: 12px; font-weight: 800;
+  color: rgba(255,255,255,.4);
+  text-transform: uppercase; letter-spacing: .09em;
+  padding: 14px 14px 14px 4px;
+  white-space: nowrap;
+  border-right: 1px solid rgba(255,255,255,.1);
+  margin-right: 4px;
+}
+.site-nav-link {
+  display: flex; align-items: center; gap: 7px;
+  padding: 0 16px; height: 48px;
+  text-decoration: none; font-size: 13px; font-weight: 700;
+  color: rgba(255,255,255,.5);
+  position: relative; transition: color .2s;
+  white-space: nowrap; letter-spacing: .02em;
+}
+.site-nav-link:hover { color: rgba(255,255,255,.9); text-decoration: none; }
+.site-nav-link.active { color: #fff; }
+.site-nav-link.active::after {
+  content: ''; position: absolute; bottom: 0; left: 12px; right: 12px;
+  height: 3px; border-radius: 3px 3px 0 0;
+  background: var(--pg-accent);
+}
+.theme-toggle {
+  cursor: pointer; user-select: none;
+  background: none; border: 1px solid var(--pg-border);
+  border-radius: 8px; padding: 4px 12px;
+  font-size: .9rem; color: var(--pg-muted);
+  transition: border-color .2s, background .2s;
+  margin-left: auto;
+}
+.theme-toggle:hover { border-color: var(--pg-accent); background: var(--pg-card2); }
+
+/* ─── HERO ─── */
+.hero {
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+  position: relative;
+}
+.hero-tag {
+  display: inline-block;
+  background: var(--pg-card2);
+  border: 1px solid var(--pg-border2);
+  border-radius: 20px;
+  padding: 5px 16px;
+  font-size: 12px; font-weight: 700;
+  color: var(--pg-purple);
+  text-transform: uppercase; letter-spacing: .07em;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--pg-font-h);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #e4e2f0 0%, #a78bfa 60%, #7c6cd4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 1.05rem; color: var(--pg-muted);
+  max-width: 520px; margin: 0 auto 1.5rem;
+  line-height: 1.65;
+}
+.hero-stats {
+  display: flex; justify-content: center; gap: 24px;
+  flex-wrap: wrap; margin-top: 1.5rem;
+}
+.h-stat {
+  background: var(--pg-card);
+  border: 1px solid var(--pg-border);
+  border-radius: 14px; padding: 14px 24px;
+  text-align: center; min-width: 110px;
+}
+.h-stat-n { font-size: 1.7rem; font-weight: 800; color: var(--pg-accent); }
+.h-stat-l { font-size: .72rem; color: var(--pg-muted); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-top: 2px; }
+
+/* ─── SECTION LAYOUT ─── */
+.container { max-width: 860px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+.section-title {
+  font-family: var(--pg-font-h);
+  font-size: 1.4rem; font-weight: 600;
+  margin-bottom: 6px;
+}
+.section-sub { font-size: .9rem; color: var(--pg-muted); margin-bottom: 1.25rem; }
+
+/* ─── BAND SCORE SCALE ─── */
+.scale-section { margin-bottom: 3rem; }
+.scale-wrap {
+  background: var(--pg-card);
+  border: 1px solid var(--pg-border);
+  border-radius: 20px; padding: 2rem;
+  position: relative; overflow: hidden;
+}
+.scale-wrap::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--pg-red), var(--pg-orange), var(--pg-gold), var(--pg-green), var(--pg-accent));
+  border-radius: 20px 20px 0 0;
+}
+.band-track {
+  display: flex; gap: 6px; margin-bottom: 10px;
+}
+.band-step {
+  flex: 1; text-align: center; cursor: pointer;
+  padding: 10px 4px; border-radius: 10px;
+  transition: all .2s;
+  position: relative;
+}
+.band-step:hover { background: var(--pg-card2); }
+.band-step.selected {
+  background: var(--pg-card2);
+  box-shadow: 0 0 0 2px var(--pg-accent);
+}
+.band-num {
+  font-family: var(--pg-font-h);
+  font-size: 1.5rem; font-weight: 700;
+  display: block; line-height: 1;
+  margin-bottom: 4px;
+}
+.band-lbl { font-size: .68rem; font-weight: 600; color: var(--pg-muted); text-transform: uppercase; letter-spacing: .04em; }
+.band-desc {
+  background: var(--pg-card3);
+  border: 1px solid var(--pg-border2);
+  border-radius: 12px; padding: 1.25rem 1.5rem;
+  display: flex; gap: 16px; align-items: flex-start;
+  min-height: 90px;
+}
+.band-icon { font-size: 2rem; flex-shrink: 0; }
+.band-detail { flex: 1; }
+.band-detail-name {
+  font-family: var(--pg-font-h);
+  font-size: 1.15rem; font-weight: 700;
+  margin-bottom: 4px;
+}
+.band-detail-desc { font-size: .88rem; color: var(--pg-muted); line-height: 1.55; }
+.band-detail-skills {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
+}
+.skill-chip {
+  font-size: .7rem; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.chip-l { background: rgba(232,93,117,.18); color: var(--pg-pink); }
+.chip-r { background: rgba(67,185,122,.18); color: var(--pg-green); }
+.chip-w { background: rgba(99,165,250,.18); color: var(--pg-blue); }
+.chip-s { background: rgba(247,201,72,.18); color: var(--pg-gold); }
+
+/* ─── TARGET SELECTOR ─── */
+.target-section { margin-bottom: 3rem; }
+.target-card {
+  background: var(--pg-card);
+  border: 1px solid var(--pg-border);
+  border-radius: 20px; padding: 2rem;
+  position: relative;
+}
+.target-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--pg-accent), var(--pg-purple));
+  border-radius: 20px 20px 0 0;
+}
+.target-row {
+  display: flex; align-items: center; gap: 16px;
+  flex-wrap: wrap; margin-bottom: 16px;
+}
+.target-label {
+  font-size: .85rem; font-weight: 700;
+  color: var(--pg-muted); text-transform: uppercase;
+  letter-spacing: .06em; min-width: 80px;
+}
+.target-bands {
+  display: flex; gap: 8px; flex-wrap: wrap; flex: 1;
+}
+.t-band {
+  width: 44px; height: 44px;
+  border-radius: 10px; border: 2px solid var(--pg-border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--pg-font-h); font-size: 1.1rem; font-weight: 700;
+  cursor: pointer; transition: all .15s;
+  background: var(--pg-card3); color: var(--pg-text);
+}
+.t-band:hover { border-color: var(--pg-accent); transform: translateY(-2px); }
+.t-band.active {
+  background: var(--pg-accent); border-color: var(--pg-accent); color: #fff;
+  box-shadow: 0 4px 14px rgba(124,108,212,.4);
+  transform: translateY(-2px);
+}
+.target-current {
+  font-size: .85rem; color: var(--pg-muted);
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--pg-border);
+}
+.target-current span { color: var(--pg-accent); font-weight: 700; }
+
+/* ─── STUDY PLAN GENERATOR ─── */
+.plan-section { margin-bottom: 3rem; }
+.plan-card {
+  background: var(--pg-card);
+  border: 1px solid var(--pg-border);
+  border-radius: 20px; padding: 2rem;
+  position: relative; overflow: hidden;
+}
+.plan-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--pg-green), var(--pg-accent));
+  border-radius: 20px 20px 0 0;
+}
+.plan-inputs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin-bottom: 1.25rem;
+}
+.plan-field label {
+  display: block; font-size: .78rem; font-weight: 700;
+  color: var(--pg-muted); text-transform: uppercase;
+  letter-spacing: .06em; margin-bottom: 6px;
+}
+.plan-field input,
+.plan-field select {
+  width: 100%; padding: 11px 14px;
+  background: var(--pg-card3);
+  border: 1.5px solid var(--pg-border);
+  border-radius: 10px; color: var(--pg-text);
+  font-family: var(--pg-font-b); font-size: 1rem;
+  transition: border-color .2s;
+  outline: none;
+}
+.plan-field input:focus,
+.plan-field select:focus { border-color: var(--pg-accent); }
+.plan-field select option { background: var(--pg-card); }
+.plan-btn {
+  width: 100%; padding: 15px;
+  background: var(--pg-accent); color: #fff;
+  border: none; border-radius: 12px;
+  font-family: var(--pg-font-b); font-size: 1rem; font-weight: 800;
+  cursor: pointer; transition: all .2s;
+  margin-top: 4px;
+}
+.plan-btn:hover {
+  background: var(--pg-accent2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124,108,212,.4);
+}
+
+/* ─── GENERATED PLAN ─── */
+.plan-result {
+  display: none; margin-top: 1.5rem;
+}
+.plan-result.show { display: block; }
+.plan-header {
+  background: linear-gradient(135deg, var(--pg-card2), var(--pg-card3));
+  border: 1px solid var(--pg-border2);
+  border-radius: 14px; padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+.plan-header-top {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 6px;
+}
+.plan-badge {
+  background: var(--pg-accent); color: #fff;
+  font-size: .72rem; font-weight: 800; padding: 4px 12px;
+  border-radius: 20px; text-transform: uppercase; letter-spacing: .05em;
+}
+.plan-title-main {
+  font-family: var(--pg-font-h); font-size: 1.2rem; font-weight: 700;
+}
+.plan-meta {
+  font-size: .85rem; color: var(--pg-muted);
+  display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px;
+}
+.plan-meta span { display: flex; align-items: center; gap: 4px; }
+.plan-gaps {
+  background: var(--pg-card3);
+  border: 1px solid var(--pg-border2);
+  border-radius: 12px; padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+.plan-gaps-title {
+  font-size: .78rem; font-weight: 700; color: var(--pg-muted);
+  text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px;
+}
+.gap-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 0; border-bottom: 1px solid var(--pg-border);
+  font-size: .9rem;
+}
+.gap-row:last-child { border-bottom: none; }
+.gap-band { font-family: var(--pg-font-h); font-weight: 700; color: var(--pg-accent); min-width: 22px; }
+.gap-label { flex: 1; }
+.gap-action { color: var(--pg-muted); font-size: .8rem; font-weight: 600; }
+.plan-weeks {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;
+}
+.week-card {
+  background: var(--pg-card3);
+  border: 1px solid var(--pg-border2);
+  border-radius: 12px; padding: 1rem;
+  position: relative; overflow: hidden;
+}
+.week-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.week-card.high::before { background: var(--pg-red, #e85d75); }
+.week-card.medium::before { background: var(--pg-gold); }
+.week-card.low::before { background: var(--pg-green); }
+.week-num {
+  font-size: .7rem; font-weight: 800; color: var(--pg-muted);
+  text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px;
+}
+.week-focus {
+  font-family: var(--pg-font-h); font-size: 1rem; font-weight: 600;
+  margin-bottom: 6px; line-height: 1.3;
+}
+.week-tasks { display: flex; flex-direction: column; gap: 4px; }
+.week-task {
+  font-size: .78rem; color: var(--pg-muted);
+  display: flex; align-items: flex-start; gap: 6px;
+  line-height: 1.4;
+}
+.week-task::before { content: '•'; color: var(--pg-accent); flex-shrink: 0; margin-top: 1px; }
+
+/* ─── SCORE ESTIMATOR ─── */
+.estimator-section { margin-bottom: 3rem; }
+.estimator-card {
+  background: var(--pg-card);
+  border: 1px solid var(--pg-border);
+  border-radius: 20px; padding: 2rem;
+}
+.estimator-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  margin-bottom: 1.25rem;
+}
+.est-field label {
+  display: block; font-size: .72rem; font-weight: 700;
+  color: var(--pg-muted); text-transform: uppercase;
+  letter-spacing: .05em; margin-bottom: 5px;
+  text-align: center;
+}
+.est-field input {
+  width: 100%; padding: 10px 8px;
+  background: var(--pg-card3);
+  border: 1.5px solid var(--pg-border);
+  border-radius: 10px; color: var(--pg-text);
+  font-family: var(--pg-font-b); font-size: 1.1rem; font-weight: 700;
+  text-align: center; outline: none; transition: border-color .2s;
+}
+.est-field input:focus { border-color: var(--pg-accent); }
+.est-calc-btn {
+  width: 100%; padding: 13px;
+  background: var(--pg-card2); border: 1px solid var(--pg-border);
+  border-radius: 12px; color: var(--pg-text);
+  font-family: var(--pg-font-b); font-size: 1rem; font-weight: 800;
+  cursor: pointer; transition: all .2s;
+}
+.est-calc-btn:hover {
+  background: var(--pg-accent); border-color: var(--pg-accent); color: #fff;
+}
+.est-result {
+  display: none; margin-top: 1.25rem;
+  background: var(--pg-card3); border: 1px solid var(--pg-border2);
+  border-radius: 14px; padding: 1.25rem; text-align: center;
+}
+.est-result.show { display: block; }
+.est-score-big {
+  font-family: var(--pg-font-h); font-size: 3rem; font-weight: 700;
+  margin-bottom: 4px;
+}
+.est-score-label { font-size: .85rem; color: var(--pg-muted); margin-bottom: 10px; }
+.est-bar-wrap { background: var(--pg-border); border-radius: 6px; height: 10px; margin-bottom: 8px; overflow: hidden; }
+.est-bar-fill { height: 10px; border-radius: 6px; transition: width .6s; }
+.est-note { font-size: .78rem; color: var(--pg-muted); font-style: italic; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--pg-surface);
+  color: rgba(255,255,255,.3);
+  text-align: center; padding: 24px 16px;
+  font-size: .82rem;
+  border-top: 1px solid var(--pg-border);
+  margin-top: 2rem;
+}
+footer .fn { color: var(--pg-accent); font-weight: 700; }
+footer a { color: rgba(255,255,255,.3); text-decoration: none; }
+footer a:hover { color: rgba(255,255,255,.7); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+  .plan-inputs { grid-template-columns: 1fr; }
+  .estimator-grid { grid-template-columns: repeat(2, 1fr); }
+  .band-track { flex-wrap: wrap; gap: 4px; }
+  .band-step { min-width: calc(20% - 4px); }
+  .plan-weeks { grid-template-columns: 1fr; }
+}
+
+/* EUSTAQUIA bigger fonts */
+h1 { font-size: 2.25rem !important; }
+h2 { font-size: 1.75rem !important; }
+h3 { font-size: 1.3rem !important; }
+</style>
+</head>
+<body>
+<canvas id="floating-canvas"></canvas>
+<div class="page-wrap">
+
+<!-- SITE NAV -->
+<nav class="site-nav">
+  <div class="site-nav-brand">📖 EduSuite</div>
+  <a class="site-nav-link" href="index.html">
+    <span>🎮</span> Math Games
+  </a>
+  <a class="site-nav-link" href="subjects.html">
+    <span>🧩</span> Learning Games
+  </a>
+  <a class="site-nav-link active" href="ielts.html">
+    <span>📚</span> IELTS
+    <span style="background:var(--pg-green);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:10px;letter-spacing:.04em">NEW</span>
+  </a>
+  <button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme">&#9790; / &#9728;</button>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-tag">IELTS Tool</div>
+  <h1>IELTS Band Score Guide</h1>
+  <p class="hero-sub">Understand what each band score means, set your target, and generate a personalised study plan to get there.</p>
+  <div class="hero-stats">
+    <div class="h-stat">
+      <div class="h-stat-n">9</div>
+      <div class="h-stat-l">Band Levels</div>
+    </div>
+    <div class="h-stat">
+      <div class="h-stat-n">4</div>
+      <div class="h-stat-l">Skill Areas</div>
+    </div>
+    <div class="h-stat">
+      <div class="h-stat-n" id="hero-target">—</div>
+      <div class="h-stat-l">Your Target</div>
+    </div>
+  </div>
+</header>
+
+<!-- BAND SCORE SCALE -->
+<section class="container scale-section">
+  <h2 class="section-title">📊 Band Score Scale (5 – 9)</h2>
+  <p class="section-sub">Click any band to explore what it means in IELTS Listening, Reading, Writing & Speaking.</p>
+  <div class="scale-wrap">
+    <div class="band-track" id="band-track"></div>
+    <div class="band-desc" id="band-desc">
+      <div class="band-icon" id="bd-icon">🎯</div>
+      <div class="band-detail">
+        <div class="band-detail-name" id="bd-name">Select a band score</div>
+        <div class="band-detail-desc" id="bd-desc">Click any score above to see detailed descriptors for all four skills.</div>
+        <div class="band-detail-skills" id="bd-skills"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TARGET BAND -->
+<section class="container target-section">
+  <h2 class="section-title">🎯 Set Your Target Band</h2>
+  <p class="section-sub">Choose your goal band to unlock a personalised study plan below.</p>
+  <div class="target-card">
+    <div class="target-row">
+      <div class="target-label">Target</div>
+      <div class="target-bands" id="target-bands"></div>
+    </div>
+    <div class="target-current" id="target-msg">
+      Current target: <span id="target-display">Not set</span> — select a band above to get started.
+    </div>
+  </div>
+</section>
+
+<!-- STUDY PLAN GENERATOR -->
+<section class="container plan-section">
+  <h2 class="section-title">📅 Study Plan Generator</h2>
+  <p class="section-sub">Answer a few quick questions to generate your personalised weekly study schedule.</p>
+  <div class="plan-card">
+    <div class="plan-inputs">
+      <div class="plan-field">
+        <label for="p-level">Current Level</label>
+        <select id="p-level">
+          <option value="4">Below 5.0 — Beginner</option>
+          <option value="5">Band 5.0 — Modest</option>
+          <option value="5.5">Band 5.5 — Modest Plus</option>
+          <option value="6" selected>Band 6.0 — Competent</option>
+          <option value="6.5">Band 6.5 — Competent Plus</option>
+          <option value="7">Band 7.0 — Good</option>
+        </select>
+      </div>
+      <div class="plan-field">
+        <label for="p-target">Target Band</label>
+        <select id="p-target">
+          <option value="6">Band 6.0</option>
+          <option value="6.5">Band 6.5</option>
+          <option value="7" selected>Band 7.0</option>
+          <option value="7.5">Band 7.5</option>
+          <option value="8">Band 8.0</option>
+          <option value="8.5">Band 8.5</option>
+          <option value="9">Band 9.0</option>
+        </select>
+      </div>
+      <div class="plan-field">
+        <label for="p-weeks">Weeks Available</label>
+        <select id="p-weeks">
+          <option value="2">2 weeks</option>
+          <option value="4">4 weeks</option>
+          <option value="6" selected>6 weeks</option>
+          <option value="8">8 weeks</option>
+          <option value="12">12 weeks</option>
+          <option value="16">16 weeks</option>
+        </select>
+      </div>
+      <div class="plan-field">
+        <label for="p-hours">Hours / Week</label>
+        <select id="p-hours">
+          <option value="5">5 hours</option>
+          <option value="8">8 hours</option>
+          <option value="10" selected>10 hours</option>
+          <option value="15">15 hours</option>
+          <option value="20">20+ hours</option>
+        </select>
+      </div>
+    </div>
+    <button class="plan-btn" onclick="generatePlan()">✨ Generate My Study Plan</button>
+
+    <div class="plan-result" id="plan-result">
+      <!-- Generated plan renders here -->
+    </div>
+  </div>
+</section>
+
+<!-- SCORE ESTIMATOR -->
+<section class="container estimator-section">
+  <h2 class="section-title">🧮 Overall Band Score Estimator</h2>
+  <p class="section-sub">Enter your expected scores for each skill to estimate your overall band.</p>
+  <div class="estimator-card">
+    <div class="estimator-grid">
+      <div class="est-field">
+        <label for="e-listening">Listening</label>
+        <input type="number" id="e-listening" min="0" max="9" step="0.5" value="6.0" placeholder="6.0">
+      </div>
+      <div class="est-field">
+        <label for="e-reading">Reading</label>
+        <input type="number" id="e-reading" min="0" max="9" step="0.5" value="6.0" placeholder="6.0">
+      </div>
+      <div class="est-field">
+        <label for="e-writing">Writing</label>
+        <input type="number" id="e-writing" min="0" max="9" step="0.5" value="6.0" placeholder="6.0">
+      </div>
+      <div class="est-field">
+        <label for="e-speaking">Speaking</label>
+        <input type="number" id="e-speaking" min="0" max="9" step="0.5" value="6.0" placeholder="6.0">
+      </div>
+    </div>
+    <button class="est-calc-btn" onclick="calcOverall()">Calculate Overall Band →</button>
+    <div class="est-result" id="est-result">
+      <div class="est-score-big" id="est-score-big">6.0</div>
+      <div class="est-score-label" id="est-score-label">Estimated Overall Band</div>
+      <div class="est-bar-wrap">
+        <div class="est-bar-fill" id="est-bar-fill" style="width:67%"></div>
+      </div>
+      <div class="est-note" id="est-note">Rounded to nearest 0.5 per IELTS standard calculation rules.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><span class="fn">EUSTAQUIA</span> — EduSuite IELTS Tools</p>
+  <p style="margin-top:6px">
+    <a href="index.html">Home</a> · <a href="ielts.html">IELTS Grammar</a> · <a href="ielts-grammar.html">Practice</a> · <a href="https://www.youtube.com/@Eusell77" target="_blank">YouTube</a>
+  </p>
+</footer>
+
+</div><!-- /.page-wrap -->
+
+<script src="floating-anim.js"></script>
+<script>
+// ═══════════════════════════════════════════
+// BAND SCORE DATA
+// ═══════════════════════════════════════════
+const BANDS = {
+  5: {
+    name: 'Band 5 — Modest', icon: '🌱',
+    color: '#f4845f',
+    desc: 'Has a partial command of English. Copes with overall meaning in most situations, but makes many mistakes. Band 5 is the minimum for many university and immigration requirements.',
+    skills: {
+      L: 'Manages to extract key information from short exchanges. Misses a lot in longer recordings.',
+      R: 'Can follow the main idea in simple texts. Struggles with complex vocabulary or arguments.',
+      W: 'Writes simple sentences with limited coherence. Limited range of structures; frequent errors.',
+      S: 'Manages to communicate in familiar situations. Hesitates often and has limited range.'
+    }
+  },
+  5.5: {
+    name: 'Band 5.5 — Modest Plus', icon: '🌿',
+    color: '#f4845f',
+    desc: 'A partial command of English with occasional effective use. Generally handles basic communication but still prone to frequent errors and misunderstandings.',
+    skills: {
+      L: 'Understands the main topic of recordings but may miss specific details in longer passages.',
+      R: 'Can identify some main points in straightforward reading texts. Vocabulary gaps are noticeable.',
+      W: 'Produces simple discourse with some organisation. Errors impede clarity consistently.',
+      S: 'Can sustain communication in familiar contexts despite hesitations and repetitions.'
+    }
+  },
+  6: {
+    name: 'Band 6 — Competent', icon: '🌳',
+    color: '#f7c948',
+    desc: 'A competent user of English. Generally handles complex language well and understands detailed reasoning. Some inaccuracies and misunderstandings may occur in unfamiliar situations.',
+    skills: {
+      L: 'Good ability to follow recordings on familiar topics. May miss nuance in complex or rapid speech.',
+      R: 'Reads and comprehends main ideas and specific information in varied texts. Some inference skills present.',
+      W: 'Writes with adequate organisation; arguments are clear though not always well-developed. Some errors but generally communicative.',
+      S: 'Uses a range of vocabulary and structures; occasional breakdowns but maintains communication effectively.'
+    }
+  },
+  6.5: {
+    name: 'Band 6.5 — Competent Plus', icon: '🌲',
+    color: '#f7c948',
+    desc: 'An above-average competent user. Effective use of English with occasional inaccuracies in complex or unfamiliar contexts. Suitable for most academic and professional requirements.',
+    skills: {
+      L: 'Follows extended speech on familiar and some unfamiliar topics with good comprehension.',
+      R: 'Understands complex texts on familiar topics. Makes inferences and identifies attitudes.',
+      W: 'Writes well-organised essays with relevant examples. Minor lexical and grammatical errors that rarely impede communication.',
+      S: 'Speaks fluently with good range of structures and vocabulary. Occasional errors in complex constructions.'
+    }
+  },
+  7: {
+    name: 'Band 7 — Good', icon: '🏅',
+    color: '#43b97a',
+    desc: 'A good command of English with occasional inaccuracies and misunderstandings. Handles complex language well and understands detailed reasoning in most situations.',
+    skills: {
+      L: 'Understands extended speech with complex ideas. Rarely misses essential information.',
+      R: 'Reads with good comprehension of implicit and explicit meanings. Handles complex arguments well.',
+      W: 'Produces well-structured, developed responses with relevant examples. Minimal errors.',
+      S: 'Speaks fluently and spontaneously with a wide range of structures and vocabulary.'
+    }
+  },
+  7.5: {
+    name: 'Band 7.5 — Good Plus', icon: '🥈',
+    color: '#43b97a',
+    desc: 'An effective command of English with only occasional inaccuracies. Highly proficient in complex language use across all four skills.',
+    skills: {
+      L: 'Excellent comprehension of complex and abstract content. Very rare lapses.',
+      R: 'Understands sophisticated texts, recognising tone, attitude and nuanced argument.',
+      W: 'Produces clearly articulated, well-organised writing with sophisticated vocabulary and structure.',
+      S: 'Speaks with natural fluency; wide lexical resource used effectively and appropriately.'
+    }
+  },
+  8: {
+    name: 'Band 8 — Very Good', icon: '🥇',
+    color: '#60a5fa',
+    desc: 'A very good command of English with only occasional inaccuracies. Handles complex and detailed content well and shows strong understanding of implicit meaning.',
+    skills: {
+      L: 'Outstanding comprehension; understands all types of speech including accent variety and subtle nuance.',
+      R: 'Reads with complete accuracy; identifies all subtle points, implications and author attitude.',
+      W: 'Writes with full clarity and precision; expertly structured and flawlessly coherent.',
+      S: 'Speaks with near-native fluency; natural, fluid expression with sophisticated range.'
+    }
+  },
+  8.5: {
+    name: 'Band 8.5 — Near Expert', icon: '💎',
+    color: '#60a5fa',
+    desc: 'An almost complete command of English with only occasional unsystematic inaccuracies. Near-native proficiency in all skill areas.',
+    skills: {
+      L: 'Fully competent across all types and speeds of recordings; no comprehension gaps.',
+      R: 'Complete understanding of all text types, including subtle sarcasm and complex structure.',
+      W: 'Masterful writing with sophisticated lexical and grammatical control throughout.',
+      S: 'Natural, effortless fluency with near-complete range of expression and register.'
+    }
+  },
+  9: {
+    name: 'Band 9 — Expert', icon: '👑',
+    color: '#a78bfa',
+    desc: 'A complete command of English — full proficiency equivalent to a native speaker. Uses language with complete accuracy, fluency and sophistication in all situations.',
+    skills: {
+      L: 'Complete and effortless understanding of all speech, including rapid, accented and abstract content.',
+      R: 'Fully understands everything read — explicit meaning, implication, tone, style and complex nuance.',
+      W: 'Produces completely natural, fully appropriate writing with native sophistication.',
+      S: 'Speaks with complete fluency and precision; uses language with full flexibility and authority.'
+    }
+  }
+};
+
+// ═══════════════════════════════════════════
+// BAND SCORE SCALE RENDERING
+// ═══════════════════════════════════════════
+const bandKeys = [5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9];
+let selectedBand = null;
+
+function renderBandTrack() {
+  const track = document.getElementById('band-track');
+  track.innerHTML = bandKeys.map(b => {
+    const band = BANDS[b];
+    return `<div class="band-step" id="bs-${b}" onclick="selectBand(${b})">
+      <span class="band-num" style="color:${band.color}">${b}</span>
+      <span class="band-lbl">${b < 7 ? 'Low' : b < 8 ? 'Mid' : 'High'}</span>
+    </div>`;
+  }).join('');
+}
+
+function selectBand(b) {
+  selectedBand = b;
+  // Update track selection
+  bandKeys.forEach(k => {
+    const el = document.getElementById('bs-' + k);
+    if (el) el.classList.toggle('selected', k === b);
+  });
+  // Update description
+  const band = BANDS[b];
+  document.getElementById('bd-icon').textContent = band.icon;
+  document.getElementById('bd-name').textContent = band.name;
+  document.getElementById('bd-name').style.color = band.color;
+  document.getElementById('bd-desc').textContent = band.desc;
+  document.getElementById('bd-skills').innerHTML = `
+    <span class="skill-chip chip-l">👂 L: ${band.skills.L}</span>
+    <span class="skill-chip chip-r">📖 R: ${band.skills.R}</span>
+    <span class="skill-chip chip-w">✍️ W: ${band.skills.W}</span>
+    <span class="skill-chip chip-s">🗣️ S: ${band.skills.S}</span>
+  `;
+}
+
+// ═══════════════════════════════════════════
+// TARGET BAND SELECTOR
+// ═══════════════════════════════════════════
+function renderTargetBands() {
+  const container = document.getElementById('target-bands');
+  const savedTarget = localStorage.getItem('ielts-target-band');
+  container.innerHTML = bandKeys.map(b => {
+    const active = b === parseFloat(savedTarget) ? 'active' : '';
+    return `<div class="t-band ${active}" id="tb-${b}" onclick="setTargetBand(${b})">${b}</div>`;
+  }).join('');
+
+  if (savedTarget) {
+    document.getElementById('target-display').textContent = 'Band ' + savedTarget;
+    document.getElementById('hero-target').textContent = savedTarget;
+    document.getElementById('p-target').value = savedTarget;
+  }
+}
+
+function setTargetBand(b) {
+  localStorage.setItem('ielts-target-band', b);
+  document.getElementById('target-display').textContent = 'Band ' + b;
+  document.getElementById('hero-target').textContent = b;
+  document.getElementById('p-target').value = b;
+  document.querySelectorAll('.t-band').forEach(el => {
+    el.classList.toggle('active', parseInt(el.textContent) === b);
+  });
+}
+
+// ═══════════════════════════════════════════
+// STUDY PLAN GENERATOR
+// ═══════════════════════════════════════════
+const SKILL_FOCUS = {
+  5: { W: ['Task achievement basics', 'Simple paragraph structure', 'Basic sentence grammar'], L: ['Listening for numbers & names', 'Core signpost words', 'Spelling names'], R: ['Skimming & scanning', 'Paragraph meaning', 'Basic vocabulary'], S: ['Everyday vocabulary', 'Basic question responses', 'Simple connected speech'] },
+  5.5: { W: ['Paragraph writing', 'Topic sentences', 'Simple connectors'], L: ['Main idea identification', 'Inferring from context', 'Following directions'], R: ['Identifying main points', 'True/False/Not Given intro', 'Word meaning from context'], S: ['Speaking at length', 'Opinion expression', 'Pronunciation clarity'] },
+  6: { W: ['Task response clarity', 'Coherent paragraphs', 'Range of linking words'], L: ['Detail vs gist', 'Attitude and opinion', 'Note completion'], R: ['TFNG strategy', 'Heading matching intro', 'Understanding argument structure'], S: ['Extended responses', 'Hypothetical language', 'Fluency vs accuracy balance'] },
+  6.5: { W: ['Essay planning', 'Complex sentence variety', 'Paraphrasing skills'], L: ['Complex inference', 'Attitude detection', 'Multi-step instructions'], R: ['Full TFNG mastery', 'Summary completion', 'Critical reading'], S: ['Complex vocabulary use', 'Idiomatic expressions', 'Smooth speech transitions'] },
+  7: { W: ['Advanced essay structure', 'Academic style', 'Cohesive device mastery'], L: ['Understanding nuance', 'Paraphrasing from audio', 'Detail precision'], R: ['Multiple matching', 'Critical analysis', 'Complex vocabulary inference'], S: ['Natural fluency', 'Abstract topics', 'Pronunciation sophistication'] },
+  7.5: { W: ['Opinion essay mastery', 'High-level coherence', 'Lexical precision'], L: ['All question types', 'Full dictation accuracy', 'Attitude and tone'], R: ['All text types', 'Speed reading', 'Complex inference mastery'], S: ['Near-native fluency', 'Advanced discourse markers', 'Register flexibility'] },
+  8: { W: ['All task types', 'Impeccable grammar', 'Sophisticated vocabulary'], L: ['All accent types', 'Subtle nuance detection', 'Implicit information'], R: ['Academic/scientific texts', 'Full comprehension', 'Critical evaluation'], S: ['Complete fluency', 'Cultural references', 'Subtle humour and register'] }
+};
+
+const WEEK_TEMPLATE = [
+  { label: 'Week 1', icon: '📘', focus: 'Foundation & Diagnosis', tasks: ['Take a full practice test to establish baseline', 'Review band descriptors for your target score', 'Identify your two weakest skills', 'Build a vocabulary list of 20 high-frequency academic words per day'] },
+  { label: 'Week 2', icon: '📗', focus: 'Listening & Reading Skills', tasks: ['Complete 3 full listening practice tests + review all answers', 'Study TFNG strategy for Reading (30 mins/day)', 'Read one academic article daily and summarise key points', 'Revise vocabulary from Week 1 tests'] },
+  { label: 'Week 3', icon: '📙', focus: 'Writing Precision', tasks: ['Write 2 x Task 1 and 2 essays under timed conditions', 'Use examiner feedback checklist on each essay', 'Study model essays — analyse structure and vocabulary', 'Practice paraphrasing: rewrite 10 sentences daily using synonyms'] },
+  { label: 'Week 4', icon: '📕', focus: 'Speaking Confidence', tasks: ['Record yourself answering 3 Part 1 topics per session', 'Use shadowing technique: repeat native speaker recordings', 'Build cue card responses for 10 common Part 2 topics', 'Work on pronunciation: focus on word stress and intonation'] },
+  { label: 'Week 5', icon: '🧠', focus: 'Integrated Practice', tasks: ['Complete one full test (L/R/W/S) under exam conditions', 'Timed writing: 20 min Task 1, 40 min Task 2', 'Review all mistakes from full test and create error diary', 'Practice integrated skills: listen then summarise, read then discuss'] },
+  { label: 'Week 6', icon: '🚀', focus: 'Exam Readiness', tasks: ['Take 2 full practice tests in exam conditions', 'Focus on time management — practise pacing each section', 'Review error diary: master 10 high-frequency errors per day', 'Rest and confidence: review all model answers you did well on'] }
+];
+
+function generatePlan() {
+  const current = parseFloat(document.getElementById('p-level').value);
+  const target = parseFloat(document.getElementById('p-target').value);
+  const weeks = parseInt(document.getElementById('p-weeks').value);
+  const hours = parseInt(document.getElementById('p-hours').value);
+
+  const weeksToShow = Math.min(weeks, WEEK_TEMPLATE.length);
+  const gap = (target - current).toFixed(1);
+  const hoursPerWeek = hours;
+
+  // Determine skills needing most work based on current level
+  const currentSkills = SKILL_FOCUS[current] || SKILL_FOCUS[6];
+  const skillLabels = { W: 'Writing', L: 'Listening', R: 'Reading', S: 'Speaking' };
+
+  let gapsHtml = '';
+  ['W','L','R','S'].forEach(s => {
+    gapsHtml += `<div class="gap-row">
+      <span class="gap-band">${skillLabels[s][0]}</span>
+      <span class="gap-label">${skillLabels[s]} — ${currentSkills[s] ? currentSkills[s][0] : 'Skill development'}</span>
+      <span class="gap-action">Focus area</span>
+    </div>`;
+  });
+
+  let weeksHtml = '';
+  for (let i = 0; i < weeksToShow; i++) {
+    const w = WEEK_TEMPLATE[i];
+    const intensity = i < 2 ? 'low' : (i < 4 ? 'medium' : 'high');
+    const extraTasks = currentSkills && currentSkills.W ? currentSkills.W.slice(0,1).map(t => `+ ${t}`) : [];
+    const allTasks = [...w.tasks, ...extraTasks].slice(0, 5);
+    weeksHtml += `<div class="week-card ${intensity}">
+      <div class="week-num">${w.icon} ${w.label}</div>
+      <div class="week-focus">${w.focus}</div>
+      <div class="week-tasks">${allTasks.map(t => `<div class="week-task">${t}</div>`).join('')}</div>
+    </div>`;
+  }
+
+  document.getElementById('plan-result').innerHTML = `
+    <div class="plan-header">
+      <div class="plan-header-top">
+        <span class="plan-badge">Personal Plan</span>
+        <span class="plan-title-main">${weeksToShow}-Week Study Schedule · Band ${current} → ${target}</span>
+      </div>
+      <div class="plan-meta">
+        <span>📅 ${weeksToShow} weeks</span>
+        <span>⏱️ ${hoursPerWeek}h/week</span>
+        <span>🎯 Gap: +${gap} bands</span>
+        <span>📚 ${Object.keys(currentSkills).length} skill areas</span>
+      </div>
+    </div>
+    <div class="plan-gaps">
+      <div class="plan-gaps-title">⚡ Key Focus Areas</div>
+      ${gapsHtml}
+    </div>
+    <div class="plan-weeks">${weeksHtml}</div>
+  `;
+  document.getElementById('plan-result').classList.add('show');
+  window.scrollTo({ top: document.getElementById('plan-result').offsetTop - 80, behavior: 'smooth' });
+}
+
+// ═══════════════════════════════════════════
+// SCORE ESTIMATOR
+// ═══════════════════════════════════════════
+const BAND_COLORS = {
+  5: '#f4845f', 5.5: '#f4845f',
+  6: '#f7c948', 6.5: '#f7c948',
+  7: '#43b97a', 7.5: '#43b97a',
+  8: '#60a5fa', 8.5: '#a78bfa', 9: '#a78bfa'
+};
+
+function calcOverall() {
+  const l = parseFloat(document.getElementById('e-listening').value) || 0;
+  const r = parseFloat(document.getElementById('e-reading').value) || 0;
+  const w = parseFloat(document.getElementById('e-writing').value) || 0;
+  const s = parseFloat(document.getElementById('e-speaking').value) || 0;
+
+  if ([l,r,w,s].some(v => isNaN(v) || v < 0 || v > 9)) {
+    alert('Please enter valid scores between 0 and 9 for all four skills.');
+    return;
+  }
+
+  const raw = (l + r + w + s) / 4;
+  // IELTS rounds to nearest 0.5
+  const rounded = Math.round(raw * 2) / 2;
+  const pct = (rounded / 9) * 100;
+  const color = BAND_COLORS[rounded] || '#a78bfa';
+
+  document.getElementById('est-score-big').textContent = rounded.toFixed(1);
+  document.getElementById('est-score-big').style.color = color;
+  document.getElementById('est-bar-fill').style.width = pct + '%';
+  document.getElementById('est-bar-fill').style.background = color;
+  document.getElementById('est-score-label').textContent = `Estimated Overall: Band ${rounded.toFixed(1)} · Raw avg: ${raw.toFixed(2)}`;
+  document.getElementById('est-result').classList.add('show');
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderBandTrack();
+  renderTargetBands();
+  // Auto-select band 6 by default
+  selectBand(6);
+});
+</script>
+</body>
+</html>
