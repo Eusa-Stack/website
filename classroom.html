@@ -139,6 +139,37 @@
 .filt-btn:hover { border-color: var(--orange); }
 .filt-btn.active { background: var(--orange); border-color: var(--orange); color: #fff; }
 
+/* ── STATS BAR ── */
+.stats-bar {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+.stat-card {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: .4rem .75rem;
+  text-align: center;
+  min-width: 70px;
+}
+.stat-card .sn {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--orange);
+  font-family: 'Fredoka', sans-serif;
+  line-height: 1.1;
+}
+.stat-card .sl {
+  font-size: .65rem;
+  color: var(--soft);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-weight: 700;
+}
+
 /* ── FOOTER ── */
 footer { text-align: center; padding: 1.5rem; font-size: .8rem; color: var(--soft); border-top: 1px solid var(--border); margin-top: 2rem; position: relative; z-index: 10; }
 footer a { color: var(--purple); text-decoration: none; }
@@ -173,7 +204,7 @@ footer a:hover { text-decoration: underline; }
     <div class="nav-page-links">
       <a href="index.html" class="nav-page-link">Home</a>
     </div>
-    <button class="nav-theme-btn theme-toggle" onclick="EustaTheme.toggle()">☾ / ☀</button>
+    <button class="nav-theme-btn theme-toggle" onclick="EusaTheme.toggle()">☾ / ☀</button>
   </div>
 </nav>
 
@@ -191,18 +222,6 @@ footer a:hover { text-decoration: underline; }
     <div class="stat-card"><div class="sn">14</div><div class="sl">Games</div></div>
     <div class="stat-card"><div class="sn">24</div><div class="sl">Pages</div></div>
     <div class="stat-card"><div class="sn">6–16</div><div class="sl">Age Range</div></div>
-  </div>
-
-  <!-- SEARCH + FILTER -->
-  <div class="search-row">
-    <input id="searchInput" type="text" placeholder="🔍 Search games & pages..." oninput="filterAll()" style="flex:1;min-width:200px;padding:.55rem .9rem;border-radius:14px;border:2px solid var(--border);font-size:15px;font-family:'Inter',sans-serif;background:var(--white)">
-    <div class="filter-btns">
-      <button class="filt-btn active" onclick="setFilter(this,'all')">All</button>
-      <button class="filt-btn" onclick="setFilter(this,'math')">📐 Math</button>
-      <button class="filt-btn" onclick="setFilter(this,'sci')">🧪 Science</button>
-      <button class="filt-btn" onclick="setFilter(this,'lang')">📝 Language</button>
-      <button class="filt-btn" onclick="setFilter(this,'ielts')">🎓 IELTS</button>
-    </div>
   </div>
 
   <!-- SUBJECT GRID (default view) -->
@@ -314,7 +333,8 @@ const SUBJECTS = [
 
 function renderSubjectGrid(filter = 'all') {
   const grid = document.getElementById('subject-grid');
-  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const searchEl = document.getElementById('searchInput');
+  const query = searchEl ? searchEl.value.toLowerCase().trim() : '';
 
   let html = '';
 
@@ -411,7 +431,8 @@ function makeGameCard(item) {
 function goBack() {
   document.getElementById('subject-grid').style.display = '';
   document.getElementById('games-view').classList.remove('active');
-  document.getElementById('searchInput').value = '';
+  const si = document.getElementById('searchInput');
+  if (si) si.value = '';
   renderSubjectGrid();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
