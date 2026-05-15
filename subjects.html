@@ -7,8 +7,8 @@
 <link rel="stylesheet" href="grammar-shared.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Learning Games — EduSuite</title>
-<meta name="description" content="Interactive learning games for Math, Geography, History, Biology, Physics, Chemistry and English. Built by teacher EUSTAQUIA. Free, no sign-up needed.">
+<title>EduSuite — All Subjects & Games — EUSTAQUIA</title>
+<meta name="description" content="EduSuite: 10 subjects · 14 games · 28 Grammar & IELTS pages. Interactive learning for Math, Geography, Biology, Physics, Chemistry, English, IELTS. Built by teacher EUSTAQUIA. Free, no sign-up.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -143,19 +143,17 @@ nav a.active {
   transition: 0.3s;
   border: 3px solid transparent;
 }
-.sc:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 40px rgba(0,0,0,0.10);
-}
-.sc.sc-geo:hover     { border-color: var(--blue);   }
-.sc.sc-history:hover { border-color: var(--yellow); }
-.sc.sc-math:hover    { border-color: var(--orange); }
-.sc.sc-english:hover { border-color: var(--green);  }
-.sc.sc-vocab:hover   { border-color: var(--purple); }
-.sc.sc-bio:hover     { border-color: var(--green);  }
-.sc.sc-physics:hover { border-color: var(--pink);   }
-.sc.sc-chem:hover    { border-color: var(--purple); }
-.sc.sc-knowledge:hover { border-color: var(--blue); }
+.sc:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(0,0,0,0.10); }
+.sc-ielts:hover { border-color: var(--purple) !important; }
+.sc-knowledge:hover { border-color: var(--blue); }
+.sc-english:hover { border-color: var(--green); }
+.sc-vocab:hover { border-color: var(--purple); }
+.sc-bio:hover { border-color: var(--green); }
+.sc-physics:hover { border-color: var(--pink); }
+.sc-chem:hover { border-color: var(--purple); }
+.sc-math:hover { border-color: var(--orange); }
+.sc-history:hover { border-color: var(--yellow); }
+.sc-geo:hover { border-color: var(--blue); }
 
 .sc-top {
   padding: 22px 20px 10px; text-align: center;
@@ -206,6 +204,12 @@ nav a.active {
 .sc-game.advanced:hover { border-color: var(--purple); background: rgba(167,139,250,0.10); }
 .sc-game.advanced .g-icon { background: #F0E8FF; }
 .sc-game.advanced .g-level { color: var(--purple); }
+
+/* senior (IELTS & Grammar) — purple toned */
+.sc-game.senior { background: rgba(167,139,250,0.05); }
+.sc-game.senior:hover { border-color: var(--purple); background: rgba(167,139,250,0.10); }
+.sc-game.senior .g-icon { background: #F0E8FF; }
+.sc-game.senior .g-level { color: var(--purple); }
 
 /* coming soon — muted */
 .sc-game.coming { opacity: 0.45; cursor: default; }
@@ -261,33 +265,62 @@ h3 { font-size: 21px !important; }
 <header class="hero">
 <button class="theme-toggle" onclick="EusaTheme.toggle()" title="Toggle light/dark theme" style="font-size:1rem;padding:4px 12px;">&#9790; / &#9728;</button>
 
-  <span class="hero-icon">🎮</span>
-  <h1><span class="hl">Learning Games</span></h1>
-  <p>9 interactive educational games across 8 subjects — from geography to chemistry!</p>
+  <span class="hero-icon">🎓</span>
+  <h1><span class="hl">EduSuite</span> — All Subjects</h1>
+  <p>10 subjects · 14 games · 28 Grammar + IELTS pages — interactive learning for all levels!</p>
 </header>
 
 <!-- STATS -->
 <div class="stats-bar">
-  <div class="stat-card"><div class="sn">8</div><div class="sl">Subjects</div></div>
-  <div class="stat-card"><div class="sn">9</div><div class="sl">Games</div></div>
-  <div class="stat-card"><div class="sn">2–3</div><div class="sl">Levels Each</div></div>
+  <div class="stat-card"><div class="sn">10</div><div class="sl">Subjects</div></div>
+  <div class="stat-card"><div class="sn">14</div><div class="sl">Games</div></div>
+  <div class="stat-card"><div class="sn">28</div><div class="sl">Grammar+IELTS Pages</div></div>
   <div class="stat-card"><div class="sn">6–16</div><div class="sl">Age Range</div></div>
 </div>
 
 <!-- GAME GRID -->
 <div class="section">
-  <div class="sec-title">📚 Choose a Subject</div>
-  <div class="sec-sub">Pick a subject below to see available games</div>
+  <div class="sec-title">🎯 Choose a Subject</div>
+  <div class="sec-sub">All games and pages — click any card to start learning</div>
+
+  <!-- SEARCH & FILTER -->
+  <div style="display:flex;gap:.7rem;margin-bottom:1.2rem;flex-wrap:wrap;align-items:center">
+    <input id="searchInput" type="text" placeholder="🔍 Search games & pages..." oninput="filterGrid()"
+      style="flex:1;min-width:200px;padding:.55rem .9rem;border-radius:12px;border:2px solid var(--yellow);font-size:15px;font-family:'Nunito',sans-serif;background:var(--white)">
+    <div style="display:flex;gap:.4rem">
+      <button class="filt-btn active" onclick="setFilter(this,'all')">All</button>
+      <button class="filt-btn" onclick="setFilter(this,'junior')">Beginner</button>
+      <button class="filt-btn" onclick="setFilter(this,'advanced')">Advanced</button>
+      <button class="filt-btn" onclick="setFilter(this,'senior')">Grammar+IELTS</button>
+    </div>
+  </div>
 
   <div class="subj-grid" id="grid"></div>
 </div>
 
+<style>
+.filt-btn{background:var(--white);border:2px solid var(--border);border-radius:10px;padding:.4rem .9rem;font-size:.8rem;font-weight:700;cursor:pointer;transition:.15s;font-family:'Nunito',sans-serif;color:var(--text)}
+.filt-btn:hover{border-color:var(--orange)}
+.filt-btn.active{background:var(--orange);border-color:var(--orange);color:#fff}
+</style>
+
 <footer>
-  <p>© <span class="ft">EUSTAQUIA</span> — EduSuite Learning Games</p>
-  <p style="margin-top:4px"><a href="index.html">Home</a> · <a href="math-games.html">Math</a> · <a href="ielts-grammar.html">Grammar</a></p>
+  <p>© <span class="ft">EUSTAQUIA</span> — EduSuite Interactive Learning Platform</p>
+  <p style="margin-top:6px">
+    <a href="subjects.html">All Subjects</a> ·
+    <a href="grammar-hub.html">Grammar Hub</a> ·
+    <a href="grammar-coach.html">Grammar Coach</a> ·
+    <a href="ielts-3-day-power-study.html">IELTS 3-Day</a> ·
+    <a href="ielts-band-score.html">Band Scores</a> ·
+    <a href="ielts-drag-sort-quiz.html">IELTS Quiz</a> ·
+    <a href="index.html">Home</a>
+  </p>
+  <p style="margin-top:4px;font-size:11px;opacity:.6">10 subjects · 14 games · 28 Grammar + IELTS pages</p>
 </footer>
 
 <script>
+let activeFilter = 'all';
+
 const SUBJECTS = [
   { cls:'sc-geo', icon:'🌍', name:'Geography', count:'2 games',
     g1:{icon:'🏁',name:'Flag Match',lvl:'Beginner',href:'flag-match.html',cls:'junior'},
@@ -334,6 +367,54 @@ const SUBJECTS = [
   }
 ];
 
+function filterGrid() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  document.getElementById('grid').innerHTML = SUBJECTS.map(s => {
+    const g1Match = activeFilter === 'all' || s.g1.cls === activeFilter;
+    const g2Match = !s.g2 || activeFilter === 'all' || s.g2.cls === activeFilter;
+    const nameMatch = s.name.toLowerCase().includes(query) ||
+      s.g1.name.toLowerCase().includes(query) ||
+      (s.g2 && s.g2.name.toLowerCase().includes(query));
+    if (!nameMatch || (!g1Match && !g2Match)) return '';
+    return `
+  <div class="sc ${s.cls}">
+    <div class="sc-top">
+      <span class="sc-icon">${s.icon}</span>
+      <div class="sc-name">${s.name}</div>
+      <div class="sc-count">${s.count}</div>
+    </div>
+    <div class="sc-body">
+      ${g1Match ? `
+      <a class="sc-game ${s.g1.cls}" href="${s.g1.href}">
+        <div class="g-icon">${s.g1.icon}</div>
+        <div class="g-info">
+          <div class="g-name">${s.g1.name}</div>
+          <div class="g-level">${s.g1.lvl}</div>
+        </div>
+        ${s.g1.cls!=='coming' ? '<span class="g-arrow">→</span>' : ''}
+      </a>` : ''}
+      ${s.g2 && g2Match ? `
+      <a class="sc-game ${s.g2.cls}" href="${s.g2.href}">
+        <div class="g-icon">${s.g2.icon}</div>
+        <div class="g-info">
+          <div class="g-name">${s.g2.name}</div>
+          <div class="g-level">${s.g2.lvl}</div>
+        </div>
+        ${s.g2.cls!=='coming' ? '<span class="g-arrow">→</span>' : ''}
+      </a>` : ''}
+    </div>
+  </div>
+`}).join('');
+}
+
+function setFilter(btn, type) {
+  document.querySelectorAll('.filt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = type;
+  filterGrid();
+}
+
+// Initial render
 document.getElementById('grid').innerHTML = SUBJECTS.map(s => `
   <div class="sc ${s.cls}">
     <div class="sc-top">

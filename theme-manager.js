@@ -56,7 +56,6 @@
     'grammar-unit-25.html':     'dark',
     // IELTS pages (dark)
     'ielts-grammar.html':        'dark',
-    'ielts-3-day-power-study.html': 'dark',
     'ielts-academic-general.html': 'dark',
     'ielts-band-score.html':    'dark',
     'ielts-writing-task2.html': 'dark',
