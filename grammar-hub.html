@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grammar Mastery Hub — EduSuite by EUSTAQUIA</title>
+<meta name="description" content="Grammar Mastery Academy — 5 modules, 25 units, Band 7+ strategies for IELTS, OET and Professional Exams.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #13122a;
+  --bg2:      #1c1b38;
+  --purple:   #7c6cd4;
+  --purple2:  #a89cf0;
+  --accent:   #5a4fcf;
+  --white:    #ffffff;
+  --muted:    #9090b8;
+  --card:     #232240;
+  --card2:    #2a2950;
+  --green:    #4ade80;
+  --yellow:   #fbbf24;
+  --border:   rgba(124,108,212,.25);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── NAV ── */
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 62px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.logo { font-family:'Fredoka',sans-serif; font-size:1.15rem; font-weight:700; color: var(--purple2); letter-spacing:.04em; }
+.logo span { color: var(--white); }
+.nav-tabs { display:flex; gap:2px; list-style:none; }
+.nav-tabs li a {
+  display:block; padding:.45rem .9rem; border-radius:8px;
+  color: var(--muted); font-size:.85rem; font-weight:500;
+  text-decoration:none; transition:background .2s, color .2s;
+}
+.nav-tabs li a:hover { background:var(--card); color:var(--white); }
+.nav-tabs li a.active { background:var(--accent); color:var(--white); }
+.nav-assess {
+  background:var(--accent)!important; color:var(--white)!important;
+  font-weight:600; padding:.45rem 1.1rem!important;
+}
+
+/* ── HERO ── */
+.hero {
+  text-align:center; padding:3.5rem 1.5rem 2.5rem;
+  background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+}
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:rgba(124,108,212,.18); border:1px solid var(--border);
+  border-radius:50px; padding:.3rem 1rem; font-size:.8rem; color:var(--purple2);
+  margin-bottom:1.2rem;
+}
+.hero h1 {
+  font-family:'Fredoka',sans-serif; font-size:3rem; font-weight:700;
+  background: linear-gradient(135deg, var(--white) 40%, var(--purple2));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  margin-bottom:.6rem; letter-spacing:.02em;
+}
+.hero-sub {
+  font-size:1.15rem; color:var(--muted); margin-bottom:1.8rem;
+  font-family:'Cormorant Garamond', serif; font-style:italic;
+}
+.hero-stats {
+  display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:2rem;
+}
+.stat-pill {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:50px; padding:.45rem 1.1rem;
+  font-size:.82rem; color:var(--muted); font-weight:500;
+  display:flex; align-items:center; gap:.4rem;
+}
+.stat-pill strong { color:var(--white); }
+.hero-cta {
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:var(--accent); color:var(--white);
+  padding:.75rem 2rem; border-radius:14px;
+  font-family:'Fredoka',sans-serif; font-size:1.1rem; font-weight:600;
+  text-decoration:none; box-shadow:0 4px 20px rgba(90,79,207,.4);
+  transition:transform .2s,box-shadow .2s;
+}
+.hero-cta:hover { transform:translateY(-2px); box-shadow:0 6px 28px rgba(90,79,207,.55); }
+
+/* ── MODULE GRID ── */
+.modules-section { padding:2rem 1.5rem 3rem; max-width:1100px; margin:0 auto; }
+.section-label {
+  font-size:.72rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--purple2); margin-bottom:1rem;
+}
+.modules-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+  gap:1.2rem;
+}
+.mod-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:18px; padding:1.6rem;
+  display:flex; flex-direction:column; gap:.9rem;
+  transition:border-color .25s,transform .2s,box-shadow .2s;
+  text-decoration:none; color:inherit;
+}
+.mod-card:hover {
+  border-color:var(--purple);
+  transform:translateY(-4px);
+  box-shadow:0 8px 30px rgba(124,108,212,.2);
+}
+.mod-header { display:flex; align-items:center; gap:.8rem; }
+.mod-num {
+  width:40px; height:40px; border-radius:10px;
+  background:rgba(124,108,212,.2); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Fredoka',sans-serif; font-size:1rem; font-weight:700; color:var(--purple2);
+  flex-shrink:0;
+}
+.mod-title { font-family:'Fredoka',sans-serif; font-size:1.2rem; font-weight:600; color:var(--white); }
+.mod-units { font-size:.75rem; color:var(--muted); }
+.mod-desc { font-size:.88rem; color:var(--muted); line-height:1.55; }
+.mod-tags { display:flex; gap:.4rem; flex-wrap:wrap; }
+.tag {
+  background:rgba(74,222,128,.1); border:1px solid rgba(74,222,128,.25);
+  color:#4ade80; border-radius:6px; padding:.15rem .6rem; font-size:.72rem; font-weight:600;
+}
+
+/* ── UNITS OVERVIEW ── */
+.units-section {
+  padding:2rem 1.5rem 3rem; max-width:1100px; margin:0 auto;
+  border-top:1px solid var(--border);
+}
+.units-header { margin-bottom:1.5rem; }
+.units-header h2 {
+  font-family:'Fredoka',sans-serif; font-size:1.6rem; font-weight:700; color:var(--white);
+}
+.units-header p { color:var(--muted); font-size:.9rem; margin-top:.3rem; }
+.unit-tabs-row {
+  display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.2rem;
+}
+.unit-tab {
+  display:flex; align-items:center; gap:.3rem;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:8px; padding:.35rem .75rem;
+  font-size:.78rem; color:var(--muted); text-decoration:none;
+  transition:background .2s, border-color .2s, color .2s;
+}
+.unit-tab:hover { background:var(--card2); border-color:var(--purple); color:var(--white); }
+.unit-tab .un { color:var(--purple2); font-weight:600; margin-right:.15rem; }
+.units-table {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:16px; overflow:hidden;
+}
+.units-table table { width:100%; border-collapse:collapse; }
+.units-table th {
+  background:rgba(124,108,212,.12); padding:.7rem 1rem;
+  font-size:.72rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--purple2); text-align:left;
+}
+.units-table td {
+  padding:.65rem 1rem; font-size:.85rem; color:var(--muted);
+  border-top:1px solid var(--border);
+}
+.units-table tr:hover td { background:rgba(124,108,212,.05); }
+.units-table .tl { color:var(--white); font-weight:500; }
+.units-table .tt { color:var(--purple2); font-size:.78rem; }
+.units-table a { color:var(--muted); text-decoration:none; transition:color .2s; }
+.units-table a:hover { color:var(--white); }
+
+/* ── FOOTER ── */
+footer {
+  text-align:center; padding:2rem 1rem;
+  border-top:1px solid var(--border); margin-top:2rem;
+}
+footer p { font-size:.8rem; color:var(--muted); }
+footer a { color:var(--purple2); text-decoration:none; }
+.back-link {
+  display:inline-flex; align-items:center; gap:.4rem;
+  color:var(--muted); font-size:.9rem; text-decoration:none;
+  padding:.5rem 1.1rem; border:1px solid var(--border); border-radius:10px;
+  margin-bottom:1.5rem; transition:background .2s,border-color .2s;
+}
+.back-link:hover { background:var(--card); border-color:var(--purple); color:var(--white); }
+
+@media(max-width:640px){
+  .hero h1{font-size:2.2rem}
+  .nav-tabs{display:none}
+  .modules-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">EUSTAQUIA <span>Grammar</span></div>
+  <ul class="nav-tabs">
+    <li><a href="grammar-hub.html" class="active">Home</a></li>
+    <li><a href="#m1">Module 1</a></li>
+    <li><a href="#m2">Module 2</a></li>
+    <li><a href="#m3">Module 3</a></li>
+    <li><a href="#m4">Module 4</a></li>
+    <li><a href="#m5">Module 5</a></li>
+    <li><a href="grammar-assessment.html" class="nav-assess">📋 Assessment</a></li>
+  </ul>
+  <a href="subjects.html" class="back-link" style="margin:0;font-size:.8rem;padding:.35rem .8rem;">← Games</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">🎓 Grammar Mastery Academy</div>
+  <h1>Grammar Power Pack</h1>
+  <p class="hero-sub">Prepositions · Conditionals · Verb Patterns · Reported Speech</p>
+  <div class="hero-stats">
+    <div class="stat-pill"><strong>5</strong> Modules</div>
+    <div class="stat-pill"><strong>25</strong> Units</div>
+    <div class="stat-pill"><strong>3</strong> Difficulty Levels</div>
+    <div class="stat-pill"><strong>Band 7+</strong> Target</div>
+  </div>
+  <a href="#modules" class="hero-cta">Explore Modules →</a>
+</section>
+
+<!-- MODULES GRID -->
+<section class="modules-section" id="modules">
+  <div class="section-label">5 Core Modules</div>
+  <div class="modules-grid">
+
+    <a href="#m1" class="mod-card" id="m1">
+      <div class="mod-header">
+        <div class="mod-num">1</div>
+        <div>
+          <div class="mod-title">Prepositions</div>
+          <div class="mod-units">Units 1–5</div>
+        </div>
+      </div>
+      <p class="mod-desc">After verbs, adjectives, and nouns. Prepositional phrases, collocations, and fixed patterns for academic writing.</p>
+      <div class="mod-tags">
+        <span class="tag">Verbs</span>
+        <span class="tag">Adjectives</span>
+        <span class="tag">Nouns</span>
+        <span class="tag">Phrases</span>
+      </div>
+    </a>
+
+    <a href="#m2" class="mod-card" id="m2">
+      <div class="mod-header">
+        <div class="mod-num">2</div>
+        <div>
+          <div class="mod-title">Conditionals I</div>
+          <div class="mod-units">Units 6–10</div>
+        </div>
+      </div>
+      <p class="mod-desc">Zero, First, Second, Third, and Mixed Conditionals. Wishes and regrets. How to express real, unreal, and hypothetical situations.</p>
+      <div class="mod-tags">
+        <span class="tag">Zero</span>
+        <span class="tag">First</span>
+        <span class="tag">Second</span>
+        <span class="tag">Third</span>
+        <span class="tag">Mixed</span>
+      </div>
+    </a>
+
+    <a href="#m3" class="mod-card" id="m3">
+      <div class="mod-header">
+        <div class="mod-num">3</div>
+        <div>
+          <div class="mod-title">Conditionals II</div>
+          <div class="mod-units">Units 11–15</div>
+        </div>
+      </div>
+      <p class="mod-desc">Advanced conditional structures. Other ways to express hypothesis. should(n't) have for past regrets. Inversions for formality.</p>
+      <div class="mod-tags">
+        <span class="tag">Advanced</span>
+        <span class="tag">Inversions</span>
+        <span class="tag">Regrets</span>
+        <span class="tag">Hypothesis</span>
+      </div>
+    </a>
+
+    <a href="#m4" class="mod-card" id="m4">
+      <div class="mod-header">
+        <div class="mod-num">4</div>
+        <div>
+          <div class="mod-title">Verb + Verb Patterns</div>
+          <div class="mod-units">Units 16–20</div>
+        </div>
+      </div>
+      <p class="mod-desc">Gerunds vs infinitives. Verb patterns: base verb, -ing, to-infinitive. Patterns that change meaning. Common error patterns.</p>
+      <div class="mod-tags">
+        <span class="tag">Gerunds</span>
+        <span class="tag">Infinitives</span>
+        <span class="tag">Meaning</span>
+        <span class="tag">Errors</span>
+      </div>
+    </a>
+
+    <a href="#m5" class="mod-card" id="m5">
+      <div class="mod-header">
+        <div class="mod-num">5</div>
+        <div>
+          <div class="mod-title">Reported Speech</div>
+          <div class="mod-units">Units 21–25</div>
+        </div>
+      </div>
+      <p class="mod-desc">Direct to indirect speech. Reporting verbs, backshift rules, modal verbs in reported speech. Say vs Tell vs Explain.</p>
+      <div class="mod-tags">
+        <span class="tag">Indirect</span>
+        <span class="tag">Backshift</span>
+        <span class="tag">Reporting Verbs</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- UNITS OVERVIEW TABLE -->
+<section class="units-section">
+  <div class="units-header">
+    <h2>All 25 Units</h2>
+    <p>Click any unit to start learning. Each unit includes Lesson · Quiz · Fill-in · Speaking · Match Game.</p>
+  </div>
+
+  <!-- View 1: Units 1-10 -->
+  <div class="unit-tabs-row">
+    <span class="unit-tab" style="background:var(--accent);border-color:var(--purple);color:#fff">Units 1–10</span>
+    <a href="#u11" class="unit-tab"><span class="un">11–20</span></a>
+    <a href="#u21" class="unit-tab"><span class="un">21–25</span></a>
+  </div>
+
+  <div class="units-table" id="u1">
+    <table>
+      <thead>
+        <tr>
+          <th>Unit</th>
+          <th>Topic</th>
+          <th>Skills</th>
+          <th>Launch</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="tl">Unit 1</td><td class="tl">Present Tenses</td><td class="tt">Present Simple · Continuous · State Verbs</td><td><a href="grammar-unit-01.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 2</td><td class="tl">Past Tenses</td><td class="tt">Past Simple · Continuous · Perfect</td><td><a href="grammar-unit-02.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 3</td><td class="tl">Present Perfect</td><td class="tt">For/Since · Just · Already · Yet</td><td><a href="grammar-unit-03.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 4</td><td class="tl">Past Tenses 2</td><td class="tt">Past Perfect · Past Simple vs Past Perfect</td><td><a href="grammar-unit-04.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 5</td><td class="tl">Future Tenses 1</td><td class="tt">Will · Going to · Present Continuous</td><td><a href="grammar-unit-05.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 6</td><td class="tl">Future Tenses 2</td><td class="tt">Future Perfect · Future Continuous · Predictions</td><td><a href="grammar-unit-06.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 7</td><td class="tl">Countable & Uncountable</td><td class="tt">Much/Many · Some/Any · A few/Little</td><td><a href="grammar-unit-07.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 8</td><td class="tl">Referring to Nouns</td><td class="tt">Articles · Determiners · This/That · These/Those</td><td><a href="grammar-unit-08.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 9</td><td class="tl">Pronouns & Referencing</td><td class="tt">Personal · Relative · Demonstrative Pronouns</td><td><a href="grammar-unit-09.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 10</td><td class="tl">Adjectives & Adverbs</td><td class="tt">Order · Comparison · -ly adverbs · Compound adjectives</td><td><a href="grammar-unit-10.html">Start →</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- View 2: Units 11-20 -->
+  <div class="unit-tabs-row" style="margin-top:2rem">
+    <a href="#u1" class="unit-tab"><span class="un">1–10</span></a>
+    <span class="unit-tab" style="background:var(--accent);border-color:var(--purple);color:#fff">Units 11–20</span>
+    <a href="#u21" class="unit-tab"><span class="un">21–25</span></a>
+  </div>
+
+  <div class="units-table" id="u11">
+    <table>
+      <thead>
+        <tr><th>Unit</th><th>Topic</th><th>Skills</th><th>Launch</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="tl">Unit 11</td><td class="tl">Comparing Things</td><td class="tt">Comparatives · Superlatives · As...as · Irregular</td><td><a href="grammar-unit-11.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 12</td><td class="tl">The Noun Phrase</td><td class="tt">Compounding · Modification · Genitive · Apposition</td><td><a href="grammar-unit-12.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 13</td><td class="tl">Modals 1</td><td class="tt">Can · Could · May · Might · Must · Have to</td><td><a href="grammar-unit-13.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 14</td><td class="tl">Modals 2</td><td class="tt">Should · Ought to · Would · Could have · Must have</td><td><a href="grammar-unit-14.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 15</td><td class="tl">Reported Speech</td><td class="tt">Say vs Tell · Backshift · Reporting verbs</td><td><a href="grammar-unit-15.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 16</td><td class="tl">Verb + Verb Patterns</td><td class="tt">Gerunds · Infinitives · Meaning change patterns</td><td><a href="grammar-unit-16.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 17</td><td class="tl">Conditionals 1</td><td class="tt">Zero · First · Second · Third Conditional</td><td><a href="grammar-unit-17.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 18</td><td class="tl">Conditionals 2</td><td class="tt">Mixed · Wishes · Regrets · Inversions</td><td><a href="grammar-unit-18.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 19</td><td class="tl">Prepositions</td><td class="tt">Time · Place · Phrasal verbs · Collocations</td><td><a href="grammar-unit-19.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 20</td><td class="tl">Relative Clauses</td><td class="tt">Defining · Non-defining · Relative adverbs</td><td><a href="grammar-unit-20.html">Start →</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- View 3: Units 21-25 -->
+  <div class="unit-tabs-row" style="margin-top:2rem">
+    <a href="#u1" class="unit-tab"><span class="un">1–10</span></a>
+    <a href="#u11" class="unit-tab"><span class="un">11–20</span></a>
+    <span class="unit-tab" style="background:var(--accent);border-color:var(--purple);color:#fff">Units 21–25</span>
+  </div>
+
+  <div class="units-table" id="u21">
+    <table>
+      <thead>
+        <tr><th>Unit</th><th>Topic</th><th>Skills</th><th>Launch</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="tl">Unit 21</td><td class="tl">Ways of Organising Texts</td><td class="tt">Subject Choice · Introductory IT · Information Flow</td><td><a href="grammar-unit-21.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 22</td><td class="tl">The Passive Voice</td><td class="tt">All passive forms · FARO mnemonic · Agent removal</td><td><a href="grammar-unit-22.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 23</td><td class="tl">Linking Ideas</td><td class="tt">CARP: Contrast · Addition · Result · Purpose</td><td><a href="grammar-unit-23.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 24</td><td class="tl">Showing Your Position</td><td class="tt">Opinion phrases · Hedging · Academic stance</td><td><a href="grammar-unit-24.html">Start →</a></td></tr>
+        <tr><td class="tl">Unit 25</td><td class="tl">Nominalisation</td><td class="tt">Verbs to nouns · Nominal compounds · Density</td><td><a href="grammar-unit-25.html">Start →</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="subjects.html" class="back-link">← Back to All Subjects</a>
+  <p>© <strong>EUSTAQUIA</strong> — Grammar Mastery Academy · <a href="grammar-assessment.html">Take Assessment</a></p>
+</footer>
+
+</body>
+</html>
