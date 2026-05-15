@@ -1,0 +1,62 @@
+/* grammar-shared.css — EUSTAQUIA Grammar Academy shared theme */
+/* Import fonts (must be first) */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&display=swap');
+
+/* BIGGER BASE FONT SIZE for readability */
+:root {
+  --g-font-base: 1.125rem;   /* 18px — was ~16px */
+  --g-font-h1:   2.25rem;
+  --g-font-h2:   1.75rem;
+  --g-font-h3:   1.3rem;
+  --g-font-card: 1.05rem;
+  --g-font-meta: 0.95rem;
+  --g-font-sm:   0.85rem;
+}
+
+/* Body font size override — bigger than inline CSS */
+body {
+  font-size: var(--g-font-base) !important;
+  line-height: 1.65;
+}
+
+/* Headings */
+h1 { font-size: var(--g-font-h1) !important; }
+h2 { font-size: var(--g-font-h2) !important; }
+h3 { font-size: var(--g-font-h3) !important; }
+
+/* Key text containers */
+.quiz-q, .fillin-q, .speak-q, .match-title {
+  font-size: var(--g-font-base) !important;
+}
+.quiz-opt, .fillin-opt, .match-word {
+  font-size: var(--g-font-meta) !important;
+}
+.sect-title { font-size: 1.2rem !important; }
+.sect { font-size: var(--g-font-card) !important; }
+.g-sect-title { font-size: 1.2rem !important; }
+.g-sect { font-size: var(--g-font-card) !important; }
+.g-rule { font-size: var(--g-font-card) !important; }
+
+/* Topbar and navigation font sizes */
+.topbar, .tb-brand, .tb-stat { font-size: var(--g-font-sm) !important; }
+.activity-picker, .act-btn   { font-size: var(--g-font-meta) !important; }
+.utab, .g-utab               { font-size: var(--g-font-meta) !important; }
+.nav-btns, .g-nav-btns       { font-size: var(--g-font-meta) !important; }
+.g-btn-prev, .g-btn-next, .btn-prev, .btn-next { font-size: var(--g-font-meta) !important; }
+
+/* Footer */
+footer, .g-footer { font-size: var(--g-font-sm) !important; }
+
+/* All text inputs / buttons in forms */
+input, select, textarea {
+  font-size: var(--g-font-base) !important;
+}
+
+/* Responsive: keep readable on mobile */
+@media (max-width: 640px) {
+  :root {
+    --g-font-base: 1rem;
+    --g-font-h1:   1.85rem;
+    --g-font-h2:   1.45rem;
+  }
+}
