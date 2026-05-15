@@ -597,7 +597,7 @@ footer p{font-size:.78rem;color:var(--muted2)}
 let streak = parseInt(localStorage.getItem('gm_streak') || '0');
 let xp = parseInt(localStorage.getItem('gm_xp') || '0');
 let mastery = parseInt(localStorage.getItem('gm_mastery') || '0');
-let correct = parseInt(localStorage.getItem('gm_correct') || '0');
+let correctTotal = parseInt(localStorage.getItem('gm_correct') || '0');
 let quizIdx = 0;
 let quizScore = 0;
 let fillinIdx = 0;
@@ -607,12 +607,12 @@ let matchScore = 0;
 let matchPairs = 0;
 let speakIdx = 0;
 
-function saveState(){localStorage.setItem('gm_streak',streak);localStorage.setItem('gm_xp',xp);localStorage.setItem('gm_mastery',mastery);localStorage.setItem('gm_correct',correct)}
+function saveState(){localStorage.setItem('gm_streak',streak);localStorage.setItem('gm_xp',xp);localStorage.setItem('gm_mastery',mastery);localStorage.setItem('gm_correct',correctTotal)}
 function updateUI(){
   document.getElementById('stat-streak').textContent=streak;
   document.getElementById('stat-xp').textContent=xp;
   document.getElementById('stat-mastery').textContent=mastery;
-  document.getElementById('stat-correct').textContent=correct;
+  document.getElementById('stat-correct').textContent=correctTotal;
 }
 updateUI();
 
@@ -671,7 +671,7 @@ function renderQuizQ(){
     document.getElementById('qr-icon').textContent=quizScore>=8?'🏆':quizScore>=5?'👍':'📚';
     document.getElementById('qr-title').textContent=quizScore>=8?'Excellent!':quizScore>=5?'Good!':'Keep Practicing!';
     document.getElementById('qr-msg').textContent=`You got ${quizScore} out of ${QUIZ_DATA.length} correct.`;
-    xp+=quizScore;correct+=quizScore;streak+=quizScore;mastery=Math.min(100,mastery+quizScore);
+    xp+=quizScore; correctTotal+=quizScore; streak+=quizScore; mastery=Math.min(100,mastery+quizScore);
     saveState();updateUI();
     return;
   }
@@ -687,17 +687,17 @@ function renderQuizQ(){
     </div>`;
 }
 function pickQuiz(i){
-  const correct=(i===QUIZ_DATA[quizIdx].ans);
-  document.querySelectorAll('.quiz-opt').forEach((el,idx)=>{
-    el.style.pointerEvents='none';
-    if(idx===QUIZ_DATA[quizIdx].ans)el.classList.add('correct');
-    else if(idx===i&&!correct)el.classList.add('wrong');
+  const isCorrect = (i === QUIZ_DATA[quizIdx].ans);
+  document.querySelectorAll('.quiz-opt').forEach((el, idx) => {
+    el.style.pointerEvents = 'none';
+    if (idx === QUIZ_DATA[quizIdx].ans) el.classList.add('correct');
+    else if (idx === i && !isCorrect) el.classList.add('wrong');
   });
-  if(correct){quizScore++;streak++;xp++;mastery=Math.min(100,mastery+2);correct++;}
-  else{streak=0}
-  saveState();updateUI();
+  if (isCorrect) { quizScore++; streak++; xp += 2; mastery = Math.min(100, mastery + 2); correctTotal++; }
+  else { streak = 0; mastery = Math.max(0, mastery - 1); }
+  saveState(); updateUI();
   quizIdx++;
-  setTimeout(renderQuizQ,900);
+  setTimeout(renderQuizQ, 900);
 }
 function resetQuiz(){quizIdx=0;quizScore=0;initQuiz();}
 
@@ -728,7 +728,7 @@ function renderFillinQ(){
         <div style="font-family:'Fredoka',sans-serif;font-size:1.3rem;font-weight:700;color:var(--green);margin-top:.5rem">Fill-in Complete!</div>
         <p style="color:var(--muted);margin-top:.4rem">${fillinScore}/${FILLIN_DATA.length} correct</p>
       </div>`;
-    xp+=fillinScore;correct+=fillinScore;streak+=fillinScore;mastery=Math.min(100,mastery+fillinScore);
+    xp+=fillinScore; correctTotal+=fillinScore; streak+=fillinScore; mastery=Math.min(100,mastery+fillinScore);
     saveState();updateUI();
     return;
   }
@@ -743,21 +743,21 @@ function renderFillinQ(){
     </div>`;
 }
 function pickFillin(i){
-  const d=FILLIN_DATA[fillinIdx];
-  const correct=(i===d.ans);
-  document.querySelectorAll('.fillin-opt').forEach((el,idx)=>{
-    el.style.pointerEvents='none';
-    if(idx===d.ans)el.classList.add('correct');
-    else if(idx===i&&!correct)el.classList.add('wrong');
+  const d = FILLIN_DATA[fillinIdx];
+  const isCorrect = (i === d.ans);
+  document.querySelectorAll('.fillin-opt').forEach((el, idx) => {
+    el.style.pointerEvents = 'none';
+    if (idx === d.ans) el.classList.add('correct');
+    else if (idx === i && !isCorrect) el.classList.add('wrong');
   });
-  const fb=document.getElementById('fillin-feedback');
-  fb.textContent=correct?`✓ ${d.ex}`:`✗ ${d.ex}`;
-  fb.style.display='block';
-  if(correct){fillinScore++;streak++;xp++;mastery=Math.min(100,mastery+2);correct++;}
-  else{streak=0}
-  saveState();updateUI();
+  const fb = document.getElementById('fillin-feedback');
+  fb.textContent = isCorrect ? `✓ ${d.ex}` : `✗ ${d.ex}`;
+  fb.style.display = 'block';
+  if (isCorrect) { fillinScore++; streak++; xp += 2; mastery = Math.min(100, mastery + 2); correctTotal++; }
+  else { streak = 0; mastery = Math.max(0, mastery - 1); }
+  saveState(); updateUI();
   fillinIdx++;
-  setTimeout(renderFillinQ,1200);
+  setTimeout(renderFillinQ, 1200);
 }
 
 // ─────────────────────────────────────────
@@ -826,26 +826,27 @@ function pickVerb(el,verb){
   el.classList.add('selected');selVerb=verb;
 }
 function pickCat(el,cat){
-  if(!selVerb)return;
-  const verb=selVerb.replace(/_/g,' ');
-  const isState=STATE.includes(verb);
-  const correct=(cat==='state'&&isState)||(cat==='action'&&!isState);
-  const verbEl=document.querySelector(`.match-word[data-verb="${verb}"]`);
-  if(correct){
-    matchScore++;matchPairs++;
+  if(!selVerb) return;
+  const verb = selVerb.replace(/_/g,' ');
+  const isState = STATE.includes(verb);
+  const isCorrect = (cat === 'state' && isState) || (cat === 'action' && !isState);
+  const verbEl = document.querySelector(`.match-word[data-verb="${verb}"]`);
+  if (!verbEl) { selVerb = null; return; }
+  if (isCorrect){
+    matchScore++; matchPairs++;
     verbEl.classList.remove('selected');
     verbEl.classList.add('matched');
     el.classList.add('matched');
-    xp+=2;streak++;mastery=Math.min(100,mastery+3);correct++;
-    saveState();updateUI();
+    xp += 2; streak++; mastery = Math.min(100, mastery + 3); correctTotal++;
+    saveState(); updateUI();
   } else {
-    streak=0;saveState();updateUI();
-    el.style.animation='none';el.offsetHeight;el.style.animation='shake .3s';
+    streak = 0; mastery = Math.max(0, mastery - 1); saveState(); updateUI();
+    el.style.animation = 'none'; el.offsetHeight; el.style.animation = 'shake .3s';
   }
-  selVerb=null;
-  if(matchPairs>=VERBS.length){
-    document.getElementById('match-result').style.display='block';
-    document.getElementById('mr-msg').textContent=`Perfect! ${matchScore}/${VERBS.length} correct!`;
+  selVerb = null;
+  if(matchPairs >= VERBS.length){
+    document.getElementById('match-result').style.display = 'block';
+    document.getElementById('mr-msg').textContent = `Perfect! ${matchScore}/${VERBS.length} correct!`;
   }
 }
 
