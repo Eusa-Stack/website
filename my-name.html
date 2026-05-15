@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Name! — Learn Letters — EduSuite by EUSTAQUIA</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:2rem 1rem;font-family:'Fredoka',sans-serif}
+
+/* Green gradient background */
+.bg{
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;
+  background:linear-gradient(170deg,#2d7a3a 0%,#3a9e4a 40%,#5cc864 100%)
+}
+
+/* Top section with pencil */
+.top-section{
+  text-align:center;margin-bottom:2.5rem;width:100%;max-width:560px
+}
+.pencil{font-size:3.5rem;margin-bottom:.5rem}
+h1{
+  color:#fff;font-size:3.2rem;font-weight:700;letter-spacing:.04em;
+  text-shadow:0 3px 12px rgba(0,0,0,.25)
+}
+.subtitle{color:rgba(255,255,255,.93);font-size:1.35rem;font-weight:500;margin-top:.4rem;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.subtitle .sun{font-size:1.4rem}
+
+/* Input section */
+.input-section{
+  background:#fff;border-radius:18px;padding:2rem 2.2rem;
+  box-shadow:0 8px 32px rgba(0,0,0,.18);width:100%;max-width:520px;
+  display:flex;flex-direction:column;align-items:center;gap:1.2rem
+}
+.instruction{
+  display:flex;align-items:center;gap:.6rem;font-size:1.25rem;font-weight:600;
+  color:#333;flex-wrap:wrap;justify-content:center;text-align:center
+}
+.hand{font-size:1.5rem;flex-shrink:0}
+#nameInput{
+  width:100%;padding:.85rem 1.2rem;font-size:1.5rem;font-family:'Fredoka',sans-serif;
+  border:3px solid #ddd;border-radius:12px;outline:none;text-align:center;
+  transition:border-color .25s,box-shadow .25s;letter-spacing:.06em
+}
+#nameInput:focus{border-color:#43B97A;box-shadow:0 0 0 4px rgba(67,185,122,.18)}
+#nameInput::placeholder{color:#bbb;letter-spacing:.04em}
+#setBtn{
+  display:flex;align-items:center;gap:.6rem;
+  background:#43B97A;color:#fff;font-size:1.25rem;font-family:'Fredoka',sans-serif;
+  font-weight:600;padding:.85rem 2.2rem;border:none;border-radius:14px;
+  cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s;
+  box-shadow:0 4px 16px rgba(67,185,122,.4)
+}
+#setBtn:hover{background:#389966;transform:translateY(-2px);box-shadow:0 6px 20px rgba(67,185,122,.5)}
+#setBtn:active{transform:translateY(0)}
+
+/* Letter display area */
+#letterArea{
+  display:none;flex-direction:column;align-items:center;gap:2rem;width:100%;max-width:700px;padding:1rem
+}
+.letter-title{
+  color:#fff;font-size:1.4rem;font-weight:600;text-align:center;
+  text-shadow:0 2px 8px rgba(0,0,0,.2)
+}
+.letter-grid{
+  display:flex;flex-wrap:wrap;gap:1rem;justify-content:center
+}
+.letter-card{
+  width:90px;height:100px;background:#fff;border-radius:16px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:3rem;font-weight:700;color:#333;
+  box-shadow:0 6px 24px rgba(0,0,0,.18);
+  transition:transform .2s,box-shadow .2s;cursor:default;
+  position:relative;overflow:hidden
+}
+.letter-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,#F4845F,#F7C948,#43B97A,#A78BFA)
+}
+.letter-card:hover{transform:translateY(-4px) scale(1.06);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.letter-card .lbl{
+  font-size:.6rem;font-weight:500;color:#aaa;letter-spacing:.1em;
+  margin-top:.15rem
+}
+
+/* Audio button */
+#speakBtn{
+  background:#fff;color:#3a9e4a;font-size:1.1rem;font-family:'Fredoka',sans-serif;
+  font-weight:600;padding:.7rem 1.8rem;border:none;border-radius:12px;
+  cursor:pointer;display:flex;align-items:center;gap:.5rem;
+  box-shadow:0 4px 16px rgba(0,0,0,.15);transition:background .2s,transform .15s
+}
+#speakBtn:hover{background:#f0fff0;transform:translateY(-2px)}
+
+/* Back link */
+.back-link{
+  margin-top:2rem;color:rgba(255,255,255,.88);font-size:1.1rem;font-weight:500;
+  text-decoration:none;padding:.6rem 1.5rem;border:2px solid rgba(255,255,255,.5);
+  border-radius:10px;transition:background .2s,border-color .2s
+}
+.back-link:hover{background:rgba(255,255,255,.15);border-color:#fff}
+
+/* Back to home */
+.home-link{
+  position:fixed;top:1rem;left:1rem;color:rgba(255,255,255,.85);font-size:.95rem;
+  font-weight:500;text-decoration:none;padding:.45rem 1rem;
+  background:rgba(0,0,0,.2);border-radius:8px;
+  transition:background .2s;backdrop-filter:blur(4px)
+}
+.home-link:hover{background:rgba(0,0,0,.35)}
+
+/* Responsive */
+@media(max-width:520px){
+  h1{font-size:2.4rem}
+  .subtitle{font-size:1.1rem}
+  .letter-card{width:70px;height:80px;font-size:2.2rem}
+  .input-section{padding:1.5rem 1.2rem}
+  .instruction{font-size:1.05rem}
+}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<a href="subjects.html" class="home-link">← Back to Subjects</a>
+
+<!-- INPUT PHASE -->
+<div class="top-section" id="topSection">
+  <div class="pencil">✏️</div>
+  <h1>MY NAME!</h1>
+  <p class="subtitle">Learn the letters in YOUR name! <span class="sun">☀️</span></p>
+</div>
+
+<div class="input-section" id="inputSection">
+  <p class="instruction">
+    <span class="hand">👉</span>
+    TYPE YOUR STUDENT'S NAME HERE
+  </p>
+  <input type="text" id="nameInput" placeholder="E.G. JUAN" maxlength="20" autocomplete="off" spellcheck="false">
+  <button id="setBtn">
+    <span>✓</span> SET NAME!
+  </button>
+</div>
+
+<!-- LETTER DISPLAY PHASE -->
+<div id="letterArea">
+  <p class="letter-title">Let's learn the letters in <strong id="displayName"></strong>!</p>
+  <div class="letter-grid" id="letterGrid"></div>
+  <button id="speakBtn">🔊 Say the letters</button>
+  <a href="subjects.html" class="back-link">← Back to Subjects</a>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const nameInput = $('nameInput');
+const setBtn = $('setBtn');
+const inputSection = $('inputSection');
+const topSection = $('topSection');
+const letterArea = $('letterArea');
+const displayName = $('displayName');
+const letterGrid = $('letterGrid');
+const speakBtn = $('speakBtn');
+
+// Auto-focus input
+nameInput.focus();
+
+// Handle Enter key
+nameInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') startGame();
+});
+
+// Set button
+setBtn.addEventListener('click', startGame);
+
+function startGame() {
+  const raw = nameInput.value.trim();
+  if (!raw) { nameInput.focus(); return; }
+
+  // Save to localStorage
+  localStorage.setItem('myname_name', raw);
+
+  // Show letter phase
+  inputSection.style.display = 'none';
+  topSection.style.display = 'none';
+  letterArea.style.display = 'flex';
+
+  // Capitalize display name
+  const name = raw.toUpperCase();
+  displayName.textContent = name;
+
+  // Split into letters and show cards
+  const letters = name.replace(/\s+/g, ' ').split(' ').join('').split('');
+  letterGrid.innerHTML = '';
+
+  letters.forEach((letter, i) => {
+    const card = document.createElement('div');
+    card.className = 'letter-card';
+    card.innerHTML = `<span>${letter}</span><span class="lbl">letter ${i+1}</span>`;
+    card.style.animationDelay = `${i * 0.07}s`;
+    letterGrid.appendChild(card);
+  });
+
+  // Auto-speak after a short delay
+  setTimeout(() => speakName(name), 600);
+}
+
+// Speak all letters with pause
+function speakName(name) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const letters = name.replace(/\s+/g, '').split('');
+  let idx = 0;
+  function sayNext() {
+    if (idx >= letters.length) return;
+    const utt = new SpeechSynthesisUtterance(letters[idx]);
+    utt.lang = 'en-US';
+    utt.rate = 0.8;
+    utt.onend = () => { idx++; setTimeout(sayNext, 200); };
+    window.speechSynthesis.speak(utt);
+  }
+  sayNext();
+}
+
+// Speak button
+speakBtn.addEventListener('click', () => {
+  const name = $('displayName').textContent;
+  speakName(name);
+});
+</script>
+</body>
+</html>
