@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1: Present Tenses — Grammar Mastery Academy</title>
+<meta name="description" content="Unit 1: Present Simple, Present Continuous, State Verbs — Grammar Mastery Academy by EUSTAQUIA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#13122a; --bg2:#1c1b38; --bg3:#222040;
+  --purple:#7c6cd4; --purple2:#a89cf0; --accent:#5a4fcf;
+  --white:#ffffff; --muted:#9090b8; --muted2:#6a6a90;
+  --card:#232240; --card2:#2a2960; --border:rgba(124,108,212,.22);
+  --green:#4ade80; --red:#f87171; --yellow:#fbbf24; --blue:#60a5fa;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh;line-height:1.6}
+a{color:var(--purple2);text-decoration:none}
+
+/* ── TOP PROGRESS BAR ── */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.55rem 1.5rem;background:var(--bg2);border-bottom:1px solid var(--border);
+  font-size:.82rem;position:sticky;top:0;z-index:100;gap:1rem;flex-wrap:wrap;
+}
+.tb-brand{font-family:'Fredoka',sans-serif;font-size:.95rem;font-weight:700;color:var(--purple2);display:flex;align-items:center;gap:.4rem}
+.tb-brand span{color:var(--white)}
+.tb-stats{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap}
+.tb-stat{
+  display:flex;align-items:center;gap:.3rem;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:.28rem .7rem;font-size:.78rem;color:var(--muted);
+}
+.tb-stat .icon{font-size:.9rem}
+.tb-stat .val{font-weight:600;color:var(--white)}
+.tb-stat .lbl{color:var(--muted2)}
+.tb-correct{background:rgba(74,222,128,.15)!important;border-color:rgba(74,222,128,.3)!important}
+.tb-correct .val{color:var(--green)!important}
+
+/* ── BREADCRUMB NAV ── */
+.breadcrumb{
+  padding:.65rem 1.5rem;background:var(--bg);
+  border-bottom:1px solid var(--border);
+  font-size:.78rem;color:var(--muted2);display:flex;align-items:center;gap:.4rem;
+}
+.breadcrumb a{color:var(--muted);transition:color .2s}
+.breadcrumb a:hover{color:var(--white)}
+.breadcrumb .sep{color:var(--border)}
+
+/* ── UNIT TABS ── */
+.unit-tabs{
+  display:flex;gap:3px;padding:.7rem 1.5rem;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--card) transparent;
+}
+.unit-tabs::-webkit-scrollbar{height:3px}
+.unit-tabs::-webkit-scrollbar-thumb{background:var(--card);border-radius:2px}
+.utab{
+  display:flex;align-items:center;gap:.35rem;
+  padding:.42rem .9rem;border-radius:9px;
+  font-size:.8rem;font-weight:500;color:var(--muted);
+  background:var(--card);border:1px solid transparent;
+  white-space:nowrap;cursor:pointer;transition:all .2s;
+  text-decoration:none;
+}
+.utab:hover{background:var(--bg3);border-color:var(--border);color:var(--white)}
+.utab.active{background:var(--accent);color:var(--white);border-color:var(--accent)}
+.utab .un{font-weight:700}
+
+/* ── MAIN CONTENT ── */
+.content{padding:2rem 1.5rem;max-width:960px;margin:0 auto}
+
+/* ACTIVITY PICKER */
+.activity-picker{
+  display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem;
+}
+.act-btn{
+  display:flex;align-items:center;gap:.45rem;
+  padding:.55rem 1.1rem;border-radius:12px;
+  font-family:'Fredoka',sans-serif;font-size:.95rem;font-weight:600;
+  border:2px solid var(--border);background:var(--card);color:var(--muted);
+  cursor:pointer;transition:all .2s;
+}
+.act-btn:hover{border-color:var(--purple);color:var(--white);transform:translateY(-2px)}
+.act-btn.active{background:var(--accent);border-color:var(--accent);color:var(--white);box-shadow:0 4px 16px rgba(90,79,207,.35)}
+.act-btn .icon{font-size:1.1rem}
+
+/* SECTION HEADERS */
+.sect{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem}
+.sect-title{font-family:'Fredoka',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.sect-title .icon{font-size:1.2rem}
+
+/* RULE BOX */
+.rule-box{
+  background:rgba(124,108,212,.1);border:1px solid rgba(124,108,212,.25);
+  border-radius:12px;padding:1rem 1.2rem;margin-bottom:1rem;
+  font-size:.9rem;line-height:1.65;
+}
+.rule-box strong{color:var(--purple2)}
+.rule-box em{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--white)}
+
+/* MEMORY ANCHOR BOX */
+.anchor-box{
+  background:linear-gradient(135deg,rgba(90,79,207,.2),rgba(124,108,212,.12));
+  border:1px solid rgba(124,108,212,.35);border-radius:14px;
+  padding:1.2rem 1.4rem;margin:1.2rem 0;
+}
+.anchor-title{font-family:'Fredoka',sans-serif;font-size:.85rem;font-weight:700;color:var(--purple2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem}
+.anchor-letters{display:flex;gap:.8rem;flex-wrap:wrap}
+.anchor-letter{text-align:center}
+.anchor-letter .letter{font-family:'Fredoka',sans-serif;font-size:1.8rem;font-weight:700;color:var(--white);line-height:1}
+.anchor-letter .key{font-size:.72rem;color:var(--purple2);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-top:.15rem}
+.anchor-letter .meaning{font-size:.75rem;color:var(--muted);margin-top:.1rem}
+
+/* TABLE STYLES */
+.tbl{width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.88rem}
+.tbl th{background:rgba(124,108,212,.15);padding:.6rem .9rem;text-align:left;font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--purple2);border-bottom:1px solid var(--border)}
+.tbl td{padding:.6rem .9rem;border-bottom:1px solid var(--border);color:var(--muted)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .pos{color:var(--green);font-weight:600}
+.tbl .neg{color:var(--red);font-weight:600;text-decoration:line-through;opacity:.7}
+.tbl .ex{color:var(--white);font-style:italic}
+
+/* USE CASE BOX */
+.usecase{
+  background:rgba(74,222,128,.08);border-left:3px solid var(--green);
+  border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:.8rem 0;
+  font-size:.88rem;color:var(--muted);
+}
+.usecase strong{color:var(--green)}
+
+/* INTERVIEW TIP */
+.tip-box{
+  background:rgba(96,165,250,.08);border-left:3px solid var(--blue);
+  border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:.8rem 0;
+  display:flex;gap:.7rem;align-items:flex-start;
+}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.tip-text{font-size:.85rem;color:var(--muted);line-height:1.6}
+.tip-text strong{color:var(--blue)}
+
+/* STATE VERB WARNING */
+.warning-box{
+  background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);
+  border-radius:10px;padding:1rem 1.2rem;margin:.8rem 0;
+}
+.warning-box .wb-title{color:var(--red);font-weight:700;font-size:.85rem;margin-bottom:.4rem;display:flex;align-items:center;gap:.4rem}
+.warning-box .wb-title .icon{font-size:1rem}
+
+/* SECTION: QUIZ */
+#quiz-section{display:none}
+.quiz-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1rem}
+.quiz-q{font-size:1rem;font-weight:600;color:var(--white);margin-bottom:1rem;line-height:1.5}
+.quiz-opts{display:flex;flex-direction:column;gap:.6rem}
+.quiz-opt{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.75rem 1rem;border-radius:10px;
+  background:var(--bg2);border:1px solid var(--border);
+  font-size:.88rem;color:var(--muted);cursor:pointer;
+  transition:all .2s;
+}
+.quiz-opt:hover{border-color:var(--purple);color:var(--white);background:var(--bg3)}
+.quiz-opt.correct{background:rgba(74,222,128,.15);border-color:var(--green);color:var(--green)}
+.quiz-opt.wrong{background:rgba(248,113,113,.15);border-color:var(--red);color:var(--red)}
+.quiz-opt .lett{font-weight:700;color:var(--purple2);width:1.4rem;flex-shrink:0}
+.quiz-next{margin-top:1rem}
+
+/* SECTION: FILL IN */
+#fillin-section{display:none}
+.fillin-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1rem}
+.fillin-q{font-size:.95rem;color:var(--white);margin-bottom:1rem;font-weight:500;line-height:1.5}
+.fillin-options{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
+.fillin-opt{
+  padding:.45rem .9rem;border-radius:8px;
+  background:var(--bg2);border:1px solid var(--border);
+  font-size:.82rem;color:var(--muted);cursor:pointer;
+  transition:all .2s;
+}
+.fillin-opt:hover{border-color:var(--purple);color:var(--white)}
+.fillin-opt.selected{border-color:var(--accent);color:var(--white);background:rgba(90,79,207,.2)}
+.fillin-opt.correct{border-color:var(--green);color:var(--green);background:rgba(74,222,128,.15)}
+.fillin-opt.wrong{border-color:var(--red);color:var(--red);background:rgba(248,113,113,.15)}
+
+/* SECTION: SPEAKING */
+#speaking-section{display:none}
+.speak-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1rem}
+.speak-q{font-size:.95rem;color:var(--white);margin-bottom:1rem;font-weight:500;line-height:1.5}
+.speak-tips{font-size:.82rem;color:var(--muted);margin-bottom:1rem;line-height:1.6}
+.speak-btn{
+  display:flex;align-items:center;gap:.5rem;
+  background:var(--accent);color:var(--white);
+  padding:.65rem 1.4rem;border-radius:10px;
+  font-family:'Fredoka',sans-serif;font-size:.95rem;font-weight:600;
+  border:none;cursor:pointer;box-shadow:0 4px 14px rgba(90,79,207,.35);
+  transition:all .2s;
+}
+.speak-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(90,79,207,.5)}
+.speak-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* SECTION: MATCH GAME */
+#match-section{display:none}
+.match-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1rem}
+.match-title{font-size:.95rem;color:var(--white);margin-bottom:.3rem;font-weight:600}
+.match-sub{font-size:.8rem;color:var(--muted);margin-bottom:1rem}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1rem}
+.match-col{display:flex;flex-direction:column;gap:.5rem}
+.match-word{
+  padding:.6rem .9rem;border-radius:10px;
+  background:var(--bg2);border:1px solid var(--border);
+  font-size:.85rem;color:var(--muted);cursor:pointer;
+  transition:all .2s;
+}
+.match-word:hover{border-color:var(--purple);color:var(--white)}
+.match-word.selected{border-color:var(--accent);color:var(--white);background:rgba(90,79,207,.15)}
+.match-word.matched{border-color:var(--green);color:var(--green);background:rgba(74,222,128,.1)}
+
+/* NAV BUTTONS */
+.nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--border)}
+.btn-prev,.btn-next{
+  display:flex;align-items:center;gap:.4rem;
+  padding:.55rem 1.2rem;border-radius:10px;
+  font-family:'Fredoka',sans-serif;font-size:.9rem;font-weight:600;
+  border:1px solid var(--border);background:var(--card);color:var(--muted);
+  cursor:pointer;text-decoration:none;transition:all .2s;
+}
+.btn-prev:hover,.btn-next:hover{border-color:var(--purple);color:var(--white);background:var(--bg3)}
+.btn-next{background:var(--accent);border-color:var(--accent);color:var(--white);box-shadow:0 4px 14px rgba(90,79,207,.3)}
+.btn-next:hover{background:#6a5fd4}
+
+/* FOOTER */
+footer{text-align:center;padding:1.5rem 1rem;border-top:1px solid var(--border);margin-top:2rem}
+footer p{font-size:.78rem;color:var(--muted2)}
+
+@media(max-width:640px){
+  .match-grid{grid-template-columns:1fr}
+  .tb-stats{gap:.5rem}
+  .activity-picker{gap:.4rem}
+  .act-btn{padding:.45rem .8rem;font-size:.85rem}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-brand">👩‍🏫 <span>EUSTAQUIA</span> Grammar</div>
+  <div class="tb-stats">
+    <div class="tb-stat tb-correct">
+      <span class="icon">✅</span>
+      <span class="val" id="stat-correct">0</span>
+      <span class="lbl">CORRECT</span>
+    </div>
+    <div class="tb-stat">
+      <span class="icon">🔥</span>
+      <span class="val" id="stat-streak">0</span>
+      <span class="lbl">STREAK</span>
+    </div>
+    <div class="tb-stat">
+      <span class="icon">⭐</span>
+      <span class="val" id="stat-xp">0</span>
+      <span class="lbl">XP</span>
+    </div>
+    <div class="tb-stat">
+      <span class="icon">🏆</span>
+      <span class="val" id="stat-mastery">0</span>
+      <span class="lbl">% MASTERY</span>
+    </div>
+  </div>
+  <a href="grammar-hub.html" class="btn-prev" style="font-size:.78rem;padding:.3rem .7rem">← Hub</a>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="grammar-hub.html">Grammar Hub</a>
+  <span class="sep">›</span>
+  <a href="grammar-hub.html#m1">Module 1: Prepositions</a>
+  <span class="sep">›</span>
+  <span style="color:var(--muted)">Unit 1: Present Tenses</span>
+</div>
+
+<!-- UNIT TABS -->
+<div class="unit-tabs">
+  <a href="#" class="utab active" data-unit="1"><span class="un">1.</span> Present Tenses</a>
+  <a href="grammar-unit-02.html" class="utab"><span class="un">2.</span> Past Tenses</a>
+  <a href="grammar-unit-03.html" class="utab"><span class="un">3.</span> Present Perfect</a>
+  <a href="grammar-unit-04.html" class="utab"><span class="un">4.</span> Past Tenses 2</a>
+  <a href="grammar-unit-05.html" class="utab"><span class="un">5.</span> Future 1</a>
+  <a href="grammar-unit-06.html" class="utab"><span class="un">6.</span> Future 2</a>
+  <a href="grammar-unit-07.html" class="utab"><span class="un">7.</span> Countable</a>
+  <a href="grammar-unit-08.html" class="utab"><span class="un">8.</span> Nouns</a>
+  <a href="grammar-unit-09.html" class="utab"><span class="un">9.</span> Pronouns</a>
+  <a href="grammar-unit-10.html" class="utab"><span class="un">10.</span> Adjectives</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  <!-- ACTIVITY PICKER -->
+  <div class="activity-picker">
+    <button class="act-btn active" onclick="showSection('lesson')">
+      <span class="icon">📖</span> Lesson
+    </button>
+    <button class="act-btn" onclick="showSection('quiz')">
+      <span class="icon">📝</span> Quiz
+    </button>
+    <button class="act-btn" onclick="showSection('fillin')">
+      <span class="icon">✏️</span> Fill-in
+    </button>
+    <button class="act-btn" onclick="showSection('speaking')">
+      <span class="icon">🎤</span> Speaking
+    </button>
+    <button class="act-btn" onclick="showSection('match')">
+      <span class="icon">🎯</span> Match Game
+    </button>
+  </div>
+
+  <!-- ══════════ LESSON SECTION ══════════ -->
+  <div id="lesson-section">
+
+    <div class="sect">
+      <div class="sect-title"><span class="icon">📘</span> Unit 1 — Present Tenses</div>
+      <h1 style="font-family:'Fredoka',sans-serif;font-size:1.8rem;font-weight:700;margin-bottom:.5rem;color:var(--white)">
+        Present Simple · Continuous · State Verbs
+      </h1>
+      <p style="color:var(--muted);font-size:.92rem">Master the two core present tenses and know exactly when to use each one — with interview examples.</p>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title"><span class="icon">🎯</span> Use Case</div>
+      <div class="usecase">
+        <strong>Use the Present Simple</strong> for habits, facts, routines, and permanent truths.<br>
+        <strong>In interviews:</strong> Describe who you ARE and what you DO.
+      </div>
+      <div class="usecase" style="background:rgba(96,165,250,.08);border-left-color:var(--blue)">
+        <strong style="color:var(--blue)">Use the Present Continuous</strong> for actions happening RIGHT NOW, temporary situations, or fixed future plans.
+      </div>
+    </div>
+
+    <!-- PRESENT SIMPLE -->
+    <div class="sect">
+      <div class="sect-title"><span class="icon">📖</span> Present Simple</div>
+
+      <div class="rule-box">
+        <strong>Form:</strong><br>
+        • <em>subject + base verb</em> &nbsp;(I/you/we/they: <strong>work</strong>)<br>
+        • <em>subject + verb + s</em> &nbsp;(he/she/it: <strong>works</strong>)<br>
+        <br>
+        <strong>Questions:</strong> Do/Does + subject + base verb?<br>
+        <strong>Negatives:</strong> subject + do/does + not + base verb
+      </div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th></th><th>Affirmative</th><th>Negative</th><th>Question</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pos">I/You/We/They</td>
+            <td class="ex">I <strong>work</strong></td>
+            <td class="neg">I <strong>don't work</strong></td>
+            <td class="ex"><strong>Do</strong> you <strong>work</strong>?</td>
+          </tr>
+          <tr>
+            <td class="pos">He/She/It</td>
+            <td class="ex">She <strong>works</strong></td>
+            <td class="neg">She <strong>doesn't work</strong></td>
+            <td class="ex"><strong>Does</strong> she <strong>work</strong>?</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rule-box">
+        <strong>Uses of Present Simple:</strong><br>
+        ✓ Facts & general truths &nbsp;&nbsp;✓ Habits & routines<br>
+        ✓ Permanent situations &nbsp;&nbsp;✓ Third person facts<br>
+        ✓ Negatives & questions with do/does
+      </div>
+
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <div class="tip-text">
+          <strong>Interview Example:</strong> "I <strong>teach</strong> at an international school. She <strong>observes</strong> my classes every week. It <strong>works</strong> very well for us."
+        </div>
+      </div>
+    </div>
+
+    <!-- PRESENT CONTINUOUS -->
+    <div class="sect">
+      <div class="sect-title"><span class="icon">📖</span> Present Continuous</div>
+
+      <div class="rule-box">
+        <strong>Form:</strong> subject + <strong>am/is/are</strong> + <strong>verb-ing</strong><br>
+        <br>
+        <strong>Examples:</strong><br>
+        I <strong>am learning</strong> &nbsp;·&nbsp; She <strong>is growing</strong> &nbsp;·&nbsp; They <strong>are studying</strong>
+      </div>
+
+      <div class="rule-box">
+        <strong>Contractions:</strong><br>
+        I <strong>I'm</strong> (= I am) &nbsp;·&nbsp; He <strong>He's</strong> (= He is) &nbsp;·&nbsp; They <strong>They're</strong> (= They are)<br>
+        <strong>Not:</strong> isn't, aren't, I'm not
+      </div>
+
+      <div class="usecase">
+        <strong>Use for:</strong><br>
+        • Actions happening <strong>right now</strong> — "I am answering your question right now."<br>
+        • <strong>Temporary</strong> situations — "She is staying with us this month."<br>
+        • <strong>Fixed future</strong> plans — "We are meeting on Friday at 3pm."
+      </div>
+
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <div class="tip-text">
+          <strong>Interview Example:</strong> "I <strong>am developing</strong> a new curriculum right now. Our team <strong>is working</strong> on assessment tools this semester."
+        </div>
+      </div>
+    </div>
+
+    <!-- STATE VERBS — NEVER -ING -->
+    <div class="sect">
+      <div class="sect-title"><span class="icon">⚠️</span> State Verbs — NEVER use -ing</div>
+
+      <div class="warning-box">
+        <div class="wb-title"><span class="icon">🚫</span> Critical Rule — State Verbs Never Take -ing</div>
+        <p style="font-size:.85rem;color:var(--muted);line-height:1.7">
+          State verbs describe a <strong style="color:var(--white)">condition or state</strong>, NOT an action.
+          They are <strong style="color:var(--white)">NEVER used in continuous tenses</strong> — even when they refer to something happening right now.
+        </p>
+      </div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Verb</th><th>WRONG ✗</th><th>CORRECT ✓</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pos">know</td><td class="neg">I am knowing this.</td><td class="ex">I <strong>know</strong> this.</td>
+          </tr>
+          <tr>
+            <td class="pos">believe</td><td class="neg">I am believing in Montessori.</td><td class="ex">I <strong>believe</strong> in Montessori.</td>
+          </tr>
+          <tr>
+            <td class="pos">understand</td><td class="neg">I am understanding the child.</td><td class="ex">I <strong>understand</strong> the child.</td>
+          </tr>
+          <tr>
+            <td class="pos">love</td><td class="neg">I am loving this work.</td><td class="ex">I <strong>love</strong> this work.</td>
+          </tr>
+          <tr>
+            <td class="pos">want</td><td class="neg">I am wanting to join WSM.</td><td class="ex">I <strong>want</strong> to join WSM.</td>
+          </tr>
+          <tr>
+            <td class="pos">need</td><td class="neg">I am needing more practice.</td><td class="ex">I <strong>need</strong> more practice.</td>
+          </tr>
+          <tr>
+            <td class="pos">think (opinion)</td><td class="neg">I am thinking it is good.</td><td class="ex">I <strong>think</strong> it is good.</td>
+          </tr>
+          <tr>
+            <td class="pos">have (possession)</td><td class="neg">I am having a certification.</td><td class="ex">I <strong>have</strong> a certification.</td>
+          </tr>
+          <tr>
+            <td class="pos">see (understand)</td><td class="neg">I am seeing what you mean.</td><td class="ex">I <strong>see</strong> what you mean.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="warning-box" style="margin-top:.8rem">
+        <div class="wb-title"><span class="icon">💡</span> Memory Tip — State vs Action</div>
+        <p style="font-size:.82rem;color:var(--muted);line-height:1.65">
+          <strong style="color:var(--white)">State verbs</strong> = what you <strong>ARE</strong> (know, believe, love, have)<br>
+          <strong style="color:var(--blue)">Action verbs</strong> = what you <strong>DO</strong> (running, teaching, building)<br><br>
+          Say "<strong>I know Montessori</strong>" — NEVER "<strong>I am knowing Montessori</strong>"
+        </p>
+      </div>
+
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <div class="tip-text">
+          <strong>Quick Test:</strong> If you can replace the verb with "is" or "are" and it still makes sense, it's probably a state verb — <em>don't add -ing!</em>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEMORY ANCHOR -->
+    <div class="anchor-box">
+      <div class="anchor-title">🧠 Memory Anchor — Quick Check</div>
+      <div style="font-size:.88rem;color:var(--muted);line-height:1.7">
+        Before you answer any tense question, ask yourself:<br><br>
+        <strong style="color:var(--white)">1. Is this about what someone DOES (action) or what someone IS (state)?</strong><br>
+        → Actions = <em>verb-ing</em> &nbsp;/&nbsp; States = <em>base verb</em><br><br>
+        <strong style="color:var(--white)">2. Does the time word suggest now, always, or future?</strong><br>
+        → "right now, at the moment" = <em>am/is/are + verb-ing</em><br>
+        → "always, every day, generally" = <em>base verb</em>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <a href="grammar-hub.html" class="btn-prev">← Back to Hub</a>
+      <button class="btn-next" onclick="showSection('quiz')">Next: Quiz →</button>
+    </div>
+
+  </div><!-- /lesson -->
+
+  <!-- ══════════ QUIZ SECTION ══════════ -->
+  <div id="quiz-section">
+
+    <div class="sect">
+      <div class="sect-title"><span class="icon">📝</span> Quiz — Present Tenses</div>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:1.2rem">Choose the correct answer. Each correct answer = +1 XP, +1 Streak.</p>
+
+      <div id="quiz-container"></div>
+
+      <div id="quiz-result" style="display:none;text-align:center;padding:1.5rem;background:var(--card);border-radius:14px;border:1px solid var(--border)">
+        <div style="font-size:2.5rem;margin-bottom:.5rem" id="qr-icon">🎉</div>
+        <div style="font-family:'Fredoka',sans-serif;font-size:1.5rem;font-weight:700;color:var(--white)" id="qr-title">Quiz Complete!</div>
+        <p style="color:var(--muted);margin-top:.5rem" id="qr-msg"></p>
+        <button class="btn-next" onclick="resetQuiz()" style="margin-top:1rem">Try Again ↺</button>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-prev" onclick="showSection('lesson')">← Lesson</button>
+      <button class="btn-next" onclick="showSection('fillin')">Next: Fill-in →</button>
+    </div>
+
+  </div><!-- /quiz -->
+
+  <!-- ══════════ FILL-IN SECTION ══════════ -->
+  <div id="fillin-section">
+
+    <div class="sect">
+      <div class="sect-title"><span class="icon">✏️</span> Fill in the Blanks</div>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:1.2rem">Select the correct word or form to complete each sentence.</p>
+      <div id="fillin-container"></div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-prev" onclick="showSection('quiz')">← Quiz</button>
+      <button class="btn-next" onclick="showSection('speaking')">Next: Speaking →</button>
+    </div>
+
+  </div><!-- /fillin -->
+
+  <!-- ══════════ SPEAKING SECTION ══════════ -->
+  <div id="speaking-section">
+
+    <div class="sect">
+      <div class="sect-title"><span class="icon">🎤</span> Speaking Practice</div>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:1.2rem">Read the sentence aloud. Use the microphone to record and compare your pronunciation.</p>
+
+      <div id="speak-items"></div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-prev" onclick="showSection('fillin')">← Fill-in</button>
+      <button class="btn-next" onclick="showSection('match')">Next: Match Game →</button>
+    </div>
+
+  </div><!-- /speaking -->
+
+  <!-- ══════════ MATCH SECTION ══════════ -->
+  <div id="match-section">
+
+    <div class="sect">
+      <div class="sect-title"><span class="icon">🎯</span> Match Game — State or Action?</div>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:.5rem">Tap a verb on the left, then tap its correct category on the right.</p>
+      <p style="color:var(--muted2);font-size:.8rem">State verbs NEVER take -ing. Action verbs CAN take -ing.</p>
+
+      <div id="match-container"></div>
+
+      <div id="match-result" style="display:none;text-align:center;padding:1.5rem;margin-top:1rem;background:rgba(74,222,128,.08);border-radius:14px;border:1px solid rgba(74,222,128,.25)">
+        <div style="font-size:2rem">✅</div>
+        <div style="font-family:'Fredoka',sans-serif;font-size:1.3rem;font-weight:700;color:var(--green);margin-top:.5rem" id="mr-msg">All matched!</div>
+        <button class="btn-next" style="margin-top:1rem" onclick="initMatch()">Play Again ↺</button>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-prev" onclick="showSection('speaking')">← Speaking</button>
+      <a href="grammar-unit-02.html" class="btn-next">Unit 2: Past Tenses →</a>
+    </div>
+
+  </div><!-- /match -->
+
+</div><!-- /content -->
+
+<footer>
+  <p>© <strong>EUSTAQUIA</strong> — Grammar Mastery Academy · Unit 1: Present Tenses</p>
+</footer>
+
+<script>
+// ─────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────
+let streak = parseInt(localStorage.getItem('gm_streak') || '0');
+let xp = parseInt(localStorage.getItem('gm_xp') || '0');
+let mastery = parseInt(localStorage.getItem('gm_mastery') || '0');
+let correct = parseInt(localStorage.getItem('gm_correct') || '0');
+let quizIdx = 0;
+let quizScore = 0;
+let fillinIdx = 0;
+let fillinScore = 0;
+let selVerb = null;
+let matchScore = 0;
+let matchPairs = 0;
+let speakIdx = 0;
+
+function saveState(){localStorage.setItem('gm_streak',streak);localStorage.setItem('gm_xp',xp);localStorage.setItem('gm_mastery',mastery);localStorage.setItem('gm_correct',correct)}
+function updateUI(){
+  document.getElementById('stat-streak').textContent=streak;
+  document.getElementById('stat-xp').textContent=xp;
+  document.getElementById('stat-mastery').textContent=mastery;
+  document.getElementById('stat-correct').textContent=correct;
+}
+updateUI();
+
+// ─────────────────────────────────────────
+// SECTION SWITCHING
+// ─────────────────────────────────────────
+function showSection(name){
+  document.querySelectorAll('[id$="-section"]').forEach(s=>s.style.display='none');
+  document.querySelectorAll('.act-btn').forEach(b=>b.classList.remove('active'));
+  const el=document.getElementById(name+'-section');
+  if(el){el.style.display='block';el.querySelector('.act-btn')?.classList.add('active');}
+  document.querySelectorAll('.act-btn').forEach(b=>{
+    if((name==='lesson'&&b.textContent.includes('Lesson'))||
+       (name==='quiz'&&b.textContent.includes('Quiz'))||
+       (name==='fillin'&&b.textContent.includes('Fill'))||
+       (name==='speaking'&&b.textContent.includes('Speaking'))||
+       (name==='match'&&b.textContent.includes('Match'))){
+      b.classList.add('active');
+    }
+  });
+  window.scrollTo(0,0);
+  // Lazy init
+  if(name==='quiz'&&quizIdx===0)initQuiz();
+  if(name==='fillin'&&fillinIdx===0)initFillin();
+  if(name==='speaking'&&speakIdx===0)initSpeaking();
+  if(name==='match'&&matchPairs===0)initMatch();
+}
+
+// ─────────────────────────────────────────
+// QUIZ
+// ─────────────────────────────────────────
+const QUIZ_DATA=[
+  {q:"She _____ every morning at 6am.",opts:['wakes up','is waking up','wake up'],ans:0},
+  {q:"Right now, I _____ to a student.",opts:['talk','am talking','talks'],ans:1},
+  {q:"He _____ in Bangkok. He has lived there for 5 years.",opts:['lives','is living','live'],ans:0},
+  {q:"They _____ tennis twice a week.",opts:['play','are playing','plays'],ans:0},
+  {q:"I _____ what you mean. (state verb)",opts:['understand','am understanding'],ans:0},
+  {q:"She _____ a new lesson plan. (at this moment)",opts:['writes','is writing'],ans:1},
+  {q:"Water _____ at 100°C.",opts:['boils','is boiling'],ans:0},
+  {q:"We _____ to travel to Japan next month. (arranged plan)",opts:['are planning','plan','plans'],ans:0},
+  {q:"I _____ you later. (future simple)",opts:['call','am calling'],ans:0},
+  {q:"He _____ like he knows everything. (opinion state verb)",opts:['thinks','is thinking'],ans:0},
+];
+
+function initQuiz(){
+  quizIdx=0;quizScore=0;
+  document.getElementById('quiz-result').style.display='none';
+  document.getElementById('quiz-container').innerHTML='';
+  renderQuizQ();
+}
+function renderQuizQ(){
+  if(quizIdx>=QUIZ_DATA.length){
+    document.getElementById('quiz-container').innerHTML='';
+    const r=document.getElementById('quiz-result');
+    r.style.display='block';
+    document.getElementById('qr-icon').textContent=quizScore>=8?'🏆':quizScore>=5?'👍':'📚';
+    document.getElementById('qr-title').textContent=quizScore>=8?'Excellent!':quizScore>=5?'Good!':'Keep Practicing!';
+    document.getElementById('qr-msg').textContent=`You got ${quizScore} out of ${QUIZ_DATA.length} correct.`;
+    xp+=quizScore;correct+=quizScore;streak+=quizScore;mastery=Math.min(100,mastery+quizScore);
+    saveState();updateUI();
+    return;
+  }
+  const d=QUIZ_DATA[quizIdx];
+  const opts=d.opts.map((o,i)=>`
+    <div class="quiz-opt" onclick="pickQuiz(${i})" data-idx="${i}">
+      <span class="lett">${String.fromCharCode(65+i)}.</span><span>${o}</span>
+    </div>`).join('');
+  document.getElementById('quiz-container').innerHTML=`
+    <div class="quiz-card">
+      <div class="quiz-q">${quizIdx+1}. ${d.q}</div>
+      <div class="quiz-opts">${opts}</div>
+    </div>`;
+}
+function pickQuiz(i){
+  const correct=(i===QUIZ_DATA[quizIdx].ans);
+  document.querySelectorAll('.quiz-opt').forEach((el,idx)=>{
+    el.style.pointerEvents='none';
+    if(idx===QUIZ_DATA[quizIdx].ans)el.classList.add('correct');
+    else if(idx===i&&!correct)el.classList.add('wrong');
+  });
+  if(correct){quizScore++;streak++;xp++;mastery=Math.min(100,mastery+2);correct++;}
+  else{streak=0}
+  saveState();updateUI();
+  quizIdx++;
+  setTimeout(renderQuizQ,900);
+}
+function resetQuiz(){quizIdx=0;quizScore=0;initQuiz();}
+
+// ─────────────────────────────────────────
+// FILL IN
+// ─────────────────────────────────────────
+const FILLIN_DATA=[
+  {q:"She _____ (work) as a teacher for 10 years.", opts:['works','is working','worked'],ans:0,ex:'Present Simple: permanent fact'},
+  {q:"I _____ (learn) English right now.", opts:['learn','am learning','learns'],ans:1,ex:'Present Continuous: happening right now'},
+  {q:"He _____ (not/know) the answer.", opts:["doesn't know","isn't knowing",'don\'t know'],ans:0,ex:'State verb "know" — never -ing'},
+  {q:"We always _____ (start) meetings on time.", opts:['start','are starting','starts'],ans:0,ex:'Present Simple: habit/routine'},
+  {q:"She _____ (prepare) dinner at the moment.", opts:['prepares','is preparing'],ans:1,ex:'Present Continuous: temporary action right now'},
+  {q:"I _____ (believe) this is the best approach.", opts:['believe','am believing'],ans:0,ex:'State verb "believe" — never -ing'},
+  {q:"They _____ (meet) next Tuesday. (arranged)", opts:['meet','are meeting'],ans:1,ex:'Present Continuous: fixed future plan'},
+  {q:"Water always _____ (freeze) at 0°C.", opts:['freezes','is freezing'],ans:0,ex:'Present Simple: scientific fact'},
+];
+
+function initFillin(){
+  fillinIdx=0;fillinScore=0;
+  document.getElementById('fillin-container').innerHTML='';
+  renderFillinQ();
+}
+function renderFillinQ(){
+  if(fillinIdx>=FILLIN_DATA.length){
+    document.getElementById('fillin-container').innerHTML=`
+      <div style="text-align:center;padding:1.5rem;background:var(--card);border-radius:14px;border:1px solid var(--border)">
+        <div style="font-size:2rem">✅</div>
+        <div style="font-family:'Fredoka',sans-serif;font-size:1.3rem;font-weight:700;color:var(--green);margin-top:.5rem">Fill-in Complete!</div>
+        <p style="color:var(--muted);margin-top:.4rem">${fillinScore}/${FILLIN_DATA.length} correct</p>
+      </div>`;
+    xp+=fillinScore;correct+=fillinScore;streak+=fillinScore;mastery=Math.min(100,mastery+fillinScore);
+    saveState();updateUI();
+    return;
+  }
+  const d=FILLIN_DATA[fillinIdx];
+  const opts=d.opts.map((o,i)=>`
+    <div class="fillin-opt" onclick="pickFillin(${i})" data-idx="${i}">${o}</div>`).join('');
+  document.getElementById('fillin-container').innerHTML=`
+    <div class="fillin-card">
+      <div class="fillin-q">${fillinIdx+1}. ${d.q.replace('_____','______')}</div>
+      <div class="fillin-options">${opts}</div>
+      <div id="fillin-feedback" style="font-size:.82rem;color:var(--muted);margin-top:.5rem;display:none"></div>
+    </div>`;
+}
+function pickFillin(i){
+  const d=FILLIN_DATA[fillinIdx];
+  const correct=(i===d.ans);
+  document.querySelectorAll('.fillin-opt').forEach((el,idx)=>{
+    el.style.pointerEvents='none';
+    if(idx===d.ans)el.classList.add('correct');
+    else if(idx===i&&!correct)el.classList.add('wrong');
+  });
+  const fb=document.getElementById('fillin-feedback');
+  fb.textContent=correct?`✓ ${d.ex}`:`✗ ${d.ex}`;
+  fb.style.display='block';
+  if(correct){fillinScore++;streak++;xp++;mastery=Math.min(100,mastery+2);correct++;}
+  else{streak=0}
+  saveState();updateUI();
+  fillinIdx++;
+  setTimeout(renderFillinQ,1200);
+}
+
+// ─────────────────────────────────────────
+// SPEAKING
+// ─────────────────────────────────────────
+const SPEAK_DATA=[
+  'I work at an international school.',
+  'She teaches Mathematics every day.',
+  'We are learning new grammar rules now.',
+  'He believes in student-centered learning.',
+  'I understand the child\'s needs.',
+  'They are meeting on Friday at 3pm.',
+  'Water boils at 100 degrees Celsius.',
+  'She is preparing a lesson plan right now.',
+];
+function initSpeaking(){
+  speakIdx=0;
+  const items=SPEAK_DATA.map((s,i)=>`
+    <div style="margin-bottom:1.2rem">
+      <div class="speak-q">${i+1}. ${s}</div>
+      <div class="speak-tips">Try to say it with correct pronunciation. Focus on the bold words.</div>
+      <button class="speak-btn" onclick="speakSentence(this,'${s.replace(/'/g,"\\'")}')">
+        🔊 Say it
+      </button>
+    </div>`).join('');
+  document.getElementById('speak-items').innerHTML=`<div class="speak-card">${items}</div>`;
+}
+function speakSentence(btn,text){
+  if(!window.speechSynthesis)return;
+  btn.disabled=true;btn.textContent='🔊 Speaking...';
+  const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=.85;
+  u.onend=()=>{btn.disabled=false;btn.textContent='🔊 Say it';};
+  window.speechSynthesis.speak(u);
+}
+
+// ─────────────────────────────────────────
+// MATCH GAME — State vs Action
+// ─────────────────────────────────────────
+const VERBS=['know','teach','believe','run','understand','play','think (opinion)','study','love','build','have (possession)','watch','see (understand)','write','want','cook'];
+const STATE=['know','believe','understand','think (opinion)','have (possession)','see (understand)','love','want'];
+const ACTION=VERBS.filter(v=>!STATE.includes(v));
+
+function initMatch(){
+  matchPairs=0;matchScore=0;selVerb=null;
+  document.getElementById('match-result').style.display='none';
+  const left=[...VERBS].sort(()=>Math.random()-.5);
+  const lHTML=left.map(v=>`<div class="match-word" data-verb="${v}" onclick="pickVerb(this,'${v.replace(/ /g,'_')}')">${v}</div>`).join('');
+  const rHTML=`
+    <div class="match-word" data-cat="state" onclick="pickCat(this,'state')" style="border-color:rgba(248,113,113,.3)">
+      🔴 State (never -ing)
+    </div>
+    <div class="match-word" data-cat="action" onclick="pickCat(this,'action')" style="border-color:rgba(74,222,128,.3)">
+      🟢 Action (can -ing)
+    </div>`;
+  document.getElementById('match-container').innerHTML=`
+    <div class="match-card">
+      <div class="match-grid">
+        <div class="match-col">${lHTML}</div>
+        <div class="match-col">${rHTML}</div>
+      </div>
+    </div>`;
+}
+function pickVerb(el,verb){
+  if(el.classList.contains('matched'))return;
+  document.querySelectorAll('.match-word[data-verb]').forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');selVerb=verb;
+}
+function pickCat(el,cat){
+  if(!selVerb)return;
+  const verb=selVerb.replace(/_/g,' ');
+  const isState=STATE.includes(verb);
+  const correct=(cat==='state'&&isState)||(cat==='action'&&!isState);
+  const verbEl=document.querySelector(`.match-word[data-verb="${verb}"]`);
+  if(correct){
+    matchScore++;matchPairs++;
+    verbEl.classList.remove('selected');
+    verbEl.classList.add('matched');
+    el.classList.add('matched');
+    xp+=2;streak++;mastery=Math.min(100,mastery+3);correct++;
+    saveState();updateUI();
+  } else {
+    streak=0;saveState();updateUI();
+    el.style.animation='none';el.offsetHeight;el.style.animation='shake .3s';
+  }
+  selVerb=null;
+  if(matchPairs>=VERBS.length){
+    document.getElementById('match-result').style.display='block';
+    document.getElementById('mr-msg').textContent=`Perfect! ${matchScore}/${VERBS.length} correct!`;
+  }
+}
+
+// Init lesson on load
+showSection('lesson');
+</script>
+<style>
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+</style>
+</body>
+</html>
