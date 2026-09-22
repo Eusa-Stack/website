@@ -70,8 +70,10 @@ a.nav-yt:hover { background: #CC0000; }
 .hero-avatar:hover { transform: scale(1.05) rotate(-2deg); }
 .hero h1 {
   font-family: 'Fredoka', sans-serif;
-  font-size: clamp(36px, 7vw, 56px);
-  font-weight: 700; line-height: 1.15; margin-bottom: 12px;
+  /* Client request: the studio name must be visible but must not dominate the
+     banner - it was clamp(36px, 7vw, 56px) when this was the teacher's name. */
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 700; line-height: 1.2; margin-bottom: 12px;
 }
 .hero h1 .hl {
   background: linear-gradient(135deg, var(--orange), var(--pink), var(--purple));
@@ -83,6 +85,14 @@ a.nav-yt:hover { background: #CC0000; }
   font-size: 18px; color: var(--soft);
   font-weight: 600; max-width: 540px;
   margin: 0 auto 32px; line-height: 1.65;
+}
+/* The warm welcome line under the studio name (client request, 22.9.2026).
+   Keeps the .hero-sub metrics/spacing, but reads as a quote rather than a
+   muted subtitle. */
+.hero-sub.hero-quote {
+  font-size: 19px; color: var(--text);
+  font-style: italic;
+  max-width: 640px;
 }
 .hero-badges {
   display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
@@ -320,9 +330,9 @@ h3 { font-size: 21px !important; }
 <!-- ═════════ HERO ═════════ -->
 <header class="hero">
   <img src="teacher-photo.jpg" alt="EUSTAQUIA" class="hero-avatar">
-  <h1><span class="hl">EUSTAQUIA</span></h1>
-  <p class="hero-sub">
-    A real teacher on a mission: to make learning feel like <strong>discovery</strong>, not homework.
+  <h1><span class="hl">Eustaquia’s Learning Studio</span></h1>
+  <p class="hero-sub hero-quote">
+    “Learning can be more than paper and pencils—it can be an experience to explore, play, and enjoy.”
   </p>
   <div class="hero-badges">
     <span class="badge b-math">💰 Math</span>
