@@ -57,6 +57,9 @@
   /* Frosted "glass" panel tint — pages write rgba(var(--glass-rgb), <alpha>)
      so translucent panels keep the same look but follow the theme */
   --glass-rgb: 255,255,255;
+  /* Subtle pill/hover tint that has to INVERT with the theme:
+     a faint black wash reads on a light surface, a faint white one on dark */
+  --tint-rgb: 0,0,0;
 
   /* Grammar/academic specific (overridden in dark) */
   --purple-l: #7c6cd4;
@@ -165,6 +168,7 @@
   /* Frosted "glass" panels become a dark tint instead of a white wash,
      so text on them stays readable */
   --glass-rgb: 44,43,74;
+  --tint-rgb: 255,255,255;
 
   /* Grammar/academic specific */
   --purple-l: #7c6cd4;
