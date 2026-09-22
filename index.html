@@ -92,11 +92,13 @@ a.nav-yt:hover { background: #CC0000; }
   padding: 6px 16px; border-radius: 20px;
   font-size: 13px; font-weight: 700;
   border: 2px solid;
-  background: var(--white);
+  background: var(--card);
 }
 .badge.b-math  { color: var(--orange); border-color: rgba(244,132,95,0.25); }
 .badge.b-gram { color: var(--green);  border-color: rgba(67,185,122,0.25); }
 .badge.b-glob { color: #4F46E5;       border-color: rgba(79,70,229,0.20); }
+/* Dark theme: #4F46E5 is an indigo that nearly disappears on a dark surface */
+:root[data-theme="dark"] .badge.b-glob { color: var(--purple); border-color: rgba(167,139,250,0.28); }
 
 /* ── BIG CTA ── */
 .hero-cta {
@@ -137,7 +139,7 @@ a.nav-yt:hover { background: #CC0000; }
 
 /* ── LUMINA CARD ── */
 .lumina-card {
-  background: var(--white);
+  background: var(--card);
   border-radius: 12px;
   border: 0.5px solid rgba(0,0,0,0.06);
   padding: 2rem 1.75rem;
@@ -234,7 +236,7 @@ a.nav-yt:hover { background: #CC0000; }
   gap: 18px;
 }
 .belief-card {
-  background: var(--white);
+  background: var(--card);
   border-radius: 18px; padding: 24px 20px;
   box-shadow: 0 3px 16px rgba(0,0,0,0.03);
   text-align: center;
@@ -250,7 +252,7 @@ a.nav-yt:hover { background: #CC0000; }
   gap: 20px;
 }
 .inside-card {
-  background: var(--white);
+  background: var(--card);
   border-radius: 20px; padding: 28px 22px;
   text-align: center;
   box-shadow: 0 4px 20px rgba(0,0,0,0.04);
@@ -323,9 +325,9 @@ h3 { font-size: 21px !important; }
     A real teacher on a mission: to make learning feel like <strong>discovery</strong>, not homework.
   </p>
   <div class="hero-badges">
-    <span class="badge b-math">💰 Math Specialist</span>
-    <span class="badge b-gram">📚 Grammar Coach</span>
-    <span class="badge b-glob">🌍 Global Educator</span>
+    <span class="badge b-math">💰 Math</span>
+    <span class="badge b-gram">📚 Grammar</span>
+    <span class="badge b-glob">🌍 International Teacher</span>
   </div>
   <a href="classroom.html" class="hero-cta">
     🎓 Enter the Classroom
