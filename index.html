@@ -71,8 +71,11 @@ a.nav-yt:hover { background: #CC0000; }
 .hero h1 {
   font-family: 'Fredoka', sans-serif;
   /* Client request: the studio name must be visible but must not dominate the
-     banner - it was clamp(36px, 7vw, 56px) when this was the teacher's name. */
-  font-size: clamp(24px, 4vw, 34px);
+     banner. !important is required because the design-standard block at the end
+     of this sheet forces `h1 { font-size: 36px !important }` site-wide; a more
+     specific !important rule (0,1,1 vs 0,0,1) wins, so every other h1 on the
+     site keeps the 36px standard. */
+  font-size: clamp(22px, 3.4vw, 30px) !important;
   font-weight: 700; line-height: 1.2; margin-bottom: 12px;
 }
 .hero h1 .hl {
