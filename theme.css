@@ -54,6 +54,10 @@
   --border:   rgba(244,132,95,.2);
   --border2:  rgba(167,139,250,.2);
 
+  /* Frosted "glass" panel tint — pages write rgba(var(--glass-rgb), <alpha>)
+     so translucent panels keep the same look but follow the theme */
+  --glass-rgb: 255,255,255;
+
   /* Grammar/academic specific (overridden in dark) */
   --purple-l: #7c6cd4;
   --card-dark: #FEF9F3;
@@ -157,6 +161,10 @@
   /* Borders */
   --border:   rgba(124,108,212,.25);
   --border2:  rgba(167,139,250,.2);
+
+  /* Frosted "glass" panels become a dark tint instead of a white wash,
+     so text on them stays readable */
+  --glass-rgb: 44,43,74;
 
   /* Grammar/academic specific */
   --purple-l: #7c6cd4;
