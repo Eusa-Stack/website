@@ -61,6 +61,24 @@
      a faint black wash reads on a light surface, a faint white one on dark */
   --tint-rgb: 0,0,0;
 
+  /* Tinted panel surfaces. The light values are the exact colours the pages
+     already used in the light theme (so nothing changes there); the dark ones
+     are translucent brand tints on the dark page, which keeps light text on
+     them readable. Pages should use these instead of hard-coding a hex. */
+  --panel-cream:  #F5F0EB;
+  --panel-warm:   #FFF8F0;
+  --panel-warm2:  #FFFBEB;
+  --panel-green:  #F0FAF4;
+  --panel-blue:   #E8F4FD;
+  --panel-purple: #F5F0FF;
+  --panel-peach:  #FFF0E8;
+
+  /* Text that sits on a bright brand colour (yellow badge, green chip …).
+     Deliberately NOT overridden in the dark theme: dark-on-brand keeps its
+     contrast in both themes, whereas the themed text colour would flip to
+     near-white and fail on yellow/green. */
+  --on-brand: #2D2A32;
+
   /* Grammar/academic specific (overridden in dark) */
   --purple-l: #7c6cd4;
   --card-dark: #FEF9F3;
@@ -149,8 +167,8 @@
   /* Text */
   --white:    #FFFFFF;
   --text:     #E8E6F0;
-  --muted:    #9090b8;
-  --soft:     #9090b8;
+  --muted:    #9C9CC4;
+  --soft:     #9C9CC4;
 
   /* Accents — dark-academic purple */
   --accent:   #5a4fcf;
@@ -169,6 +187,15 @@
      so text on them stays readable */
   --glass-rgb: 44,43,74;
   --tint-rgb: 255,255,255;
+
+  /* Dark counterparts of the tinted panel surfaces */
+  --panel-cream:  #262545;
+  --panel-warm:   #262545;
+  --panel-warm2:  rgba(247,201,72,.12);
+  --panel-green:  rgba(67,185,122,.13);
+  --panel-blue:   rgba(96,165,250,.13);
+  --panel-purple: rgba(167,139,250,.15);
+  --panel-peach:  rgba(244,132,95,.16);
 
   /* Grammar/academic specific */
   --purple-l: #7c6cd4;
