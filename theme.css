@@ -181,7 +181,7 @@
   --yel: var(--yellow);
   --grn: var(--green);
   --ppl: var(--purple);
-  --wht: var(--white);
+  --wht: var(--card);
   --txt: var(--text);
   --sft: var(--soft);
 }
